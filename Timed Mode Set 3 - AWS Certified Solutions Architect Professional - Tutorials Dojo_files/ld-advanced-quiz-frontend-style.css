@@ -1,0 +1,178 @@
+.laq_advanced_swipe_questions {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    
+}
+
+/* On mouse-over, add a deeper shadow */
+.laq_advanced_swipe_questions:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+#laq_advanced_swipe_questions_main {
+    padding: 2px 16px;
+}
+
+.swipe {
+    overflow: hidden;
+    position: relative;
+    width: 510px;
+    height: 300px;
+  }
+  
+  .swipe-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .swipe-wrap > div {
+    /* float: left; */
+    width: 100%;
+    position: relative;
+  }
+#laq_advanced_swipe_prev, #laq_advanced_swipe_next{
+    color: white;
+    padding: 4px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size:11px;
+}
+#laq_advanced_swipe_next{
+    float: right;
+    margin-right: 5px; 
+    background-color: green;
+}
+#laq_advanced_swipe_prev{
+    float: left;
+    margin-left: 5px;
+    background-color: #f44336;
+}
+.swipe_question_note{
+    clear: both;
+    font-size:11px;
+    color: black;
+
+}
+
+.laq_advanced_swipe_questions_slides .card_parent{
+    width: 100%;
+    min-height: 300px;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+    display:none;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 1s;
+    position: relative;
+    background-color: white;
+}
+.laq_advanced_swipe_questions_slides.shifting {
+    transition: left .2s ease-out;
+
+  }
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+ 
+.ld_adv_invalid_formula {
+
+ 
+}
+
+.ld_adv_invalid_formula {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+.ld_adv_invalid_formula i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+.wp_pro_quiz_message{
+    background-color: green;
+    border-radius: 5px;
+    padding:5px;
+    text-align: center;
+    color: white;
+}
+.ld-advance-saveresume-box{
+    display: block;
+    height: 60px;
+}
+.laq_advanced_swipe_questions_slides_wrapper{
+    overflow: hidden;
+    position: relative;
+    width: 510px;
+    height: 300px;
+  }
+.laq_advanced_swipe_questions_slides {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+  }
+
+.wpProQuiz_button_reShowQuestion:hover {
+    color: white;
+    background: #0877cc;
+    transition: background .5s ease-in;
+}
+
+
+
+/*
+    ===========================================
+    A - HOTSPOT QUESTION STYLES
+    ===========================================
+*/
+
+
+.tbl_hotspot_question tr td:first-child{
+    padding-left: .5em;
+}
+
+.tbl_hotspot_question .wpProQuiz_answerCorrect{
+    background: rgba(28,217,145,.2) !important;
+    font-weight: normal;
+}
+
+.bb-dark-theme .tbl_hotspot_question {
+    color: white;
+}
+
+.laq_hotspot_radio_cont {
+    background: white;
+    border: 2px solid #d6dce6;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    display: block;
+    opacity: 0.7;
+}
+
+.laq_hotspot_radio_cont input {
+    display: none !important;
+}
+
+.laq_hotspot_input__overlay {
+    position: absolute; 
+    top: 2px; 
+    left: 2px; 
+    display: block; 
+    width: 12px; 
+    height: 12px; 
+    margin: 0px; 
+    background: #d6dce6;
+    padding: 0px; 
+    border: 0px; 
+    cursor: default;
+    border-radius: 50%;
+}
+
+.laq_hotspot_input:checked + .laq_hotspot_input__overlay {
+    background: #0877cc;
+}
