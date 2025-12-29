@@ -1,0 +1,6192 @@
+/*--------------------------------------------------------------
+This is your custom stylesheet.
+Maintained by Irene Bonso
+
+
+Add your own styles here to make theme updates easier.
+To override any styles from other stylesheets, simply copy them into here and edit away.
+
+Make sure to respect the media queries! Otherwise you may
+accidentally add desktop styles to the mobile layout.
+https://www.w3schools.com/css/css_rwd_mediaqueries.asp
+--------------------------------------------------------------*/
+:root {
+  --blue: #007CFF;
+  --dark-blue: #202D46;
+  --shadow:#b4b4b4;
+  --light-gray: #E1E1E1;
+  --dark-gray: #707070;
+  --bg-gray: #1A1A1A;
+  --red: #D70D19;
+  --light-red: #FBE6E7;
+
+  --dark-red: #d70000;
+  --yellow: #FDF800;
+  --lighter-red: #FFECED;
+}
+
+.invisible{
+  visibility: hidden;
+}
+
+.woocommerce ul.products{
+     margin-left: 100px !important;
+     margin-right: 100px !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.page-id-24508 .bp-pagination .bottom{
+	display: none;
+}
+
+/*LD Sidebar Customizations*/
+
+.td-sale-price{
+	font-size: 30px;
+    color: #db1419;
+	text-align: center;
+	letter-spacing: -1px;
+	display: flex;
+	margin-bottom: 1em;
+	flex-direction: column;
+	font-family: 'Oswald', sans-serif;
+	font-weight: bold;
+}
+
+.td-sale-price span:nth-child(2){
+	font-size: 25px;
+	vertical-align: middle;
+	color: #444444;
+	font-weight: bold;
+}
+
+.bb-single-course-sidebar .bb-course-volume-list li{
+	align-items: normal !important;
+}
+
+/*DEFAULT STYLES*/
+.btn--td {
+  border-radius: 1.5em;
+  background: white;
+  color: var(--blue);
+  padding: 0.5em 1.5em;
+}
+
+.btn--td i {
+  margin-right: 0.4em;
+}
+
+.btn--primary {
+  background: #fd0000 !important;
+  color: white !important;
+}
+  .btn--primary:hover {
+    background: #fd0000 !important;
+ 	color: white !important;
+    transition: all .5s ease-in;
+  }
+
+
+.price {
+  position: relative;
+}
+
+.price-overlay {
+  position: absolute;
+  background: white;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  font-size: 1em !important;
+}
+
+/* TD-411: Improve search result in TD Portal  */
+.bp-search-results-wrap.results-group-cpt-product span.entry-meta {
+    margin: 4px 0;
+    display: none;
+}
+
+/*FIX LEARNDASH COURSE PROGRESS FONT ISSUE*/
+
+.learndash_post_sfwd-courses .elementor-column-gap-default>.elementor-row>.elementor-column>.elementor-element-populated {
+  padding: 0;
+}
+
+.learndash-wrapper #ld-profile h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0 !important;
+}
+
+.learndash-wrapper .ld-item-list {
+  margin: .5em 0 1em 0;
+}
+
+.learndash-wrapper div.ld-course-list {
+  margin-bottom: 0;
+}
+
+.learndash-wrapper #ld-profile .ld-item-list .ld-item-list-items .ld-item-list-item .ld-item-list-item-preview .ld-course-title {
+  font-weight: 500;
+}
+
+.learndash-wrapper #ld-profile .ld-item-list-item-expanded .ld-table-list .ld-table-list-item-preview a {
+  font-weight: 500;
+  line-height: 1.6em;
+  color: #939597;
+  font-size: 14px;
+}
+.learndash-wrapper #ld-profile .ld-item-list-item-expanded .ld-table-list .ld-table-list-item-preview {
+  color: #939597;  
+  font-size: 14px;
+}
+
+.learndash-wrapper .ld-table-list .ld-table-list-header .ld-table-list-title, .learndash-wrapper .ld-table-list .ld-table-list-item-preview .ld-table-list-title {
+  flex: 0 0 50%;
+}
+
+.learndash-wrapper .ld-table-list .ld-table-list-columns .ld-column-certificate, .learndash-wrapper .ld-table-list .ld-table-list-columns .ld-table-list-column-certificate {
+  display: none !important;
+}
+
+.learndash-wrapper .ld-item-list .ld-item-list-item .ld-item-list-item-expanded .ld-progress {
+  padding: 2em 2.5em 1em 2.5em;
+}
+
+.learndash-wrapper #ld-profile .ld-item-list-item-expanded .ld-item-contents {
+  padding-top: 0;
+  padding-bottom: 1em;
+}
+
+.learndash-wrapper .ld-item-list .ld-item-list-item .ld-item-list-item-expanded .ld-item-contents {
+  padding: 0 2.5em 1em 2.5em
+}
+
+.elementor-element-e836b2b {
+  margin-top: 50px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -9999;
+  font-size: 0.8em;
+}
+.popup.active {
+  z-index: 9999;
+/* 	TD-461: Improve Sale pop-up modal */
+  animation: fadeIn 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) backwards;
+  animation-delay: 4s;
+}
+
+
+
+  .popup__bg {
+    background: rgba(0,0,0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+    .popup-box {
+      display: flex;
+      flex-flow: row nowrap;
+      width: 1028px;
+      height: 580px;
+      justify-content: center;
+      align-items: stretch;
+      position: relative;
+      border-radius: 2em;
+    }
+
+      .popup-box i.dashicons-dismiss {
+        position: absolute;
+        cursor: pointer;
+        right: 1em;
+        top: 0.5em;
+        z-index: 1000;
+/* 		  color: #00000080; */
+	/* 	color: #939597;*/
+		font-size: 25px;
+		color: white;
+		filter: drop-shadow(6px 4px 7px black);
+		
+		
+      }
+
+      .popup-box i.dashicons-dismiss:hover {
+        color: white;
+      }
+
+      .popup-box p, .popup-box h3 {
+        margin: 0.5em 0;
+        padding: 0;        
+      }
+
+      .popup-meta {
+        color: white;
+/*         padding: 1em 0em !important; */
+        flex: 0 0 35%;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+		background-image: url(../img/confetti.png), linear-gradient(#7acedf, #F2EEE3);
+        /*background-image: url("../img/confetti.png"), linear-gradient(#F2EEE3, #F2EEE3);*/
+        /*background: url("../img/bg-CDA.jpg");*/ 
+        background-size: cover; 
+        text-align: center;
+        border-top-left-radius: 2em;
+        border-bottom-left-radius: 2em;
+        position: relative;
+      }        
+
+        .popup-meta img {
+          width:  190px;
+          height: auto;
+        }
+
+        .popup-meta__banner img {
+/*           width: 100% !important;
+          height: auto;
+          margin-bottom: 3em; */
+			border-radius: 5%;
+        }
+
+        .popup-meta > span {
+          color: white;
+          display: block;
+        }
+
+        .popup-meta > span:nth-child(2), .popup-meta > span:nth-child(3) {
+          font-weight: bold;
+        }
+
+        .popup-meta > span:nth-child(2) {
+          margin-top: 0.8em;
+          font-size: 2em; 
+        }
+
+        .popup-meta > span:nth-child(3) {
+          font-size: 3em;
+          margin: .8em 0 .5em 0;
+          padding: 0; 
+        }
+
+        .popup-meta > span:nth-child(4) {
+          margin-bottom: 2em;
+          width: 95%;
+        }
+
+
+      .popup-mechanics {
+        padding: .5em 2em 1.5em 1em;
+/*         background: white; */
+        flex: 0 0 63%;
+       overflow: auto;
+        border-top-right-radius: 2em;
+        border-bottom-right-radius: 2em;
+		display: block;
+      }
+
+		.popup-mechanics > div:last-child {
+			margin-left: 2em;
+ 			margin-top: 15px;
+		}
+
+        .popup-mechanics__redirection {
+          margin-top: 1em !important;
+        }
+
+          .popup-mechanics__redirection a {
+            color: var(--dark-red);
+            font-weight: bold;
+          }
+      
+        .popup-mechanics h3 {
+          margin: 0.3em 0 0 0;
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--dark-blue);
+        }
+
+        .popup-mechanics p {
+          line-height: 1.6em; 
+        }
+
+        .popup-mechanics p.mechanics-table {
+          margin:.5em 0 .5em 2em;
+        }
+
+        .popup-mechanics table {
+          margin:0 0 0 2em;
+          font-size: 0.9em;
+          display: block;
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: auto;
+          color: var(--dark-blue);
+        }
+
+        .popup-mechanics table thead, .popup-mechanics table tbody, .popup-mechanics table tfoot {
+          margin: 0;
+          padding: 0;
+          display: block;
+        }
+
+        .popup-mechanics table thead {
+          font-weight: bold;
+        }
+
+        .popup-mechanics table tr {
+          display: flex; 
+        }
+
+        .popup-mechanics table tr td {
+          margin: 0;
+          padding: 0;
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;    
+          line-height: 1.5em;
+          border-left: 1px solid rgba(0,0,0, 0.05);
+          border-top: 1px solid rgba(0,0,0, 0.05);
+          border-right: 1px solid rgba(0,0,0, 0.05);
+          border-bottom: 1px solid rgba(0,0,0, 0.05);
+          padding: 0.4em;
+        }
+
+        .popup-mechanics table thead tr td {
+          padding: 0.5em 0;
+          background: black;
+          color: white;
+        }        
+
+        .popup-mechanics table tr td:first-child {
+          flex: 0 0 60%;
+        }
+
+        .popup-mechanics table.mechanics-ebook-table tr td:first-child {
+          text-align: left;
+        }
+
+        .popup-mechanics table.meachanics-ebook-table tr td:first-child {
+          text-align: center;
+        }
+
+		/* TD-108: Make Every Row Clickable */
+		tr[data-href]{
+		  cursor:pointer;
+		}
+
+    .elementor-widget-container .popup-box {
+      width: 100%;
+      height: auto;
+    }
+
+    .elementor-widget-container .dashicons-dismiss {
+      display: none;
+    }
+
+@media only screen and (min-width: 992px) {
+    .elementor-widget-container .popup-mechanics {
+      padding: 1.5em 1.5em 1.5em 1.5em;
+	  padding-left: 65px !important;
+    }
+}
+
+
+
+
+
+
+/*MID YEAR SALES PAGE*/
+
+.elementor-page-75589 .content-area {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.elementor-page-75589 .content-area .popup-box {
+  box-shadow: 1px 1px 10px var(--shadow);
+}
+
+  .elementor-page .content-area .popup-meta {
+    justify-content: flex-start;
+  }
+
+    .elementor-page .content-area .popup-meta img {
+      margin-top: 2em;
+    }
+
+    .elementor-page .content-area .popup-meta .promo-countdown {
+      margin-bottom: 1em;
+    }
+
+    .elementor-page .content-area .popup-meta > span:nth-child(3) {
+      margin: .5em 0 .5em 0;
+    }
+
+    .elementor-page .content-area .popup-meta > span:nth-child(4) {
+      margin-bottom: 1em;
+    }
+
+    .elementor-page .content-area .popup-meta a {
+      margin: 2em 0 1em 0;
+    }
+
+
+
+
+/*COUNTDOWN TIMER SHORTCODE*/
+.promo-countdown {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+  .promo-countdown__timer {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+  }
+
+
+  .promo-countdown__text {
+    color: var(--dark-blue);
+  }
+
+
+      /* 
+      * Background color for the Learndash Course/WooCommerce Page 
+      * and td_promo_countdown shortcode (Promotions page)
+      *  
+      * */
+    .promo-countdown__timer > span div:first-child {
+      position: relative;
+      width: 3em;
+      height: 3em;
+      border-radius: 10px;
+      background:  lightblue; /* Background color for the Learndash Course/WooCommerce Page */
+    }
+ 
+	 
+     /* 
+      * Timer for the Learndash Course/WooCommerce Page 
+      * 
+      * Also 
+      *  
+      * */
+     
+    .promo-countdown__timer > span div:first-child span {
+      position: absolute;
+      font-size: 1.5em;
+      top: calc(50% - .6em);
+      left: calc(50% - .6em);
+      color: var(--dark-blue);
+    }
+
+	
+
+
+  .promo-countdown--popup .promo-countdown__text {
+    font-weight: bold;
+/* 	  color:white; */
+  }
+
+    .promo-countdown--popup .promo-countdown__timer > span {
+      margin: 0 .5em;
+    }
+
+
+    .promo-countdown--popup .promo-countdown__timer > span div:first-child{
+   background: white;
+	  border: groove;
+    }
+
+/* COUNTDOWN TIMER SHORTCODE FOR TRIPLE BUNDLE JULY2023 */
+.promo-countdown__timer1 {
+		display: flex;
+		text-align: center;
+		justify-content: space-around;
+	  }
+	
+	.promo-countdown__timer1 > span div:first-child {
+	  background: linear-gradient(9deg, #610808, #fb3838);
+      position: relative;
+      width: 4em;
+      height: 4em;
+      border-radius: 10px;
+    }
+   
+    .promo-countdown__timer1 > span div:first-child span {
+      position: absolute;
+      font-size: 1.5em;
+      top: calc(50% - .6em);
+      left: calc(50% - .6em);
+      color: black;
+    }
+    
+    .promo-countdown--popup .promo-countdown__timer1 > span {
+      margin: 0 .5em;
+    }
+
+
+    .promo-countdown--popup .promo-countdown__timer1 > span div:first-child{
+      background: white;
+	  border: groove;
+    }
+
+  /*BLACK FRIDAY CHANGE*/
+  .promo-countdown--header {
+    display: flex;
+    margin: 0 0.5em;
+  }
+    .promo-countdown--header .promo-countdown__text {
+      color: white;
+      margin-bottom: 0;
+    } 
+    .promo-countdown--header .promo-countdown__timer {
+      display: flex;
+      align-items: center;
+    }
+
+	
+
+    .promo-countdown--header .promo-countdown__timer > span {
+      display: flex;
+      background: white;
+      border-radius: .2em;
+      margin: 0 .5em;
+      padding: 0 .5em;
+    }
+
+	
+
+    .promo-countdown--header .promo-countdown__timer > span div:first-child {
+      color: var(--dark-blue) !important;
+      margin-right: 0.3em;
+      font-weight: 600;
+      width: 1em;
+      height: 1em;
+      background: none;
+    }
+
+	
+    
+    .promo-countdown--header .promo-countdown__timer > span div:first-child span {
+      font-size: 1em;
+      top: calc(50% - .5em);
+    }
+
+    
+    .promo-countdown--header .promo-countdown__timer > span div:last-child {
+      color: var(--dark-gray) !important;
+      font-size: 0.8em;
+      font-weight: 500;
+    } 
+
+	
+
+
+
+
+/*SALES PERIOD DISCOUNT HEADERS*/
+.promotion-header {
+  display: block;
+  position: relative;
+  height: 47px;
+  z-index: 50;
+}
+  .promotion-header.active {
+    display: flex;
+  }
+  .promotion__link {  
+    color: white;
+  }
+  .promotion__link:hover {
+    color: white;
+  }
+
+  .promotion-header__box {
+    top: 0;
+    transition: all .5s ease-in;
+    background: linear-gradient(#FF4F19, #D70D19);
+    z-index: 1000;
+    position: fixed;
+    display: flex;
+    flex-flow: row-reverse wrap;
+    justify-content: center;
+    align-items: center;
+    height: 47px;
+    width: 100%;
+	font-size: 0.9em;
+  }
+
+  .promotion-header__box:hover {
+    transition: all .5s ease-in;
+    background: linear-gradient(#ff4b14, #e60d1b);
+  }
+
+  .promotion-header__box  .countdown-learnmore {
+	display: flex;
+  }
+
+  .promotion-header__box p {
+    margin: 0;
+    padding: 0 .5em;
+    line-height: 1em;
+    border-right: 2px solid white;
+  }
+  
+  .promotion-header__box p span:first-child, .promotion-header__box p span:nth-child(2) {
+    font-weight: bold;
+  }
+
+  .promotion-header__box .btn--learnmore{
+    background: #BC1B15; 
+    border-radius: 0.3em;
+    margin-right: 1em;
+    padding: 0 1em;
+    font-size: 0.7em;
+    display: flex;
+    align-items: center;
+  }
+
+  .promotion-header:hover .btn--learnmore {
+    background: #8f0e09;
+  }
+
+  .promotion-header .dashicons-dismiss {
+    color: #BC1B15;
+  }
+
+  .promotion-header .dashicons-dismiss:hover {
+    color: #8f0e09;
+  }
+
+  .promotion-header .dashicons-dismiss:hover + span .btn--learnmore {
+    background: #BC1B15; 
+  }
+
+/*SALE TABLE CUSTOMIZATION*/
+
+.page-id-33635 td:last-child, th:last-child{
+	padding-right: 12px;
+}
+
+.page-id-33635 td, th{
+	padding: 7px;
+}
+
+.page-id-33635 h1.entry-title{
+	display: none;
+}
+
+.page-id-33635 .content-area{
+	padding-top: 5px !important;
+}
+
+.page-id-33635 .tbl-cheat-sheet{
+	width: 80% !important;
+}
+
+ .tbl-cheat-sheet{
+    /*border-collapse: separate !important;*/
+    border-spacing: 1px !important;
+    width: 85%;
+    background-color: #C4C4C4;
+    transform: translate(9%);
+}
+
+.tbl-end-date{
+	font-size: 15px !important;
+	margin-bottom: 0px;
+}
+
+.pm-table-header-content-wrap{
+	border-collapse: separate !important;
+	border-style: none !important;
+    color: white;
+    background-color: black;
+    text-align: center !important;
+    vertical-align: middle;
+    font-size: 25px;
+	font-family: 'Timmana', sans-serif;
+}
+
+.pm-table-header-content-wrap-red{
+	border-collapse: separate !important;
+	border-style: none !important;
+    color: white;
+    background-color: black;
+    text-align: center !important;
+    vertical-align: bottom;
+    font-size: 25px;
+	font-family: 'Timmana', sans-serif;
+}
+
+.pm-table-cell-content-wrap{
+    border-style: none !important;
+    padding: 6px;
+    color: blanchedalmond;
+    background: rgb(189,32,32);
+    text-align: center !important;
+    /*line-height: 1.5;*/
+    vertical-align: middle;
+    line-height: 1.5;
+    font-size: 23px;
+	font-family: 'Timmana', sans-serif;
+}
+
+.pm-table-cell-content-wrap-red{
+    border-style: none !important;
+    padding: 6px;
+    color: darkred;
+    background-color:blanchedalmond;
+    text-align: center !important;
+    line-height: 1.5;
+    vertical-align: middle;
+    line-height: 1.5;
+    font-size: 23px;
+    font-weight: bold;
+	font-family: 'Timmana', sans-serif;
+}
+
+.tbl-img{
+	width: 75% !important;
+}
+
+/* POPUP CHANGES */
+
+.popup-box .tbl-cheat-sheet{
+    transform: translate(0%);
+    width: 100% !important;
+}
+
+.popup-box td, th{
+	padding: 7px !important;
+}
+
+.popup-mechanics table tr td{
+    line-height: 1.1 !important;
+}
+
+.popup-box .pm-table-cell-content-wrap{
+    font-size: 13.5px !important;
+}
+
+.popup-box .pm-table-cell-content-wrap-red{
+    font-size: 13.5px !important;
+}
+
+.popup-box .pm-table-header-content-wrap{
+    font-size: 17px !important;
+}
+
+.popup-box .tbl-img{
+    width: 50% !important;
+}
+
+/* EARLY ACCESS */
+
+.early-access a{
+	font-family: 'Timmana', sans-serif;
+	text-decoration: none;
+	color: inherit;
+}
+
+.early-access span{
+	color: darkblue;
+}
+
+.early-access a:hover{
+	color: maroon;
+}
+
+/*SALE ICON ON HEADER*/
+
+#menu-item-33793, #menu-item-317083 {
+  line-height: 1em;
+  display: inline-flex;
+  align-items: center;
+  padding: .5625rem .9375rem;
+}
+  #menu-item-33793 a, #menu-item-317083 a{
+    background: #e60d1b;
+    height: 30px;
+    color: white;
+    border-radius: 2em;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
+  }
+    #menu-item-33793 a:hover, #menu-item-317083 a:hover {
+      background: #D70D19;
+      transition: all .5s ease-in;
+    }
+    #menu-item-33793 a i._mi, #menu-item-317083 a i._mi{
+      color: white;
+      margin-top: 0;
+    }
+
+
+
+
+
+/*QUIZ FILTER*/
+
+/* WCAG FIX START */
+
+
+.wpProQuiz_button:focus-visible {
+  outline: 2px solid crimson !important;
+  border-radius: 3px;
+}
+
+.wpProQuiz_button2:focus-visible {
+  outline: 2px solid crimson !important;
+  border-radius: 3px;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button2:focus, .learndash-wrapper .wpProQuiz_content .wpProQuiz_button:focus {
+    outline-style: solid !important;
+    outline-color: red !important;
+    outline-width: 2px !important;
+}
+
+.wpProQuiz_content .wpProQuiz_questionListItem:focus-within {
+  outline-style: solid !important; 
+  outline-color: gray !important; 
+  outline-width: 3px !important;
+}
+
+.wpProQuiz_content .laq_jumbled_sentence_dropdown:focus-within {
+  outline-style: solid !important; 
+  outline-color: gray !important; 
+  outline-width: 2px !important;
+}
+
+.wpProQuiz_content .hotspot_question_row:focus-within {
+  outline-style: solid !important; 
+  outline-color: gray !important; 
+  outline-width: 2px !important;
+}
+
+button.write-a-review.not-rated:focus {
+  outline-style: solid !important; 
+  outline-color: red !important; 
+  outline-width: 2px !important;
+}
+
+button.previous:focus{
+  outline-style: solid !important; 
+  outline-color: red !important; 
+  outline-width: 2px !important;
+}
+
+button.next.mid-submit-step:focus{
+  outline-style: solid !important; 
+  outline-color: red !important; 
+  outline-width: 2px !important;
+}
+
+textarea:focus {
+    background-color: #fff;
+    border-color: #4D5C6D;
+    border-width: thick;
+    box-shadow: none;
+}
+
+/* WCAG FIX END */
+
+
+.wpProQuiz_modal_window #wpProQuiz_user_content>h2 {
+  display: none !important;
+}
+
+.wpProQuizCustomized_filters {
+  position: sticky;
+  position: -webkit-sticky;
+  margin: -20px -20px 30px -20px;
+  top: -20px;
+  padding: 20px 50px 20px 0;
+  background: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-shadow: 1px 5px 10px var(--shadow);
+  z-index: 1000;
+  flex-flow: row wrap;
+}
+
+.wpProQuizCustomized_filters__buttons {
+  display: flex;
+}
+
+select#js-quizfilter-category {
+  padding: 0 .5em;
+  width: 250px;
+  height: 35px;
+  margin-left: 1em;
+}
+select#js-quizfilter-questions {
+  padding: 0 .5em;
+  width: 200px;
+  height: 35px;
+  margin-left: 1em;
+}
+
+.btn--filter{
+  background: var(--light-gray) !important;
+  color: var(--dark-gray) !important;
+  padding: 0.5em 1em;
+  border-radius: 1.5em;
+  margin: 0 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.btn--filter--selected {
+  background: var(--blue) !important;
+  color: white !important;
+}
+
+.btn--disabled {
+  background: var(--light-gray) !important;
+  color: white !important;
+  pointer-events: none;
+}
+
+.btn--filter i {
+  margin-right: 0.5em;
+}
+
+.learndash-theme .select2.select2-container.select2-container--default{
+  max-width: 250px;
+  margin-left: 1em;
+}
+
+.learndash-theme .select2-container .select2-selection--single .select2-selection__rendered {
+  margin-top: -14px;
+}
+
+.learndash-theme .select2-container--default .select2-selection--single {
+  padding: 17px 0;
+}
+
+.learndash-theme .select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 5px;
+}
+
+.learndash-theme .select2-container.select2-container--default.select2-container--open {
+  z-index: 999999;
+}
+
+
+.learndash-theme .select2-container--default .questionsfilter-dropdown .select2-results__option {
+  display: flex;
+  align-items: center;
+}
+
+.learndash-theme #js-quizfilter-questions+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  display: none;
+}
+
+.learndash-theme #js-quizfilter-questions+.select2-container--default .select2-selection--multiple {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .2em .5em;
+  position: relative;
+  cursor: pointer;
+}
+
+.learndash-theme .select2-container.select2-container--default .select2-results__option {
+  color: var(--light-gray);
+}
+
+  .learndash-theme .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: var(--light-gray);
+    color: var(--dark-gray);
+  }
+
+  .learndash-theme .select2-container.select2-container--default .select2-results__option[aria-selected=true] {
+    color: var(--blue) !important;
+  }
+
+  .learndash-theme .select2-container.select2-container--default .select2-results__option i {
+    font-size: 1.7em;
+    margin-right: 0.2em;
+  }
+
+
+  
+/*
+  =================================
+  A - QUIZ SIDEBAR SCROLLING
+  =================================
+*/
+
+.lms-topic-sidebar-wrapper {
+  position: relative;
+}
+
+.lms-lessions-list {
+  margin-bottom: 38px;
+}
+
+.bb-lms-title__overflow {
+  display: inline-block !important;
+}
+
+.lms-topic-sidebar-wrapper .lms-topic-sidebar-data::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+}
+
+.lms-topic-sidebar-wrapper .lms-topic-sidebar-data {
+  position: fixed;
+  overflow-y: auto;
+  height: calc(100vh - 76px);
+  max-width: 370px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+}
+
+.lms-topic-sidebar-data + div {
+  position: unset !important;
+}
+
+.td-quiz-scrollContainer {
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  left: 0;
+  padding: 5px 30px;
+  background: white;
+}
+
+.td-quiz-scroll {
+  white-space: nowrap;
+  overflow-x: auto;
+  height: 18px;
+  width: 100%;
+}
+
+  .td-quiz-scrollbar {
+    width: 100%;
+    height: 1px;
+
+  }
+
+.bb-dark-theme .td-quiz-scrollContainer {
+  background: #1c1c1c;
+}
+
+
+  
+
+
+/*
+  =================================
+  A - FIX HEADER MENU AND SIDEBAR
+  =================================
+*/
+
+
+/* Make the Sub-menu of the header wider */
+.main-navigation li ul ul {
+  width: 500px !important;
+}
+
+/* Make the Sub-menu of the header wider */
+#menu-item-120251 .sub-menu, #menu-item-119340 .sub-menu{
+  width: 420px !important;   
+}
+
+/* Reduce the width of the Sub-menu of the header */
+#menu-item-268838 .sub-menu, #menu-item-252460 .sub-menu, #menu-item-252464 .sub-menu{
+  width: 420px !important;
+}
+
+#menu-item-252451 .sub-menu, #menu-item-252439 .sub-menu{
+  width: 460px !important;
+}
+
+#menu-item-252467 .sub-menu{
+  width: 365px !important;
+}
+
+/* Mobile workaround for header menu */
+.bb-mobile-panel-inner {
+  padding: 20px !important;
+}
+.bb-mobile-panel-inner .sub-menu.bb-open {
+  padding-left: 15px;
+}
+
+.bb-mobile-panel-wrapper {
+  width: 300px;
+}
+.site-header .bb-mobile-panel-wrapper .sub-menu {
+  width: 100% !important;
+}
+.site-header .bb-mobile-panel-wrapper .sub-menu a {
+  white-space: unset;
+  line-height: 1.6em;
+}
+
+
+/*
+  =================================
+  A - ADD HOVER ON AWS REVIERS
+  =================================
+*/
+
+.btn--reviewer:hover {
+  color: var(--blue) !important;
+}
+
+
+
+
+/*
+  =================================
+  A - REWORK MATRIX SORTING CHOICE
+  =================================
+*/
+
+
+/*CONTAINER*/
+.wpProQuiz_matrixSortString {
+  float: left;
+  width: 30%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+  .wpProQuiz_header {
+    display: none;
+  }
+
+  .learndash-wrapper .wpProQuiz_content ul.wpProQuiz_sortStringList{
+    min-height: 80px !important;
+    margin: 0 !important;
+    display: flex;
+    flex-flow: column wrap;
+  }
+  
+  .learndash-wrapper .wpProQuiz_content .wpProQuiz_matrixSortString:before {
+    content: "ANSWER OPTIONS";
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+  
+  .learndash-wrapper .wpProQuiz_content .wpProQuiz_matrixSortString + ul.wpProQuiz_questionList:before {
+    content: "ANSWER AREA";
+    margin-left: 0.5em;
+    font-weight: bold;
+  }
+
+  .learndash-wrapper .wpProQuiz_content .wpProQuiz_matrixSortString .wpProQuiz_sortStringList.ui-sortable {
+    margin-top: .5em
+  }
+
+    .learndash-wrapper .wpProQuiz_content .wpProQuiz_matrixSortString .wpProQuiz_sortStringList.ui-sortable li.wpProQuiz_sortStringItem {
+      width: 100%;
+    }
+
+    .learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem.wpProQuiz_answerCorrect>table td .wpProQuiz_maxtrixSortText {
+      color: white !important;
+    }
+
+.wpProQuiz_questionList [data-type="matrix_sort_answer"] {
+  float: right;
+  width: 70%;
+}
+  .wpProQuiz_questionList [data-type="matrix_sort_answer"]:after {
+    clear: both;
+  }
+
+  .wpProQuiz_questionList .wpProQuiz_mextrixTr {
+    display: flex;
+    flex-flow: row-reverse wrap;
+  }
+
+    .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li {
+      margin: 0.5em 5px 10px !important;
+    }
+
+    .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li ul.wpProQuiz_maxtrixSortCriterion {
+      min-height: 100% !important;
+    }
+
+      .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li ul.wpProQuiz_maxtrixSortCriterion li.wpProQuiz_sortStringItem {
+        width: 100%;
+      }
+
+    .wpProQuiz_questionList .wpProQuiz_mextrixTr td:first-child {
+      width: 60% !important;
+    }
+
+    .wpProQuiz_questionList .wpProQuiz_mextrixTr td:last-child {
+      width: 40% !important;
+    }
+      .wpProQuiz_maxtrixSortText {
+        text-align: left;
+      }
+
+.wpProQuiz_matrixSortString + .wpProQuiz_questionList {
+  float: right;
+  width: 70%;
+}
+
+li[data-type="matrix_sort_answer"] .wpProQuiz_response {
+  clear: both;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_matrixSortString {
+	margin: 0;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem>table td:first-child {
+	border-right: none;
+}
+
+.wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li table td:last-child {
+    border-radius: 0;
+    border-top: 0;
+    border-right: 1px solid #e7e9ec !important;
+}
+
+.wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li table td:first-child {
+    border-radius: 0;
+}
+
+
+/*STAT MODAL FIX*/
+
+#wpProQuiz_user_content .wpProQuiz_maxtrixSortCriterion.wpProQuiz_answerCorrect, 
+#wpProQuiz_user_content .wpProQuiz_maxtrixSortCriterion.wpProQuiz_answerIncorrect {
+  margin: 0;
+}
+
+#wpProQuiz_user_content .wpProQuiz_sortStringItem {
+  min-height: 32px;
+}
+
+
+/*
+  =================================
+  A - STATISTICS MODAL WORKAROUND
+  =================================
+*/
+.laq_jumbledsentence_choices {
+  display: block;
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+
+/*
+  =================================
+  A - REMOVE TEXT SHADOW IN NOTIFICATION BAR BUTTON
+  =================================
+*/
+
+#wpfront-notification-bar a.wpfront-button {
+  text-shadow: none !important;
+}
+
+#wpfront-notification-bar .wpfront-message {
+  padding: 0 .5em;
+  /*border-right: 2px solid white;*/
+}
+
+
+
+
+
+/*
+  =================================
+  A - FIX CATEGORY AND TAGS SECTION IN PRODUCT PAGE
+  =================================
+*/ 
+  
+.woocommerce #content div.product div.summary .product_meta span {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.woocommerce #content div.product div.summary .product_meta span > span {
+  flex: 0 0 30%;
+}
+ 
+.woocommerce #content div.product div.summary .product_meta span > a {
+  width: 70%;
+  margin-left: 30%;
+}
+
+.woocommerce #content div.product div.summary .product_meta span + a{
+  margin-left: 0;
+  
+}
+
+
+
+
+
+
+ 
+ /*
+  =================================
+  A - IMPROVE SHOP PAGE AND PRODUCT CATEGORY TITLES
+  =================================
+*/ 
+.product-cat-title {
+  font-weight: bold;
+}
+
+.page-title {
+  padding: 0 0 .25em 0;
+  text-align: center;
+  margin: 0 auto .25em auto;
+  text-align: center;
+  border-bottom: 1px solid #E7E9EC;
+}
+
+.page-title + .term-description,
+.page-title + .page-description {
+  display: flex;
+  justify-content: center;
+}
+
+  .page-title + .term-description p,
+  .page-title + .page-description p {
+    text-align: center;
+    margin-bottom: 0;
+    /* border-top: 1px solid #E7E9EC; */
+  }
+
+  .woocommerce-notices-wrapper,
+  .woocommerce-info {
+    margin-top: 1em !important;
+  }
+
+
+
+
+/*
+  =================================
+  A - Fix course page enrollment widget
+  =================================
+*/
+.bb-single-course-sidebar .widget {
+  background: white;
+}
+
+
+ /*
+  =================================
+  A - Add Arrow in jumbled sentence select
+  =================================
+*/
+
+/**
+* Temporary workaround is to add the dark mode triangle on the adjacent element of 
+* the jumbled sentence dropdown since statstics is breaking if we add <span> wrappers in the element.
+*/
+
+.bb-dark-theme .laq_jumbled_sentence_question .laq_jumbled_sentence_dropdown {
+  background-image: url(../img/svg/arrow-down.svg);
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 40px;
+}
+
+/*
+  =================================
+  A - Fix drag and drop color scheme in dark mode
+  =================================
+*/
+.bb-dark-theme #content ul.wpProQuiz_sortStringList.ui-sortable {
+  background: #121212 !important;
+  border: 1px solid #e2e7ed !important;
+  border-radius: 7px !important;
+}
+
+/* Make draggable boxes darker */
+.bb-dark-theme .learndash-wrapper .wpProQuiz_content .wpProQuiz_sortStringItem.ui-sortable-handle {
+  color: #121212 !important;
+  font-weight: bold !important;
+}
+
+
+.bb-dark-theme .learndash-wrapper .wpProQuiz_content .wpProQuiz_answerCorrect .wpProQuiz_sortStringItem,
+.bb-dark-theme .learndash-wrapper .wpProQuiz_content .wpProQuiz_answerIncorrect .wpProQuiz_sortStringItem {
+  color: #121212 !important;
+}
+
+
+/*
+  =================================
+  A - Change number font colors to lighter
+  =================================
+*/
+.wpProQuiz_content .wpProQuiz_box>ol li.wpProQuiz_reviewQuestionReview, 
+.wpProQuiz_content .wpProQuiz_box>ol li.wpProQuiz_reviewQuestionSolved, 
+.wpProQuiz_content .wpProQuiz_reviewDiv .wpProQuiz_reviewQuestion>ol li.wpProQuiz_reviewQuestionReview, 
+.wpProQuiz_content .wpProQuiz_reviewDiv .wpProQuiz_reviewQuestion>ol li.wpProQuiz_reviewQuestionSolved {
+  /*color: #c5c2c2;*/
+  color: #d0d0d0;
+}
+
+
+
+
+
+
+/*
+  =================================
+  A - Fix course page enrollment widget
+  =================================
+*/
+.bb-single-course-sidebar .widget {
+  background: white;
+}
+
+
+
+
+
+/*
+  =================================
+  A - Fix course page enrollment widget
+  =================================
+*/
+#wpProQuiz_user_content .wpProQuiz_response {
+  text-align: left;
+}
+
+#wpProQuiz_user_content .wpProQuiz_response p {
+  margin-bottom: .5em !important;
+}
+
+
+
+
+/*
+  =================================
+  A - Wider header to add more header links
+  =================================
+*/
+
+.primary-menu>li {
+  padding: 0 7px !important;
+}
+.primary-menu>.menu-item-has-children:not(.hideshow) {
+  padding: 0 21px 0 11px !important;
+}
+
+.container {
+    max-width: 1270px;
+}
+
+.site-branding {
+	padding-right: 10px;
+}
+
+.header-aside-inner>* {
+  padding: 0 3px;
+}
+
+#navbar-collapse {
+  margin-left: 7px;
+  margin-right: 7px;
+}
+
+
+
+
+/*
+  =================================
+  A - Force red background for incorrect answers
+  =================================
+*/
+.wpProQuiz_modal_window #wpProQuiz_user_content .wpProQuiz_answerIncorrect {
+  background: #ff9191;
+}
+
+
+
+
+
+/*
+  =================================
+  A - Cross-sell box width to full
+  =================================
+*/
+.woocommerce .cart-collaterals .cross-sells, .woocommerce-page .cart-collaterals .cross-sells {
+  width: 100%;
+}
+
+
+
+
+
+/*
+  =================================
+  A - Add vertical overflow for mini cart
+  =================================
+*/
+.header-mini-cart ul.cart_list {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+
+
+
+
+/*
+  =================================
+  A - Remove bottom margin for cross-sell boxes
+  =================================
+*/
+.woocommerce .cart-collaterals .cross-sells ul.products, 
+.woocommerce-page .cart-collaterals .cross-sells ul.products {
+  margin-bottom: 0;
+}
+
+
+
+
+
+
+
+/*
+  =================================
+  A - Fix mini cart course title
+  =================================
+*/
+
+.header-mini-cart ul.cart_list img.attachment-woocommerce_thumbnail, 
+.header-mini-cart ul.cart_list img.woocommerce-placeholder {
+  margin-right: 0;
+}
+
+.mini-cart_title {
+  display: flex;
+  flex-flow: column nowrap;
+  order: 2;
+  margin: 0 1em;
+  flex: 1;
+}
+
+  .mini-cart_title a {
+    margin-bottom: .5em;
+    line-height: 1.4em;
+    color: #122B46;
+  }
+
+  .mini-cart_category {
+    display: none;
+  }
+
+
+
+/*
+  =================================
+  A - PROMO BUNDLE BOX IN SHOP PAGE
+  =================================
+*/
+.td_promo--bundle {
+  position: fixed;
+  z-index: 99;
+  bottom: 10px;
+  right: 10px;
+  background: var(--blue);
+  color: white;
+  padding: 1em;
+  border-radius: .75em;
+/* 	Hide the bundle discount widget */
+/*   display:none; */
+}
+  .td_promo--bundle__header {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  
+    .td_promo--bundle__header__details {
+      margin-left: 0.5em;
+    }
+  
+      .td_promo--bundle__header__details__description {
+        font-size: 0.7em;
+        line-height: 1.2em;
+      }
+  
+      .td_promo--bundle__header__details__title {
+        font-weight: bold;
+      }
+  
+  .td_promo--bundle__body{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 1.5em 0 1.2em 0;
+  }
+    .td_promo--bundle__body__description {
+      font-weight: bold;
+    }
+  
+    .td_promo--bundle__body__discount {
+      display: flex; 
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-left: .75em;
+      padding-left: .75em;
+      border-left: 1px solid white;
+    }
+      .td_promo--bundle__body__discount__controls {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        position: relative;
+      }
+  
+        .td_promo--bundle__body__discount__controls span {
+          width: 20px;
+          text-align: center;
+        }
+  
+        .td_promo--bundle__body__discount__controls i {
+          cursor: pointer;
+        }
+        .td_promo--bundle__body__discount__controls i.dashicons-arrow-up {
+          top: -18px;
+          left: 0;
+          position: absolute;
+        }
+        .td_promo--bundle__body__discount__controls i.dashicons-arrow-down {
+          bottom: -16px;
+          left: 0;
+          position: absolute;
+        } 
+  
+  
+        .td_promo--bundle__body__discount__controls i:hover {
+          color: #C70B0A;
+        }
+  .td_promo__footer {
+    font-size: .7em;
+    line-height: 1.4em;
+  }
+
+
+
+/*
+  =================================
+  A - PROMO BUNDLE BOX IN PROMO PAGE
+  =================================
+*/
+.td_promo--bundle1 {
+  z-index: 99;
+  bottom: 10px;
+  right: 10px;
+  background: linear-gradient(70deg, rgba(9,132,227,0.85) 40%, rgba(0,59,177,0.98) 100%);
+  color: white;
+  padding: 1em;
+  border-radius: .75em;
+  margin-left: 15%;
+  margin-right: 15%;
+/* 	Hide the bundle discount widget */
+/*   display:none; */
+}
+  .td_promo--bundle__header1 {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+	margin-left: 33%;
+  }
+  
+    .td_promo--bundle__header__details1 {
+      margin-left: 0.5em;
+    }
+  
+      .td_promo--bundle__header__details__description1 {
+        font-size: 0.8em;
+        line-height: 1.2em;
+      }
+  
+      .td_promo--bundle__header__details__title1 {
+        font-weight: bold;
+		font-size: larger;
+      }
+  
+  .td_promo--bundle__body1{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 1.2em 0 1.2em 0;
+  }
+    .td_promo--bundle__body__description1 {
+      font-weight: bold;
+	  margin-left: 25%;
+      font-size: 1.5em;
+	  background-color: #c20000;
+    }
+  
+    .td_promo--bundle__body__discount1 {
+      display: flex; 
+      flex-flow: row nowrap;
+      align-items: center;
+      margin-left: .75em;
+      padding-left: .75em;
+      border-left: 1px solid white;
+	  font-size: x-large;
+    }
+      .td_promo--bundle__body__discount__controls1 {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        position: relative;
+      }
+  
+        .td_promo--bundle__body__discount__controls1 span {
+          width: 20px;
+          text-align: center;
+		  background-color: white;
+          color: blue;
+        }
+  
+        .td_promo--bundle__body__discount__controls i {
+          cursor: pointer;
+        }
+        .td_promo--bundle__body__discount__controls i.dashicons-arrow-up {
+          top: -18px;
+          left: 0;
+          position: absolute;
+        }
+        .td_promo--bundle__body__discount__controls i.dashicons-arrow-down {
+          bottom: -16px;
+          left: 0;
+          position: absolute;
+        } 
+  
+  
+        .td_promo--bundle__body__discount__controls i:hover {
+          color: #C70B0A;
+        }
+  .td_promo__footer1 {
+    font-size: .8em;
+    line-height: 1.4em;
+	margin-left: 35%;
+    margin-top: 2%;
+  }
+  
+
+
+  
+
+/*
+  =================================
+  A - Restyle product loops
+  =================================
+*/
+.woocommerce span.onsale {
+  background: #e60d1b !important;
+}
+
+  .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    color: var(--dark-blue);
+    padding: 10px 15px !important;
+    font-weight: 500;
+    border-bottom: 1px solid #E7E9EC;
+  }
+
+  .woocommerce ul.products li.product .star-rating {
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+
+  .woocommerce ul.products li.product .price {
+    padding: 10px 15px !important;
+    margin-bottom: 0;
+  }
+
+  .woocommerce ul.products li.product img{
+    margin: 0 !important;
+  }
+
+  .wdr_product_strikeout del .amount:first-child {
+    text-decoration: line-through;
+  }
+
+
+
+
+
+
+/*
+  =================================
+  A - Hide valid items for promo count 
+  =================================
+*/
+.itemsValidForPromo {
+  display: none;
+}
+
+
+
+
+
+/*
+  =================================
+  A - Refund Policy Popup
+  =================================
+*/
+#TB_window {
+  display: none !important;
+}
+
+#TB_window.active {
+  display: block !important;
+}
+
+
+.srf-reminders {
+  position: fixed;
+  background-color: #fff;
+  z-index: 100150;
+  text-align: left;
+  top: calc(50% - 300px);
+  left: calc(50% - 275px);
+  max-width: 550px;
+  -webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+  box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+  padding: 1.5em;
+  font-size: 0.9em;
+  line-height: 1.6em;
+}
+
+  .srf-reminders__heading {
+    margin-bottom: 1em;
+  }
+
+  .srf-reminders__agree {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+    .srf-reminders__agree .icheckbox_minimal {
+      flex: 0 0 20px; 
+    }
+    .srf-reminders__agree input {
+      margin-right: 0.5em;
+      margin-top: 2px;    
+      cursor: pointer;
+      opacity: 1 !important;
+      position: unset !important;
+    }
+    .srf-reminders__agree label {
+      margin-top: -0.3em;
+      font-size: 0.95em;
+      color: #4D5C6D;
+      cursor: pointer;
+    }
+
+  .srf-reminders__proceed {
+    margin-top: 1.3em;
+    float: right;
+  }
+    .srf-reminders__proceed--disabled {
+      opacity: 0.6;
+      cursor: unset; 
+    }
+  
+  .srf-reminders__desc__head {
+    font-weight: bold;
+  }
+  
+  .srf-reminders__desc {
+    margin: 0 0 1em 0;
+  }
+    .srf-reminders__desc ul {
+      margin-bottom: 0.5em;
+    }
+
+    .srf-reminders__desc__note {
+      padding: 1em;
+      font-size: 0.8em;
+      background: #e4f1fe;
+      border-radius: .5em;
+    }
+
+      .srf-reminders__desc__note span {
+        font-weight: bold;
+      }
+
+      .srf-reminders__desc__note span i {
+        font-size: 1em;
+      }
+
+  .woocommerce table.my_account_orders tbody .woocommerce-orders-table__cell-order-actions a.button {
+    max-width: inherit;
+  }
+
+
+
+
+
+/*
+  =================================
+  A - HOME PAGE COURSE SECTION STYLE FIX
+  =================================
+*/
+.ld-course-list-items .bb-course-meta {
+  margin-top: .5em;
+  margin-bottom: 1em
+}
+
+  .ld-course-list-items .bb-course-meta a {
+    color: var(--dark-blue) !important;
+  }
+
+.learndash-pager-course_list .bp-pagination .bp-pagination-links .pag-data a {
+  color: var(--dark-blue) !important;
+}
+
+
+
+
+/*
+  =================================
+  A - REVIEW PLUGIN STAR RATING FIX
+  =================================
+*/
+.single-sfwd-courses .learndash-course-student-message .learndash-wrapper #ld-profile p{
+  margin: 0;
+}
+
+.single-sfwd-courses .learndash-course-student-message .learndash-wrapper #ld-profile .ld-item-list-item-preview .bb-sketch-expand-button + p {
+  flex: 1;
+}
+
+
+a.login-to-enroll {
+  display: none;
+}
+
+.review-split-percent-inner-2 {
+  background: #ffd300 !important;
+}
+
+
+.rating-container .filled-stars {
+  color: #ffd300 !important;
+  text-shadow: none !important;
+}
+
+  .rating-container .filled-stars .star i {
+    -webkit-text-stroke: 0;
+  }
+
+
+  .menu-item .ratings-after-title, .woocommerce-mini-cart .ratings-after-title{
+      display: none;
+  }
+
+.ratings-after-title {
+  display: flex;
+  align-items: center;
+  margin-top: .3em;
+}
+
+  .single-sfwd-lessons .ratings-after-title > span,
+  .single-sfwd-topic .ratings-after-title > span,
+  .single-sfwd-quiz .ratings-after-title > span {
+    font-size: 20px !important;
+  }
+
+  .ratings-after-title .rating-container.rating-sm + span{
+    margin-left: 8px;
+  }
+
+  .ratings-after-title > span:first-child {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+
+
+.wdm-review-replies .comment .comment-body{
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0;
+}
+
+.review-desc {
+  margin-top: 5px !important;
+}
+
+
+
+
+
+/*
+  =================================
+  A - REVIEW PLUGIN STAR RATING FIX
+  =================================
+*/
+.review-top-section .review-top-col:nth-child(3) {
+  display: none !important;
+}
+
+body.logged-in .review-top-section .review-top-col:nth-child(3) {
+  display: flex !important;
+}
+
+
+
+
+/*
+  =================================
+  A - SALES PAGE
+  =================================
+*/
+
+
+  /*SALES PAGE JUMBOTRON*/
+  .sale-jumbotron {
+  }
+
+    .sale-jumbotron__left {
+      padding: 1em;
+      position: relative;
+      background: var(--yellow) url('../img/bg_splatter.png') no-repeat;
+      background-position: top, top left;
+      /* background-size: cover;
+      background-attachment: fixed; */
+      text-align: center;
+    }
+      .sale-jumbotron__left:before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        left: 0;
+        bottom: 0;
+        border-right: 12vw solid transparent;
+        border-bottom: 12vw solid white;
+      }
+
+      .sale-jumbotron__left__triangle {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        left: 0;
+        bottom: 0;
+        border-right: 10vw solid transparent;
+        border-bottom: 10vw solid black;
+      }
+      
+      .sale-jumbotron__left__extended {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: black;
+        position: absolute;
+        bottom: 4.2em;
+        left: calc(50% - 160px);
+      }
+
+      .sale-jumbotron .btn--td {
+        display: inline-block;
+        background: black;
+        margin-bottom: 1em;
+        position: absolute;
+        bottom: 1em;
+        left: calc(50% - 95px);
+      }
+
+      .sale-jumbotron .sale-jumbotron__left__extended + .btn--td {
+        bottom: 0;
+      }
+
+      .sale-jumbotron__left img{
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+
+    .sale-jumbotron__right {
+      background: var(--dark-red);
+      padding: 2em 0;
+      text-align: center;
+      position: relative;
+    }
+
+      .sale-jumbotron__right div,
+      .sale-jumbotron__right span {
+        z-index: 1;
+        position: relative;
+      }
+
+      .sale-jumbotron__right__heading {
+        color:  white;
+        font-weight: bold;
+        font-size: 2.2em;
+      }
+
+      .sale-jumbotron__right div:nth-child(3) {
+        font-size: 1.8em !important;
+      }
+
+      .sale-jumbotron__right__caption {
+        color: var(--yellow);
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-bottom: 1.5em;
+        margin-top: .5em;
+      }
+
+      .sale-jumbotron__right > div:last-child {
+        font-weight: bold;
+        color: var(--yellow);
+        font-size: 1em;
+        line-height: 1.3em;
+        padding: 0 1em;
+      }
+
+      .sale-jumbotron__right > div:last-child {
+        max-width: 600px;
+        margin: 1em auto 0 auto;
+      }
+
+
+      /*SALES PAGE JUMBOTRON COUNTDOWN TIMER*/
+      
+      .promo-countdown--sjumbotron {
+        color: white;
+        font-weight: bold;
+        margin: 0 auto 0 auto;
+        width: 100%;
+        min-width: 320px;
+        max-width: 400px;
+      }
+
+      .promo-countdown--sjumbotron .promo-countdown__text {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+
+      .promo-countdown--sjumbotron .promo-countdown__timer > span div:last-child{
+        color: white;
+      }
+  
+  
+  /* PROMO OF THE WEEK */
+  .sale-promoweek {
+    background: black;
+    position: relative;
+    padding: 0 1em;
+  }
+
+    .sale-promoweek:before {
+      content: '';
+/*       background: url('../img/bg_splatter2.png') no-repeat; */
+	  background: url('/wp-content/uploads/2023/04/promotion-background-scaled.jpg');
+/*       opacity: 0.1; */
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: 50% 0;
+      z-index: 0;
+    }
+
+    .sale-promoweek-container {
+      max-width: 1370px;
+      padding: 3em 0;
+      margin: 0 auto;    
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+
+      .sale-promoweek__info {
+        margin-bottom: 2em;
+      }
+        
+        .sale-promoweek_info__link {
+          text-align: center;
+        }
+        .sale-promoweek__info header {  
+          margin-bottom: 60px;
+        }
+        
+          .sale-promoweek__info header span{
+            background: var(--dark-red);
+            padding: 1em 1.5em;
+            font-weight: bold;
+            position: relative;
+          }
+
+          .sale-promoweek__info header span:before {
+            content: '';
+            position: absolute;
+            background: url(../img/icon_redribbon.png);
+            width: 157px;
+            height: 62px;
+            top: 20px;
+            left: -92px;
+            z-index: -1;
+          }
+
+          .sale-promoweek__info header span:after {
+            content: '';
+            width: 0;
+            height: 0;
+            position: absolute;
+            right: -30px;
+            top: 0;
+            border-top: 26px solid transparent;
+            border-left: 30px solid var(--dark-red);
+            border-bottom: 23px solid transparent;
+          }
+
+          .sale-promoweek__info__title {
+           /* border: 5px dashed var(--dark-red);*/
+            padding: 1em;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1em;
+/* 			background: url('https://portal.tutorialsdojo.com/wp-content/uploads/2022/11/promoweek_title_background.gif'); */
+			/*background-repeat: no-repeat;*/
+			text-shadow: 1px 1px grey;
+			box-shadow: 2px 2px 20px black;
+			border-radius: 50px;
+			background-size: 100% 100%;
+			background-image: url('/wp-content/uploads/2023/01/promotions_bg.png');
+			
+			
+          }
+
+          .sale-promoweek__info .btn--td {
+            padding: .7em 2em;
+			box-shadow: 0px 8px 15px black;
+          }
+
+
+      .popup-mechanics--promoweek {
+        background: transparent;
+        padding: 0 !important;
+        border-radius: unset;
+		 
+      }
+
+        .popup-mechanics--promoweek h3 {
+          color: white;
+          margin-bottom: .5em;
+        }
+
+        .popup-mechanics--promoweek table {
+          background: white;
+          color: black;
+/*           margin: 0 0 1em 0!important; */
+        }
+          
+          .popup-mechanics--promoweek table tr td:first-child {
+            padding: 0 0.5em;
+          }
+        
+
+  .promo-countdown--spromoweek {
+    margin-bottom: 3em;
+  }
+
+    .promo-countdown--spromoweek .promo-countdown__text{
+      color: white;
+      margin-top: 1em;
+    }
+
+    .promo-countdown--spromoweek .promo-countdown__timer {
+      margin: 1em 0;
+    }
+
+      .promo-countdown--spromoweek .promo-countdown__timer > span div:last-child{
+        color: white;
+      }
+
+
+
+  .sale-promomonth {
+    background: #FEFCA7;
+    color: black;
+    position: relative;
+    padding: 3em 1em;
+  }
+
+    .sale-promomonth:before{
+      content: '';
+      background: url('../img/bg_splatter.png') no-repeat;
+      opacity: 0.2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: 50% 0;
+      z-index: 0;
+    }
+
+    .sale-promomonth article {
+      margin: 0 auto;
+      max-width: 1024px;
+      position: relative;    
+      z-index: 1;
+    }
+
+    .sale-promomonth-titleBox {
+      width: 100%;
+      max-width: 1270px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .sale-promomonth-titleBox > span {
+      position: relative;
+      background: var(--dark-red);
+      padding: 1em 1.5em 1em 2.5em;
+      transform: rotate(-5deg);
+      border-radius: 15px;
+      color: white;
+      display: block;
+      width: 320px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+      .sale-promomonth-titleBox:before {
+        content: '';
+        width: 116px;
+        height: 64px;
+        background: url(../img/icon_string.png) no-repeat;
+        background-size: 78% auto;
+        position: absolute;
+        top: 22px;
+        left: -63px;
+        z-index: 1000;
+      }
+
+      .sale-promomonth-titleBox > span:before {
+        content: '';
+        width: 15px;
+        height: 15px;
+        background: white;
+        border-radius: 50%;
+        border: 1px solid var(--dark-blue);
+        position: absolute;
+        top: calc(50% - 7px);
+        left: 1em;
+      }
+
+      .sale-promomonth-titleBox > span:after {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 2.5%;
+        width: 95%;
+        height: 80%;
+        border: 3px dashed white;
+        border-radius: 10px;
+      }
+
+    .popup-mechanics--promomonth {
+      background: transparent;
+      position: relative;
+      z-index: 1;
+      margin-top: 1em;
+    }
+
+      .popup-mechanics--promomonth table {
+        background: white;
+        margin-bottom: 2em;
+      }
+
+      .popup-mechanics--promomonth table tr:first-child {
+        color: var(--dark-blue);
+        background: var(--light-gray);
+        font-weight: bold;
+      }
+
+      .popup-mechanics--promomonth table tr:first-child td:last-child {
+        color: white;
+        background: var(--dark-red);
+      }
+
+      .popup-mechanics--promomonth table tr td:nth-last-child(2) {
+        font-weight: bold;
+      }
+
+      .popup-mechanics--promomonth ul li {
+        margin-bottom: .5em;
+      }
+
+
+
+
+
+
+/*
+      =========================================
+      A - POPUP MENU FOR BLACK FRIDAY SALE
+      =========================================
+
+*/
+
+.popup-mechanics .sale-promoweek__info header {
+  margin-top: 1.5em;
+}
+
+.popup-mechanics .sale-promoweek__info header span{
+  font-size: 1.2em;
+  color: white;
+  z-index: 10000;
+}
+
+.popup-mechanics .sale-promoweek__info header span:before {
+  z-index: -1;
+}
+
+.promo-countdown--popup {
+  margin-top: -2em;
+}
+
+.promo-countdown--popup .promo-countdown__text {
+/* 	color: white !important; */
+}
+
+.popup-meta > img {
+  margin-bottom: 1em;
+}
+
+.promo-countdown__timer {
+/*   color: black; */
+}
+
+
+/*
+  =========================================
+  A - POPUP MENU FOR VALENTINE PROMO
+  =========================================
+*/
+.promo-countdown--popup .promo-countdown__text { 
+/*   color: white; */
+  font-family: 'Timmana', sans-serif;
+  font-weight: lighter;
+}
+
+.promo-countdown--popup .promo-countdown__timer > span > div:last-child {
+  font-family: 'Timmana', sans-serif;
+  font-weight: lighter;
+/* 	color:white; */
+}
+
+.popup-box .btn--td {
+  background: var(--yellow);
+  color: var(--dark-blue);
+  font-weight: bold;
+  /*margin-top: 3em;*/
+  background: #fd0000 !important;
+  color: #fbfbfc !important;
+  box-shadow: 0px 8px 15px black;
+/*margin-left: -380px; */
+}
+@media only screen and (max-width: 600px){
+	.popup-box .btn--td{
+		margin: auto;
+	}
+}
+/*
+  =========================================
+   VALENTINE'S SALE RIGHT POPUP
+  =========================================
+*/
+ .thumbnail01 {
+  position: relative;
+  left: 27px;
+  border: 1px solid red;
+  width: 180px;
+  Height: 180px;
+  top: 83px;
+}
+.descriptionthumbnail01 {
+  position: relative;
+  left: 5px;
+  top: 11px;
+  text-align: center;
+	font-size: smaller;
+}
+
+@media only screen and (max-width: 600px) {
+  .thumbnail01  {
+    position: relative;
+  	left: 31px;
+	border: 1px solid red;
+  	width: 180px;
+  	Height: 180px;
+  	top: 30px;
+  }
+}
+.thumbnail02 {
+  position: relative;
+  left: 224px;
+  border: 1px solid red;
+  width: 180px;
+  Height: 180px;
+  Top: -98px;
+}
+@media only screen and (max-width: 600px) {
+  .thumbnail02  {
+    position: relative;
+	border: 1px solid red;
+  	width: 180px;
+  	Height: 180px;
+  	margin-Top: 310px;
+    margin-left: -190px;
+}
+  }
+
+.descriptionthumbnail02 {
+  position: relative;
+  left: 0px;
+  top: 10px;
+  text-align: center;
+	font-size: smaller;
+}
+.thumbnail03 {
+position: relative;
+  left: 420px;
+  border: 1px solid red;
+  width: 180px;
+  Height: 180px;
+  Top: -279px;
+}
+.descriptionthumbnail03 {
+  position: relative;
+  left: 2px;
+  top: 10px;
+  text-align: center;
+	font-size: smaller;
+}
+@media only screen and (max-width: 600px) {
+  .thumbnail03  {
+    position: relative;
+	border: 1px solid red;
+  	width: 180px;
+  	Height: 180px;
+  	margin-Top: 400px;
+    margin-left: -386px;
+}
+  }
+.valbutton {
+  position: relative;
+  top: -75px;
+  left: 229px;
+  width: 180px;
+  Height: 60px;
+}
+@media only screen and (max-width: 600px) {
+  .valbutton  {
+    position: relative;
+  	width: 180px;
+  	Height: 180px;
+  	margin-Top: -10px;
+    margin-left: -190px !important;
+}
+  }
+
+/*
+  =========================================
+    A - ALIGN QUIZ STAT TABLE ROW NUMBERS
+  =========================================
+*/
+
+#wpProQuiz_user_content table.wp-list-table tbody tr th:first-child {
+  vertical-align: top;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - ALIGN QUIZ STAT TABLE ROW NUMBERS
+  =========================================
+*/
+
+.course-progress-paging {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .5em;
+}
+
+.course-progress-paging button {
+  background: none;
+  color: var(--blue);
+  padding: 0.5em;
+  border-radius: unset;
+}
+
+  .course-progress-paging__page--current {
+    background: var(--blue) !important;
+    color: white !important;
+  }
+
+
+
+.awdr_cart_strikeout_line {
+  display: inline;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - MESSAGE BOX SELECT
+  =========================================
+*/
+.learndash-theme #send_message_form .select2.select2-container.select2-container--default {
+  max-width: 100% !important;
+  margin: 0;
+}
+
+
+/*
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewDiv li.wpProQuiz_reviewQuestionTarget, 
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewQuestion_Target {
+  outline: none;
+}
+*/
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix Quiz Summary Box manually
+  =========================================
+*/
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li {
+  list-style-type: none;
+  float: left;
+  margin: 0 5px 5px 0;
+  box-shadow: 0 0;
+  border: 0;
+  /* background-color: #fff;*/
+  cursor: pointer;
+  list-style-type: none;
+  background-image: none;
+}
+
+.wpProQuiz_content .wpProQuiz_box > ol, .wpProQuiz_content .wpProQuiz_reviewDiv .wpProQuiz_reviewQuestion > ol {
+
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 12px 0 5px;
+  zoom: 1;
+  position: relative;
+  border: 0;
+
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Radio buttons for hotspot
+  =========================================
+*/
+.bb-radio .bb-radio-help:before {
+  border-radius: 50%;
+}
+.bb-radio .bb-radio-help:after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 14px;
+  height: 13.5px;
+  display: inline-block;
+  background-color: #007CFF;
+  border-radius: 50%;
+  opacity: 0;
+}
+.bb-radio input[type=radio]:checked + .bb-radio-help:after {
+  opacity: 1;
+}
+
+.iradio_minimal {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  background-color: #fff;
+  border: 3px solid #D6DCE6;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+.iradio_minimal.checked:after {
+  content: '';
+  background-color: #007CFF;
+  margin: auto;
+  width: 14px;
+  position: absolute;
+  height: 13.5px;
+  text-align: center;
+  left: 2px;
+  top: 2px;
+  border-radius: 100%;
+}
+.iradio_minimal.disabled {
+  cursor: default;
+}
+.iradio_minimal.disabled:after {
+  content: '';
+  background-color: #A1ADBF;
+  margin: auto;
+  width: 14px;
+  position: absolute;
+  height: 13.5px;
+  text-align: center;
+  left: 2px;
+  top: 2px;
+  border-radius: 100%;
+}
+.iradio_minimal.checked.disabled {
+  opacity: 0.6;
+}
+.iradio_minimal.checked.disabled:after {
+  background-color: #007CFF;
+}
+
+.hotspot_question_options {
+  padding-right: 1rem !important;
+}
+
+.hotspot_question_options .iradio_minimal.checked:after {
+  width: 12px;
+  height: 12px;
+}
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix radio buttons for single and hotspot
+  =========================================
+*/
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem .input-style {
+  border: 2px solid #d6dce6;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Align header sub menu to right
+  =========================================
+*/
+.user-wrap.menu-item-has-children #header-my-account-menu .ab-submenu {
+  right: -150px;
+  left: unset;
+}
+
+.header-aside .wrapper .bb-sub-menu {
+  width: 150px;
+}
+
+.header-aside .wrapper li .wrapper::before {
+  box-shadow: none;
+  left: -5px;
+  right: 0;
+  z-index: -1;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix alignment of single and multiple type question
+  =========================================
+*/
+.wpProQuiz_content .wpProQuiz_questionList[data-type="single"] li.wpProQuiz_questionListItem label {
+  display: flex;
+}
+
+.wpProQuiz_content .wpProQuiz_questionList[data-type="multiple"] li.wpProQuiz_questionListItem label {
+  display: flex;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix alignment of single and multiple type question
+  =========================================
+*/
+.learndash-wrapper .ld-lesson-status {
+  background: none;
+}
+
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix top margin in course page progress bar
+  =========================================
+*/
+.single-sfwd-courses .learndash-wrapper .ld-item-list .ld-item-list-item {
+  margin: 0 !important;
+}
+
+
+
+
+/*
+  =========================================
+    A - bbchildv2 - Fix top margin in course page progress bar
+  =========================================
+*/
+.bb-single-reply-list {
+  display: none;
+}
+
+
+/*
+============================
+BUNDLE PAGES CUSTOMIZATIONS
+============================
+*/
+
+.wp-block-button.aligncenter{
+	margin-bottom: 5em;
+}
+
+.wc-block-grid__products .wc-block-grid__product-image img{
+	width: 60% !important;
+}
+
+.page-id-261780 .entry-title, .page-id-261779 .entry-title, .page-id-276221 .entry-title, .page-id-276222 .entry-title{
+	display: none;
+}
+
+.wc-block-grid__products{
+	justify-content: center;
+}
+
+.wp-block-button__link{
+	font-size: 14px !important;
+    /*width: 17% !important;*/
+    font-weight: bold;
+}
+
+.wp-block-button__link span{
+    background: url("../img/cart-73-24.ico") no-repeat;
+    float: left;
+    width: 26px;
+    height: 23px;
+}
+
+.page-id-24792 .woocommerce .woocommerce-message{
+	display: none;
+}
+
+.popup-mechanics .page-title{
+    margin: -45px 0px 20px 0px !important;
+}
+
+
+
+
+/*
+ =========================================
+   A - Black Friday 2021
+ =========================================         
+*/
+.site-main.page-sale {
+  font-family: "Timmana", Sans-serif;
+}
+
+  .sale-jumbotron {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+.sale-jumbotron__top {
+      /*padding: 2em 0;*/
+      color: white;
+      text-align: center;
+      /*background: var(--bg-gray) url('../img/bg_jumbotron_blackFriday.png');*/
+      background: var(--bg-gray) url('https://portal.tutorialsdojo.com/wp-content/uploads/2021/11/bg_cybermonday.png');
+      /*background-repeat: no-repeat;*/
+      background-position: center;
+      /*background-size: cover;*/
+    }
+
+      .sale-jumbotron__top__black {
+        font-size: 7em;
+        line-height: 1.2em;
+        margin: 16px 0 0 0;
+      }
+    
+      .sale-jumbotron__top__friday {
+        font-size: 6.8em;
+        margin: 0 0 16px 0;
+      }
+      
+      .sale-jumbotron__top__heading {
+        font-size: 1.7em;
+        font-family: 'Brush Script MT', Sans-Serif;
+ 	  }
+
+        .sale-jumbotron__top__bigSale {
+          background: var(--dark-red);
+          padding: 5px;
+          font-family: Arial;
+          text-transform: uppercase;
+          font-size: .5em;
+          border-radius: 5px;
+          font-weight: bold;
+        }
+      
+        .sale-jumbotron__top__link {
+          display: block;
+          margin: 2em 3em;
+          position: relative;
+        }
+        
+          .sale-jumbotron__top__link .btn--td {
+            position: relative;
+            left: unset;
+            display: inline-flex;
+            margin: 0;
+            bottom: unset;
+            font-size: 1.5em;
+            padding: .7em 1.5em .2em 1.5em;
+          }
+
+          .sale-jumbotron__top__link .btn--td .bb-icon-shopping-cart {
+            font-size: .7em;
+            margin-right: .8em;
+          }
+
+          .sale-jumbotron__img {
+            position: absolute;
+            right: calc(50% - 200px);
+            top: -38px;
+            width: 90px;
+          }
+
+      .sale-jumbotron__top__description {
+        font-size: 1.2em;
+        padding: 0 .5em;
+        margin-top: 1em;
+      }
+
+    .sale-jumbotron__bottom {
+      background: var(--dark-red);
+      padding: 2em 0;
+    }
+     .sale-jumbotron__bottom .promo-countdown__text {
+       text-align: center;
+       font-size: 1.5em;
+     }
+
+     .sale-jumbotron__bottom .promo-countdown__timer {
+       font-family: 'SF UI Text', sans-serif;
+     }
+
+     .sale-jumbotron__bottom .promo-countdown--sjumbotron .promo-countdown__text {
+       margin-bottom: 1em;
+     }
+
+
+
+  .sale-promoweek {
+    background: none;
+    color: black;
+    font-size: 1.2em;
+  }
+
+  /*  .sale-promoweek-container {
+      color: black;
+    }*/
+
+    .sale-promoweek__info header {
+      color: white;
+    }
+      .sale-promoweek__info header span {
+        padding: .35em 1.5em;
+        font-size: 1.1em;
+      }
+
+  .popup-mechanics--promoweek h3 {
+    color: black;
+    font-family: 'Timmana', sans-serif;
+    font-size: 1.2em;
+  }
+  
+  .popup-mechanics--promoweek p {
+    margin: 0 0 .5em;
+    line-height: 1.4em;
+  }
+
+  .promo-countdown--spromoweek .promo-countdown__timer > span div:last-child,
+  .promo-countdown--spromoweek .promo-countdown__text {
+    color: black!important;
+  }
+
+
+  .sale-promomonth {
+    font-size: 1.2em;
+  }
+    .sale-promomonth .popup-mechanics--promomonth p:first-child {
+      font-size: 1.3em;
+    }
+
+    .sale-promomonth .popup-mechanics--promomonth p {
+      line-height: 1.3em;
+    }
+
+    .sale-promomonth:before {
+      background: url('../img/bg_monthlongpromo.png');
+      background-repeat: repeat-y;
+      opacity: 0.4;
+      background-size: 80%;
+      background-position: top center;
+    }
+
+    .sale-promomonth-titleBox {
+      font-size: 1.2em;
+    }
+
+
+  .sale-bundles {
+    background: var(--bg-gray);
+  }
+
+    .sale-bundles__container {
+      color: white;
+      padding: 4em 2.5em 3em;
+    }
+
+      .sale-bundles__text {
+        margin: 3em 0 0 0;
+        font-size: 1.2em;
+      }
+
+      .sale-bundles__text__heading {
+        font-size: 1.5em;
+      }
+
+      .sale-bundles__text__savings {
+        line-height: 1.5em;
+        margin: 1em 0 1.5em 0;
+      }
+
+      .sale-bundles__text__link .btn--td {
+        padding: .8em 1.5em .4em 1.5em;
+      }
+
+  
+  .sales-tables {
+    margin-top: 3em;
+  }
+
+  .sales-tables__header {
+    text-align: center;
+  }
+
+    .sale-tables__container {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+    
+      .sales-tables__col {
+        text-align: center;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        /*flex: 0 0 auto;*/
+        margin-top: 1em;
+      }
+
+        .sales-tables__col img{
+          width: unset;
+          /*max-width: none;*/
+          height: unset;
+        }
+
+    .sales-tables__description {
+      line-height: 1.6em;
+      font-size: 1.4em;
+      color: black;
+      padding: 1em
+    }
+
+      .sales-tables__description a {
+        color: var(--dark-red);
+      }
+    
+   /*QUICK FIX*/
+   .sale-promoweek__info__link .btn--td {
+   	 padding: .5em 2em .3em 2em;
+   }
+   
+   .popup .sale-promoweek__info header span {
+   	 padding: .75em 1.5em .45em 1.5em
+   }
+   
+   .promo-countdown--popup .promo-countdown__text {
+/*   margin-top:80px; */
+	 margin-top: 170px;
+/* 	 margin-top: 195px; */
+     font-size: 1.3em;
+	 color: black !important; 
+/* 	 color: white !important; */
+   }
+
+	/* MID YEAR SALE JUNE 2023 */
+		@media only screen and (max-width: 967px){
+			.promo-countdown--popup .promo-countdown__text {
+/* 			margin-top: 55px; */
+			margin-top: 60px;
+			font-size: 1.3em;
+/* 			color: white !important;  */
+		   }
+		}
+   
+   .promo-countdown--popup .promo-countdown__timer > span > div:last-child {
+	   color: black !important;  
+/* 	   color: #fff !important;  */
+   }
+   
+   .popup-meta {
+   	  background: url(../img/confetti.png), linear-gradient(black, #383030);
+      background-size: contain;
+   }
+   
+  .sale-promomonth {
+    padding: 2em 0 0 0;
+  }
+   
+   /*BLACK FRIDAY MONTH LONG TABLE */
+   
+   .popup .popup-mechanics,
+   .popup-mechanics--promomonth {
+   	font-size: 1.1em;
+    font-family: 'Timmana', Sans-serif;
+/*  	background-image: url('/wp-content/uploads/2025/03/TD_Azure-Sale-BG.jpg'); */
+	background-color:white;
+    background-repeat: no-repeat;
+    background-size: cover;
+   }
+   
+   .popup .popup-mechanics h3 {
+   	 font-family: 'Timmana', Sans-serif;
+   }
+   
+   .popup-mechanics table {
+   	 background: transparent;
+     margin-bottom: 1.5em;
+	   
+	 /* 	   table: box-shadow */
+/* 	box-shadow: 5px 10px 15px #7272729c; */
+/* 	box-shadow: 10px 10px 15px #ffffff9c; */
+	box-shadow: 5px 10px 15px #00000075;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 20px;
+   }
+   
+   .popup-mechanics table tr:first-child {
+   	 background: transparent;
+   }
+   
+   .popup-mechanics table tr td{
+/*  background: var(--dark-red); */
+	background: white;
+	color: black;
+/*  color: white; */
+    padding: .8em 0 .3em 0 !important;
+   }
+   
+   .popup-mechanics table tr:first-child td {
+   	 background: black;
+	 background-size: 100% 100%;
+   }
+   
+   .popup-mechanics table tr:not(:first-child) td:last-child {
+   	 background: dark-red;
+     color: white;
+     
+   }
+   
+   .popup-mechanics table tr:first-child td:first-child {
+   	 border-top-left-radius: 10px;
+   }
+   
+   .popup-mechanics table tr:first-child td:last-child {
+   	 border-top-right-radius: 30px;
+     background: black;
+     color: white;
+   }
+   
+   .popup-mechanics table tr:last-child td:first-child {
+   	 border-bottom-left-radius: 30px;
+   }
+   
+   .popup-mechanics table tr:last-child td:last-child {
+   	 border-bottom-right-radius: 10px;
+   }
+   
+   .popup-mechanics table tr td:first-child {
+   	 flex: 0 0 50%; 
+   }
+   
+   
+   /*Countdown Timer Fix*/
+   
+   .sale-promoweek__info .promo-countdown__timer > span div:first-child span {
+   	 top: calc(50% - 0.3em);
+     left: calc(50% - 0.45em);
+   }
+   
+   .sale-promoweek__info .btn--td {
+     padding: 0.7em 2em 0.2em;
+   }
+
+
+
+
+
+/* UDM VS TD TABLE */
+
+.page-id-24508 ul{
+    list-style: none;
+    padding: 0px;
+}
+
+.page-id-32866 ul{
+	list-style: none;
+    padding: 0px;
+}
+
+.page-id-24508 td:last-child, th:last-child{
+		padding-right: 11px !important;
+	}
+    
+ .page-id-32866 td:last-child, th:last-child{
+		padding-right: 12px !important;
+	}
+
+.page-id-24508 td{
+    text-align: center;
+}
+
+.page-id-32866 td{
+	text-align: center;
+}
+
+.page-id-32866 .udm-vs-td-header p{
+	margin-bottom: 0px !important;
+}
+
+.udm-vs-td-body{
+    background-color: #EBEBEB;
+    padding: 1em 2em 2.5em 2em;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    max-width: 1170px;
+}
+
+.udm-vs-td-body-2{
+    background-color: #EBEBEB;
+    padding: 1em 2em 2.5em 2em;
+    font-family: 'Open Sans', sans-serif;
+    width: 82%;
+    max-width: 1170px;
+    margin-left: 6em;
+}
+
+.udm-vs-tbl-body{
+    margin-top: 3em;
+    border-collapse:separate; 
+    border-spacing:10px 0px;
+	border: 5px solid #434343;
+    padding: 9px 0px 9px 0px;
+}
+
+.udm-vs-td-body-mobile{
+	display: none;
+    background-color: #D8D8D8;
+    padding: 1em 2em 2.5em 2em;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    max-width: 1170px;
+}
+
+.udm-vs-tbl-body-mobile{
+	display: none;
+    margin-top: 3em;
+    border-collapse:separate; 
+    border-spacing:10px 0px;
+}
+
+.udm-vs-td-title{
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 7px solid #3D3D3D;
+    color: #3D3D3D;
+    margin: 0px;
+}
+
+.udm-title{
+    font-size: 45px;
+    margin-bottom: 10px;
+    font-weight: 900;
+	color: #3D3D3D;
+	line-height: 1;
+}
+
+.udm-title-2{
+	font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: 900;
+    color: #3D3D3D;
+    line-height: 1;
+}
+
+.udm-subtitle{
+    font-size: 22px;
+    margin-bottom: 10px;
+    padding-left: 1em;
+	padding-top: 1em;
+    text-align: right;
+	line-height: 1;
+}
+
+.udm-subtitle-2{
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 1em;
+    padding-top: 1em;
+    text-align: right;
+    line-height: 1;
+}
+
+.udm-vs-td-title li{
+    flex: 50%;
+}
+
+.udm-vs-td-header{
+    vertical-align: middle;
+    background-color: #000080;
+    color: white;
+    padding: 5px;
+    font-size: 17px;
+    width: 10%;
+	line-height: 1;
+    
+}
+
+.udm-vs-td-left-panel {
+    background-color: #000080;
+    color: white;
+    width: 15%;
+    border-right: 2px solid #000000;
+    border-left: 3px solid #000000;
+    font-size: 15px !important;
+    padding: 1px 0px 1px 0px;
+    vertical-align: middle;
+    line-height: 1;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: -1px;
+    border-bottom: 2px solid black;
+}
+
+.udm-vs-td-left-panel-2 {
+    background-color: #0F5725;
+    color: white;
+    width: 10%;
+    border-right: 2px solid #000000;
+    border-left: 3px solid #000000;
+    font-size: 15px !important;
+    padding: 1px 0px 1px 0px;
+    vertical-align: middle;
+    line-height: 1;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: -1px;
+    border-bottom: 2px solid black;
+}
+
+.sub-title{
+    font-size: 12px !important;
+	line-height: 1;
+}
+
+.udm-vs-td-sub-header{
+    background-color: #EBEBEB;
+    color: black;
+    padding-top: 7px;
+    padding-bottom: 7px;
+	vertical-align: middle;
+	line-height: 1;
+}
+
+.udm-vs-td-sub-header span{
+	font-size: 12px;
+}
+
+.udm-vs-td-content{
+    background-color: #EBEBEB;
+    color: black;
+    padding-top: 8px;
+    padding-bottom: 8px;
+	vertical-align: middle;
+	line-height: 1;
+    font-size: 14px;
+}
+
+.udm-vs-td-content span{
+    font-size: 11px;
+}
+
+.page-id-24508 .udm-vs-td-content span{
+    font-weight: 700;
+}
+
+
+/*
+ =========================================
+   A - Remove separator in header if countdown timer is off
+ =========================================         
+*/
+.promotion-header__box p {
+	border-right: 1px solid white;
+}
+
+
+
+/*
+ =========================================
+   A - Fix course page sidebar timer 
+ =========================================         
+*/
+.td-sale-price {
+  margin-bottom: 0;
+}
+
+.single-sfwd-courses .bb-enroll-widget .promo-countdown__text {
+  margin-top:.5em;
+	color:black!important;
+}
+
+.bb-enroll-widget .promo-countdown__timer > span > div:last-child {
+	color: black!important;	
+}
+
+.summary.entry-summary .promo-countdown__text{
+	color: black!important;
+}
+
+.summary.entry-summary .promo-countdown__timer > span > div:last-child{
+	color: black!important;
+}
+
+.bb-course-volume {
+  margin-top: 3em;
+}
+
+
+
+/* UDM VS TD TABLE MOBILE*/
+
+@media only screen and (max-width: 500px){
+/* LYKA ADDED UNTIL HERE */
+	.elementor-33635 .elementor-element.elementor-element-4ad2faa > .elementor-widget-container {
+    	margin: 0 !important;
+    }
+
+    .udm-vs-td-body{
+        padding: 0px;
+    }
+
+    .udm-vs-tbl-body{
+        margin-top: 0em;
+    }
+    
+    .page-id-32866 .udm-vs-td-title{
+		margin-left: 0px;    
+    }
+
+    .udm-vs-td-header{
+        font-size: 9px;
+        padding: 1px;
+    }
+
+    .sub-title{
+        font-size: 9px !important;
+    }
+
+    .udm-vs-td-sub-header{
+        font-size: 11px;
+    }
+
+    .udm-vs-td-sub-header span{
+        font-size: 9px;
+    }
+
+    .udm-vs-td-left-panel{
+        font-size: 10px !important;
+        padding: 1px;
+    }
+
+    .udm-vs-td-content{
+        font-size: 9px;
+    }
+
+    .udm-vs-td-content span{
+        font-size: 8px;
+    }
+
+    .udm-vs-td-content img{
+        width: 18%;
+    }
+
+    .udm-vs-tbl-body{
+        border-spacing: 3px 0px;
+    }
+
+    .udm-title{
+        font-size: 18px;
+    }
+
+    .udm-subtitle{
+        font-size: 10px;
+        padding-left: 0px;
+    }
+	
+	.sale-promoweek__info header span:before{
+		width: 157px;
+	}
+	
+/* 	.sale-promoweek__info header span:after{
+		right: -122px!important;
+	} */
+	
+	.popup .sale-promoweek__info header span{
+		padding: 0.75em 0.5em .55em 1.5em;
+	}
+
+}
+
+
+@media only screen and (max-width: 425px){
+/* 	===================== */
+/* 	NEW YEAR SALE START */
+/* 	===================== */
+	.promo-countdown--popup {
+    	margin-top: 1.5em!important;
+        margin-bottom: 10px!important;
+	}
+	.ny-mechanics p{
+		font-size: 20px!important;
+	}
+
+	.popup-mechanics{
+		padding-top: 0!important;
+	}
+
+	.popup-meta{
+/* 		Comment this for Modified POPUP - Left hand only */
+/* 		background-position: 0 -50px!important; */
+	}
+
+	.sale-course-description .price{
+	  margin-top: 7px;
+	}	
+/* 	===================== */
+/* 	NEW YEAR SALE END */
+/* 	===================== */
+	.page-id-24508 td:last-child, th:last-child{
+		padding: 7px !important;
+	}
+	
+	.udm-vs-td-body-mobile{
+        display: block;
+		padding: 0px;
+    }
+
+    .udm-vs-tbl-body-mobile{
+		margin-top: 1em;
+        display: block;
+		border-spacing: 6px 0px;
+		border: 2px solid #434343;
+		padding: 5px 0px 5px 0px;
+    }
+	
+	.udm-vs-td-body{
+        display: none;
+    }
+
+    .udm-vs-td-body-2{
+    	display: none;
+    }
+
+    .udm-vs-tbl-body{
+        display: none;
+    }
+
+    .udm-vs-td-header{
+        font-size: 8px;
+        padding: 5px;
+    }
+
+    .sub-title{
+        font-size: 7px !important;
+    }
+
+    .udm-vs-td-sub-header{
+        font-size: 9px;
+    }
+
+    .udm-vs-td-sub-header span{
+        font-size: 8px;
+    }
+
+    .udm-vs-td-left-panel{
+        font-size: 9px !important;
+        padding: 1px;
+    }
+
+    .udm-vs-td-content{
+        font-size: 9px;
+    }
+
+    .udm-vs-td-content span{
+        font-size: 8px;
+    }
+
+    .udm-vs-td-content img{
+        width: 17%;
+    }
+
+    .udm-vs-tbl-body{
+        border-spacing: 3px 0px;
+    }
+
+    .udm-title{
+		font-size: 19px;
+	}
+	
+    .udm-subtitle{
+        font-size: 10px;
+        padding-left: 0px;
+    }
+
+}
+	
+@media only screen and (max-width: 325px){
+	.udm-vs-td-body-mobile{
+    	width: 113%;
+		margin-left: -20px;
+    }
+	
+	.page-id-24508 .elementor-widget-container{
+		margin-top: -57px;
+	}
+	
+	.udm-title{
+		font-size: 15px;
+	}
+	
+    .udm-subtitle{
+        font-size: 9px;
+    }
+	
+	.udm-vs-td-sub-header{
+		padding: 0px;
+	}
+	
+	.udm-vs-td-content{
+		padding: 2px;
+	}
+	
+	.sale-promoweek__info header span:before{
+		width: 92px;
+	}
+	
+	.sale-promoweek__info header span:after{
+		right: -115px!important;
+	}
+	
+	.popup .sale-promoweek__info header span{
+		padding: 0.75em 0.5em .55em 1.5em;
+	}
+	
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+    .wp-block-button__link{
+    	width: 23% !important;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .wp-block-button__link{
+    	width: 30% !important;
+    }
+	
+	.woocommerce ul.products {
+    	margin-left: 0 !important;
+    	margin-right: 0 !important;
+  	}
+	
+	.sale-promoweek__info header span:after{
+		right: -29px;
+	}
+	
+	.popup .sale-promoweek__info header span{
+		padding: 1.25em 1.5em!important;
+		font-size: smaller ;
+	}
+	
+}
+
+@media only screen and (max-width: 500px) {
+    .wp-block-button__link{
+    	width: 45% !important;
+    }
+    
+    .page-id-261780 .product-cat-title{
+    	font-size: 30px;
+    }
+
+    .page-id-24792 .product-cat-title{
+    	font-size: 30px;
+    }
+    
+    .page-id-261780 .bundle-title{
+    	text-align: center !important;
+    }
+    
+    .page-id-24792 .bundle-title{
+    	text-align: center !important;
+    }
+
+    .page-id-261780 .content-area{
+        padding-top: 0;
+    }
+
+    .page-id-24792 .content-area{
+        padding-top: 0;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .wp-block-button__link{
+    	width: 55% !important;
+    }
+    
+    .page-id-261780 .bundle-title{
+    	font-size: 20px !important;
+        line-height: 20px;
+    }
+
+    .page-id-24792 .bundle-title{
+    	font-size: 20px !important;
+        line-height: 20px;
+    }
+    
+    .page-id-261780 .product-cat-title{
+    	font-size: 25px;
+    }
+
+    .page-id-24792 .product-cat-title{
+    	font-size: 25px;
+    }
+    
+    .page-id-261780 .page-title{
+        line-height: 25px;
+        transform: translate(0px, -20px);
+    }
+
+    .page-id-261779 .page-title{
+        line-height: 25px;
+        transform: translate(0px, -45px);
+    }
+    
+    .page-id-261780 .woocommerce-notices-wrapper, .woocommerce-info{
+    	margin-top: -1.5em !important;
+    }
+
+    .page-id-261779 .woocommerce-notices-wrapper, .woocommerce-info{
+    	margin-top: -1.5em !important;
+    }
+	
+	/*Early Access Popup Mobile View*/
+
+
+    .early-access-popup{
+        font-size: 25px;
+    }
+
+    .early-access-popup .a-1{
+        font-size: 25px !important;
+    }
+
+    .early-access-popup-exciting{
+        font-size: 27px;
+    }
+
+    .early-access-popup-double{
+        font-size: 23px;
+    }
+
+    .early-access-popup-triple{
+        font-size: 23px;
+    }
+
+    .early-access-popup-for{
+        font-size: 20px;
+    }
+
+    .early-access-popup-note{
+        font-size: 18px;
+        line-height: 1.2;
+    }
+}
+
+@media only screen and (max-width: 375px){
+    .early-access-popup{
+		font-size: 20px !important;
+		line-height: 1;
+	}
+	
+	.early-access-popup .a-1{
+		font-size: 21px !important;
+	}
+	
+	.early-access-popup-exciting{
+		font-size: 22px;
+	}
+	
+	.early-access-popup-double{
+		font-size: 17px;
+		line-height: 1;
+	}
+	
+	.early-access-popup-triple{
+		font-size: 17px;
+		line-height: 1;
+	}
+	
+	.early-access-popup-for{
+		font-size: 13px;
+	}
+	
+	.early-access-popup-note{
+		font-size: 13px !important;
+		line-height: 1;
+		font-weight: normal !important;
+	}
+}
+
+
+/*
+ =========================================
+   A - bbchildv2 - Fix dark mode for View All Questions button 
+ =========================================
+*/
+select.wpProQuiz_qFilter {
+  -webkit-appearance: menulist;
+  background-image: url(../images/svg/arrow-down.svg);
+  background-repeat: no-repeat;
+  background-position: right 50px center;
+  padding-right: 40px;
+}
+
+
+
+
+/*
+ =========================================
+   A - bbchildv2 - Fix editable descriptive paragraph on course page 
+ =========================================         
+*/
+.bb-course-excerpt p {
+  -webkit-user-modify: read-only;
+}
+
+
+/*
+ * Show checkbox when Stripe is chosen during checkout.
+ * Show AWeber subscription checkbox
+ */
+
+.woocommerce-SavedPaymentMethods-saveNew {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+  .woocommerce-SavedPaymentMethods-saveNew #wc-stripe-new-payment-method {
+    margin-top: 2px !important;
+    opacity: 1 !important;
+    position: unset;
+  }
+
+  .woocommerce-SavedPaymentMethods-saveNew label {
+    margin-bottom: 0;
+  }
+  
+  #subscribe_to_aweber {
+    opacity: 1 !important;
+    position: unset;
+  }
+
+
+@media only screen and (max-width: 1024px) {
+  .woocommerce #content div.product div.summary .product_meta span > span {
+    flex: 0 0 100%;
+  }
+
+  .woocommerce #content div.product div.summary .product_meta span > a {
+    flex: 0 0 100%; 
+    margin: 0;
+  }
+
+}
+
+
+@media only screen and (max-width: 768px) {
+	.elementor-33635 .elementor-element.elementor-element-3ed03f9e > .elementor-widget-container {
+  		padding: 0px 0px 0px 0px !important;
+        display: flex;
+        justify-content: center;
+  	}
+    
+    .elementor-33635 .elementor-element.elementor-element-4ad2faa > .elementor-widget-container {
+    	margin: 0 !important;
+    }
+    
+    .page-id-33635 .tbl-cheat-sheet {
+    	width: 100% !important;
+        transform: unset;
+    }
+    
+    .elementor-33635 .elementor-element.elementor-element-29b839fa > .elementor-widget-container {
+    	margin: 0 !important;
+    }
+	
+	.elementor-33635 .elementor-element.elementor-element-827b0a3 > .elementor-widget-container {
+		margin: 0 !important;
+	}
+	
+}
+
+
+
+/*MOBILE RESPONSIVE WORKAROUND*/
+
+@media only screen and (min-width: 421px) {
+
+  /*
+    =================================
+    A - Restyle product loops
+    =================================
+  */
+  .promo-countdown__timer > span div:first-child {
+    width: 4em;
+    height: 4em;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+  
+   /*COURSE PAGE CUSTOMIZATION*/
+   
+   .learndash-theme.single-sfwd-courses .bb-grid .bb-learndash-content-wrap {
+           padding-top: 5px !important;
+ }
+   
+   .learndash-course-student-message p{
+           margin: 0 0 0px !important;
+ }
+   
+   .learndash-theme.single-sfwd-courses .bb-single-course-sidebar{
+           margin-bottom: 0px !important;
+	       margin-top: 25px !important;
+ }
+
+}
+
+/*
+==================================
+BUNDLE PAGES MOBILE VIEW FIX
+==================================
+*/
+@media only screen and (max-width: 1200px) {
+    .wp-block-button__link{
+    	width: 23% !important;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .wp-block-button__link{
+    	width: 30% !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .wp-block-button__link{
+    	width: 45% !important;
+    }
+    
+    .page-id-261780 .product-cat-title{
+    	font-size: 30px;
+    }
+
+    .page-id-24792 .product-cat-title{
+    	font-size: 30px;
+    }
+    
+    .page-id-261780 .bundle-title{
+    	text-align: center !important;
+    }
+    
+    .page-id-24792 .bundle-title{
+    	text-align: center !important;
+    }
+
+    .page-id-261780 .content-area{
+        padding-top: 0;
+    }
+
+    .page-id-24792 .content-area{
+        padding-top: 0;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .wp-block-button__link{
+    	width: 50% !important;
+    }
+
+}
+
+@media only screen and (max-width: 400px) {
+    .wp-block-button__link{
+    	width: 55% !important;
+    }
+    
+    .page-id-261780 .bundle-title{
+    	font-size: 20px !important;
+        line-height: 20px;
+    }
+
+    .page-id-24792 .bundle-title{
+    	font-size: 20px !important;
+        line-height: 20px;
+    }
+    
+    .page-id-261780 .product-cat-title{
+    	font-size: 25px;
+    }
+
+    .page-id-24792 .product-cat-title{
+    	font-size: 25px;
+    }
+    
+    .page-id-261780 .page-title{
+        line-height: 25px;
+        transform: translate(0px, -20px);
+    }
+
+    .page-id-261779 .page-title{
+        line-height: 25px;
+        transform: translate(0px, -45px);
+    }
+    
+    .page-id-261780 .woocommerce-notices-wrapper, .woocommerce-info{
+    	margin-top: -1.5em !important;
+    }
+
+    .page-id-261779 .woocommerce-notices-wrapper, .woocommerce-info{
+    	margin-top: -1.5em !important;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .wp-block-button__link{
+    	width: 60% !important;
+    }
+    
+    .page-id-261780 .product-cat-title{
+    	font-size: 20px;
+    }
+
+    .page-id-261779 .product-cat-title{
+    	font-size: 20px;
+    }
+    
+    .page-id-261780 .page-title{
+        line-height: 20px;
+    }
+
+    .page-id-261779 .page-title{
+        line-height: 20px;
+    }
+	
+	.early-access a{
+		font-size: 18px;
+	}
+	
+	.early-access{
+		line-height: 0.5;
+	}
+}
+
+@media only screen and (max-width: 320px) {
+    .wp-block-button__link{
+    	width: 70% !important;
+    }
+}
+
+
+
+@media only screen and (min-width: 480px) {
+  
+  .sale-jumbotron__left img {
+    width: 80%;
+  }
+
+}
+
+
+@media only screen and (min-width: 768px) {
+
+/* 	===================== */
+/* 	NEW YEAR SALE START */
+/* 	===================== */
+	.promo-countdown--popup {
+        margin-top: 10em;
+		margin-bottom: 0!important;
+	}
+	
+	.popup-mechanics div{
+		margin-left: initial!important;
+	}
+	
+	.popup-meta{
+		background-position: 0 -150px!important;
+	}
+	
+	.popup-mechanics{
+		padding: 10px;
+	}
+	
+	div .ny-mechanics{
+		margin-bottom: 60px;
+	}
+	
+	.ny-mechanics p{
+		max-width: fit-content;
+		margin: auto;
+		font-size: 1.3em;
+	}
+	.popup-mechanics .ny-mechanics img{
+		width: 255px!important;
+	}
+	
+	.ny-mechanics img{
+		width: 450px!important	;
+	}
+
+	.sale-course-description .price{
+		margin-top:20px;
+	}
+/* 	===================== */
+/* 	NEW YEAR SALE END */
+/* 	===================== */
+
+
+  .sale-jumbotron__left img {
+    width: 60%;
+  }
+
+  /* A - BLACK FRIDAY 2021*/
+  .sale-tables__container {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    max-width: 1270px;
+    align-items: end;
+  }
+
+    .sales-tables__col {
+      flex: 0 0 24%;
+      align-items: center;
+    }
+
+    .sales-tables__col:last-child {
+      flex: 0 0 28%;
+    }
+
+    .sales-tables__col img {
+      width: 100%;
+      height: auto;
+    }
+
+    .sales-tables__col img:first-child{
+      width: fit-content;
+    }
+
+}
+
+
+
+
+@media screen and (min-width: 800px) {
+
+  body:not(.ld-in-focus-mode) .bb-buddypanel .bb-footer, .bb-buddypanel .header-search-wrap, .bb-buddypanel .site-content, .bb-buddypanel .site-header {
+      padding: 0 10px;
+  }
+
+  body.bb-buddypanel.bb-sfwd-aside .site-header .bb-toggle-panel {
+    margin: 0px;
+  }
+
+  body.ld-in-focus-mode .bb-toggle-panel + .site-branding {
+    padding-left: 15px;
+  }
+
+}
+
+
+
+
+
+
+@media only screen and (min-width: 900px) {
+
+  .woocommerce ul.products li.product {
+    /*margin: 0 15px 20px !important;*/
+    /*width: calc(25% - 30px) !important;*/
+    /*max-width: calc(25% - 30px) !important;*/
+	margin: 6px;
+  }
+
+
+  /*
+    =================================
+    A - IMPROVE SHOP PAGE AND PRODUCT CATEGORY TITLES
+    =================================
+  */ 
+  .page-title {
+    width: 50%;  
+  }
+  .page-title + .term-description p,
+  .page-title + .page-description p {
+    width: 50%;
+  }  
+
+  
+}
+
+
+
+
+
+
+
+@media only screen and (min-width: 1024px) {
+	
+	/* 	================================================= ============================*/
+	/* 	============================NEW YEAR SALE START============================ */
+	/* 	============================================================================= */
+	
+	.promo-countdown--popup{
+/* 		margin-top: initial!important; */
+		margin-top: 60px;
+		margin-bottom: 20px !important;
+/* 		margin-left: -260px; 
+        margin-right: 140px;   */
+	}
+/*  	.popup-meta__banner {
+		margin-top: -80px;
+	}  */
+	.popup-meta{
+		background-position: initial!important;
+	}
+	.page-id-309819 .popup-mechanics {
+		padding-left: 100px!important;
+	 }
+
+	.sale-course-description .price{
+		margin-top:0px!important;
+	}
+	 .page-id-309819 .sale-course-description .price{
+		margin-top:10px!important;
+	}
+	.sale-promoweek__info__title span{
+		font-size: 1.5em;
+	}
+
+	.sale-promoweek__info__title span{
+		display: block;
+		/*font-size: 1.5em;*/
+	}
+	.ny-mechanics{
+		width: 45%!important;
+		transition: transform 250ms;
+		margin-bottom: 5px!important;
+	}
+
+	.ny-mechanics:hover{
+		transform: translateY(-10px);
+		opacity: .9;
+	}
+
+
+	.page-id-309819 .ny-mechanics p{
+		max-width: fit-content;
+		margin: auto;
+		margin-top: 10px;
+	 }
+
+	.page-id-309819 .ny-mechanics{
+		margin: 25px;
+		width: 350px;
+	}
+
+	.page-id-309819 .popup-mechanics{
+/* 		margin: 35px 0 0 125px; */
+	}
+
+	.sale-promoweek{
+/* 		padding: 5em 0 10em 0; */
+	}
+	.after-sale-section{
+		height: 1px;
+		background-color: #dedede;
+		width: 80%;
+		margin: 0 auto;
+		background-image: linear-gradient(left , white 2%, #dedede 50%, white 98%);
+		background-image: -o-linear-gradient(left , white 2%, #dedede 50%, white 98%);
+		background-image: -moz-linear-gradient(left , white 2%, #dedede 50%, white 98%);
+		background-image: -webkit-linear-gradient(left , white 2%, #dedede 50%, white 98%);
+		background-image: -ms-linear-gradient(left , white 2%, #dedede 50%, white 98%);
+		background-image: -webkit-gradient( linear, left bottom, right bottom, color-stop(0.02, white), color-stop(0.5, gray), color-stop(0.98, white) );
+	}
+	/* 	==================================================== */
+	/* 	================NEW YEAR SALE END================= */
+	/* 	================================================= */
+
+  .promo-countdown__timer {
+/*     justify-content: space-between; */
+  }
+  
+  .promo-countdown__timer > span div:first-child {
+    width: 4.5em;
+    height: 4.5em;
+  }
+
+
+  .sale-jumbotron {
+    display: flex;
+  }
+  
+    .sale-jumbotron__left {
+      flex: 0 0 50%;
+    }
+
+      .sale-jumbotron__left img {
+        width :80%;
+      }
+
+      .sale-jumbotron__left:after {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        right: 0;
+        bottom: 0;
+        border-left: 30px solid transparent;
+        border-bottom: 1500px solid white;
+      }
+
+    .sale-jumbotron__right {
+      flex: 0 0 50%;
+      padding: 0 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: column nowrap;
+    }
+    
+    .sale-jumbotron__right:before {
+      position: absolute;
+      content: "";
+      width: 0;
+      height: 0;
+      left: 0;
+      bottom: 0;
+      border-right: 30px solid transparent;
+      border-top: 1500px solid white;
+    }
+
+
+    .promo-countdown--sjumbotron .promo-countdown__timer {
+      justify-content: space-around;
+    }
+  
+
+  .sale-promoweek-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 5em 0;
+/*     align-items: baseline; */
+  }
+
+    .sale-promoweek__info {
+      flex: 0 0 40%;
+    }
+	
+  /* A- BLACK FRIDAY 2021*/
+  
+  .sale-jumbotron {
+    font-size: 1.1em;
+  }
+
+  .sale-jumbotron__img {
+    width: 130px;
+    right: calc(50% - 275px);
+    top: -70px;
+  }
+
+  .sale-bundles__container {
+    display: flex;
+  }
+  
+    .sale-bundles__text {
+      margin-top: 0;
+      margin-left: 2em;
+      flex: 1 1 40%;
+    }
+    
+  .sale-promoweek-container {
+  	padding: 2em 0 0 0!important;
+  }
+
+
+}
+
+@media screen and (min-width: 1380px) {
+
+  .sale_jumbotron {
+    font-size: 1.2em;
+  }
+
+    .sale-jumbotron__top {
+      /*padding-top: 3em; */
+      background-size: 70% auto;
+    }
+}
+
+
+@media screen and (max-width:1180px) {
+
+  .promotion-header {
+    height: 67px;
+  }
+    .promotion-header__box {
+      height: 67px;
+      flex-flow: column-reverse nowrap;
+    }
+
+    .promotion-header__box p {
+      border-right: none;
+      margin: 0 0 0.3em 0;
+      text-align: center;
+    }
+    
+    .promotion-header__box .dashicons-dismiss {
+      position: absolute;
+      top: calc(50% - 10px);
+      right: 10px;
+    }
+}
+
+
+@media only screen and (max-width: 967px) {
+  .popup-box {
+    width: 80vw;
+    height: 70vh;
+    display: block;
+    overflow-y: scroll;
+  }
+    .popup-box i.dashicons-dismiss {
+      right: 0.5em;
+    }
+    .popup-meta {
+      padding: 2em 1em;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+	height:497px;
+	background-size: cover!important;
+    }
+    .popup-mechanics {
+/*       padding: 1.5em 1.5em 1.5em 1.5em; */
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  .elementor-widget-container .popup-box {
+    width: 100%;
+    height: auto;
+    overflow-y: hidden;
+  }
+
+  .wpProQuizCustomized_filters  {
+    justify-content: center;
+  }
+
+  .wpProQuizCustomized_filters .btn--filter i {
+    margin-right: 0;
+    margin-left: -5px;
+  } 
+  .wpProQuizCustomized_filters .btn--filter span {
+    display: none;
+  }
+  .wpProQuizCustomized_filters .btn--filter {
+    width: 35px;
+    height: 35px;
+  }
+
+  .wpProQuizCustomized_filters {
+    padding: 20px;
+  }
+
+
+}
+
+
+@media screen and (max-width: 800px) {
+
+  .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li {
+    width: 98%;
+    margin: 5px 0;
+  }
+
+  .wpProQuiz_matrixSortString {
+    float: none;
+    width: 100%;
+  }
+
+  .wpProQuiz_matrixSortString + .wpProQuiz_questionList {
+    width: 100%;
+  }
+
+  .wpProQuiz_content ul.wpProQuiz_sortStringList>li {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /*Remove duplicate side panel links*/
+  .side-panel-menu .menu-item-33448,
+  .side-panel-menu .menu-item-36586,
+  .side-panel-menu .menu-item-33451,
+  .side-panel-menu .menu-item-38188,
+  .side-panel-menu .menu-item-36653,
+  .side-panel-menu .menu-item-36447,
+  .side-panel-menu .menu-item-36581, 
+  .side-panel-menu .menu-item-57841 {
+    display: none;
+  }
+  
+  .elementor-33635 .elementor-element.elementor-element-977b2a9 > .elementor-widget-container {
+    margin: 0 !important;
+  }
+
+  .elementor-33635 .elementor-element.elementor-element-977b2a9 > .elementor-widget-container h6 {
+    font-size: 1.2em;
+  }
+
+  .elementor-33635 .elementor-element.elementor-element-8d96e8c > .elementor-widget-container,
+  .elementor-33635 .elementor-element.elementor-element-5796c6a > .elementor-widget-container {
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .elementor-33635 .elementor-element.elementor-element-8d96e8c .elementor-button,
+  .elementor-33635 .elementor-element.elementor-element-5796c6a .elementor-button {
+    padding: 13px !important;
+  }
+
+  .elementor-element-8d96e8c {
+    display: flex;
+    justify-content: center;
+    margin-top: -25px;
+    margin-bottom: 20px;
+  }
+
+
+}
+
+
+
+@media screen and (max-width:700px) {
+  
+  .wpProQuizCustomized_filters {
+    align-items: flex-end;
+  }
+
+  .wpProQuizCustomized_filters .wpProQuizCustomized_filters__title {
+    flex: 0 0 100%;
+    text-align: center;
+  }
+  .learndash-theme #js-quizfilter-questions+.select2-container--default {
+    margin-top: 0.5em;
+  }
+	
+
+}
+
+@media screen and (max-width:640px) {
+  .promotion-header {
+    font-size: 0.7em;
+    height: 82px;
+  }
+    .promotion-header__box {
+      height: 82px;
+    }
+
+    .promotion-header__box p {
+      line-height: 1.6em;
+    }
+    .promotion-header__box p span:last-child{
+      display: block;
+      text-align: center;
+    }
+
+  .wpProQuizCustomized_filters {
+    padding: 10px;
+  }
+    
+  .wpProQuizCustomized_filters__buttons {
+    flex: 0 0 100%;
+    margin-top: 0.5em;
+    justify-content: center;
+  }
+
+  
+  /*
+    =================================
+    A - Refund Policy Popup
+    =================================
+  */
+  .srf-reminders {
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 85vw;
+    top: 10vh;
+    left: 5.5vw;
+  }
+
+}
+
+@media screen and (max-width:560px) {
+  #wpfront-notification-bar table tr td {
+    font-size: 0.7em;
+  }
+    #wpfront-notification-bar .wpfront-close {
+      font-size: 0.8em !important;
+      padding: 7px 3px !important;
+    }
+
+  /*
+   *    ===========================================
+   *       A - Fix .entry-title style in mobile view
+   *    ===========================================
+  */
+  .entry-title{
+    font-size: 24px !important;
+  }
+
+  .buddypanel-open .bb-single-course-sidebar {
+    margin-top: 30px !important;
+  }
+
+}
+
+@media only screen and (max-width: 579px) {
+    .tbl-cheat-sheet{
+    	width: 100% !important;
+        font-size: 12px !important;
+        transform: translate(1%);
+    }
+    
+    .tbl-end-date{
+		font-size: 9px !important;
+	}
+    
+    .pm-table-header-content-wrap, .pm-table-header-content-wrap-red{
+    	font-size: 15px !important;
+		vertical-align: middle !important;
+    }
+
+    .popup-box .pm-table-header-content-wrap{
+    	font-size: 10px !important;
+    }
+    
+    .pm-table-cell-content-wrap-red, .pm-table-cell-content-wrap{
+    	font-size: 9px !important;
+    }
+
+    .popup-box .pm-table-cell-content-wrap-red, .popup-box .pm-table-cell-content-wrap{
+    	font-size: 10px !important;
+    }
+    
+    .tbl-img{
+		width: 100% !important;
+	}
+    
+    .page-id-33635 .elementor-heading-title{
+    	font-size: 25px !important;
+    }
+    
+    .pm-table-header-content-wrap-red{
+    	padding: 1px !important;
+    }
+
+    .popup-box .pm-table-header-content-wrap-red{
+    	padding: 0px !important;
+    }
+    
+}
+
+
+
+@media screen and (max-width:544px) {
+
+
+  .header-mini-cart ul.cart_list {
+    max-height: 300px;
+  }
+  
+  .woocommerce-mini-cart-item .mini-cart_image{
+    flex: 0 0 40px;
+  }
+
+  .header-mini-cart ul.cart_list li.mini_cart_item {
+    padding: 15px 10px;
+  }
+
+  .mini-cart_title {
+    margin: 0 .5em;
+  }  
+
+}
+
+
+
+
+@media screen and (max-width: 480px) {
+  
+  /**
+  * Drag and drop question type on mobile
+  */
+  ul.wpProQuiz_questionList[data-type=matrix_sort_answer] .wpProQuiz_mextrixTr td{
+    width: 100% !important;
+  }
+
+  .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li table td:last-child {
+    border-right: none !important;
+    border-top: 1px solid #e7e9ec !important;
+  }
+
+  .wpProQuiz_content ul.wpProQuiz_questionList[data-type=matrix_sort_answer] li ul.wpProQuiz_maxtrixSortCriterion {
+    min-height: 58px !important;
+  }
+
+  .review-head {
+    flex-flow: row wrap;
+  }
+  
+  .review-head .wdm-review-age {
+    flex: 1 0 100%;
+    margin-left: 50px;
+    margin-top: -5px;
+    }
+
+  /*
+   * Fix popup table display at mobile view 
+   */
+
+  .popup .popup-mechanics table {
+/*     margin: 0; */
+	font-size: 12px!important;
+  }
+  .popup .popup-mechanics > div:last-child {
+/* 	margin-left: 1em;	 */
+	margin-top: 30px;
+	margin-left: 10px;
+	margin-right: -10px;
+  }
+  
+  .popup-mechanics table tr td:first-child {
+    flex: 0 0 36%;
+  }
+
+}
+
+
+@media screen and (max-width:420px) {
+
+	
+    .popup-mechanics p.mechanics-table {
+      margin: .5em 0 .5em .2em;
+    }
+
+    .popup-mechanics table {
+      margin: .5em 0 .5em .2em;
+    }
+
+  .promotion-header {
+    font-size: 0.6em;
+    height: 72px;
+  }
+
+  .promotion-header__box .btn--learnmore {
+    line-height: 3.1em;
+    margin-top: .5em;
+  }
+
+  .promotion-header__box {
+    height: 72px;
+  }
+
+  .promo-countdown--header {
+    align-items: center;
+  }
+
+  .promo-countdown--header .promo-countdown__timer > span {
+    padding: 0.5em .5em;
+    line-height: 1em;
+    align-items: center;
+  }
+
+  .promo-countdown--header .promo-countdown__timer > span div {
+    line-height: 1em;
+  }
+  
+    #wpfront-notification-bar table tr td .wpfront-message {
+      margin-bottom: 0.5em;
+    }
+
+    #wpfront-notification-bar .wpfront-message {
+      border-right: none;
+    }  
+}
+
+
+
+
+/*
+  =======================================
+  A - FOOTER
+  =======================================
+*/
+.home .post-content .fusion-fullwidth {
+	background: white !important;
+}
+
+
+.woocommerce-checkout input[type=checkbox] {
+	position: unset;
+	opacity: 1;
+}
+
+
+/* ANIMATION STYLES*/ 
+.anim-bounce {
+  animation-name: bounce;
+  animation-duration: 5s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+.anim-bounce:hover {
+  animation: 0;
+}
+
+@keyframes bounce {
+  10% { 
+    transform: translateY(-5px);
+  }
+  15% { 
+    transform: translateY(0);
+  }
+  20% { 
+    transform: translateY(-3px);
+  }
+  25% { 
+    transform: translateY(0);
+  }
+}
+
+
+
+/* FIX Learn Dash Sample Lesson Styles 
+ * 
+ * Author: Jon Bonso
+ * 
+*/ 
+.learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item.learndash-not-available .ld-item-list-item-preview .ld-item-name .ld-item-title>span.ld-item-components .ld-status {
+    min-width: 100px !important;
+    float: right !important;
+}
+
+.learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item.learndash-not-available .ld-item-list-item-preview .ld-item-name .ld-item-title>span.ld-item-components .ld-item-components {
+    float: right !important;
+}
+
+.ld-course-list-items .bb-course-footer{
+	display:none !important;
+} 
+
+.ld-course-list-items .bb-cover-list-item.bb-course-paid {
+     padding-bottom: 5px; 
+}
+
+
+	/* 	================================================= ============================*/
+	/* 	============================NEW YEAR SALE START============================ */
+	/* 	============================================================================= */
+.page-id-309819 .popup-mechanics {
+    background: transparent;
+ }
+
+.sale-promoweek__info__title{
+	line-height: initial;
+}
+
+.sale-promoweek__info__title span{
+	display: block;
+	/*font-size: 1.3em;*/
+}
+
+.sale-promoweek__info__title span b{
+	color: #FFFF00;
+}
+
+.page-id-309819 .ny-mechanics{
+	width: 350px;
+}
+.ny-mechanics p{
+
+		color: black;
+
+ 	}
+	/* 	==================================================== */
+	/* 	================NEW YEAR SALE END================= */
+	/* 	================================================= */
+
+/* Anniversary Sale */
+	.anniv2022{
+		transition: transform 350ms;
+	}
+
+	.anniv2022:hover{
+		-webkit-transform: scale(1.2);
+		-ms-transform: scale(1.2);
+		transform: scale(1.1);
+		transition: .5s ease;
+	}
+
+
+	/* 
+     * TD-217 - Show spinner / loading message
+     * 
+     * Works in:
+     *
+     * https://portal.tutorialsdojo.com/courses/(any)
+     * https://portal.tutorialsdojo.com/courses/(any)/lessons/(any)
+     * 
+     */
+
+#spinner{
+	margin: 0 auto;
+	text-align: center;
+}
+
+#loader {
+  height: 50px;
+  width: 50px;
+  margin: 0 45%;
+  border: 4px rgba(0, 0, 0, 0.25) solid;
+  border-top: 4px black solid;
+  border-radius: 50%;
+  -webkit-animation: spin2 1s infinite linear;
+          animation: spin2 1s infinite linear;
+}
+
+#buttonSpinner {
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  border: 4px rgba(255, 255, 255, 0.50) solid;
+  border-top: 4px white solid;
+  border-radius: 50%;
+  -webkit-animation: spin2 1s infinite linear;
+          animation: spin2 1s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+  }
+}
+@keyframes spin2 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+  }
+}
+
+/* TD-217 END */
+
+/* TD-234: Fix - Misaligned "Take this Course" button on mobile view */
+@media only screen and (max-width: 600px) {
+.bb-button-wrap #btn-join{
+	margin-left: 0em;
+    
+}
+} 
+
+/* TD-204 - iFrameLoader */
+#iFrameLoader{
+  height: 50px;
+  width: 50px;
+  margin: 0 45%;
+  border: 4px rgba(0, 0, 0, 0.25) solid;
+  border-top: 4px black solid;
+  border-radius: 50%;
+  -webkit-animation: spin2 1s infinite linear;
+          animation: spin2 1s infinite linear;
+	margin-top: 20%;
+	margin-left:45%;
+	position:absolute;
+	  }
+
+/* TD-251: Pause Button on Mobile View is not centrally aligned  */
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button2 {
+	text-align:center;
+	}
+
+/* Promotion_Table Hover */
+td.TableHover1:hover {
+/* 	text-shadow: 2px 2px 4px #000000; */
+	text-shadow: 2px 2px 4px #FFFFFF;
+	transition: 0.1s;
+	transform: scale(1);
+}
+
+
+/* Start TD-263:Single panel popup */
+.single-popup-meta {
+	color: white;
+/*  flex: 0 0 35%; */
+	flex: 0 0 80%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+	background-image: url(../img/confetti.png), linear-gradient(#7acedf, #F2EEE3);
+    background-size: cover !important; 
+    text-align: center;
+	border-radius:2pc;
+	border: double;
+    position: relative;
+	transition: transform .7s; /* Animation */
+}
+
+			/* TD-780: The close button (x) on the popup is not visible when viewed on a mobile device */
+/* 		 @media only screen and (min-width: 1024px) {
+		.single-popup-meta:hover{
+			animation: zoomInOut 2s;
+		}
+		}
+      
+		@keyframes zoomInOut {
+  			0% {
+   			 transform: scale(1);
+  		}
+  			50% {
+  				transform: scale(1.1);
+  		}
+ 			100% {
+  			  	transform: scale(1);
+		}
+		} */
+
+		/* End of TD-780: The close button (x) on the popup is not visible when viewed on a mobile device */
+        
+.single-popup-meta img {
+	width:  190px;
+	height: auto;
+}
+
+.single-popup-meta__banner img {
+	border-radius: 5%;
+}
+        
+.single-popup-meta > span {
+    color: white;
+    display: block;
+}
+        
+.single-popup-meta > span:nth-child(2), .popup-meta > span:nth-child(3) {
+    font-weight: bold;
+}
+        
+.single-popup-meta > span:nth-child(2) {
+    margin-top: 0.8em;
+    font-size: 2em; 
+}
+        
+.single-popup-meta > span:nth-child(3) {
+    font-size: 3em;
+    margin: .8em 0 .5em 0;
+    padding: 0; 
+}
+        
+.single-popup-meta > span:nth-child(4) {
+    margin-bottom: 2em;
+    width: 95%;
+}
+        
+@media only screen and (min-width: 768px) {
+    .single-popup-meta{
+		background-position: 0 -150px!important;
+	}
+}
+	
+@media only screen and (min-width: 1024px) {
+	.single-popup-meta{
+		background-position: initial!important;
+	}
+}
+	
+@media only screen and (max-width: 967px) {
+	.single-popup-meta {
+		padding: 2em 1em;
+	/* 	height:460px; */
+		height: 560px;
+	/* 	background-size: cover!important; */
+		background-size: 332px 460px!important;
+		background-repeat: no-repeat!important;			
+   	 }
+}
+
+/* TD 1238: Improve TD Sale Transition Tool - Add new field for the single popup mobile view image.
+ * Hide the single-popup-meta in mobile view while keeping it visible in the web view. */	
+@media only screen and (max-width: 480px) { 
+	.single-popup-meta {
+		display:none;
+	}
+}
+
+/* End TD-263: Single Panel popup */
+
+/* TD 1238: Improve TD Sale Transition Tool - Add new field for the single popup mobile view image.
+ * CSS for single-popup-meta-mobile aside class */
+.single-popup-meta-mobile {
+	color: white;
+	flex: 0 0 80%;
+	height: 560px;
+	flex: 0 0 80%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+	text-align: center;
+	background-repeat: no-repeat!important;			
+    background-size: cover !important; 
+	border-radius:2pc;
+	border: double;
+    position: relative;
+	transition: transform .7s; /* Animation */
+}
+
+.single-popup-meta-mobile img {    
+	width:  190px;
+    height: auto;
+}
+
+.single-popup-meta-mobile__banner img {
+	border-radius: 5%;
+}
+        
+.single-popup-meta-mobile > span {
+	color: white;
+    display: block;
+}
+        
+.single-popup-meta-mobile > span:nth-child(2), .popup-meta-mobile > span:nth-child(3) {
+	font-weight: bold;
+}
+
+.single-popup-meta-mobile > span:nth-child(2) {
+	margin-top: 0.8em;
+    font-size: 2em; 
+}
+        
+.single-popup-meta-mobile > span:nth-child(3) {
+	font-size: 3em;
+    margin: .8em 0 .5em 0;
+    padding: 0; 
+}
+        
+.single-popup-meta-mobile > span:nth-child(4) {
+   margin-bottom: 2em;
+   width: 95%;
+}              
+
+@media only screen and (min-width: 1020px), (min-width: 481px) and (max-width: 1180px) { /* Hide the single-popup-meta-mobile in web view while keeping it visible in the mobile view. */
+	.single-popup-meta-mobile {
+		background-position: initial!important;
+		display:none;
+	}
+}
+	
+@media only screen and (max-width: 967px) {
+	.single-popup-meta-mobile {
+      	padding: 2em 1em;
+		height: 497px; /* The height should be 497px */
+		background-repeat: no-repeat!important;				 
+   	 }
+}
+/* END TD-1238: Improve TD Sale Transition Tool */
+
+
+/**
+ *  CSS Changes in the WooCommerce Single Page Product Page 
+ */
+
+.woocommerce #content div.product div.summary .product_meta .tagged_as {
+	display:none !important;
+}
+
+/* TD-489: View cart/ Checkout button is not visible on the Mobile view */
+@media only screen and (max-width: 600px) {
+.site-header .header-mini-cart ul.cart_list  {
+	max-height:350px;
+    
+}
+}
+
+/* Adjust the size of promo title on mobile view */
+@media only screen and (max-width: 600px) {
+	.sale-promoweek__info__title {
+		font-size: 1em;
+	}
+}
+
+.bundle_price{
+	color:red;
+	text-align: center;
+	font-family: Timmana;
+	font-size: 22.4px;
+}
+.bundle_price del{
+	color:black;
+	text-align: center;
+}
+
+/* Workaround for Redundant "Coupon" */
+label[for="coupon_code"] {
+  display: none;
+}
+
+/* 
+ * TD-409: Add an Info Bar on certain courses for AWS Training Bundles 
+ * 
+ * */
+
+.infobar {
+    height: 100px;
+    justify-content: center;
+	margin-top:-50px!important;
+		
+}
+
+.infobar:hover {
+  	color: rgba(255, 255, 255, 1);
+  	box-shadow: 0 5px 20px rgb(255 255 255 / 70%);
+	-moz-transition: all 0.2s ease-in;
+  	-o-transition: all 0.2s ease-in;
+  	-webkit-transition: all 0.2s ease-in;
+  	transition: all 0.2s ease-in;
+}
+	
+@media screen and (max-width:640px) {
+  .infobar {
+    height: 100px;
+	margin-top:0px!important;
+	  
+    }
+}
+
+.bb-single-course-sidebar .widget {
+	border-radius:0;
+}
+
+.bb-course-preview-wrap{
+	border-radius:0!important;
+}	
+/* 
+ * End - TD-409: Add an Info Bar on certain courses for AWS Training Bundles 
+ * 
+ * */
+
+ /*TD-705: Fix for the redundant "Checkbox" on the checkout page */
+ .woocommerce-checkout input[type=checkbox] {
+	display: none;
+}
+
+
+.learndash-wrapper .ld-progress-steps {
+	padding-left: 10px;
+}
+
+/*TD-395:  Implement Re-try Functionality for Quiz Submissions to avoid Frozen Results Page  */
+.learndash-wrapper div.td_rtf_error_message {
+  position: fixed; 
+  z-index: 1; 
+  top:0;
+  left:0;
+  padding-top: 285px; 
+  width: 100%; 
+  height: 100%;  
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.learndash-wrapper div.td_srfl_error_message {
+	text-align: center;
+    padding: 4%;
+	width:86%;
+    background: #FFE9E9;
+    border-radius: 30px;
+    margin: 7%;
+    outline-style: solid;
+    outline-color: #FF6464;	
+}
+
+@media only screen and (min-width: 768px) {
+        .learndash-wrapper div.td_srfl_error_message {
+			padding: 1.5%;
+			width:  37%;
+			margin-left: 32%;
+		}
+}
+/* End TD-395:  Implement Re-try Functionality for Quiz Submissions to avoid Frozen Results Page  */
+
+/* TD-253: UI Fixes - Start/Finish Quiz Alignment, Space Between % Completed and Steps */
+/* Start/Finish Button */
+@media only screen and (min-width: 768px) {
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button:not(.wpProQuiz_button_reShowQuestion):not(.wpProQuiz_button_restartQuiz){
+  float: none;
+  margin: 0 auto;
+}
+}
+  /* End - TD-253: UI Fixes - Start/Finish Quiz Alignment, Space Between % Completed and Steps */
+
+/* TD-751: Toggle that allows users to enable/disable the auto-play feature for all video courses. */
+.toggle{
+  position: relative;
+  float:right;
+  height: 24px;
+  width: 50px;
+  cursor: pointer;
+  border-radius: 25px;
+  background-color: #cccccc;
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.13);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  margin-left: 5px;
+}
+.toggle::before{
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+/*   border: 3px solid #fff; */
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+.toggle.active-toggle::before{
+  left: calc(100% + -22px);
+  background-color: fff;
+}
+.toggle.active-toggle{
+	transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	background-color: #0196ff;
+}
+
+/* Style for the tooltip div */
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.autoplay-section{
+	font-size: 13px;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+/* Show the tooltip on hover */
+.toggle:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* End - Toggle that allows users to enable/disable the auto-play feature for all video courses. */
+
+/* TD-782: Hide Payment options for Free Courses and ATP Courses*/
+.woocommerce form.add button.button {
+    margin-left: 33% !important;
+}
+
+.woocommerce form.add button.button:hover {
+    color: white;
+	background-color: blue;
+}
+/* END TD-782: Hide Payment options for Free Courses and ATP Courses */
+
+/* Center the "Add to cart" button on the product page */
+.woocommerce div.product form.cart {
+	display:flex;
+	justify-content: center;
+}
+/*TD-573: Subscription model - billed monthly or annually*/
+/* .woocommerce div.product form.cart .button {
+    margin-bottom: 64px;
+	margin-top:74px;
+}
+
+@media only screen and (max-width: 967px){
+.woocommerce #content div.product form.cart .button {
+    margin-left: -130% !important;
+	float: none;
+}
+.woocommerce a.button{
+    margin-top:3px;
+}
+} 
+   
+.woocommerce div.product form.cart {
+    margin-bottom: -2.5em !important;
+}*/
+
+.ui-dialog {
+	width: 530px !important;
+    top: 210px !important;
+    left:38% !important;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+    padding-bottom: 35px;
+	padding-left: 16px;
+    padding-right: 16px;
+	background: #007cff;
+    color: white;
+	border-radius:20px;
+}
+.ui-dialog .ui-dialog-buttonpane {
+    text-align: left;
+    border-width: 0px 0 0 0;
+    background-image: none;
+    margin: -2.5em 0 0 0;
+    padding: 0em 13em 0em 13em;
+}
+.ui-dialog .ui-dialog-title {
+    font-size: 16px;
+    float: left;
+    margin-top: -8px;
+    margin-left: 5px;
+    margin-right: -2px;
+}
+.ui-draggable .ui-dialog-titlebar {
+    cursor: move;
+    margin-top: 7px;
+    margin-left: 9px;
+    margin-right: 9px;
+}
+.ui-dialog .ui-dialog-content {
+    position: relative;
+    border: 0;
+    /* padding: 0.5em 1em; */
+    background: none;
+    overflow: auto;
+    zoom: 1;
+    font-size: medium;
+    line-height: normal;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: right;
+    margin-top: 19px;
+}
+.woocommerce li.product a.button {
+    align-self: baseline;
+}
+
+#td_cancel-subscription {
+            display: none;
+            border: 0px;
+}
+#td_cancel-content {
+     padding: 3px;
+	 font-size:medium;
+	 line-height:normal;
+}
+
+#td_cancel-buttons {
+    text-align: center;
+    font-size: medium;
+    margin-top: -10px;
+}
+
+
+
+/**
+ *  TD-1203 Override the "Answered" icon
+ */ 
+.wpProQuiz_content .wpProQuiz_box>ol li.wpProQuiz_reviewQuestionSolved:after,
+.wpProQuiz_content .wpProQuiz_reviewDiv .wpProQuiz_reviewQuestion>ol li.wpProQuiz_reviewQuestionSolved:after {
+    content: '✔';                
+    display: inline-block !important;       
+    width: 21px !important;                  
+    height: 20px !important;                 
+    background-color: #6ca54c !important;    
+    border: 2px solid #fff !important;       
+    border-radius: 50% !important;           
+    text-align: center !important;           
+    line-height: 19px !important;            
+    position: absolute !important;           
+    left: 25px !important;
+    bottom: 22px !important
+}
+
+/**
+ *  TD-1203 Override the "For Review" icon
+ */ 
+.wpProQuiz_content .wpProQuiz_box>ol li.wpProQuiz_reviewQuestionReview:after,
+.wpProQuiz_content .wpProQuiz_reviewDiv .wpProQuiz_reviewQuestion>ol li.wpProQuiz_reviewQuestionReview:after {
+	content: '🏳️';
+	display: inline-block !important;       
+    width: 21px !important;                  
+    height: 20px !important;                 
+    background-color: #ff9800 !important;    
+    border: 2px solid #fff !important;       
+    border-radius: 50% !important;           
+    text-align: center !important;           
+    line-height: 19px !important;            
+    position: absolute !important;           
+    left: 25px !important;
+    bottom: 22px !important
+}
+
+
+
+@media only screen and (max-width: 967px){
+
+.ui-dialog {
+	width: 388px !important;
+    top: 243px !important;
+    left: 22px !important;;
+}
+.ui-dialog .ui-dialog-title {
+    font-size: 12px !important;
+    margin-top: -2px !important;
+    margin-left: -9px !important;
+    margin-right: -18px !important;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+    padding-bottom: 11px !important;
+}
+#td_cancel-content {
+    padding: 4px;
+    font-size: 14px;
+    line-height: 1.5em;
+    text-align: justify;
+}
+#td_cancel-buttons {
+    text-align: center;
+    font-size: small;
+}
+}
+a.button.wp-element-button.product_type_variable-subscription {
+    margin: auto;
+}
+
+.woocommerce div.product form.cart .variations td.label {
+    padding-right: 1em;
+    padding-top: 0px;
+}
+.woocommerce #content div.product form.cart .variations label {
+    line-height: 0.5rem;
+}
+@media only screen and (max-width: 967px){
+.woocommerce div.product form.cart .variations {
+    margin-left: 80px;
+}
+.bs-quantity {
+	margin-top: 0px;
+    margin-right: 42px;
+}
+}
+/*END -TD-573: Subscription model - billed monthly or annually*/
+
+/* TD-818: Add "Auto Play" label on the video section*/
+.autoPlayIcon {
+    width: 15px;
+    margin-right: 2px;
+    margin-bottom: 1px;
+}
+/* END TD-818: Add "Auto Play" label on the video section*/
+
+/* * 
+   * TD-790 Start - Create a UI for Playground Sandbox.	
+   * */
+.td-popup-mess {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.tdpopup-content {
+  background-color: #fff;
+  padding: 20px; /* Fixed typo in padding value */
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  position: relative; /* Added position relative */
+}
+
+.td-popup-mess button {
+  margin: 5px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+
+/* Style the plc-button container */
+.tdplc-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the buttons within plc-button */
+.tdplc-button a {
+  text-decoration: none;
+}
+
+.tdplc-button button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  /* Add more styling as needed */
+}
+
+.tdtext-content {
+  font-size: medium;
+  margin: 20px;
+}
+
+/* Initially hide the tooltip and arrow */
+.td-popup-mess::before,
+.td-popup-mess::after {
+  content: "";
+  position: absolute;
+  visibility: hidden; /* Hide the tooltip and arrow */
+}
+
+
+.td-hover {
+  position: relative;
+  display: inline-block;
+}
+
+.td-hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  z-index: 2;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: -10px;
+  visibility: hidden; /* Hide the tooltip */
+}
+
+.td-hover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+  visibility: hidden; /* Hide the arrow */
+}
+
+/* Show the tooltip and arrow on hover */
+.td-hover:hover::before,
+.td-hover:hover::after {
+  visibility: visible; /* Show the tooltip and arrow on hover */
+}
+
+@media only screen and (max-width: 967px){
+.tdpopup-content {
+    position: relative;
+    top: -81px;
+	margin: 14px;
+}
+.tdtext-content {
+    font-size: medium;
+    margin: 16px;
+    text-align: justify;
+}
+.tdplc-button button {
+    font-size: smaller;
+}
+}
+.gutena-accordion-block>.gutena-accordion-block__panel>.gutena-accordion-block__panel-title {
+	background: #ECF2F6;
+}
+.gutena-accordion-block>.gutena-accordion-block__panel.active>.gutena-accordion-block__panel-title {
+    padding-bottom: 15px;
+}
+.entry-content img {
+    vertical-align: sub !important;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+    padding-bottom: 35px;
+	padding-left: 16px;
+    padding-right: 16px;
+	background: #007cff;
+    color: white;
+	border-radius:20px;
+}
+.ui-dialog .ui-dialog-buttonpane {
+    text-align: left;
+    border-width: 0px 0 0 0;
+    background-image: none;
+    margin: -2.5em 0 0 0;
+    padding: 0em 13em 0em 13em;
+}
+.ui-dialog .ui-dialog-title {
+    font-size: 16px;
+    float: left;
+    margin-top: -8px;
+    margin-left: 5px;
+    margin-right: -2px;
+}
+.ui-draggable .ui-dialog-titlebar {
+    cursor: move;
+    margin-top: 7px;
+    margin-left: 9px;
+    margin-right: 9px;
+}
+
+.ui-dialog .ui-dialog-content {
+    position: relative;
+    border: 0;
+    /* padding: 0.5em 1em; */
+    background: none;
+    overflow: auto;
+    zoom: 1;
+    font-size: medium;
+    line-height: normal;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: right;
+    margin-top: 19px;
+}
+p.td-service-limits-notice {
+    margin-top: 105px;
+    margin-bottom: -69px;
+}
+@media only screen and (max-width: 967px) {
+p.td-service-limits-notice {
+    margin-top: 45px;
+}
+}
+.td-service-limit{
+	margin-top: 94px;
+    margin-bottom: 20px;
+    margin-left: -8px;
+    margin-right: -10px;
+    border-radius: 10px;
+}
+.td-service-limits-column1{
+	margin-right: -26px;
+    border-radius: 10px;
+}
+.td-service-limits-column2{
+    border-radius: 10px;
+} 
+
+
+@media only screen and (max-width: 967px) {
+ .wp-block-buttons>.wp-block-button {
+    display: contents;
+}
+}
+
+button.variation_add_to_cart_button.button.alt.wp-element-button {
+    margin-top: 73px;
+    margin-left: -98%;
+}
+.woocommerce #content div.product form.cart .variations td.label {
+	line-height:1em !important;
+}
+.gift-certificates {
+	margin-top: 10px !important;
+    margin-left: -311px !important;
+}
+	
+@media only screen and (max-width: 967px) {
+.woocommerce-variation-price {
+    font-size: large;
+	}
+button.variation_add_to_cart_button.button.alt.wp-element-button {
+    margin-left: -130%;
+}
+.gift-certificates {
+    margin-left: -314px;
+    padding: 27px; 
+}
+.woocommerce div.product form.cart .variations select {
+    margin-right: -3em;
+}
+}
+
+p.limited-subscription-notice.notice {
+    display: none;
+}
+
+.bb-sfwd-aside.bb-dark-theme .gutena-accordion-block__panel-content-inner li{
+	color:#000000 !important;
+}
+.bb-sfwd-aside.bb-dark-theme ul.td-lesson-li.has-normal-font-size {
+    color: #ffff !important;
+}
+
+/* * TD-1272: Bug in 'Your Progress' Section inside the course: Modal Text Color Affected in Dark Mode * */
+.wpProQuiz_modal_window #wpProQuiz_user_content .wpProQuiz_questionList li label { /*for options*/
+	color: #595959 !important;
+}
+#wpProQuiz_user_content table.wp-list-table td, #wpProQuiz_user_content table.wp-list-table tr { /*for questions*/
+	color: #595959 !important;
+}
+.wpProQuiz_modal_window #wpProQuiz_user_content .wpProQuiz_response, .wpProQuiz_modal_window #wpProQuiz_user_content .wpProQuiz_questionList{ /*for explanations*/
+	color: #595959 !important;
+}
+/* * TD-1272 End* */
+
+/* * 
+ * End - TD-790	
+ * */
+/* * 
+ * TD-36	
+ * */
+.td_mydash {
+    border: solid 2px #e7e9ec;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 70px;
+}
+
+ .tdcourse-content {
+    display: flex;
+    justify-content: space-evenly; 
+  }
+
+ .tdcourse-box {
+     text-align: center;
+     flex: 0 0 28%; 
+     margin: 10px; 
+    border: solid 1px #B6BBC4;
+    border-radius: 10px;
+	padding-top: 14px;
+   }
+
+ .tdcourse-box button {
+     padding: 10px 20px; 
+     background-color: #007BFF; 
+     color: #ffffff; 
+     border: none; 
+     text-decoration: none; 
+     cursor: pointer; 
+     display: inline-block; 
+	 margin-bottom: 14px;
+ }
+
+h3.tdcourse-text {
+    font-weight: bold !important;
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 967px){
+.tdcourse-box {
+    flex: 0 0 51%;
+   }
+h3.tdcourse-text {
+    font-size: 14px;
+	line-height: 1em;
+}
+.tdcourse-box button {
+         font-size: 12px;
+ }
+	
+}	
+
+.td-downloads-wrapper {
+    border: 1px solid #e7e9ec;
+    width: auto; 
+    padding: 30px;
+}
+
+h2.woocommerce-order-downloads__title {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 767px) {
+    .woocommerce-order-downloads .shop_table {
+        display: block;
+		font-size: 14px;
+    }
+
+    .woocommerce-order-downloads .shop_table th,
+    .woocommerce-order-downloads .shop_table td {
+        display: block;
+        width: 100%;
+		padding: 8px;
+    }
+
+    .woocommerce-order-downloads .shop_table th::before,
+    .woocommerce-order-downloads .shop_table td::before {
+        content: attr(data-title);
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+	.woocommerce-order-downloads .shop_table a.woocommerce-MyAccount-downloads-file {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+}
+
+
+/* * 
+ * END -TD-36	
+ * */
+
+
+/** TD-874 Temporarily Hide all TD YouTube Videos on Practice Test **/
+
+.bb-video-wrapper {
+	display:none; 
+}
+
+/** TD-1266: TD Content - Create a new functionality for "Case Study" questions */
+
+.td-azure-case-study {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    /*height: 100vh; Commented by Jon - To make the case study container flexible*/
+} 
+.td-azure-case-study-left-panel {
+    width: 30%;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+.td-azure-case-study-row {
+    /*flex: 1;*/
+	height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+	color: #767676;
+}
+.td-azure-case-study-row:hover {
+    background-color: #ddd;
+}
+.td-azure-case-study-row.active {
+	background-color: #0078d4; /* Active background color */
+	color: #ffffff; /* Text color when active */
+}	
+.td-azure-case-study-right-panel {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+.td-azure-case-study-content {
+    display: none;
+}
+.td-azure-case-study-content.active {
+     display: block;
+}
+/* * 
+ * END -TD-1266	
+ * */
+
+/* TD-1296: Create New Version of View Results Page Aligned with Quiz Summary Design 
+ * Added by JR
+ * */
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic,
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic .wpProQuiz_question_text,
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic h2,
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic h4,
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic h5 {
+	color: #595959 !important;
+}
+
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic .wpProQuiz_response {
+	background-color: #FBFBFC !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #E7E9EC !important;
+}
+
+.wpProQuiz_modal_window #wpProQuiz_user_content .non-table-statistic .wpProQuiz_questionList {
+	margin: 0;
+}
+
+@media (max-width: 768px) {
+    .wpProQuiz_modal_window:before { /* Adjust the positioning and appearance of the "X" (close) button on mobile view in the "View Results" modal. */
+        right: 45px !important;
+    }
+ 	.wpProQuiz_modal_window { /* Adjust the modal on the mobile view */
+		top: 30px !important;
+		bottom: 30px !important;
+		left: 30px !important;
+		right: 30px !important;
+	}
+}
+/* TD-1296 End */

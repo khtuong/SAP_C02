@@ -1,0 +1,374 @@
+#pc-lab-account-info-container h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500; 
+  color: black !important;
+}
+
+.pc-btn-container {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  padding-top: 50px;
+}
+#pc-launch-btn {
+  background: linear-gradient(135deg, #478FF8, #325DCE);
+  border: none;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.25s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+#pc-launch-btn:hover {
+  transform: scale(1.05);
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); */
+}
+.hide {
+  display: none !important;
+}
+#pc-launch-btn.loading::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 10px;
+  vertical-align: middle;
+} 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+} 
+#pc-lab-account-info-container {
+  /* width: 27%; */
+  max-width: 570px;
+  min-width: 480px;
+  margin: auto;
+  text-align: center;
+  padding-top: 50px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 600px) {
+  #pc-lab-account-info-container {
+      width: 100% !important;  /* or even width: 100%; if needed */
+  }
+}
+@media only screen and (max-width: 967px){
+#pc-lab-account-info-container {
+  min-width: 0px !important;
+}
+}
+.info-section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black !important;
+}
+
+.info-section label, .info-section input {
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 350;
+}
+
+.info-section label {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+  font-size: 17px;
+  color: black !important;
+}
+
+.info-section input:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-icon-wrapper {
+position: relative;
+display: inline-flex; 
+background-color: #fff;
+border: 1px solid #e0e0e0;
+border-radius: 5px;
+overflow: hidden;
+margin-left: 5px;
+width: 400px;  /* This is the fixed width for all .input-icon-wrapper elements */
+transition: all 0.3s ease-out;
+}
+
+.input-icon-wrapper input {
+padding: 10px 40px 10px 10px;  /* Continue to reserve space for the icon on the right */
+border: none;
+border-radius: 5px;
+cursor: pointer;
+width: 100%;  /* Ensure it takes the full width of the parent .input-icon-wrapper */
+box-shadow: none;
+transition: none;
+overflow: hidden;  /* To ensure content that overflows is hidden */
+text-overflow: ellipsis;  /* Add an ellipsis when the text overflows */
+white-space: nowrap;  /* Prevent the text inside from wrapping */
+}
+
+
+.copy-icon {
+position: absolute;
+right: 10px;
+top: 50%;
+transform: translateY(-50%);
+cursor: pointer;
+color: #888;
+transition: color 0.3s ease;
+}
+
+.input-icon-wrapper.copied::after {
+content: "Copied!";
+position: absolute;
+top: 50%;
+right: 40px; /* Adjust as necessary */
+transform: translateY(-50%);
+background-color: white;
+padding: 5px;
+border-radius: 5px;
+font-size: 14px;
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.input-icon-wrapper.copied .copy-icon:before {
+content: "\f00c"; /* FontAwesome check icon */
+}
+
+.input-icon-wrapper.copied::after {
+opacity: 1;
+}
+.copy-icon:hover {
+color: #333;
+}
+@media (max-width: 480px) {
+  .info-section {
+      flex-direction: column;
+      align-items: stretch;
+	 
+  }
+  .info-section label, 
+  .info-section input,
+  .info-section div.input-icon-wrapper {
+      margin-top: 5px;
+      box-sizing: border-box;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  .info-section label {
+      text-align: center;
+      margin-bottom: 5px;
+	  color: black !important;
+  }
+
+  .input-icon-wrapper {
+      max-width: 100%;
+  }
+}
+#pc-end-btn {
+  margin-top: 30px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #FF8E78, #FF3D55);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#pc-end-btn:hover {
+  transform: scale(1.05);
+}
+
+#pc-lab-account-info {
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.error-message {
+  background-color: #ebd6d6; 
+  color: #d43f00; 
+  border: 1px solid #ebd6d6; 
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  max-width: 50%; /* Adjust the max-width percentage as needed */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+#timer-box {
+display: flex; /* Hide the timer box initially */
+margin-top: 20px;
+justify-content: center;
+align-items: center;
+gap: 20px;
+}
+.time-part {
+padding: 20px;
+background-color: #ffffff;
+border-radius: 5px;
+box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+text-align: center;
+width: 100px; /* Adjust the width to your preference */
+color: black !important
+}
+.time-part span {
+display: block;
+font-size: 2em;
+font-weight: bold;
+}
+
+/* #pc-end-btn {
+background-color: #FF4D4D;
+color: #FFFFFF;
+border: none;
+padding: 10px 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+font-weight: bold;
+border-radius: 4px;
+cursor: pointer;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
+} */
+#pc-end-btn:hover {
+background-color: #FF3333;
+}
+#pc-end-btn:active {
+background-color: #FF6666;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+transform: translateY(1px);
+}
+/* Modal Container */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 500px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  animation: modal-pop 0.3s ease;
+}
+
+@keyframes modal-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Modal Text */
+.modal-content p {
+  color: black !important;
+  margin-bottom: 20px;
+}
+
+/* Modal Buttons */
+.modal-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Button Styles */
+#modal-end-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+#modal-end-btn.loading::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+#modal-end-btn:hover {
+  background-color: #0056b3;
+}
+
+.toast {
+  
+  background-color: #333;
+  color: #e1d1d1;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* .toast.show {
+  visibility: visible;
+  opacity: 1;
+} */
