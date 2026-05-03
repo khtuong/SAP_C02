@@ -5,47 +5,131 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Quản Lý Bán Hàng</title>
 <style>
-:root{--bg:#f0f4f8;--sf:#fff;--teal:#0d5c4a;--teal2:#1a7a63;--red:#e53e3e;--tx:#1a202c;--tm:#718096;--bd:#e2e8f0;--r:10px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+/* LIQUID GLASS - iOS 26 STYLE */
+:root {
+  --bg: #e0f2fe; /* Fallback */
+  --sf: rgba(255, 255, 255, 0.45);
+  --teal: #0d5c4a;
+  --teal2: #1a7a63;
+  --red: #e53e3e;
+  --tx: #1e293b;
+  --tm: #475569;
+  --bd: rgba(255, 255, 255, 0.6);
+  --r: 24px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--tx);
+  min-height: 100vh;
+  /* Mesh gradient */
+  background-color: #e0f2fe;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(160, 100%, 88%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(190, 100%, 88%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(140, 100%, 88%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(210, 100%, 88%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
 /* NAV */
-nav{background:var(--teal);padding:0 24px;display:flex;align-items:center;gap:0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
-.nav-brand{color:#fff;font-size:18px;font-weight:800;padding:16px 20px 16px 0;border-right:1px solid rgba(255,255,255,.2);margin-right:8px}
-.nav-tab{color:rgba(255,255,255,.75);padding:16px 20px;cursor:pointer;font-size:14px;font-weight:500;border-bottom:3px solid transparent;transition:.2s}
-.nav-tab:hover,.nav-tab.active{color:#fff;border-bottom-color:#fcb045}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-.api-inp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:7px 12px;color:#fff;font-size:12px;width:340px;outline:none}
-.api-inp::placeholder{color:rgba(255,255,255,.5)}
-.btn-save-api{background:#fcb045;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;color:#1a202c}
+nav {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+.nav-brand { color: var(--teal); font-size: 18px; font-weight: 800; padding: 16px 20px 16px 0; border-right: 1px solid rgba(255, 255, 255, 0.4); margin-right: 8px; }
+.nav-tab { color: var(--tm); padding: 16px 20px; cursor: pointer; font-size: 14px; font-weight: 600; border-bottom: 3px solid transparent; transition: .2s; }
+.nav-tab:hover, .nav-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.api-inp { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 7px 12px; color: var(--tx); font-size: 12px; width: 340px; outline: none; transition: .2s; }
+.api-inp:focus { background: rgba(255,255,255,0.8); border-color: var(--teal); }
+.api-inp::placeholder { color: rgba(0,0,0,0.4); }
+.btn-save-api { background: var(--teal); border: none; border-radius: 12px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; color: #fff; box-shadow: 0 2px 10px rgba(13, 92, 74, 0.2); transition: .2s; }
+.btn-save-api:hover { background: var(--teal2); transform: translateY(-1px); }
+
 /* LAYOUT */
-.page{display:none;padding:28px 32px;max-width:1100px;margin:0 auto}
-.page.active{display:block}
-.page-title{font-size:22px;font-weight:800;color:var(--teal);margin-bottom:20px}
-/* CARD */
-.card{background:var(--sf);border-radius:var(--r);box-shadow:0 1px 8px rgba(0,0,0,.08);padding:22px 24px;margin-bottom:20px}
+.page { display: none; padding: 28px 32px; max-width: 1100px; margin: 0 auto; }
+.page.active { display: block; }
+.page-title { font-size: 24px; font-weight: 800; color: var(--teal); margin-bottom: 20px; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
+
+/* CARD (GLASS) */
+.card {
+  background: var(--sf);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
 /* FORM */
-.form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
-.form-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px}
-label{font-size:12px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.5px}
-input,select,textarea{background:var(--bg);border:1.5px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--tx);outline:none;font-family:inherit;transition:.2s;width:100%}
-input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,92,74,.12)}
+.form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+.form-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 150px; }
+label { font-size: 12px; font-weight: 700; color: var(--tm); text-transform: uppercase; letter-spacing: .5px; margin-left: 4px; }
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--tx);
+  outline: none;
+  font-family: inherit;
+  transition: .2s;
+  width: 100%;
+}
+input:focus, select:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13, 92, 74, 0.15);
+}
+
 /* BUTTONS */
-.btn{padding:9px 20px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;display:inline-flex;align-items:center;gap:6px}
-.btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{background:var(--teal2)}
-.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{filter:brightness(1.1)}
-.btn-outline{background:#fff;border:1.5px solid var(--bd);color:var(--tm)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
-.btn-sm{padding:5px 12px;font-size:12px}
+.btn { padding: 10px 20px; border-radius: 12px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: .2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+.btn:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.btn-primary { background: var(--teal); color: #fff; box-shadow: 0 4px 12px rgba(13, 92, 74, 0.2); }
+.btn-primary:hover { background: var(--teal2); }
+.btn-danger { background: var(--red); color: #fff; box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2); }
+.btn-outline { background: rgba(255,255,255,0.7); border: 1.5px solid var(--bd); color: var(--tx); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); background: rgba(255,255,255,0.9); }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+
 /* TABLE */
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{background:var(--teal);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-td{padding:11px 14px;border-bottom:1px solid var(--bd);color:var(--tx)}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#f7fafc}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.badge-green{background:#c6f6d5;color:#276749}
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+th { background: rgba(13, 92, 74, 0.1); color: var(--teal); padding: 12px 16px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; border-bottom: 2px solid rgba(255,255,255,0.8); }
+th:first-child { border-top-left-radius: 12px; }
+th:last-child { border-top-right-radius: 12px; }
+td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.5); color: var(--tx); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.4); }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.badge-green { color: #16a34a; }
+
 /* ORDER ITEMS */
-.order-item-row{display:flex;gap:10px;align-items:center;padding:8px;background:var(--bg);border-radius:8px;margin-bottom:8px}
-.order-item-row select{flex:2}.order-item-row input{flex:1}
+.order-item-row { display: flex; gap: 10px; align-items: center; padding: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.7); border-radius: 16px; margin-bottom: 10px; }
+.order-item-row .item-qty { max-width: 100px; }
+
+/* SEARCH DROPDOWN */
+.search-wrapper { position: relative; flex: 2; min-width: 0; }
+.search-wrapper input { width: 100%; padding-right: 32px; }
+.search-wrapper::after { content: "🔍"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.5; pointer-events: none; }
+.search-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 16px; max-height: 240px; overflow-y: auto; z-index: 1000; display: none; padding: 6px; }
+.search-dropdown.show { display: block; }
+.search-item { padding: 10px 14px; cursor: pointer; border-radius: 10px; display: flex; justify-content: space-between; font-size: 14px; transition: .1s; }
+.search-item:hover, .search-item.active { background: rgba(13, 92, 74, 0.15); color: var(--teal); font-weight: 600; }
+.search-item-price { font-size: 13px; opacity: 0.8; font-weight: 500; }
 .total-display{font-size:22px;font-weight:800;color:var(--teal);text-align:right;padding:12px 0}
 /* TOAST */
 #toast{position:fixed;bottom:24px;right:24px;background:#1a202c;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:.3s;z-index:9999;pointer-events:none}
@@ -53,27 +137,63 @@ tr:hover td{background:#f7fafc}
 /* PRINT — chỉ in hóa đơn */
 @media print{
   body > *{display:none!important}
-  #printArea{display:block!important;position:static!important}
-  body{background:#fff;margin:0}
+  #printArea{display:block!important;position:static!important; margin:0; padding:0;}
+  body, html {background:#fff; margin:0; padding:0; height: auto !important; min-height: auto !important;}
+  @page { size: A4; margin: 10mm; }
+  .invoice { background: transparent !important; padding: 0 !important; margin: 0 !important; max-width: 100% !important; border: none !important; box-shadow: none !important; height: auto !important; min-height: auto !important; page-break-after: auto; }
 }
 #printArea{display:none}
 /* INVOICE */
-.invoice{background:#f5f0e8;padding:48px;max-width:720px;margin:0 auto;font-family:'Segoe UI',sans-serif}
-.inv-title{font-size:52px;font-weight:900;color:var(--teal);margin-bottom:6px}
-.inv-date{font-size:15px;margin-bottom:28px}
-.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px}
-.inv-party h4{color:var(--teal);font-size:13px;margin-bottom:8px;font-weight:700}
-.inv-party p{font-size:14px;line-height:1.7;color:#333}
-.inv-table{width:100%;border-collapse:collapse;margin-bottom:20px}
-.inv-table th{background:var(--teal);color:#fff;padding:12px 16px;text-align:left;font-size:13px}
-.inv-table td{padding:12px 16px;border-bottom:1px solid #d4cfc4;font-size:13px}
-.inv-table tr:last-child td{border-bottom:2px solid var(--teal)}
-.inv-total{text-align:right;font-size:20px;font-weight:800;color:var(--teal);padding:12px 16px}
-.inv-footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid #c4bfb3;font-size:12px;color:#666}
-.inv-footer-brand{font-weight:800;color:var(--teal);font-size:14px}
+.invoice { background: #fff; padding: 40px; max-width: 800px; margin: 0 auto; font-family: 'Times New Roman', serif; color: #000; }
+.inv-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
+.inv-brand h1 { font-size: 28px; font-weight: 800; color: #0d5c4a; margin-bottom: 4px; text-transform: uppercase; }
+.inv-brand p { font-size: 13px; line-height: 1.5; color: #333; }
+.inv-title-box { text-align: right; }
+.inv-title { font-size: 32px; font-weight: 900; color: #0d5c4a; letter-spacing: 2px; text-transform: uppercase; }
+.inv-date { font-size: 14px; color: #555; margin-top: 5px; }
+
+.inv-customer { margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-left: 4px solid #0d5c4a; }
+.inv-customer h4 { font-size: 14px; color: #0d5c4a; margin-bottom: 8px; text-transform: uppercase; font-family: sans-serif; }
+.inv-customer p { font-size: 15px; line-height: 1.6; }
+
+.inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: sans-serif; }
+.inv-table th { background: #0d5c4a; color: #fff; padding: 12px; text-align: left; font-size: 13px; text-transform: uppercase; }
+.inv-table td { padding: 12px; border-bottom: 1px solid #ddd; font-size: 14px; }
+.inv-table tr:nth-child(even) td { background: #fafafa; }
+
+.inv-total-box { display: flex; justify-content: flex-end; margin-top: 20px; }
+.inv-total { width: 300px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
+.inv-total-row { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 8px; }
+.inv-total-row.final { font-size: 20px; font-weight: 800; color: #0d5c4a; border-top: 2px solid #ddd; padding-top: 10px; margin-top: 5px; }
+
+.inv-footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px dashed #ccc; color: #555; font-size: 13px; line-height: 1.6; font-style: italic; }
 /* SPINNER */
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { flex-wrap: wrap; padding: 12px 16px; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+  .nav-brand { font-size: 16px; border-right: none; width: 100%; padding: 0 0 8px 0; border-bottom: 1px solid rgba(255,255,255,0.3); margin: 0; text-align: center; }
+  .nav-tab { padding: 10px; flex: 1; text-align: center; font-size: 13px; border-bottom-width: 2px; }
+  .nav-right { width: 100%; margin-top: 4px; display: flex; gap: 8px; }
+  .api-inp { width: 100%; flex: 1; min-width: 0; }
+  .btn-save-api { white-space: nowrap; }
+  .page { padding: 16px 12px; }
+  .card { padding: 16px; }
+  .form-row { flex-direction: column; align-items: stretch; }
+  .form-group { width: 100%; min-width: unset; }
+  .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; border-radius: 12px; margin-top: 10px; }
+  table { min-width: 600px; }
+  .order-item-row { flex-wrap: wrap; }
+  .search-wrapper { min-width: 100%; margin-bottom: 8px; }
+  .order-item-row input.item-qty { max-width: 80px; }
+  .order-item-row .item-subtotal { flex: 1; text-align: right; }
+  /* Invoice mobile */
+  .invoice { padding: 24px 16px; }
+  .inv-title { font-size: 32px; }
+  .inv-parties { grid-template-columns: 1fr; gap: 16px; }
+  .inv-footer { grid-template-columns: 1fr; gap: 16px; }
+}
 </style>
 </head>
 <body>
@@ -103,9 +223,9 @@ tr:hover td{background:#f7fafc}
         <label>Giá (VNĐ)</label>
         <input id="pPrice" type="text" placeholder="0" inputmode="numeric" oninput="fmtInput(this)">
       </div>
-      <div style="display:flex;gap:8px;padding-bottom:1px">
-        <button class="btn btn-primary" onclick="saveProduct()" id="btnSaveProduct">✅ Lưu</button>
-        <button class="btn btn-outline" onclick="cancelEditProduct()" id="btnCancelProduct" style="display:none">✕ Hủy</button>
+      <div style="display:flex;gap:8px;padding-bottom:1px;width:100%">
+        <button class="btn btn-primary" style="flex:1" onclick="saveProduct()" id="btnSaveProduct">✅ Lưu</button>
+        <button class="btn btn-outline" style="flex:1;display:none" onclick="cancelEditProduct()" id="btnCancelProduct">✕ Hủy</button>
       </div>
     </div>
   </div>
@@ -115,10 +235,12 @@ tr:hover td{background:#f7fafc}
       <span style="font-size:14px;font-weight:700;color:var(--teal)">📋 Danh sách (<span id="productCount">0</span> sản phẩm)</span>
       <button class="btn btn-outline" onclick="loadProducts()">🔄 Tải lại</button>
     </div>
+    <div class="table-responsive">
     <table id="productTable">
       <thead><tr><th>#</th><th>Tên Sản Phẩm</th><th>Giá</th><th>Ngày Tạo</th><th>Thao Tác</th></tr></thead>
       <tbody id="productBody"><tr><td colspan="5" style="text-align:center;color:var(--tm);padding:24px">Nhập URL API để bắt đầu...</td></tr></tbody>
     </table>
+    </div>
   </div>
 </div>
 
@@ -159,10 +281,12 @@ tr:hover td{background:#f7fafc}
       <span style="font-size:14px;font-weight:700;color:var(--teal)">📋 Lịch sử đơn hàng</span>
       <button class="btn btn-outline" onclick="loadOrders()">🔄 Tải lại</button>
     </div>
+    <div class="table-responsive">
     <table>
       <thead><tr><th>Mã Đơn</th><th>Khách Hàng</th><th>Sản Phẩm</th><th>Tổng Tiền</th><th>Ngày</th><th>Thao Tác</th></tr></thead>
       <tbody id="orderBody"><tr><td colspan="6" style="text-align:center;color:var(--tm);padding:24px">Chưa có đơn hàng nào...</td></tr></tbody>
     </table>
+    </div>
   </div>
 </div>
 
@@ -250,7 +374,7 @@ function renderProducts() {
       <td><strong>${esc(p.name)}</strong></td>
       <td><span class="badge badge-green">${fmt(p.price)} đ</span></td>
       <td>${esc(p.createdAt)}</td>
-      <td>
+      <td style="white-space:nowrap">
         <button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.id)}')">✏️ Sửa</button>
         <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteProduct('${esc(p.id)}','${esc(p.name)}')">🗑 Xóa</button>
       </td>
@@ -309,13 +433,57 @@ async function deleteProduct(id, name) {
 // ── ORDERS ───────────────────────────────────────────────────
 let itemCount = 0;
 
+function removeAccents(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function renderSearchDropdown(inputId, query) {
+  const q = removeAccents(query);
+  const dropdown = document.getElementById('dropdown-' + inputId);
+  if (!dropdown) return;
+  const filtered = products.filter(p => removeAccents(p.name).includes(q));
+  if (filtered.length === 0) {
+    dropdown.innerHTML = '<div style="padding:10px 14px;color:var(--tm);font-size:13px;text-align:center">Không tìm thấy sản phẩm</div>';
+  } else {
+    dropdown.innerHTML = filtered.map(p => `
+      <div class="search-item" onclick="selectSearchItem('${inputId}', '${esc(p.id)}', '${esc(p.name)}', ${p.price})">
+        <span>${esc(p.name)}</span>
+        <span class="search-item-price">${fmt(p.price)}đ</span>
+      </div>`).join('');
+  }
+}
+
+function showSearchDropdown(inputId) {
+  document.querySelectorAll('.search-dropdown').forEach(d => d.classList.remove('show'));
+  const dropdown = document.getElementById('dropdown-' + inputId);
+  const inp = document.getElementById('input-' + inputId);
+  if (dropdown) {
+    renderSearchDropdown(inputId, inp.value);
+    dropdown.classList.add('show');
+  }
+}
+
+function selectSearchItem(rowId, productId, name, price) {
+  const wrapper = document.getElementById('wrapper-' + rowId);
+  const inp = document.getElementById('input-' + rowId);
+  const dropdown = document.getElementById('dropdown-' + rowId);
+  
+  wrapper.dataset.pid = productId;
+  wrapper.dataset.price = price;
+  inp.value = name;
+  dropdown.classList.remove('show');
+  calcTotal();
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrapper')) {
+    document.querySelectorAll('.search-dropdown').forEach(d => d.classList.remove('show'));
+  }
+});
+
 function renderProductSelects() {
-  document.querySelectorAll('.item-select').forEach(sel => {
-    const cur = sel.value;
-    sel.innerHTML = '<option value="">-- Chọn sản phẩm --</option>'
-      + products.map(p => `<option value="${esc(p.id)}" data-price="${p.price}">${esc(p.name)} — ${fmt(p.price)}đ</option>`).join('');
-    sel.value = cur;
-  });
+  // Bỏ qua vì đã dùng input search
 }
 
 function addOrderItem() {
@@ -324,11 +492,13 @@ function addOrderItem() {
   div.className = 'order-item-row';
   div.id = 'item-' + itemCount;
   div.innerHTML = `
-    <select class="item-select" onchange="calcTotal()">
-      <option value="">-- Chọn sản phẩm --</option>
-      ${products.map(p => `<option value="${esc(p.id)}" data-price="${p.price}">${esc(p.name)} — ${fmt(p.price)}đ</option>`).join('')}
-    </select>
-    <input type="number" class="item-qty" placeholder="Số lượng" min="1" value="1" oninput="calcTotal()" style="max-width:100px">
+    <div class="search-wrapper" id="wrapper-${itemCount}" data-pid="" data-price="0">
+      <input type="text" id="input-${itemCount}" placeholder="Tìm tên sản phẩm..." autocomplete="off"
+             onfocus="showSearchDropdown('${itemCount}')" 
+             oninput="showSearchDropdown('${itemCount}')">
+      <div class="search-dropdown" id="dropdown-${itemCount}"></div>
+    </div>
+    <input type="number" class="item-qty" placeholder="Số lượng" min="1" value="1" oninput="calcTotal()">
     <span class="item-subtotal" style="font-weight:700;color:var(--teal);min-width:120px;text-align:right;font-size:13px">0đ</span>
     <button class="btn btn-danger btn-sm" onclick="removeItem('item-${itemCount}')">✕</button>`;
   document.getElementById('orderItems').appendChild(div);
@@ -342,10 +512,9 @@ function removeItem(id) {
 function calcTotal() {
   let total = 0;
   document.querySelectorAll('.order-item-row').forEach(row => {
-    const sel = row.querySelector('.item-select');
+    const wrapper = row.querySelector('.search-wrapper');
     const qty = parseInt(row.querySelector('.item-qty').value) || 0;
-    const opt = sel.options[sel.selectedIndex];
-    const price = opt ? (parseInt(opt.dataset.price) || 0) : 0;
+    const price = parseInt(wrapper.dataset.price) || 0;
     const sub = price * qty;
     row.querySelector('.item-subtotal').textContent = fmt(sub) + 'đ';
     total += sub;
@@ -362,12 +531,11 @@ async function submitOrder() {
   let valid = true;
 
   document.querySelectorAll('.order-item-row').forEach(row => {
-    const sel   = row.querySelector('.item-select');
+    const wrapper = row.querySelector('.search-wrapper');
     const qty   = parseInt(row.querySelector('.item-qty').value) || 0;
-    const pid   = sel.value;
+    const pid   = wrapper.dataset.pid;
     if (!pid || qty <= 0) { valid = false; return; }
-    const opt   = sel.options[sel.selectedIndex];
-    const price = parseInt(opt.dataset.price) || 0;
+    const price = parseInt(wrapper.dataset.price) || 0;
     const pname = products.find(p => p.id === pid)?.name || '';
     items.push({ productId: pid, name: pname, qty, price, subtotal: price * qty });
     total += price * qty;
@@ -410,10 +578,16 @@ async function loadOrders() {
       <tr>
         <td><code style="font-size:11px;color:var(--teal)">${esc(o.id)}</code></td>
         <td><strong>${esc(o.customer)}</strong><br><small style="color:var(--tm)">${esc(o.address)}</small></td>
-        <td style="font-size:12px">${(o.items||[]).map(i=>`${esc(i.name)} ×${i.qty}`).join('<br>')}</td>
+        <td style="font-size:12px">${(() => {
+          const items = o.items || [];
+          if (items.length <= 2) return items.map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
+          const firstTwo = items.slice(0, 2).map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
+          const rest = items.slice(2).map(i => `${esc(i.name)} ×${i.qty}`).join('\\n');
+          return `${firstTwo}<br><span style="color:var(--teal);cursor:pointer;font-weight:600;display:inline-block;margin-top:4px" onclick="alert('Các sản phẩm khác:\\n${esc(rest)}')">➕ Xem thêm ${items.length - 2} sản phẩm...</span>`;
+        })()}</td>
         <td><strong style="color:var(--teal)">${fmt(o.total)}đ</strong></td>
         <td>${esc(o.createdAt)}</td>
-        <td>
+        <td style="white-space:nowrap">
           <button class="btn btn-outline btn-sm" onclick='printInvoice(${JSON.stringify(o)})'>🖨 In</button>
           <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteOrder('${esc(o.id)}')">🗑</button>
         </td>
@@ -443,31 +617,40 @@ function printInvoice(o) {
 
   document.getElementById('printArea').innerHTML = `
     <div class="invoice">
-      <div class="inv-title">HOÁ ĐƠN</div>
-      <div class="inv-date">Ngày lập: ${esc(o.createdAt || new Date().toLocaleDateString('vi-VN'))}</div>
-      <div class="inv-parties">
-        <div class="inv-party">
-          <h4>Hóa đơn cho:</h4>
-          <p><strong>${esc(o.customer)}</strong><br>${esc(o.address||'')}</p>
-          ${o.note ? `<p style="margin-top:6px;color:#666;font-size:13px">📝 ${esc(o.note)}</p>` : ''}
+      <div class="inv-header">
+        <div class="inv-brand">
+          <h1>Nuty Cosmetics</h1>
+          <p>📍 Hẻm 149, Liên tổ 12/20, P. Tân An, Cần Thơ<br>📞 0397 096 846 - 📘 Facebook: Ngô Ngọc Trầm</p>
         </div>
-        <div class="inv-party">
-          <h4>Thanh toán cho:</h4>
-          <p><strong>Nuty Cosmetics</strong><br>📞 0397 096 846<br>📘 Ngô Ngọc Trầm</p>
+        <div class="inv-title-box">
+          <div class="inv-title">HÓA ĐƠN</div>
+          <div class="inv-date">Mã đơn: <strong>${esc(o.id)}</strong><br>Ngày lập: ${esc(o.createdAt || new Date().toLocaleDateString('vi-VN'))}</div>
         </div>
       </div>
+
+      <div class="inv-customer">
+        <h4>Thông tin khách hàng</h4>
+        <p><strong>${esc(o.customer)}</strong><br>📍 ${esc(o.address||'Không có địa chỉ')}</p>
+        ${o.note ? `<p style="margin-top:6px;font-style:italic">📝 Ghi chú: ${esc(o.note)}</p>` : ''}
+      </div>
+
       <table class="inv-table">
-        <thead><tr><th>Mô tả</th><th style="text-align:center">Số lượng</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">Thành tiền</th></tr></thead>
+        <thead><tr><th>Sản phẩm</th><th style="text-align:center;width:100px">Số lượng</th><th style="text-align:right;width:120px">Đơn giá</th><th style="text-align:right;width:140px">Thành tiền</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      <div class="inv-total">Tổng cộng: ${fmt(o.total)}đ</div>
-      <div class="inv-footer">
-        <div>
-          <div class="inv-footer-brand">💄 Nuty Cosmetics</div>
-          <div style="margin-top:4px;font-size:12px;color:#555">Chân thành cảm ơn quý khách! 🙏</div>
+
+      <div class="inv-total-box">
+        <div class="inv-total">
+          <div class="inv-total-row final">
+            <span>Tổng cộng:</span>
+            <span>${fmt(o.total)}đ</span>
+          </div>
         </div>
-        <div>📍 Hẻm 149, Liên tổ 12/20<br>Phường Tân An, TP. Cần Thơ</div>
-        <div>📞 0397 096 846<br>📘 Facebook: Ngô Ngọc Trầm</div>
+      </div>
+
+      <div class="inv-footer">
+        Chân thành cảm ơn quý khách đã mua sắm tại Nuty Cosmetics! 🙏<br>
+        Hàng mua rồi vui lòng kiểm tra kỹ trước khi nhận.
       </div>
     </div>`;
   setTimeout(() => window.print(), 100);
@@ -492,10 +675,11 @@ function fmtDatetime(d) {
   const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
   const h  = String(d.getHours()).padStart(2,'0');
   const m  = String(d.getMinutes()).padStart(2,'0');
+  const s  = String(d.getSeconds()).padStart(2,'0');
   const dd = String(d.getDate()).padStart(2,'0');
   const mo = String(d.getMonth()+1).padStart(2,'0');
   const yy = d.getFullYear();
-  return h+':'+m+' '+days[d.getDay()]+', '+dd+'/'+mo+'/'+yy;
+  return `${h}:${m}:${s} ${days[d.getDay()]}, ${dd}/${mo}/${yy}`;
 }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
