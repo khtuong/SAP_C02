@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quản Lý Bán Hàng</title>
+<style>
+:root{--bg:#f0f4f8;--sf:#fff;--teal:#0d5c4a;--teal2:#1a7a63;--red:#e53e3e;--tx:#1a202c;--tm:#718096;--bd:#e2e8f0;--r:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+/* NAV */
+nav{background:var(--teal);padding:0 24px;display:flex;align-items:center;gap:0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.nav-brand{color:#fff;font-size:18px;font-weight:800;padding:16px 20px 16px 0;border-right:1px solid rgba(255,255,255,.2);margin-right:8px}
+.nav-tab{color:rgba(255,255,255,.75);padding:16px 20px;cursor:pointer;font-size:14px;font-weight:500;border-bottom:3px solid transparent;transition:.2s}
+.nav-tab:hover,.nav-tab.active{color:#fff;border-bottom-color:#fcb045}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.api-inp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:7px 12px;color:#fff;font-size:12px;width:340px;outline:none}
+.api-inp::placeholder{color:rgba(255,255,255,.5)}
+.btn-save-api{background:#fcb045;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;color:#1a202c}
+/* LAYOUT */
+.page{display:none;padding:28px 32px;max-width:1100px;margin:0 auto}
+.page.active{display:block}
+.page-title{font-size:22px;font-weight:800;color:var(--teal);margin-bottom:20px}
+/* CARD */
+.card{background:var(--sf);border-radius:var(--r);box-shadow:0 1px 8px rgba(0,0,0,.08);padding:22px 24px;margin-bottom:20px}
+/* FORM */
+.form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.form-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px}
+label{font-size:12px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.5px}
+input,select,textarea{background:var(--bg);border:1.5px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--tx);outline:none;font-family:inherit;transition:.2s;width:100%}
+input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,92,74,.12)}
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--teal);color:#fff}.btn-primary:hover{background:var(--teal2)}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{filter:brightness(1.1)}
+.btn-outline{background:#fff;border:1.5px solid var(--bd);color:var(--tm)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-sm{padding:5px 12px;font-size:12px}
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--teal);color:#fff;padding:11px 14px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:11px 14px;border-bottom:1px solid var(--bd);color:var(--tx)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7fafc}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-green{background:#c6f6d5;color:#276749}
+/* ORDER ITEMS */
+.order-item-row{display:flex;gap:10px;align-items:center;padding:8px;background:var(--bg);border-radius:8px;margin-bottom:8px}
+.order-item-row select{flex:2}.order-item-row input{flex:1}
+.total-display{font-size:22px;font-weight:800;color:var(--teal);text-align:right;padding:12px 0}
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:#1a202c;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:.3s;z-index:9999;pointer-events:none}
+#toast.show{opacity:1;transform:none}
+/* PRINT — chỉ in hóa đơn */
+@media print{
+  body > *{display:none!important}
+  #printArea{display:block!important;position:static!important}
+  body{background:#fff;margin:0}
+}
+#printArea{display:none}
+/* INVOICE */
+.invoice{background:#f5f0e8;padding:48px;max-width:720px;margin:0 auto;font-family:'Segoe UI',sans-serif}
+.inv-title{font-size:52px;font-weight:900;color:var(--teal);margin-bottom:6px}
+.inv-date{font-size:15px;margin-bottom:28px}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px}
+.inv-party h4{color:var(--teal);font-size:13px;margin-bottom:8px;font-weight:700}
+.inv-party p{font-size:14px;line-height:1.7;color:#333}
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:20px}
+.inv-table th{background:var(--teal);color:#fff;padding:12px 16px;text-align:left;font-size:13px}
+.inv-table td{padding:12px 16px;border-bottom:1px solid #d4cfc4;font-size:13px}
+.inv-table tr:last-child td{border-bottom:2px solid var(--teal)}
+.inv-total{text-align:right;font-size:20px;font-weight:800;color:var(--teal);padding:12px 16px}
+.inv-footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid #c4bfb3;font-size:12px;color:#666}
+.inv-footer-brand{font-weight:800;color:var(--teal);font-size:14px}
+/* SPINNER */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">💄 Nuty Cosmetics</div>
+  <div class="nav-tab active" onclick="showPage('products')">📦 Sản Phẩm</div>
+  <div class="nav-tab" onclick="showPage('orders')">🧾 Đơn Hàng</div>
+  <div class="nav-right">
+    <input class="api-inp" id="apiUrl" placeholder="Dán Apps Script URL vào đây..." value="">
+    <button class="btn-save-api" onclick="saveApi()">💾 Lưu URL</button>
+  </div>
+</nav>
+
+<!-- PAGE: SẢN PHẨM -->
+<div class="page active" id="page-products">
+  <div class="page-title">📦 Danh Sách Sản Phẩm</div>
+
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--teal)" id="productFormTitle">➕ Thêm Sản Phẩm Mới</div>
+    <div class="form-row">
+      <div class="form-group" style="flex:2">
+        <label>Tên sản phẩm</label>
+        <input id="pName" placeholder="Nhập tên sản phẩm...">
+      </div>
+      <div class="form-group">
+        <label>Giá (VNĐ)</label>
+        <input id="pPrice" type="text" placeholder="0" inputmode="numeric" oninput="fmtInput(this)">
+      </div>
+      <div style="display:flex;gap:8px;padding-bottom:1px">
+        <button class="btn btn-primary" onclick="saveProduct()" id="btnSaveProduct">✅ Lưu</button>
+        <button class="btn btn-outline" onclick="cancelEditProduct()" id="btnCancelProduct" style="display:none">✕ Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span style="font-size:14px;font-weight:700;color:var(--teal)">📋 Danh sách (<span id="productCount">0</span> sản phẩm)</span>
+      <button class="btn btn-outline" onclick="loadProducts()">🔄 Tải lại</button>
+    </div>
+    <table id="productTable">
+      <thead><tr><th>#</th><th>Tên Sản Phẩm</th><th>Giá</th><th>Ngày Tạo</th><th>Thao Tác</th></tr></thead>
+      <tbody id="productBody"><tr><td colspan="5" style="text-align:center;color:var(--tm);padding:24px">Nhập URL API để bắt đầu...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE: ĐƠN HÀNG -->
+<div class="page" id="page-orders">
+  <div class="page-title">🧾 Quản Lý Đơn Hàng</div>
+
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--teal)">➕ Tạo Đơn Hàng Mới</div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-group">
+        <label>Tên khách hàng</label>
+        <input id="oCustomer" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="form-group" style="flex:2">
+        <label>Địa chỉ</label>
+        <input id="oAddress" placeholder="123 Đường ABC, TP.HCM">
+      </div>
+      <div class="form-group">
+        <label>Ghi chú</label>
+        <input id="oNote" placeholder="(tuỳ chọn)">
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--tm);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Chi tiết sản phẩm</div>
+    <div id="orderItems"></div>
+    <button class="btn btn-outline" style="margin-bottom:14px" onclick="addOrderItem()">➕ Thêm dòng sản phẩm</button>
+
+    <div class="total-display">Tổng cộng: <span id="orderTotal">0</span></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="submitOrder()">💾 Tạo Đơn Hàng</button>
+      <button class="btn btn-outline" onclick="clearOrderForm()">🗑 Xóa form</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span style="font-size:14px;font-weight:700;color:var(--teal)">📋 Lịch sử đơn hàng</span>
+      <button class="btn btn-outline" onclick="loadOrders()">🔄 Tải lại</button>
+    </div>
+    <table>
+      <thead><tr><th>Mã Đơn</th><th>Khách Hàng</th><th>Sản Phẩm</th><th>Tổng Tiền</th><th>Ngày</th><th>Thao Tác</th></tr></thead>
+      <tbody id="orderBody"><tr><td colspan="6" style="text-align:center;color:var(--tm);padding:24px">Chưa có đơn hàng nào...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PRINT AREA -->
+<div id="printArea"></div>
+
+<div id="toast"></div>
+
+<script>
+// ── STATE ───────────────────────────────────────────────────
+let API_URL = localStorage.getItem('gs_api_url') || '';
+let products = [];
+let editingProductId = null;
+
+// ── INIT ─────────────────────────────────────────────────────
+window.onload = () => {
+  if (API_URL) {
+    document.getElementById('apiUrl').value = API_URL;
+    loadProducts();
+  }
+  addOrderItem();
+};
+
+function saveApi() {
+  API_URL = document.getElementById('apiUrl').value.trim();
+  localStorage.setItem('gs_api_url', API_URL);
+  toast('✅ Đã lưu URL API');
+  loadProducts();
+  loadOrders();
+}
+
+// ── NAV ──────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'orders') { loadProducts(); loadOrders(); }
+  if (name === 'products') loadProducts();
+}
+
+// ── API CALL ─────────────────────────────────────────────────
+function api(action, data = {}) {
+  return new Promise((resolve, reject) => {
+    if (!API_URL) { toast('⚠️ Hãy nhập URL API trước!', true); return reject(new Error('No API URL')); }
+    const cb  = 'cb_' + Date.now();
+    const d   = encodeURIComponent(JSON.stringify(data));
+    const url = API_URL + '?action=' + action + '&d=' + d + '&callback=' + cb;
+    const sc  = document.createElement('script');
+    const timer = setTimeout(() => {
+      delete window[cb]; sc.remove();
+      reject(new Error('Timeout — kiểm tra lại URL API'));
+    }, 15000);
+    window[cb] = (res) => {
+      clearTimeout(timer); delete window[cb]; sc.remove();
+      if (!res.ok) return reject(new Error(res.error || 'API error'));
+      resolve(res);
+    };
+    sc.src = url;
+    sc.onerror = () => { clearTimeout(timer); delete window[cb]; sc.remove(); reject(new Error('Network error')); };
+    document.head.appendChild(sc);
+  });
+}
+
+// ── PRODUCTS ─────────────────────────────────────────────────
+async function loadProducts() {
+  try {
+    const res = await api('getProducts');
+    products = res.data || [];
+    renderProducts();
+    renderProductSelects();
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+function renderProducts() {
+  const tbody = document.getElementById('productBody');
+  document.getElementById('productCount').textContent = products.length;
+  if (!products.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--tm);padding:24px">Chưa có sản phẩm nào</td></tr>';
+    return;
+  }
+  tbody.innerHTML = products.map((p, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${esc(p.name)}</strong></td>
+      <td><span class="badge badge-green">${fmt(p.price)} đ</span></td>
+      <td>${esc(p.createdAt)}</td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.id)}')">✏️ Sửa</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteProduct('${esc(p.id)}','${esc(p.name)}')">🗑 Xóa</button>
+      </td>
+    </tr>`).join('');
+}
+
+async function saveProduct() {
+  const name  = document.getElementById('pName').value.trim();
+  const price = getRaw(document.getElementById('pPrice'));
+  if (!name || !price) { toast('⚠️ Vui lòng nhập đủ thông tin', true); return; }
+  try {
+    if (editingProductId) {
+      await api('updateProduct', { id: editingProductId, name, price: getRaw(document.getElementById('pPrice')) });
+      toast('✅ Đã cập nhật sản phẩm');
+    } else {
+      await api('addProduct', { name, price: getRaw(document.getElementById('pPrice')) });
+      toast('✅ Đã thêm sản phẩm mới');
+    }
+    cancelEditProduct();
+    loadProducts();
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+function editProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  editingProductId = id;
+  document.getElementById('pName').value = p.name;
+  const priceEl = document.getElementById('pPrice');
+  priceEl.dataset.raw = p.price;
+  priceEl.value = Number(p.price).toLocaleString('vi-VN');
+  document.getElementById('productFormTitle').textContent = '✏️ Sửa Sản Phẩm';
+  document.getElementById('btnSaveProduct').textContent = '💾 Cập nhật';
+  document.getElementById('btnCancelProduct').style.display = 'inline-flex';
+  document.getElementById('pName').focus();
+}
+
+function cancelEditProduct() {
+  editingProductId = null;
+  document.getElementById('pName').value  = '';
+  document.getElementById('pPrice').value = '';
+  document.getElementById('productFormTitle').textContent = '➕ Thêm Sản Phẩm Mới';
+  document.getElementById('btnSaveProduct').textContent = '✅ Lưu';
+  document.getElementById('btnCancelProduct').style.display = 'none';
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`Xóa sản phẩm "${name}"?`)) return;
+  try {
+    await api('deleteProduct', { id });
+    toast('🗑 Đã xóa sản phẩm');
+    loadProducts();
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+// ── ORDERS ───────────────────────────────────────────────────
+let itemCount = 0;
+
+function renderProductSelects() {
+  document.querySelectorAll('.item-select').forEach(sel => {
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">-- Chọn sản phẩm --</option>'
+      + products.map(p => `<option value="${esc(p.id)}" data-price="${p.price}">${esc(p.name)} — ${fmt(p.price)}đ</option>`).join('');
+    sel.value = cur;
+  });
+}
+
+function addOrderItem() {
+  itemCount++;
+  const div = document.createElement('div');
+  div.className = 'order-item-row';
+  div.id = 'item-' + itemCount;
+  div.innerHTML = `
+    <select class="item-select" onchange="calcTotal()">
+      <option value="">-- Chọn sản phẩm --</option>
+      ${products.map(p => `<option value="${esc(p.id)}" data-price="${p.price}">${esc(p.name)} — ${fmt(p.price)}đ</option>`).join('')}
+    </select>
+    <input type="number" class="item-qty" placeholder="Số lượng" min="1" value="1" oninput="calcTotal()" style="max-width:100px">
+    <span class="item-subtotal" style="font-weight:700;color:var(--teal);min-width:120px;text-align:right;font-size:13px">0đ</span>
+    <button class="btn btn-danger btn-sm" onclick="removeItem('item-${itemCount}')">✕</button>`;
+  document.getElementById('orderItems').appendChild(div);
+}
+
+function removeItem(id) {
+  document.getElementById(id)?.remove();
+  calcTotal();
+}
+
+function calcTotal() {
+  let total = 0;
+  document.querySelectorAll('.order-item-row').forEach(row => {
+    const sel = row.querySelector('.item-select');
+    const qty = parseInt(row.querySelector('.item-qty').value) || 0;
+    const opt = sel.options[sel.selectedIndex];
+    const price = opt ? (parseInt(opt.dataset.price) || 0) : 0;
+    const sub = price * qty;
+    row.querySelector('.item-subtotal').textContent = fmt(sub) + 'đ';
+    total += sub;
+  });
+  document.getElementById('orderTotal').textContent = fmt(total) + 'đ';
+}
+
+async function submitOrder() {
+  const customer = document.getElementById('oCustomer').value.trim();
+  const address  = document.getElementById('oAddress').value.trim();
+  const note     = document.getElementById('oNote').value.trim();
+  const items = [];
+  let total = 0;
+  let valid = true;
+
+  document.querySelectorAll('.order-item-row').forEach(row => {
+    const sel   = row.querySelector('.item-select');
+    const qty   = parseInt(row.querySelector('.item-qty').value) || 0;
+    const pid   = sel.value;
+    if (!pid || qty <= 0) { valid = false; return; }
+    const opt   = sel.options[sel.selectedIndex];
+    const price = parseInt(opt.dataset.price) || 0;
+    const pname = products.find(p => p.id === pid)?.name || '';
+    items.push({ productId: pid, name: pname, qty, price, subtotal: price * qty });
+    total += price * qty;
+  });
+
+  if (!customer) { toast('⚠️ Nhập tên khách hàng', true); return; }
+  if (!items.length || !valid) { toast('⚠️ Chọn sản phẩm và số lượng hợp lệ', true); return; }
+
+  try {
+    const res = await api('addOrder', { customer, address, note, items, total });
+    toast('✅ Đã tạo đơn hàng ' + res.id);
+    clearOrderForm();
+    loadOrders();
+    const now = fmtDatetime(new Date());
+    // auto print
+    printInvoice({ id: res.id, customer, address, note, items, total, createdAt: now });
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+function clearOrderForm() {
+  document.getElementById('oCustomer').value = '';
+  document.getElementById('oAddress').value  = '';
+  document.getElementById('oNote').value     = '';
+  document.getElementById('orderItems').innerHTML = '';
+  itemCount = 0;
+  addOrderItem();
+  calcTotal();
+}
+
+async function loadOrders() {
+  try {
+    const res = await api('getOrders');
+    const orders = (res.data || []).reverse();
+    const tbody = document.getElementById('orderBody');
+    if (!orders.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--tm);padding:24px">Chưa có đơn hàng nào</td></tr>';
+      return;
+    }
+    tbody.innerHTML = orders.map(o => `
+      <tr>
+        <td><code style="font-size:11px;color:var(--teal)">${esc(o.id)}</code></td>
+        <td><strong>${esc(o.customer)}</strong><br><small style="color:var(--tm)">${esc(o.address)}</small></td>
+        <td style="font-size:12px">${(o.items||[]).map(i=>`${esc(i.name)} ×${i.qty}`).join('<br>')}</td>
+        <td><strong style="color:var(--teal)">${fmt(o.total)}đ</strong></td>
+        <td>${esc(o.createdAt)}</td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick='printInvoice(${JSON.stringify(o)})'>🖨 In</button>
+          <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteOrder('${esc(o.id)}')">🗑</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+async function deleteOrder(id) {
+  if (!confirm('Xóa đơn hàng này?')) return;
+  try {
+    await api('deleteOrder', { id });
+    toast('🗑 Đã xóa đơn hàng');
+    loadOrders();
+  } catch(e) { toast('❌ ' + e.message, true); }
+}
+
+// ── INVOICE PRINT ────────────────────────────────────────────
+function printInvoice(o) {
+  const items = o.items || [];
+  const rows = items.map(i => `
+    <tr>
+      <td>${esc(i.name)}</td>
+      <td style="text-align:center">${i.qty}</td>
+      <td style="text-align:right">${fmt(i.price)}đ</td>
+      <td style="text-align:right"><strong>${fmt(i.subtotal||i.price*i.qty)}đ</strong></td>
+    </tr>`).join('');
+
+  document.getElementById('printArea').innerHTML = `
+    <div class="invoice">
+      <div class="inv-title">HOÁ ĐƠN</div>
+      <div class="inv-date">Ngày lập: ${esc(o.createdAt || new Date().toLocaleDateString('vi-VN'))}</div>
+      <div class="inv-parties">
+        <div class="inv-party">
+          <h4>Hóa đơn cho:</h4>
+          <p><strong>${esc(o.customer)}</strong><br>${esc(o.address||'')}</p>
+          ${o.note ? `<p style="margin-top:6px;color:#666;font-size:13px">📝 ${esc(o.note)}</p>` : ''}
+        </div>
+        <div class="inv-party">
+          <h4>Thanh toán cho:</h4>
+          <p><strong>Nuty Cosmetics</strong><br>📞 0397 096 846<br>📘 Ngô Ngọc Trầm</p>
+        </div>
+      </div>
+      <table class="inv-table">
+        <thead><tr><th>Mô tả</th><th style="text-align:center">Số lượng</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">Thành tiền</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="inv-total">Tổng cộng: ${fmt(o.total)}đ</div>
+      <div class="inv-footer">
+        <div>
+          <div class="inv-footer-brand">💄 Nuty Cosmetics</div>
+          <div style="margin-top:4px;font-size:12px;color:#555">Chân thành cảm ơn quý khách! 🙏</div>
+        </div>
+        <div>📍 Hẻm 149, Liên tổ 12/20<br>Phường Tân An, TP. Cần Thơ</div>
+        <div>📞 0397 096 846<br>📘 Facebook: Ngô Ngọc Trầm</div>
+      </div>
+    </div>`;
+  setTimeout(() => window.print(), 100);
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+// ── Định dạng số với dấu chấm ──────────────────────────────
+function fmt(n) {
+  return Number(n||0).toLocaleString('vi-VN');
+}
+// Auto-format input số tiền khi nhập
+function fmtInput(el) {
+  let raw = el.value.replace(/\./g,'').replace(/[^0-9]/g,'');
+  el.dataset.raw = raw;
+  if (raw) el.value = Number(raw).toLocaleString('vi-VN');
+}
+function getRaw(el) {
+  return el.dataset.raw || el.value.replace(/\./g,'');
+}
+// ── Định dạng ngày giờ ───────────────────────────────────────
+function fmtDatetime(d) {
+  const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+  const h  = String(d.getHours()).padStart(2,'0');
+  const m  = String(d.getMinutes()).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mo = String(d.getMonth()+1).padStart(2,'0');
+  const yy = d.getFullYear();
+  return h+':'+m+' '+days[d.getDay()]+', '+dd+'/'+mo+'/'+yy;
+}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+let toastTimer;
+function toast(msg, isErr=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = isErr ? '#e53e3e' : '#1a202c';
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
