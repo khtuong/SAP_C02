@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Quản Lý Bán Hàng</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* LIQUID GLASS - iOS 26 STYLE */
 :root {
@@ -616,7 +617,7 @@ function printInvoice(o) {
     </tr>`).join('');
 
   document.getElementById('printArea').innerHTML = `
-    <div class="invoice">
+    <div class="invoice" id="invoice-capture" style="position: absolute; top: 0; left: -9999px; width: 800px; box-sizing: border-box; background: #fff;">
       <div class="inv-header">
         <div class="inv-brand">
           <h1>Nuty Cosmetics</h1>
@@ -653,7 +654,31 @@ function printInvoice(o) {
         Hàng mua rồi vui lòng kiểm tra kỹ trước khi nhận.
       </div>
     </div>`;
-  setTimeout(() => window.print(), 100);
+  
+  const printArea = document.getElementById('printArea');
+  printArea.style.display = 'block';
+  toast('⏳ Đang tạo ảnh hóa đơn...', false);
+
+  setTimeout(async () => {
+    try {
+      const el = document.getElementById('invoice-capture');
+      const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+      const imgData = canvas.toDataURL('image/jpeg', 0.9);
+      
+      const link = document.createElement('a');
+      link.download = `HoaDon_${o.id || Date.now()}.jpg`;
+      link.href = imgData;
+      link.click();
+      
+      toast('✅ Đã tải ảnh hóa đơn (JPG)');
+    } catch(err) {
+      console.error(err);
+      toast('❌ Lỗi tạo ảnh hóa đơn', true);
+    } finally {
+      printArea.style.display = 'none';
+      printArea.innerHTML = '';
+    }
+  }, 300);
 }
 
 // ── UTILS ─────────────────────────────────────────────────────
