@@ -330,25 +330,38 @@ function showPage(name) {
 }
 
 // ── API CALL ─────────────────────────────────────────────────
-function api(action, data = {}) {
-  return new Promise((resolve, reject) => {
-    if (!API_URL) { toast('⚠️ Hãy nhập URL API trước!', true); return reject(new Error('No API URL')); }
-    const cb  = 'cb_' + Date.now();
-    const d   = encodeURIComponent(JSON.stringify(data));
-    const url = API_URL + '?action=' + action + '&d=' + d + '&callback=' + cb;
-    const sc  = document.createElement('script');
-    const timer = setTimeout(() => {
-      delete window[cb]; sc.remove();
-      reject(new Error('Timeout — kiểm tra lại URL API'));
-    }, 15000);
-    window[cb] = (res) => {
-      clearTimeout(timer); delete window[cb]; sc.remove();
-      if (!res.ok) return reject(new Error(res.error || 'API error'));
-      resolve(res);
-    };
-    sc.src = url;
-    sc.onerror = () => { clearTimeout(timer); delete window[cb]; sc.remove(); reject(new Error('Network error')); };
-    document.head.appendChild(sc);
+function api(action, data = {}, retries = 2) {
+  return new Promise(async (resolve, reject) => {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const res = await new Promise((res, rej) => {
+          if (!API_URL) { toast('⚠️ Hãy nhập URL API trước!', true); return rej(new Error('No API URL')); }
+          const cb  = 'cb_' + Date.now() + Math.floor(Math.random() * 1000);
+          const d   = encodeURIComponent(JSON.stringify(data));
+          const url = API_URL + '?action=' + action + '&d=' + d + '&callback=' + cb;
+          const sc  = document.createElement('script');
+          const timer = setTimeout(() => {
+            delete window[cb]; sc.remove();
+            rej(new Error('Timeout'));
+          }, 20000);
+          window[cb] = (result) => {
+            clearTimeout(timer); delete window[cb]; sc.remove();
+            if (!result.ok) return rej(new Error(result.error || 'API error'));
+            res(result);
+          };
+          sc.src = url;
+          sc.onerror = () => { clearTimeout(timer); delete window[cb]; sc.remove(); rej(new Error('Network error')); };
+          document.head.appendChild(sc);
+        });
+        return resolve(res);
+      } catch (e) {
+        if (attempt === retries || (e.message !== 'Timeout' && e.message !== 'Network error')) {
+          return reject(e);
+        }
+        toast('🔄 Mạng chậm, đang thử lại...', false);
+        await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+      }
+    }
   });
 }
 
@@ -357,9 +370,20 @@ async function loadProducts() {
   try {
     const res = await api('getProducts');
     products = res.data || [];
+    localStorage.setItem('gs_products_cache', JSON.stringify(products));
     renderProducts();
     renderProductSelects();
-  } catch(e) { toast('❌ ' + e.message, true); }
+  } catch(e) { 
+    const cached = localStorage.getItem('gs_products_cache');
+    if (cached) {
+      products = JSON.parse(cached);
+      renderProducts();
+      renderProductSelects();
+      toast('⚠️ Lỗi mạng: Đang dùng dữ liệu sản phẩm offline', true);
+    } else {
+      toast('❌ ' + e.message, true); 
+    }
+  }
 }
 
 function renderProducts() {
@@ -566,34 +590,47 @@ function clearOrderForm() {
   calcTotal();
 }
 
+function renderOrdersList(orders) {
+  const tbody = document.getElementById('orderBody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--tm);padding:24px">Chưa có đơn hàng nào</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td><code style="font-size:11px;color:var(--teal)">${esc(o.id)}</code></td>
+      <td><strong>${esc(o.customer)}</strong><br><small style="color:var(--tm)">${esc(o.address)}</small></td>
+      <td style="font-size:12px">${(() => {
+        const items = o.items || [];
+        if (items.length <= 2) return items.map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
+        const firstTwo = items.slice(0, 2).map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
+        const rest = items.slice(2).map(i => `${esc(i.name)} ×${i.qty}`).join('\\n');
+        return `${firstTwo}<br><span style="color:var(--teal);cursor:pointer;font-weight:600;display:inline-block;margin-top:4px" onclick="alert('Các sản phẩm khác:\\n${esc(rest)}')">➕ Xem thêm ${items.length - 2} sản phẩm...</span>`;
+      })()}</td>
+      <td><strong style="color:var(--teal)">${fmt(o.total)}đ</strong></td>
+      <td>${esc(o.createdAt)}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-outline btn-sm" onclick='printInvoice(${JSON.stringify(o)})'>🖨 In</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteOrder('${esc(o.id)}')">🗑</button>
+      </td>
+    </tr>`).join('');
+}
+
 async function loadOrders() {
   try {
     const res = await api('getOrders');
     const orders = (res.data || []).reverse();
-    const tbody = document.getElementById('orderBody');
-    if (!orders.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--tm);padding:24px">Chưa có đơn hàng nào</td></tr>';
-      return;
+    localStorage.setItem('gs_orders_cache', JSON.stringify(orders));
+    renderOrdersList(orders);
+  } catch(e) { 
+    const cached = localStorage.getItem('gs_orders_cache');
+    if (cached) {
+      renderOrdersList(JSON.parse(cached));
+      toast('⚠️ Lỗi mạng: Đang dùng dữ liệu đơn hàng offline', true);
+    } else {
+      toast('❌ ' + e.message, true); 
     }
-    tbody.innerHTML = orders.map(o => `
-      <tr>
-        <td><code style="font-size:11px;color:var(--teal)">${esc(o.id)}</code></td>
-        <td><strong>${esc(o.customer)}</strong><br><small style="color:var(--tm)">${esc(o.address)}</small></td>
-        <td style="font-size:12px">${(() => {
-          const items = o.items || [];
-          if (items.length <= 2) return items.map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
-          const firstTwo = items.slice(0, 2).map(i => `${esc(i.name)} ×${i.qty}`).join('<br>');
-          const rest = items.slice(2).map(i => `${esc(i.name)} ×${i.qty}`).join('\\n');
-          return `${firstTwo}<br><span style="color:var(--teal);cursor:pointer;font-weight:600;display:inline-block;margin-top:4px" onclick="alert('Các sản phẩm khác:\\n${esc(rest)}')">➕ Xem thêm ${items.length - 2} sản phẩm...</span>`;
-        })()}</td>
-        <td><strong style="color:var(--teal)">${fmt(o.total)}đ</strong></td>
-        <td>${esc(o.createdAt)}</td>
-        <td style="white-space:nowrap">
-          <button class="btn btn-outline btn-sm" onclick='printInvoice(${JSON.stringify(o)})'>🖨 In</button>
-          <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="deleteOrder('${esc(o.id)}')">🗑</button>
-        </td>
-      </tr>`).join('');
-  } catch(e) { toast('❌ ' + e.message, true); }
+  }
 }
 
 async function deleteOrder(id) {
