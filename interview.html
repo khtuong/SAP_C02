@@ -39824,257 +39824,557 @@ public static Singleton getInstance() {
                 <hr>
                 <p><em>Total: 115 Q&amp;A covering Java Core, Spring/Boot, Hibernate/JPA, System Design, and AWS —
                         tailored to Pham Khanh Tuong&#x27;s CV.</em></p>
-            <hr><h1>Interviewer Question Bank — Senior/Expert Java Engineer (46 Questions)</h1><p><strong>You are the interviewer. Use these questions to evaluate Senior/Expert candidates.</strong></p>
-<p><strong>Difficulty: HARD | Expected: Deep understanding, not memorized answers</strong></p>
-<hr>
-<h2>SECTION A — JAVA CORE (25 Questions)</h2>
-<h3>A1. Memory Model & Concurrency</h3>
-<p><strong>Q1: Explain the Java Memory Model's happens-before guarantees. Give 3 specific rules and a code example where violating them causes a bug.</strong></p>
-<p>Expected answer must include: volatile write/read ordering, monitor lock/unlock, thread start/join. The candidate should demonstrate that without happens-before, one thread may never see another's writes due to CPU caching and instruction reordering.</p>
-<p>Red flag: candidate only says "volatile makes variables visible to all threads" without explaining the ordering guarantees.</p>
-<p>Score: 10 if mentions memory barriers + transitivity. 5 if only mentions visibility.</p>
-<hr>
-<p><strong>Q2: What is the difference between <code>synchronized</code>, <code>ReentrantLock</code>, and <code>StampedLock</code>? When would you choose each?</strong></p>
-<p>Expected: synchronized = intrinsic monitor, non-interruptible, no try-lock. ReentrantLock = explicit, supports tryLock, lockInterruptibly, multiple Conditions. StampedLock = optimistic read mode (no lock acquisition for reads), converts to read/write lock if validation fails. Choose StampedLock for read-heavy workloads where writes are rare.</p>
-<p>Red flag: cannot explain optimistic read mode or when StampedLock is dangerous (not reentrant).</p>
-<hr>
-<p><strong>Q3: Explain virtual thread pinning in Java 21. What causes it, how do you detect it, and how do you fix it?</strong></p>
-<p>Expected: synchronized blocks pin the virtual thread to its carrier thread. Native JNI calls also pin. Detect with <code>-Djdk.tracePinnedThreads=full</code>. Fix by replacing synchronized with ReentrantLock. Must mention HikariCP pre-5.1 used synchronized internally.</p>
-<hr>
-<p><strong>Q4: What is the ABA problem in lock-free programming? How does AtomicStampedReference solve it?</strong></p>
-<p>Expected: Thread reads value A, another thread changes A->B->A. First thread's CAS succeeds (sees A) but the state has changed. AtomicStampedReference adds a version stamp — CAS checks both value AND stamp.</p>
-<hr>
-<p><strong>Q5: Design a thread-safe LRU cache without using <code>synchronized</code> on every operation. What data structures do you use?</strong></p>
-<p>Expected: ConcurrentHashMap for O(1) lookup + a lock-striped doubly-linked list for LRU ordering. Or use Caffeine library which implements W-TinyLFU. Candidate should discuss trade-offs: strict LRU vs approximate LRU, contention under high concurrency.</p>
-<p>Red flag: suggests Collections.synchronizedMap(new LinkedHashMap()) — single global lock, terrible under concurrency.</p>
-<hr>
-<h3>A2. Generics & Type System</h3>
-<p><strong>Q6: Explain PECS (Producer Extends, Consumer Super) with a real API example. Why can't you add elements to a <code>List<? extends Number></code>?</strong></p>
-<p>Expected: The list could be List\<Integer\> or List\<Double\> — compiler cannot know which, so writing is unsafe. Reading is safe because every element is at least a Number. Real example: Collections.copy(dest, src) where dest is <code>? super T</code> and src is <code>? extends T</code>.</p>
-<hr>
-<p><strong>Q7: What is type erasure? Give 3 concrete consequences. What is a bridge method and when does the compiler generate one?</strong></p>
-<p>Expected: Cannot instanceof generics, cannot create generic arrays, cannot overload by generic parameter. Bridge method generated for covariant return types and generic method overrides to maintain polymorphism after erasure. Must mention <code>Method.isBridge()</code> for reflection-aware frameworks.</p>
-<hr>
-<p><strong>Q8: What is a recursive generic type bound? Write the signature for a <code>Comparable</code> self-referencing pattern.</strong></p>
-<p>Expected: <code>class Enum<E extends Enum<E>></code> — the classic self-referencing bound. Purpose: ensures that compareTo, etc. operate on the same type, not a parent type. Candidate should be able to write: <code><T extends Comparable<T>></code> and explain why it's more type-safe than <code><T extends Comparable></code>.</p>
-<hr>
-<h3>A3. Collections Internals</h3>
-<p><strong>Q9: Explain HashMap's internal structure in Java 8+. What happens when two keys have the same hashCode? What is treeification?</strong></p>
-<p>Expected: Array of Node buckets. Collision = linked list in bucket. At 8+ entries AND capacity >= 64, list converts to Red-Black Tree (O(log n) worst case vs O(n)). Must mention load factor 0.75, capacity doubling, rehashing.</p>
-<hr>
-<p><strong>Q10: What is the difference between <code>ConcurrentHashMap</code> and <code>Hashtable</code>? How does ConcurrentHashMap achieve thread safety without locking the entire map?</strong></p>
-<p>Expected: Java 8 ConcurrentHashMap uses CAS (compare-and-swap) for writes to empty buckets, synchronized on the first node of each bucket for collision cases. No global lock. Read operations are mostly lock-free. Hashtable locks the entire map on every operation.</p>
-<p>Red flag: says "ConcurrentHashMap uses segment locking" — that was Java 7, not Java 8+.</p>
-<hr>
-<p><strong>Q11: Implement a bounded blocking queue using ReentrantLock and Condition. Explain why you need two Conditions.</strong></p>
-<p>Expected: One Condition for "not full" (producers wait), one for "not empty" (consumers wait). With Object.wait/notify you only have one wait set — you'd wake up producers and consumers indiscriminately.</p>
-<hr>
-<h3>A4. JVM Internals</h3>
-<p><strong>Q12: Explain the G1 garbage collector's region-based approach. What are humongous objects? How do you tune G1 for a low-latency service?</strong></p>
-<p>Expected: Heap divided into equal-sized regions (1-32MB). Regions can be Eden, Survivor, Old, or Humongous (object > 50% region size). G1 targets a max pause time (<code>-XX:MaxGCPauseMillis</code>). Tuning: increase heap, increase region size for large objects, avoid humongous allocations.</p>
-<hr>
-<p><strong>Q13: What are the 5 types of OutOfMemoryError? For each, explain the cause and the fix.</strong></p>
-<p>Expected: Java heap space (leak/insufficient Xmx), Metaspace (classloader leak), unable to create native thread (too many threads), Direct buffer memory (NIO buffers), GC overhead limit exceeded (thrashing). Candidate should mention monitoring tools: jmap, jcmd, NativeMemoryTracking.</p>
-<hr>
-<p><strong>Q14: Explain class loading delegation model. What is the difference between ClassNotFoundException and NoClassDefFoundError?</strong></p>
-<p>Expected: Parent-first delegation: App -> Platform -> Bootstrap. CNFE = explicit Class.forName() miss (checked exception). NCDFE = class existed at compile time but missing at runtime (Error). Static initializer failure chains: first access = ExceptionInInitializerError, subsequent = NCDFE.</p>
-<hr>
-<h3>A5. Functional & Modern Java</h3>
-<p><strong>Q15: Explain Stream lazy evaluation. What happens internally when you call <code>.filter().map().findFirst()</code> on a million-element list?</strong></p>
-<p>Expected: No processing until terminal operation. Elements flow one-by-one through the pipeline. findFirst() short-circuits — stops after first match. Only processes elements until the first match is found, not all million.</p>
-<hr>
-<p><strong>Q16: What is the difference between <code>thenApply</code>, <code>thenCompose</code>, and <code>thenCombine</code> in CompletableFuture? What happens to exceptions in a CF chain if no handler is added?</strong></p>
-<p>Expected: thenApply = map (T -> U), thenCompose = flatMap (T -> CF\<U\>), thenCombine = merge two independent CFs. Unhandled exceptions are silently swallowed unless .get()/.join() is called or a terminal .exceptionally() is added.</p>
-<hr>
-<p><strong>Q17: What are <code>ScopedValue</code> and <code>StructuredTaskScope</code> in Java 21? Why are they better than ThreadLocal for virtual threads?</strong></p>
-<p>Expected: ScopedValue = immutable, auto-scoped, no remove() needed, efficient VT inheritance without copying. StructuredTaskScope = structured concurrency: subtasks are bound to the scope's lifetime, cannot outlive the parent.</p>
-<hr>
-<hr>
-<h2>SECTION B — SPRING BOOT (20 Questions)</h2>
-<h3>B1. Spring Core & DI</h3>
-<p><strong>Q18: Explain the Spring Bean lifecycle in detail. What are the hooks available at each stage?</strong></p>
-<p>Expected: Constructor -> @PostConstruct -> InitializingBean.afterPropertiesSet -> custom init-method -> Bean ready -> @PreDestroy -> DisposableBean.destroy -> custom destroy-method. BeanPostProcessor.postProcessBeforeInitialization/After runs around the init phase. AOP proxies are created in BeanPostProcessor.</p>
-<hr>
-<p><strong>Q19: What is the difference between <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, and <code>@Controller</code>? Is there a functional difference beyond semantics?</strong></p>
-<p>Expected: @Repository adds automatic exception translation (PersistenceExceptionTranslationPostProcessor converts JPA exceptions to Spring DataAccessException hierarchy). @Controller enables handler mapping for MVC. @Service and @Component have NO functional difference — pure semantic.</p>
-<p>Red flag: says "they all do the same thing" without mentioning @Repository exception translation.</p>
-<hr>
-<p><strong>Q20: Explain Spring's BeanPostProcessor. How does Spring AOP use it to create proxies? What is the difference between JDK dynamic proxy and CGLIB?</strong></p>
-<p>Expected: BeanPostProcessor.postProcessAfterInitialization wraps beans in AOP proxies. JDK proxy = interface-based (Proxy.newProxyInstance), CGLIB = subclass-based (bytecode generation). Since Spring 6, CGLIB is default even for interface beans. JDK proxy cannot intercept final methods; CGLIB cannot proxy final classes.</p>
-<hr>
-<p><strong>Q21: What is a circular dependency in Spring? How does Spring resolve it for singleton beans? When does it fail?</strong></p>
-<p>Expected: Spring resolves constructor injection cycles by using a three-level cache (singletonObjects, earlySingletonObjects, singletonFactories). It creates an early reference before full initialization. Fails with: constructor injection (cannot create early ref), prototype scope (no caching), and @Async beans (proxy creation timing).</p>
-<hr>
-<h3>B2. Spring Security</h3>
-<p><strong>Q22: Walk through the Spring Security filter chain. Name at least 5 filters in order and explain what each does.</strong></p>
-<p>Expected: SecurityContextPersistenceFilter, UsernamePasswordAuthenticationFilter (or BearerTokenAuthenticationFilter for JWT), ExceptionTranslationFilter, AuthorizationFilter. Candidate should explain how a JWT token is validated: extract from header -> decode -> verify signature -> check claims -> set SecurityContext.</p>
-<hr>
-<p><strong>Q23: Explain the difference between <code>@PreAuthorize</code>, <code>@Secured</code>, and <code>@RolesAllowed</code>. How does method-level security work internally?</strong></p>
-<p>Expected: @PreAuthorize uses SpEL (most powerful: <code>@PreAuthorize("hasRole('ADMIN') and #userId == authentication.principal.id")</code>). @Secured and @RolesAllowed are simpler, role-based only. Internally: Spring creates AOP proxies using MethodSecurityInterceptor that checks authorization before method invocation.</p>
-<hr>
-<h3>B3. Spring Data & Performance</h3>
-<p><strong>Q24: What is the N+1 query problem in Spring Data JPA? Give 3 different solutions.</strong></p>
-<p>Expected: Loading a parent entity with lazy collection -> 1 query for parent + N queries for each child. Solutions: (1) JOIN FETCH in JPQL, (2) @EntityGraph, (3) @BatchSize on the collection, (4) Specification with fetch join. Must understand that JOIN FETCH with pagination causes "HHH90003004: firstResult/maxResults specified with collection fetch" warning.</p>
-<hr>
-<p><strong>Q25: How does Spring Boot auto-configuration work? Explain the role of <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> and <code>@Conditional</code> annotations.</strong></p>
-<p>Expected: Spring Boot scans the AutoConfiguration.imports file (replaced spring.factories in Boot 3), loads configuration classes, and applies @Conditional checks (@ConditionalOnClass, @ConditionalOnMissingBean, @ConditionalOnProperty) to decide which beans to create. The application's explicit beans always override auto-configured ones.</p>
-<hr>
-<p><strong>Q26: Explain Spring's caching abstraction. What happens when you put @Cacheable on a method? What are the pitfalls?</strong></p>
-<p>Expected: AOP proxy intercepts method call, checks cache by key, returns cached value if hit, calls method and stores result if miss. Pitfalls: (1) self-invocation bypasses proxy (same as @Transactional), (2) cache key must implement equals/hashCode, (3) null values are cached by default (use unless="#result == null"), (4) @CacheEvict with allEntries=true on write methods.</p>
-<hr>
-<hr>
-<h2>SECTION C — HIBERNATE / JPA (20 Questions)</h2>
-<h3>C1. Entity Lifecycle & Caching</h3>
-<p><strong>Q27: Explain the 4 JPA entity states. What transitions cause SQL statements to be generated?</strong></p>
-<p>Expected: New (transient) -> Managed (persistent) -> Detached -> Removed. persist() = New -> Managed (INSERT on flush). merge() = Detached -> Managed (SELECT + UPDATE). remove() = Managed -> Removed (DELETE on flush). The EntityManager's persistence context is the first-level cache — managed entities are identity-guaranteed (same PK = same object reference).</p>
-<hr>
-<p><strong>Q28: What is the Hibernate first-level cache vs second-level cache? When would you enable L2 cache and what are the risks?</strong></p>
-<p>Expected: L1 = per-EntityManager/session, always on, not configurable. L2 = shared across sessions, optional (EhCache, Infinispan, Hazelcast). Enable L2 for read-heavy, rarely-modified reference data (countries, config). Risks: stale data when modified outside Hibernate (direct SQL, another service), memory consumption, cache invalidation complexity in clustered environments.</p>
-<hr>
-<p><strong>Q29: What is the difference between <code>FetchType.LAZY</code> and <code>FetchType.EAGER</code>? What is <code>LazyInitializationException</code> and how do you avoid it?</strong></p>
-<p>Expected: LAZY = load collection on first access (proxy/bytecode enhancement). EAGER = load immediately with parent (JOIN or subselect). LazyInitializationException = accessing lazy collection after EntityManager/session is closed. Avoid: (1) Open Session in View (anti-pattern but common), (2) DTO projections, (3) JOIN FETCH, (4) @EntityGraph, (5) @Transactional on service method to keep session open.</p>
-<p>Red flag: suggests Open Session in View as the primary solution without mentioning it's an anti-pattern.</p>
-<hr>
-<p><strong>Q30: Explain the difference between <code>@OneToMany(mappedBy)</code> and <code>@JoinColumn</code>. What are the SQL implications?</strong></p>
-<p>Expected: mappedBy = the child owns the FK column (child table has the FK). @JoinColumn on @OneToMany without mappedBy = parent owns but Hibernate generates a JOIN TABLE (unless @JoinColumn explicitly specified). With mappedBy: INSERT child directly with FK. Without: INSERT child + INSERT into join table (or UPDATE child's FK column). Always prefer mappedBy for bidirectional.</p>
-<hr>
-<h3>C2. Query Optimization</h3>
-<p><strong>Q31: What is the difference between JPQL, Criteria API, and native SQL? When do you use each?</strong></p>
-<p>Expected: JPQL = string-based, entity-oriented, DB-agnostic, validated at startup. Criteria API = type-safe, programmatic, good for dynamic queries (variable WHERE clauses). Native SQL = full DB feature access (window functions, CTEs, RETURNING, FOR UPDATE SKIP LOCKED). Use Criteria/Specification for dynamic search filters, native for DB-specific features.</p>
-<hr>
-<p><strong>Q32: Explain Hibernate's dirty checking mechanism. What is the performance implication and how do you optimize it?</strong></p>
-<p>Expected: Hibernate snapshots entity state at load time. At flush, compares current state with snapshot field-by-field. For N managed entities with M fields each, dirty checking is O(N*M). Optimize: (1) @DynamicUpdate (only update changed columns), (2) read-only queries with @Transactional(readOnly=true) (skips dirty checking), (3) DTO projections for read-only use cases, (4) detach entities you don't need to modify.</p>
-<hr>
-<p><strong>Q33: What is the <code>@Version</code> annotation? How does optimistic locking work in JPA? What happens on conflict?</strong></p>
-<p>Expected: @Version field (int/long/timestamp) is auto-incremented on each update. UPDATE sets WHERE version = :currentVersion. If another transaction already incremented the version, the UPDATE affects 0 rows -> OptimisticLockException. The application must handle this: retry the operation with fresh data, or return a conflict error to the client.</p>
-<hr>
-<p><strong>Q34: Explain batch inserts/updates in Hibernate. Why is the default behavior slow and how do you enable batching?</strong></p>
-<p>Expected: Default = one INSERT per entity per flush. Enable batching: <code>spring.jpa.properties.hibernate.jdbc.batch_size=50</code>, <code>hibernate.order_inserts=true</code>, <code>hibernate.order_updates=true</code>. With IDENTITY generation strategy, batching is DISABLED (Hibernate needs the generated ID immediately). Use SEQUENCE or TABLE strategy for batch-compatible ID generation.</p>
-<p>Red flag: doesn't know that IDENTITY strategy breaks batching.</p>
-<hr>
-<h3>C3. Advanced Mapping</h3>
-<p><strong>Q35: Explain <code>@Inheritance</code> strategies in JPA. Compare SINGLE_TABLE, JOINED, and TABLE_PER_CLASS. Which do you recommend and why?</strong></p>
-<p>Expected: SINGLE_TABLE = one table, discriminator column, NULLable columns for subtype-specific fields. Best performance (no JOINs), worst data integrity (NULLs). JOINED = one table per class, JOINs on query. Best normalization, worst query performance. TABLE_PER_CLASS = separate tables, no JOINs but polymorphic queries use UNION. Recommend: SINGLE_TABLE for most cases (speed), JOINED only when data integrity is critical and subtypes have many fields.</p>
-<hr>
-<p><strong>Q36: What is an aggregate root in DDD? How does it affect your JPA repository design?</strong></p>
-<p>Expected: Aggregate root = single entry point for a cluster of domain objects. Only the root has a repository. CascadeType.ALL + orphanRemoval=true on child collections. No OrderItemRepository — all operations go through OrderRepository. One transaction per aggregate.</p>
-<hr>
-<hr>
-<h2>SECTION D — TRANSACTIONS (15 Questions)</h2>
-<h3>D1. Spring @Transactional Internals</h3>
-<p><strong>Q37: Explain how <code>@Transactional</code> works under the hood. What is the self-invocation problem and how do you fix it?</strong></p>
-<p>Expected: Spring creates an AOP proxy. External calls go through the proxy which starts/commits/rolls back the transaction. Self-invocation (this.method()) bypasses the proxy — no transaction management. Fix: (1) inject self, (2) use ApplicationContext.getBean(), (3) extract to a separate service, (4) use TransactionTemplate programmatically.</p>
-<p>This is the #1 most important question. If the candidate doesn't know this, they are not senior level.</p>
-<hr>
-<p><strong>Q38: Explain all 7 propagation levels. Give a real use case for REQUIRES_NEW and NOT_SUPPORTED.</strong></p>
-<p>Expected: REQUIRED (default, join or create), SUPPORTS (join or none), MANDATORY (join or throw), REQUIRES_NEW (always new, suspend outer), NOT_SUPPORTED (suspend outer, run without tx), NEVER (throw if tx exists), NESTED (savepoint within outer tx). REQUIRES_NEW use case: audit logging that must persist even if the main transaction rolls back. NOT_SUPPORTED: long-running read operations that shouldn't hold a transaction open.</p>
-<hr>
-<p><strong>Q39: What is the difference between checked and unchecked exceptions in <code>@Transactional</code> rollback behavior? How do you customize it?</strong></p>
-<p>Expected: Default: rollback on unchecked exceptions (RuntimeException, Error). Checked exceptions do NOT trigger rollback by default. Customize with <code>@Transactional(rollbackFor = Exception.class)</code> or <code>noRollbackFor</code>. This is a common source of bugs — throwing a checked exception assumes the transaction will roll back, but it commits instead.</p>
-<p>Red flag: doesn't know the checked exception behavior — this causes real production data corruption.</p>
-<hr>
-<p><strong>Q40: Explain REQUIRES_NEW + deadlock scenario. How can an inner REQUIRES_NEW transaction deadlock with the outer transaction?</strong></p>
-<p>Expected: Outer tx holds a row lock (SELECT FOR UPDATE or UPDATE). Inner tx (REQUIRES_NEW) tries to lock the same row — but the outer tx's lock won't release until the outer tx commits, which won't happen until the inner tx completes. Deadlock. Fix: avoid locking the same rows in nested transactions, or use async processing for the inner operation.</p>
-<hr>
-<h3>D2. Isolation Levels & Locking</h3>
-<p><strong>Q41: Explain the 4 transaction isolation levels. What anomalies does each prevent? Which is the PostgreSQL default?</strong></p>
-<p>Expected: READ_UNCOMMITTED (allows dirty reads), READ_COMMITTED (prevents dirty reads — PostgreSQL default), REPEATABLE_READ (prevents non-repeatable reads), SERIALIZABLE (prevents phantom reads). Must explain: dirty read = reading uncommitted data, non-repeatable read = same query returns different values, phantom read = new rows appear in range query.</p>
-<hr>
-<p><strong>Q42: What is the difference between optimistic and pessimistic locking? When do you use each?</strong></p>
-<p>Expected: Optimistic = @Version field, no DB lock held, conflict detected at commit time. Best for low-contention, read-heavy. Pessimistic = SELECT FOR UPDATE, DB row lock held for transaction duration. Best for high-contention, short transactions. Must mention: optimistic locking scales better but requires conflict handling; pessimistic prevents conflicts but risks deadlocks.</p>
-<hr>
-<p><strong>Q43: Explain <code>SELECT FOR UPDATE</code>, <code>SELECT FOR UPDATE NOWAIT</code>, and <code>SELECT FOR UPDATE SKIP LOCKED</code>. Give a use case for each.</strong></p>
-<p>Expected: FOR UPDATE = acquire row lock, wait indefinitely. FOR UPDATE NOWAIT = fail immediately if locked (throw exception). SKIP LOCKED = skip locked rows, return only unlocked ones. Use case for SKIP LOCKED: job queue — multiple consumers each grab unlocked jobs, no contention.</p>
-<hr>
-<h3>D3. Distributed Transactions</h3>
-<p><strong>Q44: Why is 2PC (two-phase commit) considered an anti-pattern in microservices? What alternatives exist?</strong></p>
-<p>Expected: 2PC requires a coordinator, blocking participants, and a global lock — doesn't scale. If coordinator fails, participants are stuck in uncertainty. Alternatives: (1) Saga pattern (choreography or orchestration), (2) Outbox pattern (transactional outbox + event relay), (3) eventual consistency with idempotent consumers.</p>
-<hr>
-<p><strong>Q45: Explain the Outbox pattern. How does it guarantee exactly-once message delivery without distributed transactions?</strong></p>
-<p>Expected: Write business data AND outbox event in the same local transaction. A separate process (CDC with Debezium, or polling) reads the outbox table and publishes to Kafka. If publishing fails, it retries from the outbox. If publishing succeeds but the outbox row isn't marked as sent, the consumer must be idempotent. The local transaction guarantees atomicity between business data and the event.</p>
-<hr>
-<p><strong>Q46: What is a Saga? Compare choreography vs orchestration. What happens when a step fails midway?</strong></p>
-<p>Expected: Choreography = each service listens for events and reacts (decentralized, harder to trace). Orchestration = a central coordinator directs the flow (centralized, easier to monitor). On failure: execute compensating transactions for all completed steps in reverse order. Must mention: compensating transactions must be idempotent and may fail themselves.</p>
-<hr>
-<hr>
-<h2>SCORING GUIDE</h2>
-<h3>Candidate Levels</h3>
-<div class="table-wrap"><table><thead><tr>
-<th>Level</th>
-<th>Score Range</th>
-<th>Signal</th>
-</tr></thead><tbody>
-<tr><td>Junior</td><td>0-15 correct</td><td>Knows syntax, not internals</td></tr>
-<tr><td>Mid</td><td>16-28 correct</td><td>Understands concepts, some gaps</td></tr>
-<tr><td>Senior</td><td>29-38 correct</td><td>Deep understanding, can explain trade-offs</td></tr>
-<tr><td>Expert</td><td>39-46 correct</td><td>Knows edge cases, production war stories</td></tr>
-</tbody></table></div>
-<h3>Red Flags (Immediate Reject)</h3>
-<ul><li>Cannot explain @Transactional self-invocation problem</li></ul>
-<ul><li>Says "ConcurrentHashMap uses segment locking" (Java 7 knowledge, not updated)</li></ul>
-<ul><li>Suggests Open Session in View as primary LazyInitializationException fix</li></ul>
-<ul><li>Cannot explain checked vs unchecked exception rollback behavior</li></ul>
-<ul><li>Uses Collections.synchronizedMap for concurrent cache</li></ul>
-<ul><li>Says HashMap is thread-safe</li></ul>
-<ul><li>Cannot explain the difference between optimistic and pessimistic locking</li></ul>
-<h3>Green Flags (Strong Hire Signal)</h3>
-<ul><li>Mentions production incidents they debugged related to these topics</li></ul>
-<ul><li>Discusses trade-offs without being asked ("it depends on...")</li></ul>
-<ul><li>Knows library internals (HikariCP, Caffeine, Resilience4j)</li></ul>
-<ul><li>Brings up monitoring and observability when discussing transactions</li></ul>
-<ul><li>Mentions Effective Java or specific JEP numbers</li></ul><hr><h1>Expert Deep Dive — Principal-Level Java Interview</h1><p><strong>Interviewer Persona:</strong> Principal Engineer, Platform Infrastructure</p>
-<p><strong>Candidate Target:</strong> Senior/Expert Java Backend Engineer</p>
-<p><strong>Tone:</strong> Architectural trade-offs. No "What is..." questions.</p>
-<hr>
-<h2>PILLAR 1 — JVM INTERNALS & OPTIMIZATION</h2>
-<h3>Q1: Describe the internal mechanism when HotSpot decides to JIT-compile a method. How do C1 and C2 compilers interact under Tiered Compilation, and how does On-Stack Replacement (OSR) fit in?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p>HotSpot uses <strong>Tiered Compilation</strong> (default since Java 8) with 5 levels:</p>
-<ul><li><strong>Level 0:</strong> Interpreter — no compilation, collects basic profiling</li></ul>
-<ul><li><strong>Level 1:</strong> C1 simple compile — no profiling, fast startup</li></ul>
-<ul><li><strong>Level 2:</strong> C1 with limited profiling (invocation + backedge counters)</li></ul>
-<ul><li><strong>Level 3:</strong> C1 with full profiling (branch, type, call-site profiles)</li></ul>
-<ul><li><strong>Level 4:</strong> C2 full optimization — aggressive inlining, escape analysis, loop unrolling, vectorization</li></ul>
-<p>Typical path: L0 -> L3 (C1 with profiling) -> L4 (C2 optimized). If C2 queue is backed up, methods may stay at L1 or L2 temporarily.</p>
-<p><strong>Compilation thresholds:</strong> method invocation count + backedge count (loop iterations). Default: ~10,000 invocations for C2. Tunable via <code>-XX:CompileThreshold</code>.</p>
-<p><strong>On-Stack Replacement (OSR):</strong> allows JIT to replace an interpreted method WHILE IT IS RUNNING — specifically inside a long-running loop. Without OSR, a method with a million-iteration loop would run entirely in the interpreter because JIT only kicks in on the NEXT invocation. OSR compiles the loop body and transfers execution mid-loop.</p>
-<p><strong>Code Cache</strong> (<code>-XX:ReservedCodeCacheSize</code>): JIT-compiled native code is stored here. If it fills up, JIT stops compiling — performance cliff. Monitor with <code>jcmd <pid> Compiler.codecache</code>. Default 240MB. For large apps with many hot methods, increase to 512MB.</p>
-<p><strong>Deoptimization:</strong> C2 makes speculative optimizations (monomorphic call sites, branch predictions). If assumptions are violated at runtime, C2 deoptimizes — drops back to interpreter and recompiles. Common triggers: new subclass loaded (invalidates devirtualization), uncommon trap hit.</p>
-<p>A top-tier candidate mentions: <code>-XX:+PrintCompilation</code> to trace JIT decisions, <code>-XX:+UnlockDiagnosticVMOptions -XX:+LogCompilation</code> for XML compilation log analysis with JITWatch.</p>
-<hr>
-<h3>Q2: Compare the architectural impact of G1, ZGC, and Shenandoah for a payment processing service that requires sub-5ms p99 latency at 50K TPS. Which would you choose and how would you tune it?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p><strong>G1GC (default since Java 9):</strong></p>
-<ul><li>Region-based, generational. Pause target: <code>-XX:MaxGCPauseMillis=200</code> (default).</li></ul>
-<ul><li>Young GC: stop-the-world (STW), typically 5-30ms. Mixed GC: STW, can exceed 50ms for large heaps.</li></ul>
-<ul><li>For sub-5ms p99: G1 CANNOT reliably achieve this. Young GC alone often exceeds 5ms.</li></ul>
-<p><strong>ZGC (production-ready since Java 15):</strong></p>
-<ul><li>Concurrent, region-based, uses <strong>colored pointers</strong> (metadata in pointer bits) and <strong>load barriers</strong>.</li></ul>
-<ul><li>Max STW pause: < 1ms regardless of heap size (even terabyte heaps). Pause is O(1) — not proportional to heap or live set.</li></ul>
-<ul><li>Concurrent relocation: moves objects while application runs. Load barrier checks if pointer is stale and self-heals.</li></ul>
-<ul><li>Trade-off: ~5-15% throughput overhead vs G1 due to load barrier cost on every pointer dereference.</li></ul>
-<p><strong>Shenandoah (Red Hat, similar goals to ZGC):</strong></p>
-<ul><li>Concurrent compaction using <strong>Brooks forwarding pointers</strong> (extra word per object header).</li></ul>
-<ul><li>Sub-10ms pauses. Slightly higher memory overhead than ZGC (forwarding pointer per object).</li></ul>
-<ul><li>Available in OpenJDK but NOT in Oracle JDK.</li></ul>
-<p><strong>For sub-5ms p99 at 50K TPS:</strong> ZGC is the clear choice. Tuning:</p>
-<pre><code class="lang-">
+                <hr>
+                <h1>Interviewer Question Bank — Senior/Expert Java Engineer (46 Questions)</h1>
+                <p><strong>You are the interviewer. Use these questions to evaluate Senior/Expert candidates.</strong>
+                </p>
+                <p><strong>Difficulty: HARD | Expected: Deep understanding, not memorized answers</strong></p>
+                <hr>
+                <h2>SECTION A — JAVA CORE (25 Questions)</h2>
+                <h3>A1. Memory Model & Concurrency</h3>
+                <p><strong>Q1: Explain the Java Memory Model's happens-before guarantees. Give 3 specific rules and a
+                        code example where violating them causes a bug.</strong></p>
+                <p>Expected answer must include: volatile write/read ordering, monitor lock/unlock, thread start/join.
+                    The candidate should demonstrate that without happens-before, one thread may never see another's
+                    writes due to CPU caching and instruction reordering.</p>
+                <p>Red flag: candidate only says "volatile makes variables visible to all threads" without explaining
+                    the ordering guarantees.</p>
+                <p>Score: 10 if mentions memory barriers + transitivity. 5 if only mentions visibility.</p>
+                <hr>
+                <p><strong>Q2: What is the difference between <code>synchronized</code>, <code>ReentrantLock</code>, and
+                        <code>StampedLock</code>? When would you choose each?</strong></p>
+                <p>Expected: synchronized = intrinsic monitor, non-interruptible, no try-lock. ReentrantLock = explicit,
+                    supports tryLock, lockInterruptibly, multiple Conditions. StampedLock = optimistic read mode (no
+                    lock acquisition for reads), converts to read/write lock if validation fails. Choose StampedLock for
+                    read-heavy workloads where writes are rare.</p>
+                <p>Red flag: cannot explain optimistic read mode or when StampedLock is dangerous (not reentrant).</p>
+                <hr>
+                <p><strong>Q3: Explain virtual thread pinning in Java 21. What causes it, how do you detect it, and how
+                        do you fix it?</strong></p>
+                <p>Expected: synchronized blocks pin the virtual thread to its carrier thread. Native JNI calls also
+                    pin. Detect with <code>-Djdk.tracePinnedThreads=full</code>. Fix by replacing synchronized with
+                    ReentrantLock. Must mention HikariCP pre-5.1 used synchronized internally.</p>
+                <hr>
+                <p><strong>Q4: What is the ABA problem in lock-free programming? How does AtomicStampedReference solve
+                        it?</strong></p>
+                <p>Expected: Thread reads value A, another thread changes A->B->A. First thread's CAS succeeds (sees A)
+                    but the state has changed. AtomicStampedReference adds a version stamp — CAS checks both value AND
+                    stamp.</p>
+                <hr>
+                <p><strong>Q5: Design a thread-safe LRU cache without using <code>synchronized</code> on every
+                        operation. What data structures do you use?</strong></p>
+                <p>Expected: ConcurrentHashMap for O(1) lookup + a lock-striped doubly-linked list for LRU ordering. Or
+                    use Caffeine library which implements W-TinyLFU. Candidate should discuss trade-offs: strict LRU vs
+                    approximate LRU, contention under high concurrency.</p>
+                <p>Red flag: suggests Collections.synchronizedMap(new LinkedHashMap()) — single global lock, terrible
+                    under concurrency.</p>
+                <hr>
+                <h3>A2. Generics & Type System</h3>
+                <p><strong>Q6: Explain PECS (Producer Extends, Consumer Super) with a real API example. Why can't you
+                        add elements to a <code>List<? extends Number></code>?</strong></p>
+                <p>Expected: The list could be List\<Integer\> or List\<Double\> — compiler cannot know which, so
+                            writing is unsafe. Reading is safe because every element is at least a Number. Real example:
+                            Collections.copy(dest, src) where dest is <code>? super T</code> and src is
+                            <code>? extends T</code>.</p>
+                <hr>
+                <p><strong>Q7: What is type erasure? Give 3 concrete consequences. What is a bridge method and when does
+                        the compiler generate one?</strong></p>
+                <p>Expected: Cannot instanceof generics, cannot create generic arrays, cannot overload by generic
+                    parameter. Bridge method generated for covariant return types and generic method overrides to
+                    maintain polymorphism after erasure. Must mention <code>Method.isBridge()</code> for
+                    reflection-aware frameworks.</p>
+                <hr>
+                <p><strong>Q8: What is a recursive generic type bound? Write the signature for a <code>Comparable</code>
+                        self-referencing pattern.</strong></p>
+                <p>Expected: <code>class Enum<E extends Enum<E>></code> — the classic self-referencing bound. Purpose:
+                    ensures that compareTo, etc. operate on the same type, not a parent type. Candidate should be able
+                    to write: <code><T extends Comparable<T>></code> and explain why it's more type-safe than
+                    <code><T extends Comparable></code>.</p>
+                <hr>
+                <h3>A3. Collections Internals</h3>
+                <p><strong>Q9: Explain HashMap's internal structure in Java 8+. What happens when two keys have the same
+                        hashCode? What is treeification?</strong></p>
+                <p>Expected: Array of Node buckets. Collision = linked list in bucket. At 8+ entries AND capacity >= 64,
+                    list converts to Red-Black Tree (O(log n) worst case vs O(n)). Must mention load factor 0.75,
+                    capacity doubling, rehashing.</p>
+                <hr>
+                <p><strong>Q10: What is the difference between <code>ConcurrentHashMap</code> and
+                        <code>Hashtable</code>? How does ConcurrentHashMap achieve thread safety without locking the
+                        entire map?</strong></p>
+                <p>Expected: Java 8 ConcurrentHashMap uses CAS (compare-and-swap) for writes to empty buckets,
+                    synchronized on the first node of each bucket for collision cases. No global lock. Read operations
+                    are mostly lock-free. Hashtable locks the entire map on every operation.</p>
+                <p>Red flag: says "ConcurrentHashMap uses segment locking" — that was Java 7, not Java 8+.</p>
+                <hr>
+                <p><strong>Q11: Implement a bounded blocking queue using ReentrantLock and Condition. Explain why you
+                        need two Conditions.</strong></p>
+                <p>Expected: One Condition for "not full" (producers wait), one for "not empty" (consumers wait). With
+                    Object.wait/notify you only have one wait set — you'd wake up producers and consumers
+                    indiscriminately.</p>
+                <hr>
+                <h3>A4. JVM Internals</h3>
+                <p><strong>Q12: Explain the G1 garbage collector's region-based approach. What are humongous objects?
+                        How do you tune G1 for a low-latency service?</strong></p>
+                <p>Expected: Heap divided into equal-sized regions (1-32MB). Regions can be Eden, Survivor, Old, or
+                    Humongous (object > 50% region size). G1 targets a max pause time
+                    (<code>-XX:MaxGCPauseMillis</code>). Tuning: increase heap, increase region size for large objects,
+                    avoid humongous allocations.</p>
+                <hr>
+                <p><strong>Q13: What are the 5 types of OutOfMemoryError? For each, explain the cause and the
+                        fix.</strong></p>
+                <p>Expected: Java heap space (leak/insufficient Xmx), Metaspace (classloader leak), unable to create
+                    native thread (too many threads), Direct buffer memory (NIO buffers), GC overhead limit exceeded
+                    (thrashing). Candidate should mention monitoring tools: jmap, jcmd, NativeMemoryTracking.</p>
+                <hr>
+                <p><strong>Q14: Explain class loading delegation model. What is the difference between
+                        ClassNotFoundException and NoClassDefFoundError?</strong></p>
+                <p>Expected: Parent-first delegation: App -> Platform -> Bootstrap. CNFE = explicit Class.forName() miss
+                    (checked exception). NCDFE = class existed at compile time but missing at runtime (Error). Static
+                    initializer failure chains: first access = ExceptionInInitializerError, subsequent = NCDFE.</p>
+                <hr>
+                <h3>A5. Functional & Modern Java</h3>
+                <p><strong>Q15: Explain Stream lazy evaluation. What happens internally when you call
+                        <code>.filter().map().findFirst()</code> on a million-element list?</strong></p>
+                <p>Expected: No processing until terminal operation. Elements flow one-by-one through the pipeline.
+                    findFirst() short-circuits — stops after first match. Only processes elements until the first match
+                    is found, not all million.</p>
+                <hr>
+                <p><strong>Q16: What is the difference between <code>thenApply</code>, <code>thenCompose</code>, and
+                        <code>thenCombine</code> in CompletableFuture? What happens to exceptions in a CF chain if no
+                        handler is added?</strong></p>
+                <p>Expected: thenApply = map (T -> U), thenCompose = flatMap (T -> CF\<U\>), thenCombine = merge two
+                        independent CFs. Unhandled exceptions are silently swallowed unless .get()/.join() is called or
+                        a terminal .exceptionally() is added.</p>
+                <hr>
+                <p><strong>Q17: What are <code>ScopedValue</code> and <code>StructuredTaskScope</code> in Java 21? Why
+                        are they better than ThreadLocal for virtual threads?</strong></p>
+                <p>Expected: ScopedValue = immutable, auto-scoped, no remove() needed, efficient VT inheritance without
+                    copying. StructuredTaskScope = structured concurrency: subtasks are bound to the scope's lifetime,
+                    cannot outlive the parent.</p>
+                <hr>
+                <hr>
+                <h2>SECTION B — SPRING BOOT (20 Questions)</h2>
+                <h3>B1. Spring Core & DI</h3>
+                <p><strong>Q18: Explain the Spring Bean lifecycle in detail. What are the hooks available at each
+                        stage?</strong></p>
+                <p>Expected: Constructor -> @PostConstruct -> InitializingBean.afterPropertiesSet -> custom init-method
+                    -> Bean ready -> @PreDestroy -> DisposableBean.destroy -> custom destroy-method.
+                    BeanPostProcessor.postProcessBeforeInitialization/After runs around the init phase. AOP proxies are
+                    created in BeanPostProcessor.</p>
+                <hr>
+                <p><strong>Q19: What is the difference between <code>@Component</code>, <code>@Service</code>,
+                        <code>@Repository</code>, and <code>@Controller</code>? Is there a functional difference beyond
+                        semantics?</strong></p>
+                <p>Expected: @Repository adds automatic exception translation
+                    (PersistenceExceptionTranslationPostProcessor converts JPA exceptions to Spring DataAccessException
+                    hierarchy). @Controller enables handler mapping for MVC. @Service and @Component have NO functional
+                    difference — pure semantic.</p>
+                <p>Red flag: says "they all do the same thing" without mentioning @Repository exception translation.</p>
+                <hr>
+                <p><strong>Q20: Explain Spring's BeanPostProcessor. How does Spring AOP use it to create proxies? What
+                        is the difference between JDK dynamic proxy and CGLIB?</strong></p>
+                <p>Expected: BeanPostProcessor.postProcessAfterInitialization wraps beans in AOP proxies. JDK proxy =
+                    interface-based (Proxy.newProxyInstance), CGLIB = subclass-based (bytecode generation). Since Spring
+                    6, CGLIB is default even for interface beans. JDK proxy cannot intercept final methods; CGLIB cannot
+                    proxy final classes.</p>
+                <hr>
+                <p><strong>Q21: What is a circular dependency in Spring? How does Spring resolve it for singleton beans?
+                        When does it fail?</strong></p>
+                <p>Expected: Spring resolves constructor injection cycles by using a three-level cache
+                    (singletonObjects, earlySingletonObjects, singletonFactories). It creates an early reference before
+                    full initialization. Fails with: constructor injection (cannot create early ref), prototype scope
+                    (no caching), and @Async beans (proxy creation timing).</p>
+                <hr>
+                <h3>B2. Spring Security</h3>
+                <p><strong>Q22: Walk through the Spring Security filter chain. Name at least 5 filters in order and
+                        explain what each does.</strong></p>
+                <p>Expected: SecurityContextPersistenceFilter, UsernamePasswordAuthenticationFilter (or
+                    BearerTokenAuthenticationFilter for JWT), ExceptionTranslationFilter, AuthorizationFilter. Candidate
+                    should explain how a JWT token is validated: extract from header -> decode -> verify signature ->
+                    check claims -> set SecurityContext.</p>
+                <hr>
+                <p><strong>Q23: Explain the difference between <code>@PreAuthorize</code>, <code>@Secured</code>, and
+                        <code>@RolesAllowed</code>. How does method-level security work internally?</strong></p>
+                <p>Expected: @PreAuthorize uses SpEL (most powerful:
+                    <code>@PreAuthorize("hasRole('ADMIN') and #userId == authentication.principal.id")</code>). @Secured
+                    and @RolesAllowed are simpler, role-based only. Internally: Spring creates AOP proxies using
+                    MethodSecurityInterceptor that checks authorization before method invocation.</p>
+                <hr>
+                <h3>B3. Spring Data & Performance</h3>
+                <p><strong>Q24: What is the N+1 query problem in Spring Data JPA? Give 3 different solutions.</strong>
+                </p>
+                <p>Expected: Loading a parent entity with lazy collection -> 1 query for parent + N queries for each
+                    child. Solutions: (1) JOIN FETCH in JPQL, (2) @EntityGraph, (3) @BatchSize on the collection, (4)
+                    Specification with fetch join. Must understand that JOIN FETCH with pagination causes "HHH90003004:
+                    firstResult/maxResults specified with collection fetch" warning.</p>
+                <hr>
+                <p><strong>Q25: How does Spring Boot auto-configuration work? Explain the role of
+                        <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>
+                        and <code>@Conditional</code> annotations.</strong></p>
+                <p>Expected: Spring Boot scans the AutoConfiguration.imports file (replaced spring.factories in Boot 3),
+                    loads configuration classes, and applies @Conditional checks (@ConditionalOnClass,
+                    @ConditionalOnMissingBean, @ConditionalOnProperty) to decide which beans to create. The
+                    application's explicit beans always override auto-configured ones.</p>
+                <hr>
+                <p><strong>Q26: Explain Spring's caching abstraction. What happens when you put @Cacheable on a method?
+                        What are the pitfalls?</strong></p>
+                <p>Expected: AOP proxy intercepts method call, checks cache by key, returns cached value if hit, calls
+                    method and stores result if miss. Pitfalls: (1) self-invocation bypasses proxy (same as
+                    @Transactional), (2) cache key must implement equals/hashCode, (3) null values are cached by default
+                    (use unless="#result == null"), (4) @CacheEvict with allEntries=true on write methods.</p>
+                <hr>
+                <hr>
+                <h2>SECTION C — HIBERNATE / JPA (20 Questions)</h2>
+                <h3>C1. Entity Lifecycle & Caching</h3>
+                <p><strong>Q27: Explain the 4 JPA entity states. What transitions cause SQL statements to be
+                        generated?</strong></p>
+                <p>Expected: New (transient) -> Managed (persistent) -> Detached -> Removed. persist() = New -> Managed
+                    (INSERT on flush). merge() = Detached -> Managed (SELECT + UPDATE). remove() = Managed -> Removed
+                    (DELETE on flush). The EntityManager's persistence context is the first-level cache — managed
+                    entities are identity-guaranteed (same PK = same object reference).</p>
+                <hr>
+                <p><strong>Q28: What is the Hibernate first-level cache vs second-level cache? When would you enable L2
+                        cache and what are the risks?</strong></p>
+                <p>Expected: L1 = per-EntityManager/session, always on, not configurable. L2 = shared across sessions,
+                    optional (EhCache, Infinispan, Hazelcast). Enable L2 for read-heavy, rarely-modified reference data
+                    (countries, config). Risks: stale data when modified outside Hibernate (direct SQL, another
+                    service), memory consumption, cache invalidation complexity in clustered environments.</p>
+                <hr>
+                <p><strong>Q29: What is the difference between <code>FetchType.LAZY</code> and
+                        <code>FetchType.EAGER</code>? What is <code>LazyInitializationException</code> and how do you
+                        avoid it?</strong></p>
+                <p>Expected: LAZY = load collection on first access (proxy/bytecode enhancement). EAGER = load
+                    immediately with parent (JOIN or subselect). LazyInitializationException = accessing lazy collection
+                    after EntityManager/session is closed. Avoid: (1) Open Session in View (anti-pattern but common),
+                    (2) DTO projections, (3) JOIN FETCH, (4) @EntityGraph, (5) @Transactional on service method to keep
+                    session open.</p>
+                <p>Red flag: suggests Open Session in View as the primary solution without mentioning it's an
+                    anti-pattern.</p>
+                <hr>
+                <p><strong>Q30: Explain the difference between <code>@OneToMany(mappedBy)</code> and
+                        <code>@JoinColumn</code>. What are the SQL implications?</strong></p>
+                <p>Expected: mappedBy = the child owns the FK column (child table has the FK). @JoinColumn on @OneToMany
+                    without mappedBy = parent owns but Hibernate generates a JOIN TABLE (unless @JoinColumn explicitly
+                    specified). With mappedBy: INSERT child directly with FK. Without: INSERT child + INSERT into join
+                    table (or UPDATE child's FK column). Always prefer mappedBy for bidirectional.</p>
+                <hr>
+                <h3>C2. Query Optimization</h3>
+                <p><strong>Q31: What is the difference between JPQL, Criteria API, and native SQL? When do you use
+                        each?</strong></p>
+                <p>Expected: JPQL = string-based, entity-oriented, DB-agnostic, validated at startup. Criteria API =
+                    type-safe, programmatic, good for dynamic queries (variable WHERE clauses). Native SQL = full DB
+                    feature access (window functions, CTEs, RETURNING, FOR UPDATE SKIP LOCKED). Use
+                    Criteria/Specification for dynamic search filters, native for DB-specific features.</p>
+                <hr>
+                <p><strong>Q32: Explain Hibernate's dirty checking mechanism. What is the performance implication and
+                        how do you optimize it?</strong></p>
+                <p>Expected: Hibernate snapshots entity state at load time. At flush, compares current state with
+                    snapshot field-by-field. For N managed entities with M fields each, dirty checking is O(N*M).
+                    Optimize: (1) @DynamicUpdate (only update changed columns), (2) read-only queries with
+                    @Transactional(readOnly=true) (skips dirty checking), (3) DTO projections for read-only use cases,
+                    (4) detach entities you don't need to modify.</p>
+                <hr>
+                <p><strong>Q33: What is the <code>@Version</code> annotation? How does optimistic locking work in JPA?
+                        What happens on conflict?</strong></p>
+                <p>Expected: @Version field (int/long/timestamp) is auto-incremented on each update. UPDATE sets WHERE
+                    version = :currentVersion. If another transaction already incremented the version, the UPDATE
+                    affects 0 rows -> OptimisticLockException. The application must handle this: retry the operation
+                    with fresh data, or return a conflict error to the client.</p>
+                <hr>
+                <p><strong>Q34: Explain batch inserts/updates in Hibernate. Why is the default behavior slow and how do
+                        you enable batching?</strong></p>
+                <p>Expected: Default = one INSERT per entity per flush. Enable batching:
+                    <code>spring.jpa.properties.hibernate.jdbc.batch_size=50</code>,
+                    <code>hibernate.order_inserts=true</code>, <code>hibernate.order_updates=true</code>. With IDENTITY
+                    generation strategy, batching is DISABLED (Hibernate needs the generated ID immediately). Use
+                    SEQUENCE or TABLE strategy for batch-compatible ID generation.</p>
+                <p>Red flag: doesn't know that IDENTITY strategy breaks batching.</p>
+                <hr>
+                <h3>C3. Advanced Mapping</h3>
+                <p><strong>Q35: Explain <code>@Inheritance</code> strategies in JPA. Compare SINGLE_TABLE, JOINED, and
+                        TABLE_PER_CLASS. Which do you recommend and why?</strong></p>
+                <p>Expected: SINGLE_TABLE = one table, discriminator column, NULLable columns for subtype-specific
+                    fields. Best performance (no JOINs), worst data integrity (NULLs). JOINED = one table per class,
+                    JOINs on query. Best normalization, worst query performance. TABLE_PER_CLASS = separate tables, no
+                    JOINs but polymorphic queries use UNION. Recommend: SINGLE_TABLE for most cases (speed), JOINED only
+                    when data integrity is critical and subtypes have many fields.</p>
+                <hr>
+                <p><strong>Q36: What is an aggregate root in DDD? How does it affect your JPA repository
+                        design?</strong></p>
+                <p>Expected: Aggregate root = single entry point for a cluster of domain objects. Only the root has a
+                    repository. CascadeType.ALL + orphanRemoval=true on child collections. No OrderItemRepository — all
+                    operations go through OrderRepository. One transaction per aggregate.</p>
+                <hr>
+                <hr>
+                <h2>SECTION D — TRANSACTIONS (15 Questions)</h2>
+                <h3>D1. Spring @Transactional Internals</h3>
+                <p><strong>Q37: Explain how <code>@Transactional</code> works under the hood. What is the
+                        self-invocation problem and how do you fix it?</strong></p>
+                <p>Expected: Spring creates an AOP proxy. External calls go through the proxy which starts/commits/rolls
+                    back the transaction. Self-invocation (this.method()) bypasses the proxy — no transaction
+                    management. Fix: (1) inject self, (2) use ApplicationContext.getBean(), (3) extract to a separate
+                    service, (4) use TransactionTemplate programmatically.</p>
+                <p>This is the #1 most important question. If the candidate doesn't know this, they are not senior
+                    level.</p>
+                <hr>
+                <p><strong>Q38: Explain all 7 propagation levels. Give a real use case for REQUIRES_NEW and
+                        NOT_SUPPORTED.</strong></p>
+                <p>Expected: REQUIRED (default, join or create), SUPPORTS (join or none), MANDATORY (join or throw),
+                    REQUIRES_NEW (always new, suspend outer), NOT_SUPPORTED (suspend outer, run without tx), NEVER
+                    (throw if tx exists), NESTED (savepoint within outer tx). REQUIRES_NEW use case: audit logging that
+                    must persist even if the main transaction rolls back. NOT_SUPPORTED: long-running read operations
+                    that shouldn't hold a transaction open.</p>
+                <hr>
+                <p><strong>Q39: What is the difference between checked and unchecked exceptions in
+                        <code>@Transactional</code> rollback behavior? How do you customize it?</strong></p>
+                <p>Expected: Default: rollback on unchecked exceptions (RuntimeException, Error). Checked exceptions do
+                    NOT trigger rollback by default. Customize with
+                    <code>@Transactional(rollbackFor = Exception.class)</code> or <code>noRollbackFor</code>. This is a
+                    common source of bugs — throwing a checked exception assumes the transaction will roll back, but it
+                    commits instead.</p>
+                <p>Red flag: doesn't know the checked exception behavior — this causes real production data corruption.
+                </p>
+                <hr>
+                <p><strong>Q40: Explain REQUIRES_NEW + deadlock scenario. How can an inner REQUIRES_NEW transaction
+                        deadlock with the outer transaction?</strong></p>
+                <p>Expected: Outer tx holds a row lock (SELECT FOR UPDATE or UPDATE). Inner tx (REQUIRES_NEW) tries to
+                    lock the same row — but the outer tx's lock won't release until the outer tx commits, which won't
+                    happen until the inner tx completes. Deadlock. Fix: avoid locking the same rows in nested
+                    transactions, or use async processing for the inner operation.</p>
+                <hr>
+                <h3>D2. Isolation Levels & Locking</h3>
+                <p><strong>Q41: Explain the 4 transaction isolation levels. What anomalies does each prevent? Which is
+                        the PostgreSQL default?</strong></p>
+                <p>Expected: READ_UNCOMMITTED (allows dirty reads), READ_COMMITTED (prevents dirty reads — PostgreSQL
+                    default), REPEATABLE_READ (prevents non-repeatable reads), SERIALIZABLE (prevents phantom reads).
+                    Must explain: dirty read = reading uncommitted data, non-repeatable read = same query returns
+                    different values, phantom read = new rows appear in range query.</p>
+                <hr>
+                <p><strong>Q42: What is the difference between optimistic and pessimistic locking? When do you use
+                        each?</strong></p>
+                <p>Expected: Optimistic = @Version field, no DB lock held, conflict detected at commit time. Best for
+                    low-contention, read-heavy. Pessimistic = SELECT FOR UPDATE, DB row lock held for transaction
+                    duration. Best for high-contention, short transactions. Must mention: optimistic locking scales
+                    better but requires conflict handling; pessimistic prevents conflicts but risks deadlocks.</p>
+                <hr>
+                <p><strong>Q43: Explain <code>SELECT FOR UPDATE</code>, <code>SELECT FOR UPDATE NOWAIT</code>, and
+                        <code>SELECT FOR UPDATE SKIP LOCKED</code>. Give a use case for each.</strong></p>
+                <p>Expected: FOR UPDATE = acquire row lock, wait indefinitely. FOR UPDATE NOWAIT = fail immediately if
+                    locked (throw exception). SKIP LOCKED = skip locked rows, return only unlocked ones. Use case for
+                    SKIP LOCKED: job queue — multiple consumers each grab unlocked jobs, no contention.</p>
+                <hr>
+                <h3>D3. Distributed Transactions</h3>
+                <p><strong>Q44: Why is 2PC (two-phase commit) considered an anti-pattern in microservices? What
+                        alternatives exist?</strong></p>
+                <p>Expected: 2PC requires a coordinator, blocking participants, and a global lock — doesn't scale. If
+                    coordinator fails, participants are stuck in uncertainty. Alternatives: (1) Saga pattern
+                    (choreography or orchestration), (2) Outbox pattern (transactional outbox + event relay), (3)
+                    eventual consistency with idempotent consumers.</p>
+                <hr>
+                <p><strong>Q45: Explain the Outbox pattern. How does it guarantee exactly-once message delivery without
+                        distributed transactions?</strong></p>
+                <p>Expected: Write business data AND outbox event in the same local transaction. A separate process (CDC
+                    with Debezium, or polling) reads the outbox table and publishes to Kafka. If publishing fails, it
+                    retries from the outbox. If publishing succeeds but the outbox row isn't marked as sent, the
+                    consumer must be idempotent. The local transaction guarantees atomicity between business data and
+                    the event.</p>
+                <hr>
+                <p><strong>Q46: What is a Saga? Compare choreography vs orchestration. What happens when a step fails
+                        midway?</strong></p>
+                <p>Expected: Choreography = each service listens for events and reacts (decentralized, harder to trace).
+                    Orchestration = a central coordinator directs the flow (centralized, easier to monitor). On failure:
+                    execute compensating transactions for all completed steps in reverse order. Must mention:
+                    compensating transactions must be idempotent and may fail themselves.</p>
+                <hr>
+                <hr>
+                <h2>SCORING GUIDE</h2>
+                <h3>Candidate Levels</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Score Range</th>
+                                <th>Signal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Junior</td>
+                                <td>0-15 correct</td>
+                                <td>Knows syntax, not internals</td>
+                            </tr>
+                            <tr>
+                                <td>Mid</td>
+                                <td>16-28 correct</td>
+                                <td>Understands concepts, some gaps</td>
+                            </tr>
+                            <tr>
+                                <td>Senior</td>
+                                <td>29-38 correct</td>
+                                <td>Deep understanding, can explain trade-offs</td>
+                            </tr>
+                            <tr>
+                                <td>Expert</td>
+                                <td>39-46 correct</td>
+                                <td>Knows edge cases, production war stories</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Red Flags (Immediate Reject)</h3>
+                <ul>
+                    <li>Cannot explain @Transactional self-invocation problem</li>
+                </ul>
+                <ul>
+                    <li>Says "ConcurrentHashMap uses segment locking" (Java 7 knowledge, not updated)</li>
+                </ul>
+                <ul>
+                    <li>Suggests Open Session in View as primary LazyInitializationException fix</li>
+                </ul>
+                <ul>
+                    <li>Cannot explain checked vs unchecked exception rollback behavior</li>
+                </ul>
+                <ul>
+                    <li>Uses Collections.synchronizedMap for concurrent cache</li>
+                </ul>
+                <ul>
+                    <li>Says HashMap is thread-safe</li>
+                </ul>
+                <ul>
+                    <li>Cannot explain the difference between optimistic and pessimistic locking</li>
+                </ul>
+                <h3>Green Flags (Strong Hire Signal)</h3>
+                <ul>
+                    <li>Mentions production incidents they debugged related to these topics</li>
+                </ul>
+                <ul>
+                    <li>Discusses trade-offs without being asked ("it depends on...")</li>
+                </ul>
+                <ul>
+                    <li>Knows library internals (HikariCP, Caffeine, Resilience4j)</li>
+                </ul>
+                <ul>
+                    <li>Brings up monitoring and observability when discussing transactions</li>
+                </ul>
+                <ul>
+                    <li>Mentions Effective Java or specific JEP numbers</li>
+                </ul>
+                <hr>
+                <h1>Expert Deep Dive — Principal-Level Java Interview</h1>
+                <p><strong>Interviewer Persona:</strong> Principal Engineer, Platform Infrastructure</p>
+                <p><strong>Candidate Target:</strong> Senior/Expert Java Backend Engineer</p>
+                <p><strong>Tone:</strong> Architectural trade-offs. No "What is..." questions.</p>
+                <hr>
+                <h2>PILLAR 1 — JVM INTERNALS & OPTIMIZATION</h2>
+                <h3>Q1: Describe the internal mechanism when HotSpot decides to JIT-compile a method. How do C1 and C2
+                    compilers interact under Tiered Compilation, and how does On-Stack Replacement (OSR) fit in?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p>HotSpot uses <strong>Tiered Compilation</strong> (default since Java 8) with 5 levels:</p>
+                <ul>
+                    <li><strong>Level 0:</strong> Interpreter — no compilation, collects basic profiling</li>
+                </ul>
+                <ul>
+                    <li><strong>Level 1:</strong> C1 simple compile — no profiling, fast startup</li>
+                </ul>
+                <ul>
+                    <li><strong>Level 2:</strong> C1 with limited profiling (invocation + backedge counters)</li>
+                </ul>
+                <ul>
+                    <li><strong>Level 3:</strong> C1 with full profiling (branch, type, call-site profiles)</li>
+                </ul>
+                <ul>
+                    <li><strong>Level 4:</strong> C2 full optimization — aggressive inlining, escape analysis, loop
+                        unrolling, vectorization</li>
+                </ul>
+                <p>Typical path: L0 -> L3 (C1 with profiling) -> L4 (C2 optimized). If C2 queue is backed up, methods
+                    may stay at L1 or L2 temporarily.</p>
+                <p><strong>Compilation thresholds:</strong> method invocation count + backedge count (loop iterations).
+                    Default: ~10,000 invocations for C2. Tunable via <code>-XX:CompileThreshold</code>.</p>
+                <p><strong>On-Stack Replacement (OSR):</strong> allows JIT to replace an interpreted method WHILE IT IS
+                    RUNNING — specifically inside a long-running loop. Without OSR, a method with a million-iteration
+                    loop would run entirely in the interpreter because JIT only kicks in on the NEXT invocation. OSR
+                    compiles the loop body and transfers execution mid-loop.</p>
+                <p><strong>Code Cache</strong> (<code>-XX:ReservedCodeCacheSize</code>): JIT-compiled native code is
+                    stored here. If it fills up, JIT stops compiling — performance cliff. Monitor with
+                    <code>jcmd <pid> Compiler.codecache</code>. Default 240MB. For large apps with many hot methods,
+                    increase to 512MB.</p>
+                <p><strong>Deoptimization:</strong> C2 makes speculative optimizations (monomorphic call sites, branch
+                    predictions). If assumptions are violated at runtime, C2 deoptimizes — drops back to interpreter and
+                    recompiles. Common triggers: new subclass loaded (invalidates devirtualization), uncommon trap hit.
+                </p>
+                <p>A top-tier candidate mentions: <code>-XX:+PrintCompilation</code> to trace JIT decisions,
+                    <code>-XX:+UnlockDiagnosticVMOptions -XX:+LogCompilation</code> for XML compilation log analysis
+                    with JITWatch.</p>
+                <hr>
+                <h3>Q2: Compare the architectural impact of G1, ZGC, and Shenandoah for a payment processing service
+                    that requires sub-5ms p99 latency at 50K TPS. Which would you choose and how would you tune it?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p><strong>G1GC (default since Java 9):</strong></p>
+                <ul>
+                    <li>Region-based, generational. Pause target: <code>-XX:MaxGCPauseMillis=200</code> (default).</li>
+                </ul>
+                <ul>
+                    <li>Young GC: stop-the-world (STW), typically 5-30ms. Mixed GC: STW, can exceed 50ms for large
+                        heaps.</li>
+                </ul>
+                <ul>
+                    <li>For sub-5ms p99: G1 CANNOT reliably achieve this. Young GC alone often exceeds 5ms.</li>
+                </ul>
+                <p><strong>ZGC (production-ready since Java 15):</strong></p>
+                <ul>
+                    <li>Concurrent, region-based, uses <strong>colored pointers</strong> (metadata in pointer bits) and
+                        <strong>load barriers</strong>.</li>
+                </ul>
+                <ul>
+                    <li>Max STW pause: < 1ms regardless of heap size (even terabyte heaps). Pause is O(1) — not
+                            proportional to heap or live set.</li>
+                </ul>
+                <ul>
+                    <li>Concurrent relocation: moves objects while application runs. Load barrier checks if pointer is
+                        stale and self-heals.</li>
+                </ul>
+                <ul>
+                    <li>Trade-off: ~5-15% throughput overhead vs G1 due to load barrier cost on every pointer
+                        dereference.</li>
+                </ul>
+                <p><strong>Shenandoah (Red Hat, similar goals to ZGC):</strong></p>
+                <ul>
+                    <li>Concurrent compaction using <strong>Brooks forwarding pointers</strong> (extra word per object
+                        header).</li>
+                </ul>
+                <ul>
+                    <li>Sub-10ms pauses. Slightly higher memory overhead than ZGC (forwarding pointer per object).</li>
+                </ul>
+                <ul>
+                    <li>Available in OpenJDK but NOT in Oracle JDK.</li>
+                </ul>
+                <p><strong>For sub-5ms p99 at 50K TPS:</strong> ZGC is the clear choice. Tuning:</p>
+                <pre><code class="lang-">
 -XX:+UseZGC -XX:+ZGenerational    # Generational ZGC (Java 21+, much better throughput)
 -Xms4g -Xmx4g                     # Fixed heap — avoid resize pauses
 -XX:SoftMaxHeapSize=3g             # Prefer returning memory to OS
 -XX:ConcGCThreads=2                # Limit GC CPU — leave headroom for application
 </code></pre>
-<p>A top-tier candidate mentions: generational ZGC (Java 21) dramatically reduces allocation rate pressure. Also mentions that sub-5ms p99 requires more than just GC tuning — safepoint time, thread scheduling jitter, and kernel scheduling (<code>-XX:+UseTransparentHugePages</code>) all contribute to tail latency.</p>
-<hr>
-<h3>Q3: How would you perform a memory footprint analysis of a Java application running in a container with a 2GB memory limit that is being OOM-killed by the kernel (not JVM OOM)?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p>Kernel OOM-kill means the PROCESS exceeded the container's cgroup memory limit — this includes heap, metaspace, thread stacks, native memory, direct buffers, and mapped files. JVM OOM only fires when the HEAP is full.</p>
-<p><strong>Step-by-step analysis:</strong></p>
-<p>1. <strong>Enable NativeMemoryTracking:</strong> <code>-XX:NativeMemoryTracking=summary</code> (5-10% overhead)</p>
-<p>2. <strong>Baseline:</strong> <code>jcmd <pid> VM.native_memory summary</code></p>
-<p>3. <strong>Diff over time:</strong> <code>jcmd <pid> VM.native_memory summary.diff</code> (shows growth)</p>
-<p><strong>Memory breakdown:</strong></p>
-<pre><code class="lang-">
+                <p>A top-tier candidate mentions: generational ZGC (Java 21) dramatically reduces allocation rate
+                    pressure. Also mentions that sub-5ms p99 requires more than just GC tuning — safepoint time, thread
+                    scheduling jitter, and kernel scheduling (<code>-XX:+UseTransparentHugePages</code>) all contribute
+                    to tail latency.</p>
+                <hr>
+                <h3>Q3: How would you perform a memory footprint analysis of a Java application running in a container
+                    with a 2GB memory limit that is being OOM-killed by the kernel (not JVM OOM)?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p>Kernel OOM-kill means the PROCESS exceeded the container's cgroup memory limit — this includes heap,
+                    metaspace, thread stacks, native memory, direct buffers, and mapped files. JVM OOM only fires when
+                    the HEAP is full.</p>
+                <p><strong>Step-by-step analysis:</strong></p>
+                <p>1. <strong>Enable NativeMemoryTracking:</strong> <code>-XX:NativeMemoryTracking=summary</code> (5-10%
+                    overhead)</p>
+                <p>2. <strong>Baseline:</strong> <code>jcmd <pid> VM.native_memory summary</code></p>
+                <p>3. <strong>Diff over time:</strong> <code>jcmd <pid> VM.native_memory summary.diff</code> (shows
+                    growth)</p>
+                <p><strong>Memory breakdown:</strong></p>
+                <pre><code class="lang-">
 Java Heap:     -Xmx (configured)
 Metaspace:     class metadata (~100-300MB for Spring Boot apps)
 Thread Stacks: num_threads * -Xss (default 1MB per thread)
@@ -40084,26 +40384,45 @@ GC overhead:   G1 remembers sets, card tables (~10% of heap)
 Native libs:    JNI, zlib, SSL
 Mapped files:   shared libraries, JAR files
 </code></pre>
-<p><strong>Common culprits for container OOM-kill:</strong></p>
-<ul><li>Too many threads: 500 threads * 1MB stack = 500MB not counted in -Xmx</li></ul>
-<ul><li>Metaspace leak: CGLIB proxy generation, Groovy scripts, hot-reloading</li></ul>
-<ul><li>Direct buffer leak: Netty ByteBuf not released</li></ul>
-<ul><li>Heap too large: -Xmx=1.5g leaves only 500MB for everything else in a 2GB container</li></ul>
-<p><strong>Container memory formula:</strong></p>
-<p><code>-Xmx + MaxMetaspaceSize + (threads * Xss) + ReservedCodeCacheSize + DirectMemorySize + GC_overhead + native_libs</code></p>
-<p>Rule of thumb: set <code>-Xmx</code> to no more than 75% of container memory limit. For 2GB container: <code>-Xmx1400m -XX:MaxMetaspaceSize=256m -XX:ReservedCodeCacheSize=128m -Xss512k</code>.</p>
-<hr>
-<h2>PILLAR 2 — FRAMEWORK INTERNALS</h2>
-<h3>Q4: Describe the internal mechanism when Spring creates an AOP proxy for a @Transactional bean. How does proxyTargetClass affect this, and what fails silently when a final method is involved?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p><strong>Proxy creation pipeline:</strong></p>
-<p>1. <code>BeanPostProcessor.postProcessAfterInitialization()</code> — <code>AbstractAutoProxyCreator</code> checks if bean has AOP advice (e.g., <code>@Transactional</code>)</p>
-<p>2. If yes, creates a proxy using <code>ProxyFactory</code>:</p>
-<p>   - <code>proxyTargetClass=false</code> (legacy default): JDK Dynamic Proxy — only if bean implements an interface. Creates <code>$Proxy0</code> implementing the interface.</p>
-<p>   - <code>proxyTargetClass=true</code> (Spring Boot default since 2.0): CGLIB — generates a runtime subclass <code>BeanClass$$SpringCGLIB$$0</code>. Overrides methods to add advice.</p>
-<p><strong>Final method trap (CGLIB):</strong></p>
-<p>CGLIB creates a subclass. Java forbids overriding <code>final</code> methods. So <code>@Transactional</code> on a <code>final</code> method is <strong>silently ignored</strong> — no compilation error, no runtime error, no warning. The method is called directly, bypassing the proxy. The transaction is never started.</p>
-<pre><code class="lang-java">
+                <p><strong>Common culprits for container OOM-kill:</strong></p>
+                <ul>
+                    <li>Too many threads: 500 threads * 1MB stack = 500MB not counted in -Xmx</li>
+                </ul>
+                <ul>
+                    <li>Metaspace leak: CGLIB proxy generation, Groovy scripts, hot-reloading</li>
+                </ul>
+                <ul>
+                    <li>Direct buffer leak: Netty ByteBuf not released</li>
+                </ul>
+                <ul>
+                    <li>Heap too large: -Xmx=1.5g leaves only 500MB for everything else in a 2GB container</li>
+                </ul>
+                <p><strong>Container memory formula:</strong></p>
+                <p><code>-Xmx + MaxMetaspaceSize + (threads * Xss) + ReservedCodeCacheSize + DirectMemorySize + GC_overhead + native_libs</code>
+                </p>
+                <p>Rule of thumb: set <code>-Xmx</code> to no more than 75% of container memory limit. For 2GB
+                    container: <code>-Xmx1400m -XX:MaxMetaspaceSize=256m -XX:ReservedCodeCacheSize=128m -Xss512k</code>.
+                </p>
+                <hr>
+                <h2>PILLAR 2 — FRAMEWORK INTERNALS</h2>
+                <h3>Q4: Describe the internal mechanism when Spring creates an AOP proxy for a @Transactional bean. How
+                    does proxyTargetClass affect this, and what fails silently when a final method is involved?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p><strong>Proxy creation pipeline:</strong></p>
+                <p>1. <code>BeanPostProcessor.postProcessAfterInitialization()</code> —
+                    <code>AbstractAutoProxyCreator</code> checks if bean has AOP advice (e.g.,
+                    <code>@Transactional</code>)</p>
+                <p>2. If yes, creates a proxy using <code>ProxyFactory</code>:</p>
+                <p> - <code>proxyTargetClass=false</code> (legacy default): JDK Dynamic Proxy — only if bean implements
+                    an interface. Creates <code>$Proxy0</code> implementing the interface.</p>
+                <p> - <code>proxyTargetClass=true</code> (Spring Boot default since 2.0): CGLIB — generates a runtime
+                    subclass <code>BeanClass$$SpringCGLIB$$0</code>. Overrides methods to add advice.</p>
+                <p><strong>Final method trap (CGLIB):</strong></p>
+                <p>CGLIB creates a subclass. Java forbids overriding <code>final</code> methods. So
+                    <code>@Transactional</code> on a <code>final</code> method is <strong>silently ignored</strong> — no
+                    compilation error, no runtime error, no warning. The method is called directly, bypassing the proxy.
+                    The transaction is never started.</p>
+                <pre><code class="lang-java">
 @Service
 public class OrderService {
     @Transactional
@@ -40112,15 +40431,24 @@ public class OrderService {
     }
 }
 </code></pre>
-<p><strong><code>@Configuration(proxyBeanMethods = false)</code> (Lite mode):</strong></p>
-<p>By default, <code>@Configuration</code> classes are CGLIB-proxied so that <code>@Bean</code> method calls within the same class return the singleton bean (inter-bean references). With <code>proxyBeanMethods=false</code>, no CGLIB proxy is created — faster startup, less memory, but <code>@Bean</code> methods become regular methods (each call creates a new instance). Spring Boot 3 auto-configurations use lite mode for performance.</p>
-<p>A top-tier candidate mentions: <code>spring.aop.proxy-target-class=true</code> is the Boot default. They also mention that <code>private</code> methods are also silently ignored by both JDK proxy and CGLIB (private methods cannot be overridden/proxied).</p>
-<hr>
-<h3>Q5: How does @Transactional propagation break when an async boundary is introduced? Describe the failure scenario with @Async + REQUIRES_NEW.</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p><code>@Transactional</code> context is bound to the current thread via <code>ThreadLocal</code> (<code>TransactionSynchronizationManager</code>). When <code>@Async</code> dispatches to another thread, the new thread has NO transaction context — the ThreadLocal is empty.</p>
-<p><strong>Failure scenario:</strong></p>
-<pre><code class="lang-java">
+                <p><strong><code>@Configuration(proxyBeanMethods = false)</code> (Lite mode):</strong></p>
+                <p>By default, <code>@Configuration</code> classes are CGLIB-proxied so that <code>@Bean</code> method
+                    calls within the same class return the singleton bean (inter-bean references). With
+                    <code>proxyBeanMethods=false</code>, no CGLIB proxy is created — faster startup, less memory, but
+                    <code>@Bean</code> methods become regular methods (each call creates a new instance). Spring Boot 3
+                    auto-configurations use lite mode for performance.</p>
+                <p>A top-tier candidate mentions: <code>spring.aop.proxy-target-class=true</code> is the Boot default.
+                    They also mention that <code>private</code> methods are also silently ignored by both JDK proxy and
+                    CGLIB (private methods cannot be overridden/proxied).</p>
+                <hr>
+                <h3>Q5: How does @Transactional propagation break when an async boundary is introduced? Describe the
+                    failure scenario with @Async + REQUIRES_NEW.</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p><code>@Transactional</code> context is bound to the current thread via <code>ThreadLocal</code>
+                    (<code>TransactionSynchronizationManager</code>). When <code>@Async</code> dispatches to another
+                    thread, the new thread has NO transaction context — the ThreadLocal is empty.</p>
+                <p><strong>Failure scenario:</strong></p>
+                <pre><code class="lang-java">
 @Service
 public class OrderService {
     @Transactional
@@ -40143,10 +40471,13 @@ public class NotificationService {
     }
 }
 </code></pre>
-<p><strong>The deeper problem:</strong> <code>@Async</code> dispatches immediately — the method is queued to the async executor BEFORE the caller's transaction commits. If <code>processOrder</code> fails after dispatching, <code>TX-1</code> rolls back but <code>sendAsync</code> has already started (or finished) on <code>TX-2</code>.</p>
-<p><strong>Correct patterns:</strong></p>
-<p>1. <strong>TransactionSynchronization:</strong> register a callback that fires AFTER commit:</p>
-<pre><code class="lang-java">
+                <p><strong>The deeper problem:</strong> <code>@Async</code> dispatches immediately — the method is
+                    queued to the async executor BEFORE the caller's transaction commits. If <code>processOrder</code>
+                    fails after dispatching, <code>TX-1</code> rolls back but <code>sendAsync</code> has already started
+                    (or finished) on <code>TX-2</code>.</p>
+                <p><strong>Correct patterns:</strong></p>
+                <p>1. <strong>TransactionSynchronization:</strong> register a callback that fires AFTER commit:</p>
+                <pre><code class="lang-java">
 TransactionSynchronizationManager.registerSynchronization(
     new TransactionSynchronization() {
         public void afterCommit() {
@@ -40154,35 +40485,74 @@ TransactionSynchronizationManager.registerSynchronization(
         }
     });
 </code></pre>
-<p>2. <strong>@TransactionalEventListener(phase = AFTER_COMMIT):</strong> Spring 4.2+ event-driven approach.</p>
-<p>3. <strong>Outbox pattern:</strong> write event to outbox table within TX-1. Separate process polls and dispatches async.</p>
-<hr>
-<h3>Q6: In a distributed microservice environment, describe how Hibernate L2 cache becomes a consistency risk. How would you mitigate stale reads without disabling the cache entirely?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p>Hibernate L2 cache is JVM-local by default (EhCache, Caffeine). In a multi-instance deployment, Instance A updates an entity and invalidates its local L2 cache. Instance B still has the stale version cached — serves stale data until TTL expiry.</p>
-<p><strong>Cache concurrency strategies and their distributed behavior:</strong></p>
-<div class="table-wrap"><table><thead><tr>
-<th>Strategy</th>
-<th>Behavior</th>
-<th>Distributed risk</th>
-</tr></thead><tbody>
-<tr><td>READ_ONLY</td><td>Never invalidated</td><td>Safe only for truly immutable data</td></tr>
-<tr><td>NONSTRICT_READ_WRITE</td><td>No lock, eventual consistency</td><td>Stale reads during write windows</td></tr>
-<tr><td>READ_WRITE</td><td>Soft lock during update</td><td>Still JVM-local — other instances stale</td></tr>
-<tr><td>TRANSACTIONAL</td><td>JTA 2PC with cache</td><td>Slow, complex, rarely used</td></tr>
-</tbody></table></div>
-<p><strong>Mitigation options (without disabling L2):</strong></p>
-<p>1. <strong>Distributed cache provider:</strong> Replace EhCache with <strong>Infinispan</strong> (clustered, invalidation mode) or <strong>Hazelcast</strong> (replicated/distributed map). Cache invalidation is broadcast to all cluster nodes via multicast or TCP.</p>
-<p>2. <strong>Short TTL + read-through:</strong> Set <code>timeToLiveSeconds=30</code>. Accept 30s staleness window. On write, explicitly evict: <code>sessionFactory.getCache().evictEntityData(Entity.class, id)</code>.</p>
-<p>3. <strong>Cache only reference data:</strong> Countries, currencies, config values — data that changes rarely. Never L2-cache transactional entities (orders, payments).</p>
-<p>4. <strong>Invalidation via messaging:</strong> On entity update, publish a cache invalidation event to Kafka/Redis Pub-Sub. Other instances subscribe and evict locally.</p>
-<p>A top-tier candidate mentions: L1 cache (persistence context) is per-session and always consistent. The problem is L2 only. They also mention <code>@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entity.cache")</code> with Infinispan in invalidation mode as the production-grade solution.</p>
-<hr>
-<h2>PILLAR 3 — CONCURRENCY & LOW-LEVEL JAVA</h2>
-<h3>Q7: Describe the internal mechanism of a lock-free stack (Treiber Stack) using CAS. What is the ABA problem in this context, and why does weakCompareAndSet exist?</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p><strong>Treiber Stack:</strong> a lock-free LIFO stack using a single <code>AtomicReference<Node></code> for the head.</p>
-<pre><code class="lang-java">
+                <p>2. <strong>@TransactionalEventListener(phase = AFTER_COMMIT):</strong> Spring 4.2+ event-driven
+                    approach.</p>
+                <p>3. <strong>Outbox pattern:</strong> write event to outbox table within TX-1. Separate process polls
+                    and dispatches async.</p>
+                <hr>
+                <h3>Q6: In a distributed microservice environment, describe how Hibernate L2 cache becomes a consistency
+                    risk. How would you mitigate stale reads without disabling the cache entirely?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p>Hibernate L2 cache is JVM-local by default (EhCache, Caffeine). In a multi-instance deployment,
+                    Instance A updates an entity and invalidates its local L2 cache. Instance B still has the stale
+                    version cached — serves stale data until TTL expiry.</p>
+                <p><strong>Cache concurrency strategies and their distributed behavior:</strong></p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Behavior</th>
+                                <th>Distributed risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>READ_ONLY</td>
+                                <td>Never invalidated</td>
+                                <td>Safe only for truly immutable data</td>
+                            </tr>
+                            <tr>
+                                <td>NONSTRICT_READ_WRITE</td>
+                                <td>No lock, eventual consistency</td>
+                                <td>Stale reads during write windows</td>
+                            </tr>
+                            <tr>
+                                <td>READ_WRITE</td>
+                                <td>Soft lock during update</td>
+                                <td>Still JVM-local — other instances stale</td>
+                            </tr>
+                            <tr>
+                                <td>TRANSACTIONAL</td>
+                                <td>JTA 2PC with cache</td>
+                                <td>Slow, complex, rarely used</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>Mitigation options (without disabling L2):</strong></p>
+                <p>1. <strong>Distributed cache provider:</strong> Replace EhCache with <strong>Infinispan</strong>
+                    (clustered, invalidation mode) or <strong>Hazelcast</strong> (replicated/distributed map). Cache
+                    invalidation is broadcast to all cluster nodes via multicast or TCP.</p>
+                <p>2. <strong>Short TTL + read-through:</strong> Set <code>timeToLiveSeconds=30</code>. Accept 30s
+                    staleness window. On write, explicitly evict:
+                    <code>sessionFactory.getCache().evictEntityData(Entity.class, id)</code>.</p>
+                <p>3. <strong>Cache only reference data:</strong> Countries, currencies, config values — data that
+                    changes rarely. Never L2-cache transactional entities (orders, payments).</p>
+                <p>4. <strong>Invalidation via messaging:</strong> On entity update, publish a cache invalidation event
+                    to Kafka/Redis Pub-Sub. Other instances subscribe and evict locally.</p>
+                <p>A top-tier candidate mentions: L1 cache (persistence context) is per-session and always consistent.
+                    The problem is L2 only. They also mention
+                    <code>@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entity.cache")</code> with
+                    Infinispan in invalidation mode as the production-grade solution.</p>
+                <hr>
+                <h2>PILLAR 3 — CONCURRENCY & LOW-LEVEL JAVA</h2>
+                <h3>Q7: Describe the internal mechanism of a lock-free stack (Treiber Stack) using CAS. What is the ABA
+                    problem in this context, and why does weakCompareAndSet exist?</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p><strong>Treiber Stack:</strong> a lock-free LIFO stack using a single
+                    <code>AtomicReference<Node></code> for the head.</p>
+                <pre><code class="lang-java">
 public class TreiberStack&lt;T&gt; {
     private final AtomicReference&lt;Node&lt;T&gt;&gt; head = new AtomicReference&lt;&gt;();
 
@@ -40205,33 +40575,65 @@ public class TreiberStack&lt;T&gt; {
     }
 }
 </code></pre>
-<p><strong>ABA problem in pop():</strong></p>
-<p>1. Thread-1 reads head=A (A->B->C)</p>
-<p>2. Thread-1 is preempted</p>
-<p>3. Thread-2 pops A, pops B, pushes A back. Stack: A->C (B is gone)</p>
-<p>4. Thread-1 resumes, CAS(head, A, A.next) — succeeds because head is still A</p>
-<p>5. But A.next was B (saved before preemption) — Thread-1 sets head=B. B was already freed!</p>
-<p><strong>Fix:</strong> <code>AtomicStampedReference<Node></code> — CAS checks both pointer AND a version stamp. Even if A returns, the stamp has incremented, so CAS fails correctly.</p>
-<p><strong><code>weakCompareAndSet</code>:</strong> on some architectures (ARM, POWER), CAS requires memory barriers (acquire/release semantics). <code>weakCompareAndSet</code> may skip these barriers — it can fail spuriously (return false even when the comparison should succeed) but is faster. Use only in retry loops where spurious failure is harmless (you just retry). Java 9+ deprecated it in favor of <code>compareAndExchange</code> variants with explicit memory ordering: <code>compareAndExchangeAcquire</code>, <code>compareAndExchangeRelease</code>.</p>
-<hr>
-<h3>Q8: Compare the architectural impact of thread-per-request (platform threads) vs virtual threads (Project Loom) on a Spring Boot 3 REST API handling 10K concurrent requests with 100ms average DB latency.</h3>
-<p><strong>Expert-Level Insight:</strong></p>
-<p><strong>Platform threads (traditional):</strong></p>
-<ul><li>Each thread: ~1MB stack. 10K threads = 10GB stack memory alone.</li></ul>
-<ul><li>Thread scheduling: OS context switches. At 10K threads, scheduler overhead is significant.</li></ul>
-<ul><li>Thread pool sizing: <code>pool_size = CPU_cores <em> (1 + wait_time/service_time)</code>. With 100ms DB wait and 5ms CPU work on 16 cores: pool = 16 </em> (1 + 100/5) = 336 threads.</li></ul>
-<ul><li>10K concurrent requests with 336 threads: requests queue. p99 latency spikes under load.</li></ul>
-<p><strong>Virtual threads (Java 21+):</strong></p>
-<ul><li>Each VT: few KB stack (grows on demand). 10K VTs = ~50MB total.</li></ul>
-<ul><li>VT mounted on carrier (platform) thread. On blocking IO, VT unmounts — carrier serves another VT. No OS context switch.</li></ul>
-<ul><li>Thread pool: ForkJoinPool with <code>availableProcessors()</code> carriers. 16 cores = 16 carrier threads serving 10K VTs.</li></ul>
-<ul><li>All 10K requests in-flight simultaneously. No queuing. p99 stays close to p50.</li></ul>
-<p><strong>Where virtual threads fail or need care:</strong></p>
-<p>1. <strong>Pinning:</strong> <code>synchronized</code> blocks pin VT to carrier — defeats the purpose. Replace with <code>ReentrantLock</code>. HikariCP < 5.1 used synchronized internally.</p>
-<p>2. <strong>ThreadLocal proliferation:</strong> VTs are cheap to create — applications may create millions. Each ThreadLocal entry is per-VT. Use <code>ScopedValue</code> instead.</p>
-<p>3. <strong>CPU-bound work:</strong> VTs provide no benefit for CPU-intensive tasks. The carrier pool has limited threads. A CPU-bound VT blocks a carrier.</p>
-<p>4. <strong>Structured concurrency (<code>StructuredTaskScope</code>):</strong> ensures child VTs cannot outlive parent scope. <code>ShutdownOnFailure</code> cancels siblings when one fails. <code>ShutdownOnSuccess</code> returns first result.</p>
-<pre><code class="lang-java">
+                <p><strong>ABA problem in pop():</strong></p>
+                <p>1. Thread-1 reads head=A (A->B->C)</p>
+                <p>2. Thread-1 is preempted</p>
+                <p>3. Thread-2 pops A, pops B, pushes A back. Stack: A->C (B is gone)</p>
+                <p>4. Thread-1 resumes, CAS(head, A, A.next) — succeeds because head is still A</p>
+                <p>5. But A.next was B (saved before preemption) — Thread-1 sets head=B. B was already freed!</p>
+                <p><strong>Fix:</strong> <code>AtomicStampedReference<Node></code> — CAS checks both pointer AND a
+                    version stamp. Even if A returns, the stamp has incremented, so CAS fails correctly.</p>
+                <p><strong><code>weakCompareAndSet</code>:</strong> on some architectures (ARM, POWER), CAS requires
+                    memory barriers (acquire/release semantics). <code>weakCompareAndSet</code> may skip these barriers
+                    — it can fail spuriously (return false even when the comparison should succeed) but is faster. Use
+                    only in retry loops where spurious failure is harmless (you just retry). Java 9+ deprecated it in
+                    favor of <code>compareAndExchange</code> variants with explicit memory ordering:
+                    <code>compareAndExchangeAcquire</code>, <code>compareAndExchangeRelease</code>.</p>
+                <hr>
+                <h3>Q8: Compare the architectural impact of thread-per-request (platform threads) vs virtual threads
+                    (Project Loom) on a Spring Boot 3 REST API handling 10K concurrent requests with 100ms average DB
+                    latency.</h3>
+                <p><strong>Expert-Level Insight:</strong></p>
+                <p><strong>Platform threads (traditional):</strong></p>
+                <ul>
+                    <li>Each thread: ~1MB stack. 10K threads = 10GB stack memory alone.</li>
+                </ul>
+                <ul>
+                    <li>Thread scheduling: OS context switches. At 10K threads, scheduler overhead is significant.</li>
+                </ul>
+                <ul>
+                    <li>Thread pool sizing: <code>pool_size = CPU_cores <em> (1 + wait_time/service_time)</code>. With
+                        100ms DB wait and 5ms CPU work on 16 cores: pool = 16 </em> (1 + 100/5) = 336 threads.</li>
+                </ul>
+                <ul>
+                    <li>10K concurrent requests with 336 threads: requests queue. p99 latency spikes under load.</li>
+                </ul>
+                <p><strong>Virtual threads (Java 21+):</strong></p>
+                <ul>
+                    <li>Each VT: few KB stack (grows on demand). 10K VTs = ~50MB total.</li>
+                </ul>
+                <ul>
+                    <li>VT mounted on carrier (platform) thread. On blocking IO, VT unmounts — carrier serves another
+                        VT. No OS context switch.</li>
+                </ul>
+                <ul>
+                    <li>Thread pool: ForkJoinPool with <code>availableProcessors()</code> carriers. 16 cores = 16
+                        carrier threads serving 10K VTs.</li>
+                </ul>
+                <ul>
+                    <li>All 10K requests in-flight simultaneously. No queuing. p99 stays close to p50.</li>
+                </ul>
+                <p><strong>Where virtual threads fail or need care:</strong></p>
+                <p>1. <strong>Pinning:</strong> <code>synchronized</code> blocks pin VT to carrier — defeats the
+                    purpose. Replace with <code>ReentrantLock</code>. HikariCP < 5.1 used synchronized internally.</p>
+                        <p>2. <strong>ThreadLocal proliferation:</strong> VTs are cheap to create — applications may
+                            create millions. Each ThreadLocal entry is per-VT. Use <code>ScopedValue</code> instead.</p>
+                        <p>3. <strong>CPU-bound work:</strong> VTs provide no benefit for CPU-intensive tasks. The
+                            carrier pool has limited threads. A CPU-bound VT blocks a carrier.</p>
+                        <p>4. <strong>Structured concurrency (<code>StructuredTaskScope</code>):</strong> ensures child
+                            VTs cannot outlive parent scope. <code>ShutdownOnFailure</code> cancels siblings when one
+                            fails. <code>ShutdownOnSuccess</code> returns first result.</p>
+                        <pre><code class="lang-java">
 try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
     Subtask&lt;User&gt; userTask = scope.fork(() -&gt; fetchUser(id));
     Subtask&lt;List&lt;Order&gt;&gt; ordersTask = scope.fork(() -&gt; fetchOrders(id));
@@ -40239,126 +40641,232 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
     return new UserProfile(userTask.get(), ordersTask.get());
 } // child VTs cannot escape this scope
 </code></pre>
-<hr>
-<h2>PILLAR 4 — THE PRODUCTION RUNBOOK</h2>
-<h3>The Senior Engineer's Incident Triage Protocol</h3>
-<p><strong>When your service is down in production, follow this exact sequence. Time is measured in minutes — every minute of downtime costs money.</strong></p>
-<hr>
-<h3>SCENARIO A: CPU Spike (Service responding slowly, CPU at 95%+)</h3>
-<p><strong>Step 1 — Confirm and scope (0-2 min):</strong></p>
-<pre><code class="lang-bash">
+                        <hr>
+                        <h2>PILLAR 4 — THE PRODUCTION RUNBOOK</h2>
+                        <h3>The Senior Engineer's Incident Triage Protocol</h3>
+                        <p><strong>When your service is down in production, follow this exact sequence. Time is measured
+                                in minutes — every minute of downtime costs money.</strong></p>
+                        <hr>
+                        <h3>SCENARIO A: CPU Spike (Service responding slowly, CPU at 95%+)</h3>
+                        <p><strong>Step 1 — Confirm and scope (0-2 min):</strong></p>
+                        <pre><code class="lang-bash">
 # Which process is consuming CPU?
 top -H -p &lt;pid&gt;    # show per-thread CPU usage
 </code></pre>
-<p><strong>Step 2 — Capture thread dump (2-3 min):</strong></p>
-<pre><code class="lang-bash">
+                        <p><strong>Step 2 — Capture thread dump (2-3 min):</strong></p>
+                        <pre><code class="lang-bash">
 # Take 3 thread dumps, 10 seconds apart
 jstack -l &lt;pid&gt; &gt; dump1.txt; sleep 10; jstack -l &lt;pid&gt; &gt; dump2.txt; sleep 10; jstack -l &lt;pid&gt; &gt; dump3.txt
 </code></pre>
-<p><strong>Step 3 — Correlate thread IDs (3-5 min):</strong></p>
-<p><code>top -H</code> shows OS thread IDs (LWP) in decimal. <code>jstack</code> shows thread IDs in hex (<code>nid=0x...</code>). Convert decimal to hex to find which Java thread is burning CPU.</p>
-<p><strong>Step 4 — Analyze patterns:</strong></p>
-<ul><li><strong>All threads in same method:</strong> infinite loop or very hot code path. Check recent deployments.</li></ul>
-<ul><li><strong>Many threads BLOCKED on same monitor:</strong> lock contention. Find the thread holding the lock.</li></ul>
-<ul><li><strong>Many threads WAITING in thread pool queue:</strong> downstream service is slow. Check connection pool and dependent service health.</li></ul>
-<ul><li><strong>GC threads consuming CPU:</strong> check GC logs. Likely heap pressure.</li></ul>
-<p><strong>Step 5 — If GC-related:</strong></p>
-<pre><code class="lang-bash">
+                        <p><strong>Step 3 — Correlate thread IDs (3-5 min):</strong></p>
+                        <p><code>top -H</code> shows OS thread IDs (LWP) in decimal. <code>jstack</code> shows thread
+                            IDs in hex (<code>nid=0x...</code>). Convert decimal to hex to find which Java thread is
+                            burning CPU.</p>
+                        <p><strong>Step 4 — Analyze patterns:</strong></p>
+                        <ul>
+                            <li><strong>All threads in same method:</strong> infinite loop or very hot code path. Check
+                                recent deployments.</li>
+                        </ul>
+                        <ul>
+                            <li><strong>Many threads BLOCKED on same monitor:</strong> lock contention. Find the thread
+                                holding the lock.</li>
+                        </ul>
+                        <ul>
+                            <li><strong>Many threads WAITING in thread pool queue:</strong> downstream service is slow.
+                                Check connection pool and dependent service health.</li>
+                        </ul>
+                        <ul>
+                            <li><strong>GC threads consuming CPU:</strong> check GC logs. Likely heap pressure.</li>
+                        </ul>
+                        <p><strong>Step 5 — If GC-related:</strong></p>
+                        <pre><code class="lang-bash">
 # Real-time GC monitoring
 jstat -gcutil &lt;pid&gt; 1000    # 1-second intervals: Eden, Survivor, Old, Metaspace usage + GC counts/times
 # Check GC log (if -Xlog:gc* enabled)
 grep "Pause" gc.log | tail -20   # pause durations
 </code></pre>
-<p><strong>Advanced (if time permits):</strong> Use <code>async-profiler</code> for CPU flame graph:</p>
-<pre><code class="lang-bash">
+                        <p><strong>Advanced (if time permits):</strong> Use <code>async-profiler</code> for CPU flame
+                            graph:</p>
+                        <pre><code class="lang-bash">
 ./profiler.sh -d 30 -f flamegraph.html &lt;pid&gt;
 </code></pre>
-<hr>
-<h3>SCENARIO B: Memory Leak (OOM or steadily growing heap)</h3>
-<p><strong>Step 1 — Confirm leak vs undersized heap (0-2 min):</strong></p>
-<pre><code class="lang-bash">
+                        <hr>
+                        <h3>SCENARIO B: Memory Leak (OOM or steadily growing heap)</h3>
+                        <p><strong>Step 1 — Confirm leak vs undersized heap (0-2 min):</strong></p>
+                        <pre><code class="lang-bash">
 jstat -gcutil &lt;pid&gt; 5000   # Watch Old Gen usage over time
 # If Old Gen grows after every Full GC: LEAK. If it stabilizes: undersized heap.
 </code></pre>
-<p><strong>Step 2 — Capture heap dump (2-5 min):</strong></p>
-<pre><code class="lang-bash">
+                        <p><strong>Step 2 — Capture heap dump (2-5 min):</strong></p>
+                        <pre><code class="lang-bash">
 # BEFORE the app OOMs — configure auto-dump:
 # -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/app/
 # Manual dump:
 jmap -dump:live,format=b,file=heap.hprof &lt;pid&gt;
 # WARNING: this triggers Full GC and may pause the app for seconds
 </code></pre>
-<p><strong>Step 3 — Analyze with Eclipse MAT or VisualVM:</strong></p>
-<ul><li><strong>Dominator tree:</strong> which objects retain the most memory?</li></ul>
-<ul><li><strong>Leak suspects report:</strong> MAT auto-detects suspected leakers.</li></ul>
-<ul><li><strong>Path to GC roots:</strong> trace the reference chain from a suspected leaking object to the GC root — this tells you WHO is holding the reference.</li></ul>
-<p><strong>Common leak patterns:</strong></p>
-<ul><li><code>HashMap</code> growing unboundedly (missing eviction/TTL)</li></ul>
-<ul><li><code>ThreadLocal</code> not removed in thread pool (strong value reference)</li></ul>
-<ul><li>Event listeners registered but never deregistered</li></ul>
-<ul><li><code>ClassLoader</code> leak in hot-reloading (Metaspace growth)</li></ul>
-<ul><li>Hibernate session holding managed entities too long (fat persistence context)</li></ul>
-<p><strong>Step 4 — Quick mitigation (while fixing root cause):</strong></p>
-<pre><code class="lang-bash">
+                        <p><strong>Step 3 — Analyze with Eclipse MAT or VisualVM:</strong></p>
+                        <ul>
+                            <li><strong>Dominator tree:</strong> which objects retain the most memory?</li>
+                        </ul>
+                        <ul>
+                            <li><strong>Leak suspects report:</strong> MAT auto-detects suspected leakers.</li>
+                        </ul>
+                        <ul>
+                            <li><strong>Path to GC roots:</strong> trace the reference chain from a suspected leaking
+                                object to the GC root — this tells you WHO is holding the reference.</li>
+                        </ul>
+                        <p><strong>Common leak patterns:</strong></p>
+                        <ul>
+                            <li><code>HashMap</code> growing unboundedly (missing eviction/TTL)</li>
+                        </ul>
+                        <ul>
+                            <li><code>ThreadLocal</code> not removed in thread pool (strong value reference)</li>
+                        </ul>
+                        <ul>
+                            <li>Event listeners registered but never deregistered</li>
+                        </ul>
+                        <ul>
+                            <li><code>ClassLoader</code> leak in hot-reloading (Metaspace growth)</li>
+                        </ul>
+                        <ul>
+                            <li>Hibernate session holding managed entities too long (fat persistence context)</li>
+                        </ul>
+                        <p><strong>Step 4 — Quick mitigation (while fixing root cause):</strong></p>
+                        <pre><code class="lang-bash">
 # Force Full GC (buys time, does NOT fix leaks)
 jcmd &lt;pid&gt; GC.run
 # Rolling restart with reduced traffic (if stateless)
 </code></pre>
-<hr>
-<h3>SCENARIO C: Thread Deadlock (Service hangs, no CPU usage, no response)</h3>
-<p><strong>Step 1 — Capture thread dump (immediate):</strong></p>
-<pre><code class="lang-bash">
+                        <hr>
+                        <h3>SCENARIO C: Thread Deadlock (Service hangs, no CPU usage, no response)</h3>
+                        <p><strong>Step 1 — Capture thread dump (immediate):</strong></p>
+                        <pre><code class="lang-bash">
 jstack -l &lt;pid&gt; | grep -A 5 "deadlock"
 # jstack automatically detects and reports deadlocks:
 # "Found one Java-level deadlock:"
 # Thread-A waiting to lock 0x... (held by Thread-B)
 # Thread-B waiting to lock 0x... (held by Thread-A)
 </code></pre>
-<p><strong>Step 2 — If no deadlock detected but threads are stuck:</strong></p>
-<p>Look for: threads in <code>WAITING</code> state on <code>LockSupport.park()</code> — waiting for a Condition that is never signaled. Or threads in <code>BLOCKED</code> on a monitor held by a thread that is itself waiting on I/O (timeout-less network call).</p>
-<p><strong>Step 3 — Using Arthas (attach to live JVM):</strong></p>
-<pre><code class="lang-bash">
+                        <p><strong>Step 2 — If no deadlock detected but threads are stuck:</strong></p>
+                        <p>Look for: threads in <code>WAITING</code> state on <code>LockSupport.park()</code> — waiting
+                            for a Condition that is never signaled. Or threads in <code>BLOCKED</code> on a monitor held
+                            by a thread that is itself waiting on I/O (timeout-less network call).</p>
+                        <p><strong>Step 3 — Using Arthas (attach to live JVM):</strong></p>
+                        <pre><code class="lang-bash">
 java -jar arthas-boot.jar   # attach to running JVM
 thread -b                    # find threads blocking others
 thread -n 5                  # top 5 CPU-consuming threads
 watch com.myapp.OrderService processOrder '{params, returnObj, throwExp}' -x 3
 # watch method invocations live with params and return values
 </code></pre>
-<p><strong>Step 4 — Common deadlock causes:</strong></p>
-<ul><li>Two <code>@Transactional</code> methods locking rows in different order</li></ul>
-<ul><li><code>REQUIRES_NEW</code> locking same row as outer transaction</li></ul>
-<ul><li>Connection pool exhaustion: all connections held by threads waiting for new connections (circular dependency)</li></ul>
-<ul><li><code>synchronized</code> + external call: holding a lock while calling a slow downstream service</li></ul>
-<hr>
-<h3>INCIDENT METRICS</h3>
-<div class="table-wrap"><table><thead><tr>
-<th>Metric</th>
-<th>Target (Tier-1)</th>
-<th>How to measure</th>
-</tr></thead><tbody>
-<tr><td>MTTD (Mean Time To Detect)</td><td>< 2 min</td><td>Alerting on error rate, latency p99, health checks</td></tr>
-<tr><td>MTTR (Mean Time To Recover)</td><td>< 15 min</td><td>Runbook quality, automation, rollback capability</td></tr>
-<tr><td>MTTF (Mean Time To Fix root cause)</td><td>< 48 hours</td><td>Post-mortem culture, blameless reviews</td></tr>
-</tbody></table></div>
-<p><strong>The 5-minute rule:</strong> If you cannot diagnose the root cause within 5 minutes, <strong>roll back first, investigate later.</strong> Customer impact always trumps understanding.</p>
-<hr>
-<h2>SCORING RUBRIC</h2>
-<div class="table-wrap"><table><thead><tr>
-<th>Level</th>
-<th>Signal</th>
-</tr></thead><tbody>
-<tr><td>Mid</td><td>Knows the tools exist but has never used them under pressure</td></tr>
-<tr><td>Senior</td><td>Has used jstack + heap dumps in real incidents. Understands GC tuning basics</td></tr>
-<tr><td>Expert</td><td>Can trace from OS thread ID to Java stack frame. Knows JIT deopt triggers. Has tuned ZGC in production. Mentions safepoints and TTSP</td></tr>
-<tr><td>Principal</td><td>Designed the monitoring + alerting + runbook system. Can discuss trade-offs between throughput and latency for GC selection. Mentions structured concurrency for cancellation propagation</td></tr>
-</tbody></table></div><hr><h2>SECTION E — SPRING BOOT ADVANCED (Q47-Q60)</h2>
-<h3>Q47: How do Spring Profiles work internally? How do you structure profiles for dev/staging/prod without configuration drift?</h3>
-<p><strong>Expected:</strong> <code>@Profile("prod")</code> beans are only created when <code>spring.profiles.active=prod</code>. Properties are loaded in order: <code>application.yml</code> -> <code>application-{profile}.yml</code> (profile overrides base). Best practice: put ALL config in base, override only secrets and endpoints per profile. Use <code>@ConfigurationProperties</code> + validation to catch missing config at startup, not runtime.</p>
-<p><strong>Expert insight:</strong> Use <code>spring.config.import</code> (Boot 2.4+) to import from Vault/AWS SSM. Never commit secrets to profile files.</p>
-<hr>
-<h3>Q48: Describe the internal mechanism of Spring's <code>@ControllerAdvice</code> and <code>@ExceptionHandler</code>. How does the exception resolution chain work?</h3>
-<p><strong>Expected:</strong> <code>ExceptionHandlerExceptionResolver</code> scans <code>@ControllerAdvice</code> classes at startup. On exception, it searches for matching <code>@ExceptionHandler</code> by exception type hierarchy (most specific first). Order of resolvers: <code>@ExceptionHandler</code> in controller -> <code>@ControllerAdvice</code> handlers -> <code>DefaultHandlerExceptionResolver</code> (Spring built-in) -> <code>ResponseStatusExceptionResolver</code>.</p>
-<pre><code class="lang-java">
+                        <p><strong>Step 4 — Common deadlock causes:</strong></p>
+                        <ul>
+                            <li>Two <code>@Transactional</code> methods locking rows in different order</li>
+                        </ul>
+                        <ul>
+                            <li><code>REQUIRES_NEW</code> locking same row as outer transaction</li>
+                        </ul>
+                        <ul>
+                            <li>Connection pool exhaustion: all connections held by threads waiting for new connections
+                                (circular dependency)</li>
+                        </ul>
+                        <ul>
+                            <li><code>synchronized</code> + external call: holding a lock while calling a slow
+                                downstream service</li>
+                        </ul>
+                        <hr>
+                        <h3>INCIDENT METRICS</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Target (Tier-1)</th>
+                                        <th>How to measure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MTTD (Mean Time To Detect)</td>
+                                        <td>
+                                            < 2 min</td>
+                                        <td>Alerting on error rate, latency p99, health checks</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MTTR (Mean Time To Recover)</td>
+                                        <td>
+                                            < 15 min</td>
+                                        <td>Runbook quality, automation, rollback capability</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MTTF (Mean Time To Fix root cause)</td>
+                                        <td>
+                                            < 48 hours</td>
+                                        <td>Post-mortem culture, blameless reviews</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><strong>The 5-minute rule:</strong> If you cannot diagnose the root cause within 5 minutes,
+                            <strong>roll back first, investigate later.</strong> Customer impact always trumps
+                            understanding.</p>
+                        <hr>
+                        <h2>SCORING RUBRIC</h2>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Signal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mid</td>
+                                        <td>Knows the tools exist but has never used them under pressure</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Senior</td>
+                                        <td>Has used jstack + heap dumps in real incidents. Understands GC tuning basics
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Expert</td>
+                                        <td>Can trace from OS thread ID to Java stack frame. Knows JIT deopt triggers.
+                                            Has tuned ZGC in production. Mentions safepoints and TTSP</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Principal</td>
+                                        <td>Designed the monitoring + alerting + runbook system. Can discuss trade-offs
+                                            between throughput and latency for GC selection. Mentions structured
+                                            concurrency for cancellation propagation</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <h2>SECTION E — SPRING BOOT ADVANCED (Q47-Q60)</h2>
+                        <h3>Q47: How do Spring Profiles work internally? How do you structure profiles for
+                            dev/staging/prod without configuration drift?</h3>
+                        <p><strong>Expected:</strong> <code>@Profile("prod")</code> beans are only created when
+                            <code>spring.profiles.active=prod</code>. Properties are loaded in order:
+                            <code>application.yml</code> -> <code>application-{profile}.yml</code> (profile overrides
+                            base). Best practice: put ALL config in base, override only secrets and endpoints per
+                            profile. Use <code>@ConfigurationProperties</code> + validation to catch missing config at
+                            startup, not runtime.</p>
+                        <p><strong>Expert insight:</strong> Use <code>spring.config.import</code> (Boot 2.4+) to import
+                            from Vault/AWS SSM. Never commit secrets to profile files.</p>
+                        <hr>
+                        <h3>Q48: Describe the internal mechanism of Spring's <code>@ControllerAdvice</code> and
+                            <code>@ExceptionHandler</code>. How does the exception resolution chain work?</h3>
+                        <p><strong>Expected:</strong> <code>ExceptionHandlerExceptionResolver</code> scans
+                            <code>@ControllerAdvice</code> classes at startup. On exception, it searches for matching
+                            <code>@ExceptionHandler</code> by exception type hierarchy (most specific first). Order of
+                            resolvers: <code>@ExceptionHandler</code> in controller -> <code>@ControllerAdvice</code>
+                            handlers -> <code>DefaultHandlerExceptionResolver</code> (Spring built-in) ->
+                            <code>ResponseStatusExceptionResolver</code>.</p>
+                        <pre><code class="lang-java">
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
@@ -40372,64 +40880,150 @@ public class GlobalExceptionHandler {
     }
 }
 </code></pre>
-<p>Red flag: candidate catches <code>Exception</code> but doesn't log the stack trace — swallows root cause.</p>
-<hr>
-<h3>Q49: How does <code>@Valid</code> / <code>@Validated</code> work? Where does validation happen in the request lifecycle, and how do you create custom validators?</h3>
-<p><strong>Expected:</strong> <code>@Valid</code> triggers JSR-380 Bean Validation (Hibernate Validator impl). For <code>@RequestBody</code>: <code>RequestResponseBodyMethodProcessor</code> calls <code>Validator.validate()</code> BEFORE the controller method. For <code>@PathVariable</code> / <code>@RequestParam</code>: requires <code>@Validated</code> on the class + method-level validation via AOP (<code>MethodValidationInterceptor</code>).</p>
-<p>Custom validator: implement <code>ConstraintValidator<CustomAnnotation, FieldType></code> with <code>isValid()</code> method. Register via the annotation's <code>@Constraint(validatedBy = ...)</code>.</p>
-<hr>
-<h3>Q50: Compare the architectural trade-offs of Spring WebFlux (reactive) vs Spring MVC (servlet) for a microservice with mixed I/O-bound and CPU-bound workloads.</h3>
-<p><strong>Expected:</strong> WebFlux uses non-blocking I/O on Netty with a small event loop thread pool (default: CPU cores). Excels for high-concurrency I/O-bound work (API gateway, proxy). Fails for CPU-bound: one CPU-heavy operation blocks the event loop thread, starving ALL concurrent requests.</p>
-<p>Trade-offs: WebFlux has harder debugging (stack traces are meaningless in reactive chains), steeper learning curve, limited JDBC support (need R2DBC). MVC with virtual threads (Java 21) gives the same concurrency benefits as WebFlux but with familiar imperative code. For new projects in 2024+: MVC + virtual threads is the pragmatic choice unless you need backpressure (Reactor's strength).</p>
-<hr>
-<h3>Q51: Explain Spring Retry's internal mechanism. How does <code>@Retryable</code> work with <code>@Transactional</code>, and what is the ordering trap?</h3>
-<p><strong>Expected:</strong> Spring Retry uses AOP. <code>@Retryable</code> wraps method in a <code>RetryTemplate</code> that catches specified exceptions and retries. The ordering trap: if <code>@Retryable</code> and <code>@Transactional</code> are both on the same method, the AOP proxy order matters. If <code>@Transactional</code> is the outer proxy, each retry shares the SAME transaction (which may already be marked rollback-only). Correct: <code>@Retryable</code> OUTSIDE <code>@Transactional</code> — each retry gets a fresh transaction.</p>
-<pre><code class="lang-java">
+                        <p>Red flag: candidate catches <code>Exception</code> but doesn't log the stack trace — swallows
+                            root cause.</p>
+                        <hr>
+                        <h3>Q49: How does <code>@Valid</code> / <code>@Validated</code> work? Where does validation
+                            happen in the request lifecycle, and how do you create custom validators?</h3>
+                        <p><strong>Expected:</strong> <code>@Valid</code> triggers JSR-380 Bean Validation (Hibernate
+                            Validator impl). For <code>@RequestBody</code>:
+                            <code>RequestResponseBodyMethodProcessor</code> calls <code>Validator.validate()</code>
+                            BEFORE the controller method. For <code>@PathVariable</code> / <code>@RequestParam</code>:
+                            requires <code>@Validated</code> on the class + method-level validation via AOP
+                            (<code>MethodValidationInterceptor</code>).</p>
+                        <p>Custom validator: implement <code>ConstraintValidator<CustomAnnotation, FieldType></code>
+                            with <code>isValid()</code> method. Register via the annotation's
+                            <code>@Constraint(validatedBy = ...)</code>.</p>
+                        <hr>
+                        <h3>Q50: Compare the architectural trade-offs of Spring WebFlux (reactive) vs Spring MVC
+                            (servlet) for a microservice with mixed I/O-bound and CPU-bound workloads.</h3>
+                        <p><strong>Expected:</strong> WebFlux uses non-blocking I/O on Netty with a small event loop
+                            thread pool (default: CPU cores). Excels for high-concurrency I/O-bound work (API gateway,
+                            proxy). Fails for CPU-bound: one CPU-heavy operation blocks the event loop thread, starving
+                            ALL concurrent requests.</p>
+                        <p>Trade-offs: WebFlux has harder debugging (stack traces are meaningless in reactive chains),
+                            steeper learning curve, limited JDBC support (need R2DBC). MVC with virtual threads (Java
+                            21) gives the same concurrency benefits as WebFlux but with familiar imperative code. For
+                            new projects in 2024+: MVC + virtual threads is the pragmatic choice unless you need
+                            backpressure (Reactor's strength).</p>
+                        <hr>
+                        <h3>Q51: Explain Spring Retry's internal mechanism. How does <code>@Retryable</code> work with
+                            <code>@Transactional</code>, and what is the ordering trap?</h3>
+                        <p><strong>Expected:</strong> Spring Retry uses AOP. <code>@Retryable</code> wraps method in a
+                            <code>RetryTemplate</code> that catches specified exceptions and retries. The ordering trap:
+                            if <code>@Retryable</code> and <code>@Transactional</code> are both on the same method, the
+                            AOP proxy order matters. If <code>@Transactional</code> is the outer proxy, each retry
+                            shares the SAME transaction (which may already be marked rollback-only). Correct:
+                            <code>@Retryable</code> OUTSIDE <code>@Transactional</code> — each retry gets a fresh
+                            transaction.</p>
+                        <pre><code class="lang-java">
 @Retryable(retryFor = OptimisticLockException.class, maxAttempts = 3)
 @Transactional // inner — fresh TX per retry attempt
 public void updateWithRetry(Order order) { ... }
 </code></pre>
-<p>Control order: <code>@Order</code> on the aspects, or separate into two beans.</p>
-<hr>
-<h3>Q52: Describe the Spring Event system. How does <code>@TransactionalEventListener</code> differ from <code>@EventListener</code>, and what is the AFTER_COMMIT phase useful for?</h3>
-<p><strong>Expected:</strong> <code>@EventListener</code> fires synchronously WITHIN the current transaction. If the transaction rolls back, the side effect (email sent, notification dispatched) cannot be undone. <code>@TransactionalEventListener(phase = AFTER_COMMIT)</code> fires ONLY after the transaction commits — guarantees the business data is persisted before side effects execute.</p>
-<pre><code class="lang-java">
+                        <p>Control order: <code>@Order</code> on the aspects, or separate into two beans.</p>
+                        <hr>
+                        <h3>Q52: Describe the Spring Event system. How does <code>@TransactionalEventListener</code>
+                            differ from <code>@EventListener</code>, and what is the AFTER_COMMIT phase useful for?</h3>
+                        <p><strong>Expected:</strong> <code>@EventListener</code> fires synchronously WITHIN the current
+                            transaction. If the transaction rolls back, the side effect (email sent, notification
+                            dispatched) cannot be undone. <code>@TransactionalEventListener(phase = AFTER_COMMIT)</code>
+                            fires ONLY after the transaction commits — guarantees the business data is persisted before
+                            side effects execute.</p>
+                        <pre><code class="lang-java">
 @TransactionalEventListener(phase = AFTER_COMMIT)
 public void onOrderCreated(OrderCreatedEvent event) {
     notificationService.sendAsync(event.getOrder()); // safe — order is committed
 }
 </code></pre>
-<p>Pitfall: AFTER_COMMIT listeners run in the SAME thread but outside any transaction. If the listener needs its own DB write, it must open a new transaction (<code>@Transactional(propagation = REQUIRES_NEW)</code>).</p>
-<hr>
-<h3>Q53: How would you design REST API versioning for a service with 50+ consumers? Compare URI, header, and content negotiation approaches.</h3>
-<p><strong>Expected:</strong> URI versioning (<code>/api/v1/orders</code>) — simplest, most visible, easy to route. But pollutes URL space and requires maintaining multiple controller versions. Header versioning (<code>X-API-Version: 2</code>) — clean URLs, but invisible in browser/logs. Content negotiation (<code>Accept: application/vnd.myapp.v2+json</code>) — most RESTful but complex.</p>
-<p>Recommendation for 50+ consumers: URI versioning for major breaking changes (v1 -> v2), backward-compatible evolution within a version using optional fields + @JsonIgnoreProperties(ignoreUnknown=true) on DTOs. Support N-1 version for 6 months after deprecation.</p>
-<hr>
-<h3>Q54: How does HikariCP manage connections internally? What are the critical tuning parameters and how do you diagnose connection pool exhaustion?</h3>
-<p><strong>Expected:</strong> HikariCP uses a ConcurrentBag (lock-free) for connection management. Key params: <code>maximumPoolSize</code> (default 10), <code>minimumIdle</code> (default = maximumPoolSize), <code>connectionTimeout</code> (30s — how long to wait for a connection), <code>maxLifetime</code> (30min — prevents DB-side timeout kills).</p>
-<p>Pool exhaustion diagnosis: enable <code>leakDetectionThreshold=30000</code> (30s) — HikariCP logs a stack trace of any connection held longer than threshold. Metrics: <code>hikaricp_connections_active</code>, <code>hikaricp_connections_pending</code>.</p>
-<p>Formula: <code>pool_size = CPU_cores <em> 2 + effective_spindle_count</code>. For SSD: pool_size = cores </em> 2. A pool of 10-20 connections handles thousands of TPS because each connection holds for <5ms for simple queries.</p>
-<p>Red flag: candidate sets pool size to 100+ "for high throughput" — causes DB connection overhead and contention.</p>
-<hr>
-<h2>SECTION F — DATABASE & DATA (Q55-Q68)</h2>
-<h3>Q55: Explain B-Tree index internals. How does PostgreSQL use a B-Tree to satisfy a range query, and what makes an index "covering"?</h3>
-<p><strong>Expected:</strong> B-Tree is a balanced tree where internal nodes contain keys + child pointers, leaf nodes contain keys + heap tuple pointers (TIDs). Range query: traverse tree to find start key, then scan leaf nodes sequentially (they're linked). Covering index (<code>INCLUDE</code> clause in PG 11+): stores additional columns in leaf nodes so the query can be answered entirely from the index without visiting the heap table (index-only scan). Requires VACUUM to have updated the visibility map.</p>
-<hr>
-<h3>Q56: Describe PostgreSQL's MVCC mechanism. How does it avoid read locks, and what is the consequence for long-running transactions?</h3>
-<p><strong>Expected:</strong> Each row has <code>xmin</code> (creating TX ID) and <code>xmax</code> (deleting TX ID). A transaction only sees rows where <code>xmin < my_snapshot AND (xmax is null OR xmax > my_snapshot)</code>. Readers never block writers. Writers never block readers. Each UPDATE creates a NEW row version — the old version remains until VACUUM.</p>
-<p>Consequence: a long-running transaction prevents VACUUM from cleaning dead tuples created after its snapshot — table bloat. This is why OLTP and OLAP should not share the same database/connection.</p>
-<hr>
-<h3>Q57: How does PostgreSQL VACUUM work? Compare regular VACUUM vs VACUUM FULL, and explain autovacuum tuning for a high-write table.</h3>
-<p><strong>Expected:</strong> VACUUM marks dead tuples as reusable space (does NOT return space to OS). VACUUM FULL rewrites the entire table (returns space, but acquires ACCESS EXCLUSIVE lock — blocks all reads/writes). Autovacuum triggers when dead tuples > <code>autovacuum_vacuum_threshold + autovacuum_vacuum_scale_factor * table_size</code>.</p>
-<p>For high-write tables: lower <code>autovacuum_vacuum_scale_factor</code> (default 0.2 -> 0.05), increase <code>autovacuum_vacuum_cost_limit</code> for faster vacuuming, monitor <code>pg_stat_user_tables.n_dead_tup</code>.</p>
-<hr>
-<h3>Q58: How does Flyway manage database migrations? How do you handle a failed migration in production?</h3>
-<p><strong>Expected:</strong> Flyway tracks executed migrations in <code>flyway_schema_history</code> table (filename, checksum, timestamp). Migrations are versioned files (V1__init.sql, V2__add_column.sql) executed in order. On startup, Flyway compares filesystem migrations against history table.</p>
-<p>Failed production migration: (1) NEVER edit an already-applied migration (checksum mismatch = startup failure). (2) For DDL failure: fix manually in DB, then <code>flyway repair</code> to update checksum. (3) Always make migrations backward-compatible (expand-and-contract): add column with default -> deploy code that uses it -> remove old column in next release.</p>
-<hr>
-<h3>Q59: Explain JPA Auditing. How does <code>@CreatedDate</code> / <code>@LastModifiedDate</code> work internally, and what is the <code>AuditingEntityListener</code>?</h3>
-<p><strong>Expected:</strong> <code>@EnableJpaAuditing</code> registers <code>AuditingEntityListener</code> as a JPA entity listener. On <code>@PrePersist</code>, it sets <code>@CreatedDate</code> and <code>@CreatedBy</code>. On <code>@PreUpdate</code>, it sets <code>@LastModifiedDate</code> and <code>@LastModifiedBy</code>. <code>@CreatedBy</code> requires an <code>AuditorAware<String></code> bean that returns the current user (typically from SecurityContext).</p>
-<pre><code class="lang-java">
+                        <p>Pitfall: AFTER_COMMIT listeners run in the SAME thread but outside any transaction. If the
+                            listener needs its own DB write, it must open a new transaction
+                            (<code>@Transactional(propagation = REQUIRES_NEW)</code>).</p>
+                        <hr>
+                        <h3>Q53: How would you design REST API versioning for a service with 50+ consumers? Compare URI,
+                            header, and content negotiation approaches.</h3>
+                        <p><strong>Expected:</strong> URI versioning (<code>/api/v1/orders</code>) — simplest, most
+                            visible, easy to route. But pollutes URL space and requires maintaining multiple controller
+                            versions. Header versioning (<code>X-API-Version: 2</code>) — clean URLs, but invisible in
+                            browser/logs. Content negotiation (<code>Accept: application/vnd.myapp.v2+json</code>) —
+                            most RESTful but complex.</p>
+                        <p>Recommendation for 50+ consumers: URI versioning for major breaking changes (v1 -> v2),
+                            backward-compatible evolution within a version using optional fields +
+                            @JsonIgnoreProperties(ignoreUnknown=true) on DTOs. Support N-1 version for 6 months after
+                            deprecation.</p>
+                        <hr>
+                        <h3>Q54: How does HikariCP manage connections internally? What are the critical tuning
+                            parameters and how do you diagnose connection pool exhaustion?</h3>
+                        <p><strong>Expected:</strong> HikariCP uses a ConcurrentBag (lock-free) for connection
+                            management. Key params: <code>maximumPoolSize</code> (default 10), <code>minimumIdle</code>
+                            (default = maximumPoolSize), <code>connectionTimeout</code> (30s — how long to wait for a
+                            connection), <code>maxLifetime</code> (30min — prevents DB-side timeout kills).</p>
+                        <p>Pool exhaustion diagnosis: enable <code>leakDetectionThreshold=30000</code> (30s) — HikariCP
+                            logs a stack trace of any connection held longer than threshold. Metrics:
+                            <code>hikaricp_connections_active</code>, <code>hikaricp_connections_pending</code>.</p>
+                        <p>Formula: <code>pool_size = CPU_cores <em> 2 + effective_spindle_count</code>. For SSD:
+                            pool_size = cores </em> 2. A pool of 10-20 connections handles thousands of TPS because each
+                            connection holds for <5ms for simple queries.</p>
+                                <p>Red flag: candidate sets pool size to 100+ "for high throughput" — causes DB
+                                    connection overhead and contention.</p>
+                                <hr>
+                                <h2>SECTION F — DATABASE & DATA (Q55-Q68)</h2>
+                                <h3>Q55: Explain B-Tree index internals. How does PostgreSQL use a B-Tree to satisfy a
+                                    range query, and what makes an index "covering"?</h3>
+                                <p><strong>Expected:</strong> B-Tree is a balanced tree where internal nodes contain
+                                    keys + child pointers, leaf nodes contain keys + heap tuple pointers (TIDs). Range
+                                    query: traverse tree to find start key, then scan leaf nodes sequentially (they're
+                                    linked). Covering index (<code>INCLUDE</code> clause in PG 11+): stores additional
+                                    columns in leaf nodes so the query can be answered entirely from the index without
+                                    visiting the heap table (index-only scan). Requires VACUUM to have updated the
+                                    visibility map.</p>
+                                <hr>
+                                <h3>Q56: Describe PostgreSQL's MVCC mechanism. How does it avoid read locks, and what is
+                                    the consequence for long-running transactions?</h3>
+                                <p><strong>Expected:</strong> Each row has <code>xmin</code> (creating TX ID) and
+                                    <code>xmax</code> (deleting TX ID). A transaction only sees rows where
+                                    <code>xmin < my_snapshot AND (xmax is null OR xmax > my_snapshot)</code>. Readers
+                                    never block writers. Writers never block readers. Each UPDATE creates a NEW row
+                                    version — the old version remains until VACUUM.</p>
+                                <p>Consequence: a long-running transaction prevents VACUUM from cleaning dead tuples
+                                    created after its snapshot — table bloat. This is why OLTP and OLAP should not share
+                                    the same database/connection.</p>
+                                <hr>
+                                <h3>Q57: How does PostgreSQL VACUUM work? Compare regular VACUUM vs VACUUM FULL, and
+                                    explain autovacuum tuning for a high-write table.</h3>
+                                <p><strong>Expected:</strong> VACUUM marks dead tuples as reusable space (does NOT
+                                    return space to OS). VACUUM FULL rewrites the entire table (returns space, but
+                                    acquires ACCESS EXCLUSIVE lock — blocks all reads/writes). Autovacuum triggers when
+                                    dead tuples >
+                                    <code>autovacuum_vacuum_threshold + autovacuum_vacuum_scale_factor * table_size</code>.
+                                </p>
+                                <p>For high-write tables: lower <code>autovacuum_vacuum_scale_factor</code> (default 0.2
+                                    -> 0.05), increase <code>autovacuum_vacuum_cost_limit</code> for faster vacuuming,
+                                    monitor <code>pg_stat_user_tables.n_dead_tup</code>.</p>
+                                <hr>
+                                <h3>Q58: How does Flyway manage database migrations? How do you handle a failed
+                                    migration in production?</h3>
+                                <p><strong>Expected:</strong> Flyway tracks executed migrations in
+                                    <code>flyway_schema_history</code> table (filename, checksum, timestamp). Migrations
+                                    are versioned files (V1__init.sql, V2__add_column.sql) executed in order. On
+                                    startup, Flyway compares filesystem migrations against history table.</p>
+                                <p>Failed production migration: (1) NEVER edit an already-applied migration (checksum
+                                    mismatch = startup failure). (2) For DDL failure: fix manually in DB, then
+                                    <code>flyway repair</code> to update checksum. (3) Always make migrations
+                                    backward-compatible (expand-and-contract): add column with default -> deploy code
+                                    that uses it -> remove old column in next release.</p>
+                                <hr>
+                                <h3>Q59: Explain JPA Auditing. How does <code>@CreatedDate</code> /
+                                    <code>@LastModifiedDate</code> work internally, and what is the
+                                    <code>AuditingEntityListener</code>?</h3>
+                                <p><strong>Expected:</strong> <code>@EnableJpaAuditing</code> registers
+                                    <code>AuditingEntityListener</code> as a JPA entity listener. On
+                                    <code>@PrePersist</code>, it sets <code>@CreatedDate</code> and
+                                    <code>@CreatedBy</code>. On <code>@PreUpdate</code>, it sets
+                                    <code>@LastModifiedDate</code> and <code>@LastModifiedBy</code>.
+                                    <code>@CreatedBy</code> requires an <code>AuditorAware<String></code> bean that
+                                    returns the current user (typically from SecurityContext).</p>
+                                <pre><code class="lang-java">
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -40441,27 +41035,62 @@ public abstract class BaseEntity {
     private String createdBy;
 }
 </code></pre>
-<hr>
-<h3>Q60: Compare Redis data structures and their use cases. When do you use Sorted Set vs Stream vs Pub/Sub?</h3>
-<p><strong>Expected:</strong> STRING — cache, counters, distributed lock. HASH — object storage (user profile fields). LIST — queue (LPUSH/RPOP). SET — unique collections, intersection (mutual friends). SORTED SET (ZSET) — leaderboards, rate limiting (score=timestamp), scheduled tasks. STREAM — durable message log with consumer groups (like Kafka-lite). PUB/SUB — fire-and-forget broadcast (no persistence, missed messages are lost).</p>
-<p>Use Stream over Pub/Sub when: you need message persistence, consumer group acknowledgment, replay capability. Use Pub/Sub when: real-time broadcast to online subscribers, message loss is acceptable.</p>
-<hr>
-<h3>Q61: How does Kafka consumer rebalancing work? What triggers it and how do you minimize its impact?</h3>
-<p><strong>Expected:</strong> Rebalance triggers: consumer joins/leaves group, new partitions added, consumer heartbeat timeout. During rebalance ALL consumers in the group STOP processing — this is the "stop-the-world" of Kafka.</p>
-<p>Minimize impact: (1) <code>session.timeout.ms=30s</code> + <code>heartbeat.interval.ms=10s</code> (3x ratio). (2) Static group membership (<code>group.instance.id</code>) — avoids rebalance on restart within <code>session.timeout</code>. (3) Cooperative sticky assignor (<code>partition.assignment.strategy=CooperativeStickyAssignor</code>) — incremental rebalance, only revoked partitions stop.</p>
-<hr>
-<h3>Q62: Describe the internal mechanism of Kafka's exactly-once semantics. How do idempotent producers and transactional producers differ?</h3>
-<p><strong>Expected:</strong> Idempotent producer (<code>enable.idempotence=true</code>): each message gets a producer ID + sequence number. Broker deduplicates retries within a single session. Prevents duplicates from network retries but NOT across producer restarts.</p>
-<p>Transactional producer (<code>transactional.id</code>): enables atomic writes across multiple partitions. <code>beginTransaction()</code> -> <code>send()</code> to multiple topics/partitions -> <code>sendOffsetsToTransaction()</code> (commit consumer offsets in same TX) -> <code>commitTransaction()</code>. Consumer must use <code>isolation.level=read_committed</code> to only see committed messages.</p>
-<hr>
-<h2>SECTION G — INFRASTRUCTURE & DEVOPS (Q63-Q72)</h2>
-<h3>Q63: Compare Kubernetes liveness, readiness, and startup probes. What happens if you misconfigure each?</h3>
-<p><strong>Expected:</strong> Liveness: "is the process alive?" Failure = pod killed and restarted. Readiness: "can it serve traffic?" Failure = removed from Service endpoints (no traffic routed). Startup: "has initial boot finished?" Failure during startup = pod killed.</p>
-<p>Misconfiguration traps: (1) Liveness probe hits a dependency (DB) — DB down = all pods restarted in loop (cascading failure). Liveness should ONLY check internal state. (2) Readiness probe too aggressive (1s interval, 1 failure threshold) — normal GC pause removes pod from traffic. (3) No startup probe on slow-starting Spring Boot app — liveness kills pod before it finishes initializing.</p>
-<hr>
-<h3>Q64: How do you set Kubernetes resource requests and limits for a Java application? What happens when memory limit is too low?</h3>
-<p><strong>Expected:</strong> Requests = guaranteed resources (scheduler uses for placement). Limits = maximum allowed (enforced by cgroup). For Java: memory limit must account for heap + metaspace + threads + native memory.</p>
-<pre><code class="lang-yaml">
+                                <hr>
+                                <h3>Q60: Compare Redis data structures and their use cases. When do you use Sorted Set
+                                    vs Stream vs Pub/Sub?</h3>
+                                <p><strong>Expected:</strong> STRING — cache, counters, distributed lock. HASH — object
+                                    storage (user profile fields). LIST — queue (LPUSH/RPOP). SET — unique collections,
+                                    intersection (mutual friends). SORTED SET (ZSET) — leaderboards, rate limiting
+                                    (score=timestamp), scheduled tasks. STREAM — durable message log with consumer
+                                    groups (like Kafka-lite). PUB/SUB — fire-and-forget broadcast (no persistence,
+                                    missed messages are lost).</p>
+                                <p>Use Stream over Pub/Sub when: you need message persistence, consumer group
+                                    acknowledgment, replay capability. Use Pub/Sub when: real-time broadcast to online
+                                    subscribers, message loss is acceptable.</p>
+                                <hr>
+                                <h3>Q61: How does Kafka consumer rebalancing work? What triggers it and how do you
+                                    minimize its impact?</h3>
+                                <p><strong>Expected:</strong> Rebalance triggers: consumer joins/leaves group, new
+                                    partitions added, consumer heartbeat timeout. During rebalance ALL consumers in the
+                                    group STOP processing — this is the "stop-the-world" of Kafka.</p>
+                                <p>Minimize impact: (1) <code>session.timeout.ms=30s</code> +
+                                    <code>heartbeat.interval.ms=10s</code> (3x ratio). (2) Static group membership
+                                    (<code>group.instance.id</code>) — avoids rebalance on restart within
+                                    <code>session.timeout</code>. (3) Cooperative sticky assignor
+                                    (<code>partition.assignment.strategy=CooperativeStickyAssignor</code>) — incremental
+                                    rebalance, only revoked partitions stop.</p>
+                                <hr>
+                                <h3>Q62: Describe the internal mechanism of Kafka's exactly-once semantics. How do
+                                    idempotent producers and transactional producers differ?</h3>
+                                <p><strong>Expected:</strong> Idempotent producer
+                                    (<code>enable.idempotence=true</code>): each message gets a producer ID + sequence
+                                    number. Broker deduplicates retries within a single session. Prevents duplicates
+                                    from network retries but NOT across producer restarts.</p>
+                                <p>Transactional producer (<code>transactional.id</code>): enables atomic writes across
+                                    multiple partitions. <code>beginTransaction()</code> -> <code>send()</code> to
+                                    multiple topics/partitions -> <code>sendOffsetsToTransaction()</code> (commit
+                                    consumer offsets in same TX) -> <code>commitTransaction()</code>. Consumer must use
+                                    <code>isolation.level=read_committed</code> to only see committed messages.</p>
+                                <hr>
+                                <h2>SECTION G — INFRASTRUCTURE & DEVOPS (Q63-Q72)</h2>
+                                <h3>Q63: Compare Kubernetes liveness, readiness, and startup probes. What happens if you
+                                    misconfigure each?</h3>
+                                <p><strong>Expected:</strong> Liveness: "is the process alive?" Failure = pod killed and
+                                    restarted. Readiness: "can it serve traffic?" Failure = removed from Service
+                                    endpoints (no traffic routed). Startup: "has initial boot finished?" Failure during
+                                    startup = pod killed.</p>
+                                <p>Misconfiguration traps: (1) Liveness probe hits a dependency (DB) — DB down = all
+                                    pods restarted in loop (cascading failure). Liveness should ONLY check internal
+                                    state. (2) Readiness probe too aggressive (1s interval, 1 failure threshold) —
+                                    normal GC pause removes pod from traffic. (3) No startup probe on slow-starting
+                                    Spring Boot app — liveness kills pod before it finishes initializing.</p>
+                                <hr>
+                                <h3>Q64: How do you set Kubernetes resource requests and limits for a Java application?
+                                    What happens when memory limit is too low?</h3>
+                                <p><strong>Expected:</strong> Requests = guaranteed resources (scheduler uses for
+                                    placement). Limits = maximum allowed (enforced by cgroup). For Java: memory limit
+                                    must account for heap + metaspace + threads + native memory.</p>
+                                <pre><code class="lang-yaml">
 resources:
   requests:
     memory: "1Gi"
@@ -40470,15 +41099,27 @@ resources:
     memory: "2Gi"    # Must be &gt; Xmx + off-heap
     cpu: "2000m"     # Avoid CPU throttling for latency-sensitive apps
 </code></pre>
-<p>If limit too low: kernel OOM-killer terminates the process (exit code 137). JVM does NOT throw OutOfMemoryError — the process is killed externally. Fix: <code>-XX:MaxRAMPercentage=75.0</code> (auto-calculates Xmx from container limit).</p>
-<hr>
-<h3>Q65: Design a CI/CD pipeline for a Spring Boot microservice. What stages are essential and what are the quality gates?</h3>
-<p><strong>Expected:</strong> Stages: (1) Build + unit tests. (2) Static analysis (SonarQube — code smells, security vulnerabilities, test coverage >80%). (3) Integration tests (Testcontainers). (4) Container image build (multi-stage Dockerfile). (5) Image scan (Trivy — CVE detection). (6) Deploy to staging. (7) Smoke tests. (8) Deploy to production (canary or blue-green). (9) Post-deploy health check.</p>
-<p>Quality gates: test coverage threshold, zero critical/blocker SonarQube issues, no HIGH CVE in image scan, integration tests pass. Any gate failure = pipeline stops.</p>
-<hr>
-<h3>Q66: Explain Docker multi-stage builds for a Java application. How do you minimize the final image size?</h3>
-<p><strong>Expected:</strong></p>
-<pre><code class="lang-dockerfile">
+                                <p>If limit too low: kernel OOM-killer terminates the process (exit code 137). JVM does
+                                    NOT throw OutOfMemoryError — the process is killed externally. Fix:
+                                    <code>-XX:MaxRAMPercentage=75.0</code> (auto-calculates Xmx from container limit).
+                                </p>
+                                <hr>
+                                <h3>Q65: Design a CI/CD pipeline for a Spring Boot microservice. What stages are
+                                    essential and what are the quality gates?</h3>
+                                <p><strong>Expected:</strong> Stages: (1) Build + unit tests. (2) Static analysis
+                                    (SonarQube — code smells, security vulnerabilities, test coverage >80%). (3)
+                                    Integration tests (Testcontainers). (4) Container image build (multi-stage
+                                    Dockerfile). (5) Image scan (Trivy — CVE detection). (6) Deploy to staging. (7)
+                                    Smoke tests. (8) Deploy to production (canary or blue-green). (9) Post-deploy health
+                                    check.</p>
+                                <p>Quality gates: test coverage threshold, zero critical/blocker SonarQube issues, no
+                                    HIGH CVE in image scan, integration tests pass. Any gate failure = pipeline stops.
+                                </p>
+                                <hr>
+                                <h3>Q66: Explain Docker multi-stage builds for a Java application. How do you minimize
+                                    the final image size?</h3>
+                                <p><strong>Expected:</strong></p>
+                                <pre><code class="lang-dockerfile">
 # Stage 1: Build
 FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
@@ -40490,45 +41131,106 @@ FROM eclipse-temurin:21-jre-alpine
 COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 </code></pre>
-<p>Optimizations: use JRE not JDK (smaller), use Alpine base, use Spring Boot layered JAR (<code>java -Djarmode=layertools -jar app.jar extract</code>) for better Docker layer caching, use jlink for custom minimal JRE.</p>
-<hr>
-<h3>Q67: Describe the OAuth2 Authorization Code flow for a Spring Boot backend. How do access tokens, refresh tokens, and ID tokens differ?</h3>
-<p><strong>Expected:</strong> Flow: (1) Client redirects user to authorization server <code>/authorize</code>. (2) User authenticates and consents. (3) Auth server redirects back with authorization code. (4) Backend exchanges code for tokens at <code>/token</code> endpoint (server-to-server, with client secret). (5) Backend receives access token + refresh token + ID token (if OIDC).</p>
-<p>Access token: short-lived (15min), used for API authorization (Bearer header). Refresh token: long-lived (days), used to get new access tokens without re-authentication. ID token: JWT containing user identity claims (sub, email, name) — used by the client, NOT sent to APIs.</p>
-<hr>
-<h3>Q68: How do you structure JWT claims for a microservice architecture? What goes in the token vs what requires a service call?</h3>
-<p><strong>Expected:</strong> In the JWT: <code>sub</code> (user ID), <code>roles</code>, <code>permissions</code>, <code>tenant_id</code>, <code>exp</code>, <code>iss</code>. These are checked on every request by the API gateway or each service's security filter. NOT in the JWT: user profile data (name, email, avatar) — these change and would require re-issuing the token. Fetch from user service when needed.</p>
-<p>JWT validation: verify signature (RS256 with public key from JWKS endpoint), check <code>exp</code> (not expired), check <code>iss</code> (trusted issuer), check <code>aud</code> (intended audience).</p>
-<hr>
-<h2>SECTION H — ARCHITECTURE & PATTERNS (Q69-Q80)</h2>
-<h3>Q69: Compare event sourcing vs traditional CRUD. When does event sourcing justify its complexity?</h3>
-<p><strong>Expected:</strong> CRUD: store current state. Easy, familiar. Event sourcing: store events (OrderCreated, ItemAdded, OrderShipped). Current state = replay all events. Justify when: full audit trail required (finance, healthcare), temporal queries needed ("what was the state at 3pm yesterday?"), event-driven architecture already in place, complex domain with many state transitions.</p>
-<p>Trade-offs: event sourcing adds complexity (event versioning, snapshot optimization for performance, eventual consistency). Never use for simple CRUD apps — overkill.</p>
-<hr>
-<h3>Q70: Explain CQRS pattern. How does it combine with event sourcing, and what database architecture does it imply?</h3>
-<p><strong>Expected:</strong> CQRS = separate write model (commands) from read model (queries). Write side: domain-rich, validates business rules, persists events. Read side: denormalized projections optimized for queries (different DB, different schema). Events flow from write to read side via messaging.</p>
-<p>Database: write side might use PostgreSQL (strong consistency). Read side might use Elasticsearch (full-text search) + Redis (fast key-value lookup). Event store connects them.</p>
-<hr>
-<h3>Q71: How do you decompose a monolith into microservices? What is a bounded context and how do you find service boundaries?</h3>
-<p><strong>Expected:</strong> Use DDD bounded contexts: identify domains where the same word means different things (e.g., "Account" in billing vs authentication). Each bounded context = candidate microservice. Start by identifying: (1) teams and their ownership, (2) data that changes together, (3) features that deploy independently.</p>
-<p>Strangler fig pattern for migration: route new features to the microservice, gradually move old features, keep monolith running until empty. Anti-pattern: splitting by technical layer (UI service, DB service) instead of business capability.</p>
-<hr>
-<h3>Q72: Compare API Gateway pattern implementations. When do you use Spring Cloud Gateway vs Kong vs AWS API Gateway?</h3>
-<p><strong>Expected:</strong> Spring Cloud Gateway: Java-native, programmable filters, integrates with Spring ecosystem. Best for Spring-heavy teams. Kong: Lua/Go-based, plugin architecture, operational maturity. Best for polyglot teams. AWS API Gateway: managed, serverless integration, built-in throttling + WAF. Best for AWS-native, low-ops teams.</p>
-<p>All provide: routing, rate limiting, authentication, request transformation. Spring Cloud Gateway gives most programmatic control. AWS gives least ops burden.</p>
-<hr>
-<h3>Q73: How does consistent hashing work in distributed systems? How does it solve the rehashing problem?</h3>
-<p><strong>Expected:</strong> Traditional hashing: <code>hash(key) % N</code>. Adding/removing a node changes N — almost ALL keys remap. Consistent hashing: nodes and keys are placed on a hash ring. A key maps to the first node clockwise from its position. Adding a node only remaps keys between the new node and its predecessor — ~1/N keys move instead of all.</p>
-<p>Virtual nodes: each physical node gets multiple positions on the ring for better distribution. Used by: Cassandra, DynamoDB, Redis Cluster, Memcached.</p>
-<hr>
-<h3>Q74: Compare gRPC vs REST for inter-service communication. When is gRPC clearly better?</h3>
-<p><strong>Expected:</strong> gRPC: binary protocol (Protobuf), HTTP/2 multiplexing, bidirectional streaming, code generation (type-safe clients). REST: text-based (JSON), HTTP/1.1 (typically), universal tooling, browser-friendly.</p>
-<p>gRPC clearly better: high-throughput internal service-to-service calls (10x smaller payload, 5-10x faster serialization), streaming use cases (real-time feeds), polyglot environments (code-gen for all languages). REST clearly better: public APIs (browser support, curl-friendly), simple CRUD, team unfamiliar with Protobuf.</p>
-<hr>
-<h3>Q75: How do you implement feature flags in a Spring Boot application? Compare runtime toggles vs build-time flags.</h3>
-<p><strong>Expected:</strong> Runtime flags: stored in DB/Redis/config service, checked at runtime. Toggle on/off without redeployment. Libraries: Unleash, LaunchDarkly, FF4j. Build-time: <code>@ConditionalOnProperty</code> — bean not created if flag is off. Requires restart.</p>
-<p>Runtime flag implementation:</p>
-<pre><code class="lang-java">
+                                <p>Optimizations: use JRE not JDK (smaller), use Alpine base, use Spring Boot layered
+                                    JAR (<code>java -Djarmode=layertools -jar app.jar extract</code>) for better Docker
+                                    layer caching, use jlink for custom minimal JRE.</p>
+                                <hr>
+                                <h3>Q67: Describe the OAuth2 Authorization Code flow for a Spring Boot backend. How do
+                                    access tokens, refresh tokens, and ID tokens differ?</h3>
+                                <p><strong>Expected:</strong> Flow: (1) Client redirects user to authorization server
+                                    <code>/authorize</code>. (2) User authenticates and consents. (3) Auth server
+                                    redirects back with authorization code. (4) Backend exchanges code for tokens at
+                                    <code>/token</code> endpoint (server-to-server, with client secret). (5) Backend
+                                    receives access token + refresh token + ID token (if OIDC).</p>
+                                <p>Access token: short-lived (15min), used for API authorization (Bearer header).
+                                    Refresh token: long-lived (days), used to get new access tokens without
+                                    re-authentication. ID token: JWT containing user identity claims (sub, email, name)
+                                    — used by the client, NOT sent to APIs.</p>
+                                <hr>
+                                <h3>Q68: How do you structure JWT claims for a microservice architecture? What goes in
+                                    the token vs what requires a service call?</h3>
+                                <p><strong>Expected:</strong> In the JWT: <code>sub</code> (user ID),
+                                    <code>roles</code>, <code>permissions</code>, <code>tenant_id</code>,
+                                    <code>exp</code>, <code>iss</code>. These are checked on every request by the API
+                                    gateway or each service's security filter. NOT in the JWT: user profile data (name,
+                                    email, avatar) — these change and would require re-issuing the token. Fetch from
+                                    user service when needed.</p>
+                                <p>JWT validation: verify signature (RS256 with public key from JWKS endpoint), check
+                                    <code>exp</code> (not expired), check <code>iss</code> (trusted issuer), check
+                                    <code>aud</code> (intended audience).</p>
+                                <hr>
+                                <h2>SECTION H — ARCHITECTURE & PATTERNS (Q69-Q80)</h2>
+                                <h3>Q69: Compare event sourcing vs traditional CRUD. When does event sourcing justify
+                                    its complexity?</h3>
+                                <p><strong>Expected:</strong> CRUD: store current state. Easy, familiar. Event sourcing:
+                                    store events (OrderCreated, ItemAdded, OrderShipped). Current state = replay all
+                                    events. Justify when: full audit trail required (finance, healthcare), temporal
+                                    queries needed ("what was the state at 3pm yesterday?"), event-driven architecture
+                                    already in place, complex domain with many state transitions.</p>
+                                <p>Trade-offs: event sourcing adds complexity (event versioning, snapshot optimization
+                                    for performance, eventual consistency). Never use for simple CRUD apps — overkill.
+                                </p>
+                                <hr>
+                                <h3>Q70: Explain CQRS pattern. How does it combine with event sourcing, and what
+                                    database architecture does it imply?</h3>
+                                <p><strong>Expected:</strong> CQRS = separate write model (commands) from read model
+                                    (queries). Write side: domain-rich, validates business rules, persists events. Read
+                                    side: denormalized projections optimized for queries (different DB, different
+                                    schema). Events flow from write to read side via messaging.</p>
+                                <p>Database: write side might use PostgreSQL (strong consistency). Read side might use
+                                    Elasticsearch (full-text search) + Redis (fast key-value lookup). Event store
+                                    connects them.</p>
+                                <hr>
+                                <h3>Q71: How do you decompose a monolith into microservices? What is a bounded context
+                                    and how do you find service boundaries?</h3>
+                                <p><strong>Expected:</strong> Use DDD bounded contexts: identify domains where the same
+                                    word means different things (e.g., "Account" in billing vs authentication). Each
+                                    bounded context = candidate microservice. Start by identifying: (1) teams and their
+                                    ownership, (2) data that changes together, (3) features that deploy independently.
+                                </p>
+                                <p>Strangler fig pattern for migration: route new features to the microservice,
+                                    gradually move old features, keep monolith running until empty. Anti-pattern:
+                                    splitting by technical layer (UI service, DB service) instead of business
+                                    capability.</p>
+                                <hr>
+                                <h3>Q72: Compare API Gateway pattern implementations. When do you use Spring Cloud
+                                    Gateway vs Kong vs AWS API Gateway?</h3>
+                                <p><strong>Expected:</strong> Spring Cloud Gateway: Java-native, programmable filters,
+                                    integrates with Spring ecosystem. Best for Spring-heavy teams. Kong: Lua/Go-based,
+                                    plugin architecture, operational maturity. Best for polyglot teams. AWS API Gateway:
+                                    managed, serverless integration, built-in throttling + WAF. Best for AWS-native,
+                                    low-ops teams.</p>
+                                <p>All provide: routing, rate limiting, authentication, request transformation. Spring
+                                    Cloud Gateway gives most programmatic control. AWS gives least ops burden.</p>
+                                <hr>
+                                <h3>Q73: How does consistent hashing work in distributed systems? How does it solve the
+                                    rehashing problem?</h3>
+                                <p><strong>Expected:</strong> Traditional hashing: <code>hash(key) % N</code>.
+                                    Adding/removing a node changes N — almost ALL keys remap. Consistent hashing: nodes
+                                    and keys are placed on a hash ring. A key maps to the first node clockwise from its
+                                    position. Adding a node only remaps keys between the new node and its predecessor —
+                                    ~1/N keys move instead of all.</p>
+                                <p>Virtual nodes: each physical node gets multiple positions on the ring for better
+                                    distribution. Used by: Cassandra, DynamoDB, Redis Cluster, Memcached.</p>
+                                <hr>
+                                <h3>Q74: Compare gRPC vs REST for inter-service communication. When is gRPC clearly
+                                    better?</h3>
+                                <p><strong>Expected:</strong> gRPC: binary protocol (Protobuf), HTTP/2 multiplexing,
+                                    bidirectional streaming, code generation (type-safe clients). REST: text-based
+                                    (JSON), HTTP/1.1 (typically), universal tooling, browser-friendly.</p>
+                                <p>gRPC clearly better: high-throughput internal service-to-service calls (10x smaller
+                                    payload, 5-10x faster serialization), streaming use cases (real-time feeds),
+                                    polyglot environments (code-gen for all languages). REST clearly better: public APIs
+                                    (browser support, curl-friendly), simple CRUD, team unfamiliar with Protobuf.</p>
+                                <hr>
+                                <h3>Q75: How do you implement feature flags in a Spring Boot application? Compare
+                                    runtime toggles vs build-time flags.</h3>
+                                <p><strong>Expected:</strong> Runtime flags: stored in DB/Redis/config service, checked
+                                    at runtime. Toggle on/off without redeployment. Libraries: Unleash, LaunchDarkly,
+                                    FF4j. Build-time: <code>@ConditionalOnProperty</code> — bean not created if flag is
+                                    off. Requires restart.</p>
+                                <p>Runtime flag implementation:</p>
+                                <pre><code class="lang-java">
 @Service
 public class OrderService {
     @Autowired FeatureFlagService flags;
@@ -40542,40 +41244,96 @@ public class OrderService {
     }
 }
 </code></pre>
-<p>Clean up: feature flags are technical debt. Set expiry dates. Remove flag + dead code path after full rollout.</p>
-<hr>
-<h3>Q76: Compare blue-green vs canary vs rolling deployment strategies. Which is safest for a stateful service?</h3>
-<p><strong>Expected:</strong> Blue-green: two identical environments. Switch traffic atomically. Instant rollback. Requires 2x infrastructure. Canary: route small % of traffic to new version. Gradually increase if healthy. Catches issues with minimal blast radius. Rolling: replace pods one-by-one. Default in K8s. No extra infra but slow rollback.</p>
-<p>For stateful services: blue-green with database backward compatibility. The database schema must work for BOTH old and new code simultaneously (expand-and-contract migration). Canary is risky for stateful services if old and new versions write incompatible data.</p>
-<hr>
-<h3>Q77: How does a service mesh (Istio) work? What problems does it solve that application code shouldn't handle?</h3>
-<p><strong>Expected:</strong> Istio injects a sidecar proxy (Envoy) alongside every pod. All traffic flows through the sidecar. The mesh handles: mTLS encryption, traffic routing (canary, fault injection), retry policies, circuit breaking, observability (distributed tracing), and rate limiting — WITHOUT application code changes.</p>
-<p>Application code should NOT handle: TLS certificate management, cross-cutting retry/timeout policies, traffic shaping. Application code SHOULD handle: business-level retries, idempotency, domain validation.</p>
-<hr>
-<h3>Q78: Design an observability stack for 50 microservices. What are the three pillars and how do they connect?</h3>
-<p><strong>Expected:</strong> Three pillars: Logs (structured JSON -> ELK/Loki), Metrics (Prometheus + Grafana — RED method: Rate, Errors, Duration), Traces (distributed tracing with OpenTelemetry -> Jaeger/Zipkin). Connected by: trace ID propagated in every log line and every metric label. A single user request can be traced across all 50 services.</p>
-<p>Spring Boot integration: Micrometer for metrics, Spring Cloud Sleuth/Micrometer Tracing for trace propagation, structured logging with <code>traceId</code> and <code>spanId</code> in MDC.</p>
-<hr>
-<h3>Q79: How do you implement chaos engineering for a Java microservice? What experiments would you run first?</h3>
-<p><strong>Expected:</strong> Tools: Chaos Monkey for Spring Boot (random latency, exceptions, pod kills), Litmus (K8s-native), Gremlin (managed). First experiments: (1) Kill a pod — does the service recover? Does the load balancer route around it? (2) Inject 500ms latency to a downstream dependency — do circuit breakers open? (3) Fill disk — does the app handle write failures gracefully? (4) DNS failure — does service discovery failover work?</p>
-<p>Run in staging first. Then production with blast radius controls (target 1 pod in 1 AZ). Have kill switch ready.</p>
-<hr>
-<h3>Q80: Compare WebSocket vs SSE (Server-Sent Events) vs long polling for real-time features. When is WebSocket overkill?</h3>
-<p><strong>Expected:</strong> WebSocket: full-duplex, bidirectional. Best for: chat, collaborative editing, gaming. SSE: server-to-client only, uses standard HTTP, auto-reconnect built-in. Best for: notifications, live feeds, dashboards. Long polling: client polls repeatedly. Simplest, works everywhere. Best for: infrequent updates, legacy browser support.</p>
-<p>WebSocket overkill when: data flows only server-to-client (use SSE), updates are infrequent (use polling), infrastructure doesn't support WebSocket (proxies, load balancers need configuration).</p>
-<hr>
-<h2>SCORING UPDATE</h2>
-<div class="table-wrap"><table><thead><tr>
-<th>Level</th>
-<th>Question Range</th>
-</tr></thead><tbody>
-<tr><td>Junior</td><td>Can answer 30-50 correctly</td></tr>
-<tr><td>Mid-Level</td><td>Can answer 50-100 correctly</td></tr>
-<tr><td>Senior</td><td>Can answer 100-150 correctly with trade-off discussion</td></tr>
-<tr><td>Expert/Principal</td><td>Can answer 150+ and provides production war stories</td></tr>
-</tbody></table></div></div>
+                                <p>Clean up: feature flags are technical debt. Set expiry dates. Remove flag + dead code
+                                    path after full rollout.</p>
+                                <hr>
+                                <h3>Q76: Compare blue-green vs canary vs rolling deployment strategies. Which is safest
+                                    for a stateful service?</h3>
+                                <p><strong>Expected:</strong> Blue-green: two identical environments. Switch traffic
+                                    atomically. Instant rollback. Requires 2x infrastructure. Canary: route small % of
+                                    traffic to new version. Gradually increase if healthy. Catches issues with minimal
+                                    blast radius. Rolling: replace pods one-by-one. Default in K8s. No extra infra but
+                                    slow rollback.</p>
+                                <p>For stateful services: blue-green with database backward compatibility. The database
+                                    schema must work for BOTH old and new code simultaneously (expand-and-contract
+                                    migration). Canary is risky for stateful services if old and new versions write
+                                    incompatible data.</p>
+                                <hr>
+                                <h3>Q77: How does a service mesh (Istio) work? What problems does it solve that
+                                    application code shouldn't handle?</h3>
+                                <p><strong>Expected:</strong> Istio injects a sidecar proxy (Envoy) alongside every pod.
+                                    All traffic flows through the sidecar. The mesh handles: mTLS encryption, traffic
+                                    routing (canary, fault injection), retry policies, circuit breaking, observability
+                                    (distributed tracing), and rate limiting — WITHOUT application code changes.</p>
+                                <p>Application code should NOT handle: TLS certificate management, cross-cutting
+                                    retry/timeout policies, traffic shaping. Application code SHOULD handle:
+                                    business-level retries, idempotency, domain validation.</p>
+                                <hr>
+                                <h3>Q78: Design an observability stack for 50 microservices. What are the three pillars
+                                    and how do they connect?</h3>
+                                <p><strong>Expected:</strong> Three pillars: Logs (structured JSON -> ELK/Loki), Metrics
+                                    (Prometheus + Grafana — RED method: Rate, Errors, Duration), Traces (distributed
+                                    tracing with OpenTelemetry -> Jaeger/Zipkin). Connected by: trace ID propagated in
+                                    every log line and every metric label. A single user request can be traced across
+                                    all 50 services.</p>
+                                <p>Spring Boot integration: Micrometer for metrics, Spring Cloud Sleuth/Micrometer
+                                    Tracing for trace propagation, structured logging with <code>traceId</code> and
+                                    <code>spanId</code> in MDC.</p>
+                                <hr>
+                                <h3>Q79: How do you implement chaos engineering for a Java microservice? What
+                                    experiments would you run first?</h3>
+                                <p><strong>Expected:</strong> Tools: Chaos Monkey for Spring Boot (random latency,
+                                    exceptions, pod kills), Litmus (K8s-native), Gremlin (managed). First experiments:
+                                    (1) Kill a pod — does the service recover? Does the load balancer route around it?
+                                    (2) Inject 500ms latency to a downstream dependency — do circuit breakers open? (3)
+                                    Fill disk — does the app handle write failures gracefully? (4) DNS failure — does
+                                    service discovery failover work?</p>
+                                <p>Run in staging first. Then production with blast radius controls (target 1 pod in 1
+                                    AZ). Have kill switch ready.</p>
+                                <hr>
+                                <h3>Q80: Compare WebSocket vs SSE (Server-Sent Events) vs long polling for real-time
+                                    features. When is WebSocket overkill?</h3>
+                                <p><strong>Expected:</strong> WebSocket: full-duplex, bidirectional. Best for: chat,
+                                    collaborative editing, gaming. SSE: server-to-client only, uses standard HTTP,
+                                    auto-reconnect built-in. Best for: notifications, live feeds, dashboards. Long
+                                    polling: client polls repeatedly. Simplest, works everywhere. Best for: infrequent
+                                    updates, legacy browser support.</p>
+                                <p>WebSocket overkill when: data flows only server-to-client (use SSE), updates are
+                                    infrequent (use polling), infrastructure doesn't support WebSocket (proxies, load
+                                    balancers need configuration).</p>
+                                <hr>
+                                <h2>SCORING UPDATE</h2>
+                                <div class="table-wrap">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Level</th>
+                                                <th>Question Range</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Junior</td>
+                                                <td>Can answer 30-50 correctly</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mid-Level</td>
+                                                <td>Can answer 50-100 correctly</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Senior</td>
+                                                <td>Can answer 100-150 correctly with trade-off discussion</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Expert/Principal</td>
+                                                <td>Can answer 150+ and provides production war stories</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+            </div>
         </article>
-        
+
         <article id="mock_interview_66_english" class="interview-panel hidden">
             <div class="article-inner">
                 <h1>Mock Interview #66 — Workato (US SaaS) | English Communication Focus</h1>
@@ -48668,7 +49426,7 @@ catch (SQLException e) {
         <article id="mock_interview_93_meta" class="interview-panel hidden">
             <div class="article-inner">
                 <h1>Mock Interview #93 — Meta | Java Deep Dive Full Simulation (3 Rounds)</h1>
-                
+
                 <p><strong>Role:</strong> Senior Software Engineer, Infrastructure Platform</p>
                 <p><strong>Duration:</strong> 3 Rounds (~90 min)</p>
                 <p><strong>Focus:</strong> ForkJoinPool work-stealing, CompletableFuture chains, JPMS, var + primitive
@@ -49081,8 +49839,8 @@ catch (InterruptedException e) {
                 </div>
             </div>
         </article>
-        
-        
+
+
     </main><button id="top-btn" onclick="scrollTop()" title="Back to top">↑</button>
     <script>
         const main = document.getElementById('main'), prog = document.getElementById('progress'), topBtn = document.getElementById('top-btn');
