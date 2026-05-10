@@ -445,24 +445,73 @@
             opacity: 1
         }
 
+        #menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--sf);
+            color: var(--ac);
+            border: 1px solid var(--bd);
+            border-radius: var(--r);
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        #sidebar-backdrop {
+            display: none;
+        }
+
         @media (max-width: 768px) {
+            #menu-btn {
+                display: flex;
+            }
             #sidebar {
                 display: none !important;
+            }
+            #sidebar.show-mobile {
+                display: flex !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 300;
+                width: 280px;
+                box-shadow: 4px 0 24px rgba(0,0,0,0.8);
+            }
+            #sidebar-backdrop.show-mobile {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.6);
+                z-index: 250;
+                backdrop-filter: blur(2px);
             }
             #progress {
                 left: 0;
             }
             .interview-panel {
-                padding: 24px 16px;
+                padding: 70px 16px 24px;
             }
             #welcome {
-                padding: 24px 16px;
+                padding: 70px 16px 24px;
             }
         }
     </style>
 </head>
 
 <body>
+    <div id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+    <button id="menu-btn" onclick="toggleSidebar()">☰</button>
     <div id="progress"></div>
     <nav id="sidebar">
         <div id="sidebar-header">
@@ -50446,7 +50495,16 @@ catch (InterruptedException e) {
     <script>
         const main = document.getElementById('main'), prog = document.getElementById('progress'), topBtn = document.getElementById('top-btn');
         let cur = null;
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show-mobile');
+            document.getElementById('sidebar-backdrop').classList.toggle('show-mobile');
+        }
+
         function showArticle(id) {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('show-mobile')) toggleSidebar();
+
             const w = document.getElementById('welcome');
             if (w) w.style.display = 'none';
             if (cur) { document.getElementById(cur)?.classList.add('hidden'); document.querySelector('.nav-item.active')?.classList.remove('active'); }
