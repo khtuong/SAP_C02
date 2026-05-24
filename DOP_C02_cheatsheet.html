@@ -380,6 +380,9 @@ h2[id],h3[id]{scroll-margin-top:80px}
     <a class="btn" href="#practice">Practice</a>
     <a class="btn" href="#master-kw">Keyword Index</a>
     <a class="btn" href="#traps">Traps</a>
+    <a class="btn" href="#deepdive">Deep Dive</a>
+    <a class="btn" href="#cheat-table">Cheat Table</a>
+    <a class="btn" href="#last-minute">Last-Min</a>
     <a class="btn primary" href="#tips">Tips</a>
   </div>
 </div>
@@ -3629,6 +3632,591 @@ h2[id],h3[id]{scroll-margin-top:80px}
       <div class="vs">
         <div class="col wrong"><div class="h">Reinventing</div>"Use EventBridge cron to invoke a Lambda that updates the RDS password and writes it back to Parameter Store."</div>
         <div class="col right"><div class="h">Correct</div>"Use Secrets Manager with built-in rotation Lambda for RDS — single managed integration."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== High-Yield Deep Dive ============================== -->
+<section id="deepdive">
+  <div class="container">
+    <h2><span class="num">🔬</span>High-Yield Deep Dive — the topics DOP-C02 tests hardest</h2>
+    <p class="sub">Every block below maps to a question pattern that appears repeatedly in both Tutorials Dojo and ExamTopics. Memorize the <em>exact names</em> and <em>exact hook orders</em> — these are the most precise-recall items on the exam.</p>
+
+    <!-- ===== CodeDeploy Hook Order Per Compute Type ===== -->
+    <h3 id="codedeploy-hooks" style="margin:24px 0 12px">① CodeDeploy AppSpec Hooks — by compute target (memorize spellings)</h3>
+    <p class="sub">DOP-C02 routinely shows AppSpec snippets and asks: "Which hook would run the smoke test / DB migration / draining script?" Wrong-answer choices borrow hook names from a <em>different</em> compute target. Lambda has <strong>only two hooks</strong>; do not insert <code>ApplicationStart</code> into a Lambda AppSpec.</p>
+
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>EC2 / On-Prem — 12 hooks</h3>
+        <ol>
+          <li><b>ApplicationStop</b> — runs from <em>previous</em> revision</li>
+          <li>DownloadBundle <span style="color:var(--muted)">(reserved)</span></li>
+          <li><b>BeforeInstall</b></li>
+          <li>Install <span style="color:var(--muted)">(reserved)</span></li>
+          <li><b>AfterInstall</b></li>
+          <li><b>ApplicationStart</b></li>
+          <li><b>ValidateService</b> (final health check)</li>
+          <li>BeforeBlockTraffic <span style="color:var(--muted)">(blue/green)</span></li>
+          <li>BlockTraffic <span style="color:var(--muted)">(reserved)</span></li>
+          <li>AfterBlockTraffic <span style="color:var(--muted)">(blue/green)</span></li>
+          <li>BeforeAllowTraffic <span style="color:var(--muted)">(blue/green)</span></li>
+          <li>AfterAllowTraffic <span style="color:var(--muted)">(blue/green)</span></li>
+        </ol>
+        <div class="tag-row"><span class="tag good">Agent required</span><span class="tag warn">Strict order</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Lambda — only 2 hooks</h3>
+        <ol>
+          <li><b>BeforeAllowTraffic</b> — runs a Lambda <em>before</em> shifting any traffic to the new version</li>
+          <li><b>AfterAllowTraffic</b> — runs <em>after</em> 100% of traffic is on the new version</li>
+        </ol>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Pre/post hooks must call <code>codedeploy:PutLifecycleEventHookExecutionStatus</code> with <code>Succeeded</code>/<code>Failed</code> — failing the call rolls back automatically.</p>
+        <div class="callout trap" style="margin-top:8px"><h4>🔴 Trap</h4>
+          <p>Any answer that puts <code>BeforeInstall</code>, <code>ValidateService</code>, or <code>ApplicationStart</code> in a Lambda AppSpec is wrong by definition.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>ECS — 5 hooks (blue/green only)</h3>
+        <ol>
+          <li><b>BeforeInstall</b></li>
+          <li>Install <span style="color:var(--muted)">(reserved — creates new task set)</span></li>
+          <li><b>AfterInstall</b></li>
+          <li><b>AfterAllowTestTraffic</b> — test listener routing to replacement task set</li>
+          <li><b>BeforeAllowTraffic</b> → flip prod listener → <b>AfterAllowTraffic</b></li>
+        </ol>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Requires <b>two target groups</b> on the ALB + a production listener + an optional test listener.</p>
+      </div>
+    </div>
+
+    <!-- ===== CodeDeploy Deployment Configurations ===== -->
+    <h3 style="margin:30px 0 12px">② CodeDeploy Deployment Configurations — exact names</h3>
+    <p class="sub">Question stems give a percentage + interval; you must pick the exact built-in config name. Case-sensitive.</p>
+
+    <div class="grid cols-2">
+      <div>
+        <table>
+          <thead><tr><th>Lambda — built-in</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><code>CodeDeployDefault.LambdaAllAtOnce</code></td><td>100% instantly</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaCanary10Percent5Minutes</code></td><td>10% → wait 5 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaCanary10Percent10Minutes</code></td><td>10% → wait 10 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaCanary10Percent15Minutes</code></td><td>10% → wait 15 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaCanary10Percent30Minutes</code></td><td>10% → wait 30 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaLinear10PercentEvery1Minute</code></td><td>+10% every minute</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaLinear10PercentEvery2Minutes</code></td><td>+10% every 2 min</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaLinear10PercentEvery3Minutes</code></td><td>+10% every 3 min</td></tr>
+            <tr><td><code>CodeDeployDefault.LambdaLinear10PercentEvery10Minutes</code></td><td>+10% every 10 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <table>
+          <thead><tr><th>ECS — built-in</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><code>CodeDeployDefault.ECSAllAtOnce</code></td><td>Cut over instantly</td></tr>
+            <tr><td><code>CodeDeployDefault.ECSCanary10Percent5Minutes</code></td><td>Canary 10% → 5 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.ECSCanary10Percent15Minutes</code></td><td>Canary 10% → 15 min → 100%</td></tr>
+            <tr><td><code>CodeDeployDefault.ECSLinear10PercentEvery1Minutes</code></td><td>Linear 10% / 1 min</td></tr>
+            <tr><td><code>CodeDeployDefault.ECSLinear10PercentEvery3Minutes</code></td><td>Linear 10% / 3 min</td></tr>
+          </tbody>
+        </table>
+
+        <table style="margin-top:14px">
+          <thead><tr><th>EC2 / on-prem — built-in</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><code>CodeDeployDefault.OneAtATime</code></td><td>Slowest, safest</td></tr>
+            <tr><td><code>CodeDeployDefault.HalfAtATime</code></td><td>50%-50% batches</td></tr>
+            <tr><td><code>CodeDeployDefault.AllAtOnce</code></td><td>Fastest, riskiest</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <h4>💡 Hook + config = full rollback story</h4>
+      <p>Lambda canary configs run <code>BeforeAllowTraffic</code> right before the shift starts. If it returns <code>Failed</code>, no traffic shifts. <code>AfterAllowTraffic</code> runs once 100% of traffic has moved to the new version — a final functional gate. Add the deployment group's <b>Alarm</b> + <b>Auto rollback on alarm</b> to undo the shift automatically.</p>
+    </div>
+
+    <!-- ===== Beanstalk Deployment Policies ===== -->
+    <h3 id="beanstalk-policies" style="margin:30px 0 12px">③ Elastic Beanstalk Deployment Policies — full comparison</h3>
+    <table>
+      <thead><tr><th>Policy</th><th>Downtime</th><th>Extra capacity?</th><th>Mixed versions?</th><th>Rollback</th><th>Pick when…</th></tr></thead>
+      <tbody>
+        <tr><td><b>All at once</b></td><td>Yes</td><td>None</td><td>No</td><td>Re-deploy old</td><td>Dev/test; fastest only</td></tr>
+        <tr><td><b>Rolling</b></td><td>No</td><td>None (reduced capacity during)</td><td>Yes</td><td>Re-deploy old (slow)</td><td>Cost-sensitive; some capacity headroom</td></tr>
+        <tr><td><b>Rolling with additional batch</b></td><td>No</td><td>+1 batch</td><td>Yes</td><td>Re-deploy old (slow)</td><td>Cannot lose capacity at any moment</td></tr>
+        <tr><td><b>Immutable</b></td><td>No</td><td>Full new ASG</td><td>No (parallel)</td><td>Terminate new ASG</td><td>Safe + fast rollback + production</td></tr>
+        <tr><td><b>Traffic splitting</b></td><td>No</td><td>Full new ASG</td><td>Yes (ALB weighted)</td><td>Auto on alarms</td><td>Canary % to validate at the LB</td></tr>
+        <tr><td><b>Blue/Green (env swap)</b></td><td>No</td><td>2× (separate envs)</td><td>No (two URLs)</td><td>Swap CNAMEs back</td><td>Need RDB schema changes, instant rollback</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><h4>⚠️ Beanstalk traps</h4>
+      <ul>
+        <li><b>Immutable ≠ Blue/Green.</b> Immutable replaces the ASG <em>inside</em> the existing env. Blue/green swaps two whole envs via CNAME.</li>
+        <li>Beanstalk has no native "Canary by % of users" — use <b>Traffic splitting</b> (ALB weighted target groups).</li>
+        <li>If RDS is managed inside the Beanstalk env, deletion of the env deletes RDS — <b>decouple the DB</b> in production.</li>
+        <li>Config order in <code>.ebextensions</code>: <code>packages → groups → users → sources → files → commands → services → container_commands</code>.</li>
+      </ul>
+    </div>
+
+    <!-- ===== StackSets permission model ===== -->
+    <h3 id="stacksets-perms" style="margin:30px 0 12px">④ CloudFormation StackSets — service-managed vs self-managed</h3>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Service-managed (preferred for Org-wide)</h3>
+        <ul>
+          <li>StackSets uses AWS Organizations trust — no roles to create per account.</li>
+          <li>Target the <b>Org root</b> or specific OUs.</li>
+          <li>Enable <b>Auto-deployment</b> so newly-joined accounts receive the stack automatically.</li>
+          <li>Optional <b>delegated administrator</b> account (so you don't have to use the management account).</li>
+          <li>Cannot target the management account itself.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Self-managed (legacy / custom)</h3>
+        <ul>
+          <li>You create two IAM roles:
+            <ul>
+              <li><code>AWSCloudFormationStackSetAdministrationRole</code> in the admin account</li>
+              <li><code>AWSCloudFormationStackSetExecutionRole</code> in every target account, trusting the admin role</li>
+            </ul>
+          </li>
+          <li>Used when accounts are <em>not</em> in an Organization, or for backward compatibility.</li>
+          <li>No auto-deployment to new accounts (you must add them manually).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <h4>💡 Account filters when targeting an OU</h4>
+      <p>When deploying to an OU, choose: <b>NONE</b> = all accounts under the OU; <b>INTERSECTION</b> = only accounts in your supplied list <em>and</em> in the OU; <b>DIFFERENCE</b> = OU accounts <em>except</em> your list; <b>UNION</b> = OU accounts <em>plus</em> your list (rare).</p>
+    </div>
+
+    <!-- ===== ASG Lifecycle Hooks Deep ===== -->
+    <h3 id="asg-lifecycle" style="margin:30px 0 12px">⑤ Auto Scaling Lifecycle Hooks — the drain/bootstrap pattern</h3>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Pending:Wait (launch)</h3>
+        <ul>
+          <li>Instance is launched but not yet <code>InService</code>.</li>
+          <li>Use to install custom software, fetch config, register with external systems.</li>
+          <li>EventBridge rule on <code>EC2 Instance-launch Lifecycle Action</code> → SSM Run Command / Lambda.</li>
+          <li>Caller invokes <code>complete-lifecycle-action</code> with <code>CONTINUE</code> (or <code>ABANDON</code> to terminate).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Terminating:Wait (scale-in)</h3>
+        <ul>
+          <li>Instance is being terminated; pauses to drain.</li>
+          <li>Combine with <b>ALB target-group deregistration delay</b> for connection draining.</li>
+          <li>Run a final SSM Run Command to flush logs, deregister from Consul/Eureka, etc.</li>
+          <li>Heartbeat default 1 h, <b>max 48 h</b>. Use <code>RecordLifecycleActionHeartbeat</code> to extend.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== Config managed rules catalog ===== -->
+    <h3 id="config-rules" style="margin:30px 0 12px">⑥ AWS Config — managed rule names + remediation pairings</h3>
+    <p class="sub">When an answer says "use a Config managed rule," the rule names below appear by name in stems and options. Memorize the ones in <strong>bold</strong>.</p>
+
+    <table>
+      <thead><tr><th>Config managed rule (exact name)</th><th>Detects</th><th>SSM Automation remediation</th></tr></thead>
+      <tbody>
+        <tr><td><b>s3-bucket-public-read-prohibited</b></td><td>Bucket allows public reads</td><td><code>AWS-DisableS3BucketPublicReadWrite</code></td></tr>
+        <tr><td><b>s3-bucket-public-write-prohibited</b></td><td>Bucket allows public writes</td><td><code>AWS-DisableS3BucketPublicReadWrite</code></td></tr>
+        <tr><td><b>s3-bucket-server-side-encryption-enabled</b></td><td>Default encryption missing</td><td><code>AWS-EnableS3BucketEncryption</code></td></tr>
+        <tr><td><b>s3-bucket-ssl-requests-only</b></td><td>HTTPS not enforced</td><td>Custom doc that adds <code>aws:SecureTransport</code> deny statement</td></tr>
+        <tr><td><b>encrypted-volumes</b></td><td>Unencrypted EBS</td><td>Snapshot → copy encrypted → reattach</td></tr>
+        <tr><td><b>restricted-ssh</b> / <b>restricted-common-ports</b></td><td>SG open to 0.0.0.0/0 on 22 etc.</td><td><code>AWS-DisablePublicAccessForSecurityGroup</code></td></tr>
+        <tr><td><b>iam-password-policy</b></td><td>Weak password policy</td><td><code>AWSConfigRemediation-SetIAMPasswordPolicy</code></td></tr>
+        <tr><td><b>access-keys-rotated</b></td><td>Keys older than N days</td><td>Disable access key via custom doc</td></tr>
+        <tr><td><b>cloud-trail-enabled</b> / <b>multi-region-cloud-trail-enabled</b></td><td>Missing CloudTrail</td><td><code>AWS-EnableCloudTrail</code></td></tr>
+        <tr><td><b>cloudtrail-s3-dataevents-enabled</b></td><td>S3 data events off</td><td>Custom trail update doc</td></tr>
+        <tr><td><b>rds-instance-public-access-check</b></td><td>RDS publicly accessible</td><td><code>AWSConfigRemediation-DisablePublicAccessToRDSInstance</code></td></tr>
+        <tr><td><b>required-tags</b></td><td>Required tags missing</td><td>Tag-fix Automation doc</td></tr>
+        <tr><td><b>approved-amis-by-id</b> / <b>approved-amis-by-tag</b></td><td>Non-approved AMI</td><td>Stop instance; notify SNS</td></tr>
+        <tr><td><b>ec2-instances-in-vpc</b></td><td>EC2 not in target VPC</td><td>Tag + isolate</td></tr>
+        <tr><td><b>iam-user-mfa-enabled</b></td><td>IAM user without MFA</td><td>Disable login profile / notify</td></tr>
+        <tr><td><b>vpc-flow-logs-enabled</b></td><td>VPC without flow logs</td><td><code>AWS-EnableVPCFlowLogs</code></td></tr>
+        <tr><td><b>ec2-managedinstance-patch-compliance-status-check</b></td><td>Patch noncompliance</td><td><code>AWS-RunPatchBaseline</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <h4>🟢 Three-line auto-remediation pattern</h4>
+      <ol>
+        <li><b>Detect</b>: Config managed rule evaluates the resource (change-triggered or periodic).</li>
+        <li><b>React</b>: rule has a <b>Remediation Action</b> (SSM Automation doc) with <code>AutomaticRemediation = true</code> and a parameter mapping (often <code>ResourceId = RESOURCE_ID</code>).</li>
+        <li><b>Notify</b>: EventBridge rule on <code>Config Rules Compliance Change</code> → SNS / OpsCenter / Slack via Chatbot.</li>
+      </ol>
+    </div>
+
+    <!-- ===== ECS Task placement ===== -->
+    <h3 id="ecs-placement" style="margin:30px 0 12px">⑦ ECS Task Placement Strategies & Constraints</h3>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Strategies (how to choose containers)</h3>
+        <ul>
+          <li><b>binpack</b> — packs tasks onto fewest instances (cost). Field: <code>memory</code> or <code>cpu</code>.</li>
+          <li><b>spread</b> — even distribution across <code>attribute:ecs.availability-zone</code> / <code>instanceId</code> / custom attribute. Resilience.</li>
+          <li><b>random</b> — random placement (rare).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Constraints (hard rules)</h3>
+        <ul>
+          <li><b>distinctInstance</b> — no two tasks of this service on the same EC2 (single-tenant per host).</li>
+          <li><b>memberOf</b> — cluster query expression (e.g., <code>attribute:ecs.instance-type =~ t2.*</code>).</li>
+          <li>Combine: spread across AZ + binpack within AZ for cost-and-resilience.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted)"><b>Don't confuse</b> with EC2 placement groups (cluster / spread / partition) — those are hardware-locality groups for VMs, not container-scheduling rules.</p>
+
+    <!-- ===== EventBridge integrations cheat ===== -->
+    <h3 id="eventbridge-deep" style="margin:30px 0 12px">⑧ EventBridge — the AWS event sources you must recognize</h3>
+    <table>
+      <thead><tr><th>Source / Detail-type</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>aws.health</code> / "AWS Health Event"</td><td>Service maintenance, EC2 retirement, IAM key exposed, SLA degradations. <b>Org view</b> = enable health Org integration.</td></tr>
+        <tr><td><code>aws.guardduty</code> / "GuardDuty Finding"</td><td>Threat detected — auto-quarantine, ticket, page on-call.</td></tr>
+        <tr><td><code>aws.securityhub</code> / "Security Hub Findings - Imported"</td><td>Unified findings; <b>Custom Actions</b> let SOC analysts trigger Lambda from console.</td></tr>
+        <tr><td><code>aws.config</code> / "Config Rules Compliance Change"</td><td>Compliance state flips → SNS / OpsCenter / SSM remediation.</td></tr>
+        <tr><td><code>aws.trustedadvisor</code> / "Trusted Advisor Check Item Refresh Notification"</td><td>Cost / fault tolerance / security alerts (Business+ support).</td></tr>
+        <tr><td><code>aws.codecommit</code> / Pull Request / Reference Change</td><td>Trigger pipeline only on branch X, or PR-state change.</td></tr>
+        <tr><td><code>aws.codepipeline</code> / Pipeline / Stage / Action Execution State Change</td><td>Notify on success/failure; build status dashboards.</td></tr>
+        <tr><td><code>aws.codedeploy</code> / Deployment State-change</td><td>Alarm on FAILED, page on-call.</td></tr>
+        <tr><td><code>aws.cloudformation</code> / Stack / Resource state-change</td><td>React to stack failure or drift.</td></tr>
+        <tr><td><code>aws.ssm</code> / "EC2 State Manager Association State Change" / Automation</td><td>Track patch-window outcomes.</td></tr>
+        <tr><td><code>aws.ec2</code> / "EC2 Instance State-change Notification"</td><td>Auto-tag, auto-stop, auto-snapshot.</td></tr>
+        <tr><td><code>aws.tag</code> / "Tag Change on Resource"</td><td>React to tag governance violations.</td></tr>
+        <tr><td>Scheduled (cron/rate)</td><td>For >1M schedules / timezone-aware / retries+DLQ → use <b>EventBridge Scheduler</b> instead of rules.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ===== Service Catalog ===== -->
+    <h3 id="service-catalog-deep" style="margin:30px 0 12px">⑨ Service Catalog — launch role + sharing model</h3>
+    <div class="card">
+      <ul>
+        <li><b>Portfolio</b> contains <b>Products</b> (CloudFormation templates) + Constraints.</li>
+        <li><b>Launch Constraint</b> = the IAM role Service Catalog assumes when provisioning. End users do <em>not</em> need direct permission on the underlying resources — they need only <code>servicecatalog:ProvisionProduct</code>.</li>
+        <li><b>Template Constraint</b> restricts parameter values (e.g. instance type whitelist).</li>
+        <li><b>Tag Options</b> centrally manage cost allocation tags.</li>
+        <li><b>Sharing</b>: portfolio shared with another account or with an OU (via AWS Organizations). Recipient creates a local portfolio reference.</li>
+      </ul>
+    </div>
+
+    <!-- ===== Exam Decision Rules ===== -->
+    <h3 id="exam-rules" style="margin:30px 0 12px">⑩ Exam Decision Rules (if-then heuristics)</h3>
+    <div class="grid cols-2">
+      <div>
+        <div class="iftt"><div class="if">Centralized governance across many accounts</div><div class="arr">→</div><div class="then">Organizations + SCP + StackSets (service-managed)</div></div>
+        <div class="iftt"><div class="if">Lambda traffic-shift + rollback on alarm</div><div class="arr">→</div><div class="then">CodeDeploy Canary/Linear + alarm in deployment group</div></div>
+        <div class="iftt"><div class="if">ECS zero-downtime + fast rollback</div><div class="arr">→</div><div class="then">CodeDeploy blue/green ECS (2 target groups + alarms)</div></div>
+        <div class="iftt"><div class="if">EC2 deploy with safe partial rollout</div><div class="arr">→</div><div class="then">CodeDeploy <code>OneAtATime</code> or <code>HalfAtATime</code></div></div>
+        <div class="iftt"><div class="if">Block resource creation that violates policy</div><div class="arr">→</div><div class="then">CFN Hooks (preventive) — Config is detective only</div></div>
+        <div class="iftt"><div class="if">"Auto-include new accounts" anywhere in stem</div><div class="arr">→</div><div class="then">Service-managed StackSet with Auto-deployment ON</div></div>
+        <div class="iftt"><div class="if">Drift in production CFN stacks</div><div class="arr">→</div><div class="then">EventBridge schedule → DetectStackDrift → SNS</div></div>
+        <div class="iftt"><div class="if">Cross-account CodePipeline artifact</div><div class="arr">→</div><div class="then">Customer-managed KMS CMK + S3 bucket policy + cross-account role</div></div>
+        <div class="iftt"><div class="if">GitHub Actions ↔ AWS (no static keys)</div><div class="arr">→</div><div class="then">IAM OIDC identity provider + role trust on repo+branch</div></div>
+        <div class="iftt"><div class="if">Long-term, immutable audit logs</div><div class="arr">→</div><div class="then">CloudTrail Org Trail → S3 with Object Lock + KMS + log file validation</div></div>
+        <div class="iftt"><div class="if">Real-time error count alarming</div><div class="arr">→</div><div class="then">CW Logs Metric Filter → Alarm — not Logs Insights</div></div>
+        <div class="iftt"><div class="if">Detect compromised EC2 then quarantine</div><div class="arr">→</div><div class="then">GuardDuty → EventBridge → SSM Automation (swap SG, snapshot, ticket)</div></div>
+      </div>
+      <div>
+        <div class="iftt"><div class="if">Continuous compliance evidence</div><div class="arr">→</div><div class="then">Config Aggregator + Security Hub + Audit Manager</div></div>
+        <div class="iftt"><div class="if">Rotate DB credentials with no app changes</div><div class="arr">→</div><div class="then">Secrets Manager rotation Lambda + RDS integration</div></div>
+        <div class="iftt"><div class="if">Multi-region active/active KV (RTO ~0)</div><div class="arr">→</div><div class="then">DynamoDB Global Tables</div></div>
+        <div class="iftt"><div class="if">Multi-region SQL with managed failover</div><div class="arr">→</div><div class="then">Aurora Global Database</div></div>
+        <div class="iftt"><div class="if">Centralized backups across services/accts</div><div class="arr">→</div><div class="then">AWS Backup (Backup Policies via Organizations)</div></div>
+        <div class="iftt"><div class="if">"Run scripts" / "patch" / "drift on instances"</div><div class="arr">→</div><div class="then">SSM (Run Command / Patch Manager / State Manager)</div></div>
+        <div class="iftt"><div class="if">Drain on scale-in / graceful shutdown</div><div class="arr">→</div><div class="then">ASG Lifecycle Hook (Terminating:Wait) + ALB deregistration delay</div></div>
+        <div class="iftt"><div class="if">CVE scanning EC2 / ECR / Lambda</div><div class="arr">→</div><div class="then">Inspector v2 (NOT GuardDuty)</div></div>
+        <div class="iftt"><div class="if">PII scanning in S3</div><div class="arr">→</div><div class="then">Macie (NOT Inspector / GuardDuty)</div></div>
+        <div class="iftt"><div class="if">Block creation outside approved regions</div><div class="arr">→</div><div class="then">SCP <code>aws:RequestedRegion</code> deny</div></div>
+        <div class="iftt"><div class="if">Slack / Teams + safe ChatOps commands</div><div class="arr">→</div><div class="then">SNS → AWS Chatbot (IAM-scoped)</div></div>
+        <div class="iftt"><div class="if">Multi-step workflow with retries + human gate</div><div class="arr">→</div><div class="then">Step Functions Standard + WaitForTaskToken</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Service Selection Cheat Table ============================== -->
+<section id="cheat-table">
+  <div class="container">
+    <h2><span class="num">🎯</span>Service Selection Cheat Table — scenario → service</h2>
+    <p class="sub">If a question stem matches the scenario on the left, the right column is your default answer. Skim this once daily in the week before the exam.</p>
+
+    <table>
+      <thead><tr><th>Scenario</th><th>Default service / feature</th></tr></thead>
+      <tbody>
+        <tr><td>Trigger pipeline only on push to <code>main</code></td><td>EventBridge rule on CodeCommit reference change with branch filter, or webhook for GitHub</td></tr>
+        <tr><td>Block bad PR merges automatically</td><td>CodeCommit Approval Rule Template + CodeBuild required status check</td></tr>
+        <tr><td>Detect insecure code in PR</td><td>CodeGuru Reviewer</td></tr>
+        <tr><td>Find runtime CPU/heap hotspots</td><td>CodeGuru Profiler</td></tr>
+        <tr><td>Scan container images for CVEs</td><td>Inspector v2 on ECR (scan-on-push)</td></tr>
+        <tr><td>Centralize npm/maven/pip packages, proxy public</td><td>CodeArtifact with external connection (domain + repo policies)</td></tr>
+        <tr><td>Deploy CFN to every Org account incl. future ones</td><td>StackSet (service-managed) + Auto-deployment ON</td></tr>
+        <tr><td>Pre-validate config before deploy + roll back if alarm</td><td>AppConfig with JSON Schema/Lambda validator + linked alarm</td></tr>
+        <tr><td>Provide approved infra building blocks to devs</td><td>Service Catalog portfolio + launch constraint role</td></tr>
+        <tr><td>Patch EC2 monthly across hybrid + on-prem</td><td>SSM Patch Manager + Patch Baselines + Maintenance Windows + Hybrid Activations</td></tr>
+        <tr><td>Enforce desired EC2 config continuously</td><td>SSM State Manager (associations)</td></tr>
+        <tr><td>Audit + record interactive shell sessions</td><td>SSM Session Manager with S3/CW Logs + KMS</td></tr>
+        <tr><td>Common runbook (snapshot, isolate, restart)</td><td>SSM Automation document (often <code>AWS-*</code> built-in)</td></tr>
+        <tr><td>Golden AMI pipeline with patches + Inspector + multi-region distribution</td><td>EC2 Image Builder</td></tr>
+        <tr><td>Hot logs (search) + cold logs (cheap archive)</td><td>Subscription filter → OpenSearch (hot) + Firehose → S3 + Glacier (cold)</td></tr>
+        <tr><td>Cross-account central log lake</td><td>CW Logs subscription destination → Kinesis (central acct) → Firehose → S3 Object Lock</td></tr>
+        <tr><td>End-to-end trace across microservices</td><td>X-Ray with active tracing on each service</td></tr>
+        <tr><td>Synthetic browser test from the outside</td><td>CloudWatch Synthetics canary</td></tr>
+        <tr><td>Real user web metrics</td><td>CloudWatch RUM</td></tr>
+        <tr><td>Automatic EC2 recovery on hardware failure</td><td>CW alarm on <code>StatusCheckFailed_System</code> with EC2 Recover action</td></tr>
+        <tr><td>Capture failed Lambda async invokes</td><td>Lambda Destinations (preferred) or DLQ</td></tr>
+        <tr><td>Schedule 1M+ jobs with timezone/retries/DLQ</td><td>EventBridge Scheduler</td></tr>
+        <tr><td>Glue Kinesis/SQS/DDB-Stream → target w/o code</td><td>EventBridge Pipes (filter + enrichment)</td></tr>
+        <tr><td>Org-wide WAF / Shield / Network Firewall policy</td><td>AWS Firewall Manager (delegated admin + Config required)</td></tr>
+        <tr><td>Investigate cross-account security incident graph</td><td>Detective</td></tr>
+        <tr><td>Continuous evidence collection for audit</td><td>Audit Manager (frameworks: SOC2, PCI, HIPAA)</td></tr>
+        <tr><td>Test resilience by injecting failure</td><td>AWS FIS experiment + CloudWatch stop conditions</td></tr>
+        <tr><td>Score app resilience and recommend fixes</td><td>AWS Resilience Hub</td></tr>
+        <tr><td>WORM compliance backup vault</td><td>AWS Backup Vault Lock (Governance or Compliance mode)</td></tr>
+        <tr><td>Cross-account VPC sharing</td><td>AWS RAM (share subnet via Organizations)</td></tr>
+        <tr><td>Hybrid DNS resolution (corp ↔ VPC)</td><td>Route 53 Resolver Inbound + Outbound endpoints + Rules</td></tr>
+        <tr><td>Detect compromised IAM credentials</td><td>GuardDuty + CloudTrail anomaly → EventBridge → revoke session policy / disable user</td></tr>
+        <tr><td>Find roles granting external access</td><td>IAM Access Analyzer (external access)</td></tr>
+        <tr><td>Generate least-privilege policy</td><td>IAM Access Analyzer Policy Generation (from CloudTrail)</td></tr>
+        <tr><td>Land new multi-account environment</td><td>AWS Control Tower (Account Factory + guardrails)</td></tr>
+        <tr><td>Aurora schema/version blue-green cutover</td><td>Aurora Blue/Green Deployments (managed)</td></tr>
+        <tr><td>Recover Aurora from human error fast</td><td>Aurora Backtrack (MySQL only, 72 h max)</td></tr>
+        <tr><td>Centralize CloudWatch dashboards cross-account</td><td>CloudWatch cross-account observability (sharing accounts → monitoring account)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== Common Wrong Answers ============================== -->
+<section id="wrong-answers">
+  <div class="container">
+    <h2><span class="num">❌</span>Common Wrong Answers — why the tempting choice is wrong</h2>
+    <p class="sub">Each row pairs an attractive-but-incorrect answer with the correct one and the reason the trap works.</p>
+
+    <div class="grid cols-2">
+      <div class="miscard">
+        <div class="topic">CW Logs Insights chosen for real-time alarming</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Schedule a Logs Insights query every 5 minutes and email on results."</div>
+          <div class="col right"><div class="h">Correct</div>Metric Filter → CW Alarm → SNS. <b>Why the trap works:</b> Insights <em>can</em> query, but it isn't a real-time alarm primitive — and scheduled queries cost more.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Custom Lambda to detect CFN drift</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Write a Lambda that compares stack template to live resources."</div>
+          <div class="col right"><div class="h">Correct</div>CFN <b>Drift Detection</b> API + EventBridge schedule + SNS. <b>Why:</b> the managed feature already exists; custom Lambda fails "least operational overhead".</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">SCP used to <em>grant</em> permission</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Add an SCP that allows <code>ec2:RunInstances</code> for devs."</div>
+          <div class="col right"><div class="h">Correct</div>SCPs only restrict. Grants live in IAM identity policies. <b>Why:</b> the <code>Allow</code> in an SCP only defines the <em>boundary</em>; users still need a matching IAM allow.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Multi-AZ presented as DR</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Enable RDS Multi-AZ to recover from a regional outage."</div>
+          <div class="col right"><div class="h">Correct</div>Aurora Global DB or cross-region read replica. <b>Why:</b> Multi-AZ is intra-region HA. DR requires multi-region.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Inspector used for config compliance</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Use Inspector to find public S3 buckets."</div>
+          <div class="col right"><div class="h">Correct</div>AWS Config managed rules (e.g. <code>s3-bucket-public-read-prohibited</code>). <b>Why:</b> Inspector scans <em>CVEs</em> on EC2/ECR/Lambda — not config posture.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">GuardDuty for software vulnerabilities</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Run GuardDuty to find OS-level CVEs on EC2."</div>
+          <div class="col right"><div class="h">Correct</div>Inspector v2. <b>Why:</b> GuardDuty does <em>threat</em> detection (recon, exfil, miner) from logs — not vulnerability scanning.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Macie outside S3</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Use Macie to scan EBS / EFS / RDS for PII."</div>
+          <div class="col right"><div class="h">Correct</div>Macie only scans S3. <b>Why:</b> stems often add non-S3 stores to make the wrong answer feel comprehensive.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">"Just create an IAM user with keys for CI"</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"GitHub Actions uses an IAM user; keys stored in repo secrets."</div>
+          <div class="col right"><div class="h">Correct</div>IAM <b>OIDC identity provider</b> + role with trust on repo/branch. <b>Why:</b> static keys leak and rotate poorly; OIDC issues short-lived STS creds.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">CloudTrail for "current resource state"</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Use CloudTrail to determine which buckets are unencrypted."</div>
+          <div class="col right"><div class="h">Correct</div>AWS Config. <b>Why:</b> CloudTrail is API-call audit (who/when/what action); Config records resource <em>state</em> over time.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">SSE-S3 used as the artifact key for cross-account</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Encrypt artifact bucket with default SSE-S3."</div>
+          <div class="col right"><div class="h">Correct</div>Customer-managed <b>KMS CMK</b> + key policy + S3 bucket policy + role in target account. <b>Why:</b> SSE-S3 key cannot be shared cross-account; decryption fails silently with AccessDenied.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">OpsWorks for greenfield config management</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Use OpsWorks Stacks to manage app config across EC2."</div>
+          <div class="col right"><div class="h">Correct</div>SSM Run Command + State Manager + Patch Manager. <b>Why:</b> OpsWorks is correct only when the stem specifically references <em>existing Chef cookbooks</em>.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">CloudWatch Events still used in 2024-era stems</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Outdated</div>"Create a CloudWatch Events rule…"</div>
+          <div class="col right"><div class="h">Modern</div>EventBridge rule (or EventBridge Scheduler if many schedules / timezones). Functionally same, but EventBridge adds buses, schemas, partner sources, Pipes, Scheduler.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Inspector Classic vs Inspector v2</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Deprecated</div>"Run Inspector Classic with assessment templates and rule packages."</div>
+          <div class="col right"><div class="h">Current</div>Inspector v2 (continuous, agentless for ECR/Lambda, SSM-based for EC2). Classic is retired.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Lambda hooks confused with ECS / EC2 hooks</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"AppSpec with <code>BeforeInstall</code> and <code>ValidateService</code> hooks for a Lambda canary."</div>
+          <div class="col right"><div class="h">Correct</div>Lambda has only <code>BeforeAllowTraffic</code> and <code>AfterAllowTraffic</code>. Any other hook in a Lambda AppSpec is invalid.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">Beanstalk Immutable used like Blue/Green</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Tempting</div>"Use Immutable when you need instant rollback by swapping URLs."</div>
+          <div class="col right"><div class="h">Correct</div>Use Beanstalk <b>Blue/Green</b> — separate environments and CNAME swap. Immutable swaps the ASG <em>inside</em> the env; rollback is by terminating the new ASG.</div>
+        </div>
+      </div>
+
+      <div class="miscard">
+        <div class="topic">S3 CRR for database DR</div>
+        <div class="vs">
+          <div class="col wrong"><div class="h">Mismatched primitive</div>"Use S3 CRR to replicate RDS data."</div>
+          <div class="col right"><div class="h">Correct</div>Aurora Global DB / cross-region read replica. CRR is for S3 objects only.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Last-Minute Review ============================== -->
+<section id="last-minute">
+  <div class="container">
+    <h2><span class="num">⏱</span>Last-Minute Review — read this in the hour before the exam</h2>
+    <p class="sub">If your time is up and you can only read one section, read this one. Highest-yield facts, the most-tested traps, and the must-recall numbers.</p>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Top 25 facts (cram)</h3>
+        <ol>
+          <li>Lambda has <b>only 2</b> AppSpec hooks: <code>BeforeAllowTraffic</code>, <code>AfterAllowTraffic</code>.</li>
+          <li>ECS blue/green has <b>5</b> hooks; EC2 has up to <b>12</b>.</li>
+          <li>Lambda canary names: <code>LambdaCanary10Percent{5,10,15,30}Minutes</code>.</li>
+          <li>Lambda linear names: <code>LambdaLinear10PercentEvery{1,2,3,10}Minutes</code>.</li>
+          <li>ECS canary: <code>ECSCanary10Percent{5,15}Minutes</code>; linear: <code>ECSLinear10PercentEvery{1,3}Minutes</code>.</li>
+          <li>EC2 in-place: <code>OneAtATime</code> / <code>HalfAtATime</code> / <code>AllAtOnce</code>.</li>
+          <li>StackSets with Organizations + service-managed + Auto-deployment = covers <em>new</em> accounts.</li>
+          <li>Self-managed StackSet roles: <code>AWSCloudFormationStackSetAdministrationRole</code> (admin) + <code>AWSCloudFormationStackSetExecutionRole</code> (target).</li>
+          <li>Account filters: NONE / INTERSECTION / DIFFERENCE / UNION.</li>
+          <li>CFN policies: <code>CreationPolicy</code> (signal), <code>UpdatePolicy</code> (rolling/replacing), <code>DeletionPolicy</code> (Retain/Snapshot), <code>UpdateReplacePolicy</code>.</li>
+          <li>CFN Hooks = preventive guardrails (block before create). Config rules = detective.</li>
+          <li>Beanstalk: Immutable replaces ASG in env; Blue/Green swaps CNAMEs across two envs.</li>
+          <li>SSM Patch Manager pieces: Patch Baseline + Patch Group (tag) + Maintenance Window + Run Command target.</li>
+          <li>Config rule + Auto-remediation = SSM Automation document with <code>AutomaticRemediation=true</code>.</li>
+          <li>Secrets Manager rotates RDS/Redshift/DocDB natively; Parameter Store does not rotate.</li>
+          <li>Cross-account artifact = S3 + customer KMS CMK + bucket policy + cross-account role (4 things).</li>
+          <li>GitHub Actions ↔ AWS via OIDC identity provider; no static keys.</li>
+          <li>CW Logs subscription filter = real-time stream; metric filter = counts + alarms; Insights = ad-hoc query.</li>
+          <li>CloudTrail data events (S3/Lambda) are opt-in.</li>
+          <li>GuardDuty = threats. Inspector v2 = CVEs (EC2/ECR/Lambda). Macie = PII in S3. Security Hub = aggregator + standards. Detective = investigation graph.</li>
+          <li>SCPs restrict only — never grant. Don't apply to management account.</li>
+          <li>Aurora Global DB ≈ 1-min RTO multi-region SQL. DynamoDB Global Tables ≈ sub-second active-active KV.</li>
+          <li>AWS Backup = cross-service + cross-account/region copy + Vault Lock; DLM = EBS only.</li>
+          <li>EventBridge Scheduler ≠ EventBridge rules (Scheduler scales to 1M+ schedules with timezones, retries, DLQ).</li>
+          <li>EC2 Recover action on alarm preserves IP and EBS (system status fail).</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Top 15 traps</h3>
+        <ol>
+          <li>Lambda AppSpec hooks other than <code>BeforeAllowTraffic</code> / <code>AfterAllowTraffic</code>.</li>
+          <li>SSE-S3 (no KMS CMK) for cross-account pipeline artifacts.</li>
+          <li>SCP described as <em>granting</em> permission.</li>
+          <li>Multi-AZ described as DR (it's HA within one region).</li>
+          <li>Inspector for config-posture; GuardDuty for CVEs; Macie outside S3.</li>
+          <li>Custom Lambda for managed feature (drift detection, snapshot copies, compliance check).</li>
+          <li>IAM user with access keys for any workload or CI/CD.</li>
+          <li>SSH/bastion suggestions — always SSM Session Manager.</li>
+          <li>"Use Inspector Classic" / "Macie Classic" — both retired.</li>
+          <li>"Use OpsWorks" unless stem explicitly mentions Chef/Puppet cookbooks.</li>
+          <li>CloudTrail used to find <em>current</em> resource state (use Config).</li>
+          <li>S3 CRR used as DR for an RDS database.</li>
+          <li>CW Logs Insights for real-time alarming.</li>
+          <li>Beanstalk Immutable used where Blue/Green is required (separate envs + CNAME swap).</li>
+          <li>"Beanstalk to manage 100 accounts" / "Beanstalk for org governance" — wrong scope.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Numbers to recall</h3>
+        <ul>
+          <li>Lambda timeout 15 min · /tmp 10 GB · async payload 256 KB · sync 6 MB.</li>
+          <li>SQS retention 1 min → 14 d (default 4 d); FIFO 300/s (3000/s batched).</li>
+          <li>Step Functions Standard up to 1 year; Express up to 5 min.</li>
+          <li>CFN: 500 resources / 200 parameters / 200 outputs / 200 mappings / 1 MB template.</li>
+          <li>Aurora Backtrack max 72 h (MySQL only); DDB PITR 35-day window.</li>
+          <li>Parameter Store Standard 4 KB; Advanced 8 KB; Secrets Manager 64 KB.</li>
+          <li>STS session 15 min → 12 h.</li>
+          <li>SSM Automation max 12 h; CodeBuild max build 8 h.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>30-second elimination protocol</h3>
+        <ol>
+          <li>Read the <b>last sentence</b> first — that's the ask.</li>
+          <li>Strike answers containing trap phrases (SSH, IAM user keys, custom Lambda for managed feature, "schedule Lambda hourly to check…", OpsWorks, Inspector Classic).</li>
+          <li>From the remaining 2, pick the one matching <em>more</em> stem keywords.</li>
+          <li>Tie-break by "least operational overhead" / most-managed service.</li>
+          <li>If you're 2 min in and still stuck — flag, guess, move on.</li>
+        </ol>
       </div>
     </div>
   </div>
