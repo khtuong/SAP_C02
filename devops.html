@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps / Cloud / SRE Knowledge Base</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #273449;
+    --accent: #38bdf8;
+    --accent-2: #22d3ee;
+    --green: #34d399;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+    --code-bg: #0b1220;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    padding: 40px 24px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 2.2em;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p {
+    color: var(--muted);
+    margin: 4px 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  nav.toc {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  nav.toc h2 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 1.4em;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  nav.toc ol {
+    column-count: 2;
+    column-gap: 32px;
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  nav.toc a {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+
+  nav.toc a:hover {
+    color: var(--accent);
+  }
+
+  section.chapter {
+    margin-bottom: 40px;
+  }
+
+  section.chapter > h2 {
+    font-size: 1.7em;
+    color: var(--accent);
+    border-left: 5px solid var(--accent);
+    padding-left: 14px;
+    margin-bottom: 20px;
+  }
+
+  details.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  details.card[open] {
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15);
+  }
+
+  details.card summary {
+    cursor: pointer;
+    padding: 16px 20px;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    background: var(--panel);
+    transition: background 0.2s;
+    user-select: none;
+  }
+
+  details.card summary:hover {
+    background: var(--panel-2);
+  }
+
+  details.card summary::-webkit-details-marker { display: none; }
+
+  details.card summary::before {
+    content: "▶";
+    margin-right: 12px;
+    color: var(--accent);
+    font-size: 0.85em;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+
+  details.card[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .q-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #0b1220;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.78em;
+    margin-right: 12px;
+    font-weight: 700;
+  }
+
+  .content {
+    padding: 8px 24px 22px 50px;
+    border-top: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+
+  .content h4 {
+    color: var(--accent-2);
+    margin: 16px 0 8px;
+    font-size: 1.05em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .content h4.steps { color: var(--yellow); }
+  .content h4.mitigation { color: var(--red); }
+  .content h4.prevention { color: var(--green); }
+  .content h4.commands { color: var(--accent); }
+
+  .content p, .content li { color: var(--text); }
+  .content ul, .content ol { padding-left: 22px; }
+  .content li { margin-bottom: 4px; }
+
+  code {
+    background: var(--code-bg);
+    color: var(--accent-2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: "SF Mono", Monaco, Consolas, "Liberation Mono", monospace;
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+
+  pre code {
+    background: transparent;
+    padding: 0;
+    color: #e2e8f0;
+    font-size: 0.88em;
+    line-height: 1.55;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--panel-2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 8px;
+    font-size: 0.75em;
+    margin-left: 8px;
+  }
+
+  .tag.crit { color: var(--red); border-color: var(--red); }
+  .tag.warn { color: var(--yellow); border-color: var(--yellow); }
+  .tag.ok   { color: var(--green); border-color: var(--green); }
+
+  .back-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--accent);
+    color: #0b1220;
+    padding: 10px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: transform 0.2s;
+  }
+
+  .back-top:hover { transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 700px) {
+    nav.toc ol { column-count: 1; }
+    .content { padding-left: 24px; }
+    header h1 { font-size: 1.6em; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DevOps / Cloud Engineer / SRE Knowledge Base</h1>
+  <p>Interview Preparation &amp; Real Production Troubleshooting Reference</p>
+  <p style="font-size:0.9em">CI/CD · Kubernetes · Cloud · Observability · Incident Response · SRE</p>
+</header>
+
+<div class="container">
+
+<nav class="toc" id="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#ch1">CI/CD Fundamentals &amp; Pipeline Troubleshooting</a></li>
+    <li><a href="#ch2">Production Incident Troubleshooting</a></li>
+    <li><a href="#ch3">Investigation Methodology</a></li>
+    <li><a href="#ch4">Impact Reduction &amp; Mitigation</a></li>
+    <li><a href="#ch5">Root Cause Analysis</a></li>
+    <li><a href="#ch6">Kubernetes &amp; Container Troubleshooting</a></li>
+    <li><a href="#ch7">Cloud Infrastructure Troubleshooting</a></li>
+    <li><a href="#ch8">Monitoring, Logging, Metrics, Tracing, Observability</a></li>
+    <li><a href="#ch9">SRE Concepts (SLA / SLO / SLI / Error Budget)</a></li>
+    <li><a href="#ch10">Scenario-Based Troubleshooting</a></li>
+    <li><a href="#ch11">Senior-Level Reasoning &amp; Outage Decision-Making</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 1 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch1">
+<h2>1. CI/CD Fundamentals &amp; Pipeline Troubleshooting</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q1</span> What is the difference between Continuous Integration, Continuous Delivery, and Continuous Deployment?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Continuous Integration (CI):</b> Developers merge code to a shared branch frequently (multiple times per day). Each merge triggers an automated build and test pipeline. The goal is to catch integration bugs early and keep the main branch always in a known-good, buildable state.</li>
+      <li><b>Continuous Delivery (CD):</b> Every commit that passes CI is automatically prepared into a deployable artifact and promoted through environments (dev → staging). The release to production is still gated by a human (manual approval).</li>
+      <li><b>Continuous Deployment:</b> Every commit that passes the full pipeline (including automated tests, integration tests, security scans) is automatically released to production without manual approval. This requires very high test confidence, feature flags, automated rollbacks, and strong observability.</li>
+    </ul>
+    <p><b>Key insight:</b> Most companies say "CI/CD" but actually do Continuous Delivery. True Continuous Deployment is a maturity level few teams reach because it requires deep investment in testing, canaries, and rollback automation.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q2</span> A CI build that passed yesterday is failing today with no code changes. How do you investigate?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>"Worked yesterday, broken today, no code change" almost always means an <b>external dependency drift</b>. Investigate the build environment, not the application code.</p>
+    <h4 class="steps">Investigation Steps</h4>
+    <ol>
+      <li><b>Compare the failed run with the last green run</b> — same commit SHA? Same agent/runner image? Same toolchain versions?</li>
+      <li><b>Check dependency lockfiles</b> — was the project resolving versions dynamically (<code>^1.2.0</code>, <code>latest</code>, <code>:latest</code> Docker tag)? A transitive package may have published a new release.</li>
+      <li><b>Inspect the base image</b> — pipelines using <code>node:18</code> or <code>python:3.11</code> get rebuilt as the upstream image is updated; a security patch may have changed glibc, OpenSSL, or Node minor version.</li>
+      <li><b>Check the CI runner/agent</b> — GitHub Actions and GitLab Runner rotate Ubuntu images monthly. A tool you depended on may have been removed or moved paths.</li>
+      <li><b>Verify external services</b> — package registry outages (npm, PyPI), artifact repo credentials expired, OIDC tokens for cloud login changed.</li>
+      <li><b>Look at the failure signature</b> — is it a network timeout, a missing binary, a TLS error, or a real test assertion? That tells you whether the cause is the environment or the code.</li>
+    </ol>
+    <h4 class="mitigation">Immediate Mitigation</h4>
+    <ul>
+      <li>Pin the runner image to the version that worked (e.g., <code>ubuntu-22.04</code> instead of <code>ubuntu-latest</code>).</li>
+      <li>Pin Docker base image with a digest: <code>FROM node:18@sha256:...</code>.</li>
+      <li>Restore the lockfile from the last green build if dependencies were resolved fresh.</li>
+    </ul>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Always commit lockfiles and use frozen-install modes: <code>npm ci</code>, <code>pip install -r requirements.txt --require-hashes</code>, <code>go mod download</code>.</li>
+      <li>Pin base image digests in production Dockerfiles.</li>
+      <li>Use a private artifact mirror (Artifactory, Nexus, ECR pull-through cache) so upstream changes don't propagate instantly.</li>
+      <li>Add a daily scheduled build on main to detect environment drift before a developer notices.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q3</span> What strategies do you use for fast and reliable pipelines?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Cache aggressively, but explicitly</b> — cache <code>~/.m2</code>, <code>~/.npm</code>, <code>node_modules</code>, Docker layer caches. Use a cache key tied to the lockfile hash so stale caches don't poison builds.</li>
+      <li><b>Parallelize independent jobs</b> — unit tests, linting, security scans, and container builds can run concurrently. Reserve sequential stages only for true dependencies (build → integration test → deploy).</li>
+      <li><b>Fail fast</b> — run cheap, high-signal checks first (linters, type checks, unit tests). Don't waste 20 minutes on integration tests when a syntax error would have caught the issue.</li>
+      <li><b>Split slow tests</b> — shard test suites across runners. Most frameworks support this (pytest-split, jest --shard, Go test -parallel).</li>
+      <li><b>Use ephemeral runners</b> — fresh environment per build prevents "state leak" but pre-warm a base image to avoid 5 minutes of bootstrap.</li>
+      <li><b>Build once, promote everywhere</b> — produce a single immutable artifact in CI; deploy that same artifact to dev, staging, and prod. Never rebuild per environment.</li>
+      <li><b>Quarantine flaky tests</b> — don't ignore them; tag them and track flake rate, but stop them from blocking the pipeline.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q4</span> A deployment pipeline succeeded but the new version is not running. How do you debug?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>This is one of the most common silent failures. The pipeline reports "deploy succeeded" but the actual workload is still on the old version. The pipeline lied to you (or you lied to the pipeline).</p>
+    <h4 class="steps">Investigation Steps</h4>
+    <ol>
+      <li><b>Confirm what "deployed" means</b> — did the pipeline only push the image, or did it actually trigger a rollout? <code>docker push</code> succeeding is not the same as <code>kubectl apply</code> succeeding is not the same as pods being healthy on the new version.</li>
+      <li><b>Verify the image tag</b> — if the manifest references <code>:latest</code> and <code>imagePullPolicy: IfNotPresent</code>, the node may keep using the cached old image. Tag immutably (SHA, semver) and prefer <code>imagePullPolicy: Always</code> for moving tags.</li>
+      <li><b>Check the rollout status</b> — <code>kubectl rollout status deployment/myapp</code>. Look for stuck pods, ImagePullBackOff, or CrashLoopBackOff on the new replica set.</li>
+      <li><b>Inspect the deployed pod's image</b> — <code>kubectl get pod -o jsonpath='{.spec.containers[*].image}'</code>. Don't trust the manifest; trust the running container.</li>
+      <li><b>Check for HPA, PDB, or admission controllers</b> blocking the rollout silently.</li>
+      <li><b>Validate the deployment target</b> — was it deployed to the right cluster, namespace, region, or account? Pipeline misconfigurations frequently deploy to "dev" while claiming success on "prod".</li>
+    </ol>
+    <h4 class="mitigation">Immediate Mitigation</h4>
+    <ul>
+      <li>Force a rollout: <code>kubectl rollout restart deployment/myapp</code>.</li>
+      <li>If image cache is the issue: change the tag to an immutable digest.</li>
+    </ul>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Use immutable image tags (commit SHA or semver), never <code>latest</code> in production.</li>
+      <li>Pipeline must wait for <code>rollout status</code> with a timeout and fail if not healthy.</li>
+      <li>Smoke-test post-deploy: hit <code>/healthz</code> and verify the build SHA in the response matches the deployed SHA.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>kubectl rollout status deployment/myapp -n prod --timeout=5m
+kubectl get rs -n prod -l app=myapp
+kubectl describe deployment myapp -n prod
+kubectl get pods -n prod -l app=myapp -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].image}{"\n"}{end}'
+curl -sf https://myapp.example.com/healthz | jq .version</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q5</span> How do you secure a CI/CD pipeline?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Secrets management:</b> Never store secrets in code or env files committed to git. Use a secret manager (Vault, AWS Secrets Manager, GitHub OIDC for short-lived cloud credentials).</li>
+      <li><b>Least-privilege runners:</b> Build runners should have only the IAM/RBAC permissions strictly needed for their stage. A test runner does not need prod push access.</li>
+      <li><b>OIDC instead of long-lived keys:</b> Modern CI (GitHub Actions, GitLab) can exchange a short-lived OIDC token for AWS/GCP/Azure credentials. No static access keys.</li>
+      <li><b>Signed and verified artifacts:</b> Sign container images with cosign/Sigstore; verify signatures at admission time in Kubernetes (cosign + Kyverno/Gatekeeper).</li>
+      <li><b>SBOM and vulnerability scans:</b> Generate a Software Bill of Materials, scan with Trivy/Grype/Snyk, fail builds on critical CVEs.</li>
+      <li><b>Branch protection:</b> Require PR reviews, status checks, and signed commits for the main branch. Disallow force pushes.</li>
+      <li><b>Audit logs:</b> Every deployment must be traceable to a commit, a user, and a timestamp.</li>
+      <li><b>Pinned actions:</b> Reference third-party CI actions by full SHA, not version tag — a tag can be moved to malicious code.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q6</span> What is the difference between blue/green, canary, and rolling deployments?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Rolling deployment:</b> Replace pods/instances incrementally (e.g., 25% at a time). Lowest infra cost, simplest. Downside: both versions run simultaneously briefly; partial bad release can affect a fraction of traffic before detection.</li>
+      <li><b>Blue/Green:</b> Run two full environments. "Blue" is live, "Green" is the new version. Cut over traffic at the load balancer once green is verified. Instant rollback (flip back to blue). Downside: 2× infrastructure cost during cutover.</li>
+      <li><b>Canary:</b> Deploy the new version to a small slice of traffic (1%, 5%, 25%, 100%). Monitor SLIs at each step; auto-rollback if error rate or latency exceeds threshold. Best for production safety, requires good observability and traffic-splitting (Istio, Linkerd, ALB weighted target groups, Argo Rollouts).</li>
+    </ul>
+    <p><b>When to use which:</b></p>
+    <ul>
+      <li>Stateless web service with strong observability → <b>canary</b>.</li>
+      <li>Service with expensive warmup or schema changes → <b>blue/green</b>.</li>
+      <li>Simple internal service, low risk → <b>rolling</b>.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q7</span> A pipeline succeeds in CI but fails when deploying to production. What are common causes?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Environment drift:</b> CI runs on Ubuntu, prod is RHEL; CI uses Postgres 14, prod is 13; CI has 16GB RAM, prod node has 4GB.</li>
+      <li><b>Missing secrets or config:</b> CI mocked secrets or used a test endpoint; prod doesn't have the new environment variable defined.</li>
+      <li><b>Network policies / firewall:</b> Prod has stricter egress rules — the app cannot reach a new external API it talks to.</li>
+      <li><b>RBAC / IAM differences:</b> The CI service account has broader permissions than the prod runtime account.</li>
+      <li><b>Database state:</b> Migrations applied automatically in CI but production needs manual or sequenced migration.</li>
+      <li><b>Resource limits:</b> Prod has CPU/memory limits, OOMKills happen under real load.</li>
+      <li><b>Image architecture mismatch:</b> Built <code>amd64</code> image, prod runs on <code>arm64</code> (Graviton/M-series).</li>
+      <li><b>DNS / service discovery:</b> Service names differ between environments; service mesh routing differs.</li>
+    </ul>
+    <p><b>Mitigation principle:</b> Make environments as identical as possible. Use the same infrastructure-as-code modules; only environment-specific variables should differ.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q8</span> How do you handle database schema migrations in a CI/CD pipeline?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Database migrations are the single most dangerous part of any deployment because they are stateful and often irreversible.</p>
+    <ul>
+      <li><b>Use migration tools:</b> Flyway, Liquibase, Alembic, golang-migrate, Prisma Migrate. Never run ad-hoc SQL.</li>
+      <li><b>Expand-Contract pattern (Parallel Change):</b>
+        <ol>
+          <li><b>Expand:</b> Add new columns/tables; keep old ones. Deploy code that writes to both old and new.</li>
+          <li><b>Migrate data:</b> Backfill new structure in batches.</li>
+          <li><b>Switch reads:</b> Deploy code that reads from new structure.</li>
+          <li><b>Contract:</b> After confidence period, remove old structure.</li>
+        </ol>
+      </li>
+      <li><b>Migrations run before app deploy</b> — so the new app version always sees the schema it expects, and the old app version still works against the new schema (because expand is backward-compatible).</li>
+      <li><b>Lock-free migrations:</b> Avoid <code>ALTER TABLE</code> that rewrites the table on large tables. Use <code>CREATE INDEX CONCURRENTLY</code> on Postgres; use online schema change tools (gh-ost, pt-online-schema-change) on MySQL.</li>
+      <li><b>Always have a rollback strategy</b> — for destructive migrations, take a backup first, or use blue/green with both schemas.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q9</span> What is GitOps and what problem does it solve?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p><b>GitOps</b> is the practice of using a Git repository as the single source of truth for declarative infrastructure and application configuration. A controller (ArgoCD, Flux) continuously reconciles the live cluster state with what's defined in Git.</p>
+    <p><b>Problems it solves:</b></p>
+    <ul>
+      <li><b>Drift:</b> Manual <code>kubectl edit</code> changes are reverted automatically by the reconciler — the cluster always matches Git.</li>
+      <li><b>Auditability:</b> Every change is a Git commit, reviewed via PR, traceable to a person and time.</li>
+      <li><b>Disaster recovery:</b> Rebuild a cluster by pointing a new controller at the same repo.</li>
+      <li><b>Security:</b> CI doesn't need cluster credentials; the in-cluster controller pulls from Git. The blast radius of a compromised CI runner shrinks.</li>
+      <li><b>Rollback = revert commit.</b></li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q10</span> What is "deployment vs release" and why does it matter?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Deployment:</b> Putting new code on production infrastructure (the new binary is now running).</li>
+      <li><b>Release:</b> Making the new feature visible/active to users.</li>
+    </ul>
+    <p>Separating these — typically via <b>feature flags</b> — is a senior practice. You can deploy code daily but release features when business is ready. If a feature causes incidents, you flip the flag off without needing a redeploy. This decouples engineering velocity from product timing and reduces deploy-time risk to near zero for flagged code.</p>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 2 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch2">
+<h2>2. Production Incident Troubleshooting</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q11</span> Production is down. Walk me through the first 10 minutes.</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Acknowledge the alert</b> — silence the page so duplicate notifications don't slow you down. Confirm you're the responder.</li>
+      <li><b>Open an incident channel</b> — Slack/Teams room, video bridge, incident doc. Everyone communicates there; nothing in DMs.</li>
+      <li><b>Assess scope and severity</b> — how many users? Which regions? Is data being lost? Is money being lost? This drives SEV level and who you wake up.</li>
+      <li><b>Form the team</b> — assign roles: <b>Incident Commander</b> (decision-maker), <b>Comms lead</b> (status page, stakeholders), <b>Ops lead</b> (drives technical investigation). Even a 1-person incident benefits from being explicit about which hat you're wearing.</li>
+      <li><b>Stop the bleeding before debugging the cause.</b> If a recent deploy is suspect → roll back. If a config change is suspect → revert. Don't try to fix-forward during the first 10 minutes unless you're certain.</li>
+      <li><b>Communicate</b> — public status page update within 5 minutes saying "we are investigating an issue". Internal update every 15–30 minutes.</li>
+      <li><b>Preserve evidence</b> — snapshot logs, save dashboards (URLs with time range), take heap/thread dumps before restarting anything you'll want to debug later.</li>
+    </ol>
+    <p><b>Senior principle:</b> Mitigation precedes diagnosis. Customers don't care why it broke; they care how fast it's working again.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q12</span> How do you decide whether to roll back or fix-forward?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p><b>Default: roll back.</b> Rollback is fast, reversible, and well-understood. Fix-forward should be the exception, not the rule.</p>
+    <p><b>Roll back when:</b></p>
+    <ul>
+      <li>A recent deploy correlates strongly with the incident start time.</li>
+      <li>Rollback is a known safe operation (previous version was healthy).</li>
+      <li>No irreversible state changes (DB migrations) have happened.</li>
+    </ul>
+    <p><b>Fix forward when:</b></p>
+    <ul>
+      <li>Rollback is impossible (an irreversible migration, schema change, or data backfill already happened).</li>
+      <li>The fix is trivial, tested, and the path to deploy is faster than rollback.</li>
+      <li>The previous version has a known critical bug that's worse than the current one.</li>
+    </ul>
+    <p><b>Hard rule:</b> If you cannot articulate the fix in one sentence and you're under time pressure, roll back.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q13</span> A customer reports the website is slow. How do you investigate?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="steps">Investigation Steps (top of the stack to bottom)</h4>
+    <ol>
+      <li><b>Quantify "slow"</b> — what page? What region? What time? How slow (latency number)? Use customer's request ID/trace ID if available.</li>
+      <li><b>Check from outside</b> — synthetic monitoring (Pingdom, Datadog Synthetics) or just curl from multiple regions. Determine if it's global or regional.</li>
+      <li><b>Inspect golden signals dashboards</b> — latency (p50, p95, p99), traffic, errors, saturation (the USE/RED methods).</li>
+      <li><b>Check the CDN layer</b> — CloudFront/Akamai cache-hit ratio dropped? Edge errors?</li>
+      <li><b>Check the load balancer</b> — increased 5xx, slow backends, unhealthy targets?</li>
+      <li><b>Check application metrics</b> — request rate, error rate, GC pauses, thread pool exhaustion, queue depth.</li>
+      <li><b>Check the database</b> — slow query log, lock waits, replication lag, connection pool saturation.</li>
+      <li><b>Check downstream dependencies</b> — third-party APIs slow? Trace spans will show.</li>
+      <li><b>Check infrastructure</b> — CPU throttling, disk IO saturation, network packet loss, noisy neighbors.</li>
+    </ol>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code># From the edge
+curl -w "@curl-format.txt" -o /dev/null -s https://example.com/
+
+# Application traces (look at p99 spans)
+# Datadog / Honeycomb / Tempo — search for slow traces
+
+# Database (Postgres)
+SELECT pid, now() - query_start AS duration, query
+FROM pg_stat_activity
+WHERE state = 'active'
+ORDER BY duration DESC LIMIT 10;
+
+# Kubernetes — CPU throttling
+kubectl top pods -n prod --sort-by=cpu
+kubectl get --raw /api/v1/nodes/&lt;node&gt;/proxy/metrics/cadvisor | grep throttled</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q14</span> Half of your API requests are returning 5xx. Where do you look first?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Confirm "half"</b> — is it 50% randomly, or 100% from one client / region / version? Check the breakdown by status code, endpoint, version, and host.</li>
+      <li><b>Look at the load balancer breakdown by target</b> — if 5 backends out of 10 are unhealthy, you'll see ~50% error rate. Could be one bad AZ, one bad node, one bad pod replica that didn't get drained.</li>
+      <li><b>Look at the deployment timeline</b> — was a rolling deploy in progress? You might have half the pods on a broken version.</li>
+      <li><b>Check pod readiness</b> — are some pods passing liveness but failing readiness? They might be getting traffic they can't handle.</li>
+      <li><b>Check connection pools to dependencies</b> — DB pool exhausted on some pods, healthy on others.</li>
+    </ol>
+    <h4 class="mitigation">Immediate Mitigation</h4>
+    <ul>
+      <li>Drain or terminate the bad pods/instances.</li>
+      <li>Roll back the in-progress deploy if it correlates.</li>
+      <li>Shift traffic away from the bad AZ if it's localized.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q15</span> Disk on a production server is 95% full. What do you do?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="steps">Investigation Steps</h4>
+    <ol>
+      <li><b>Identify the consumer</b> — <code>df -h</code> to find the affected filesystem, then <code>du -h --max-depth=1 /</code> drilling down.</li>
+      <li><b>Common culprits:</b> <code>/var/log</code> (logrotate broken), application dumps, Docker overlay layers, <code>/tmp</code>, database WAL files, backup files, old kernels in <code>/boot</code>.</li>
+      <li><b>Check for deleted-but-open files</b> — <code>lsof | grep deleted</code>. A process holding a deleted file still consumes space until restarted.</li>
+    </ol>
+    <h4 class="mitigation">Immediate Mitigation</h4>
+    <ul>
+      <li>Truncate or rotate large log files: <code>truncate -s 0 /var/log/huge.log</code> (be careful — only if the writer reopens).</li>
+      <li>Clean Docker: <code>docker system prune -af --volumes</code>.</li>
+      <li>Clean package cache: <code>apt clean</code>, <code>yum clean all</code>.</li>
+      <li>Restart the process holding deleted file handles.</li>
+      <li>If on cloud, expand the volume (EBS modify, GCP resize) and grow the filesystem (<code>resize2fs</code>, <code>xfs_growfs</code>).</li>
+    </ul>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Configure logrotate with compression and retention.</li>
+      <li>Ship logs off-box (Loki, ELK, CloudWatch); don't keep them on the app server.</li>
+      <li>Add disk usage alerts at 70%, 85%, 95%.</li>
+      <li>Use ephemeral storage (containers, immutable instances) so disk fills can't accumulate.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>df -hT
+du -h --max-depth=1 /var | sort -hr | head -20
+sudo lsof +L1                       # files with link count 0 (deleted but open)
+sudo find / -type f -size +500M 2>/dev/null
+journalctl --vacuum-time=2d
+docker system df
+docker system prune -af --volumes</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q16</span> One service is causing cascading failures across the system. How do you contain it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>A cascade happens when a slow/failing service exhausts callers' resources (threads, connections, retries), which then fail their own callers. The system becomes saturated even though only one component is broken.</p>
+    <h4 class="mitigation">Containment (in order)</h4>
+    <ol>
+      <li><b>Shed load on the failing service</b> — rate limit, drop non-essential requests, return cached responses.</li>
+      <li><b>Open a circuit breaker</b> on its callers — fail fast instead of waiting. Hystrix, Resilience4j, Istio outlier detection.</li>
+      <li><b>Disable retries temporarily</b> — retries during an incident multiply load and worsen the cascade.</li>
+      <li><b>Isolate via bulkheads</b> — give each downstream its own thread pool/connection pool so it can't exhaust the shared pool.</li>
+      <li><b>Scale the failing service horizontally</b> — only if the issue is capacity, not a code bug.</li>
+      <li><b>Disable the broken feature</b> via feature flag if the service is non-critical.</li>
+    </ol>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Every cross-service call must have a timeout, a retry budget, and a circuit breaker.</li>
+      <li>Implement load shedding at the edge.</li>
+      <li>Capacity-test for partial-failure scenarios, not just full-load.</li>
+      <li>Build graceful degradation paths — return stale data or empty results rather than 500.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q17</span> An incident is ongoing and stakeholders keep asking for ETAs. How do you handle communication?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Have a dedicated Comms Lead</b> — separate from the people debugging. Engineers can't fix problems while answering executive DMs.</li>
+      <li><b>Update on a fixed cadence</b> — every 15 or 30 minutes regardless of progress. "Still investigating, will update at 14:30" is a valid update.</li>
+      <li><b>Never promise an ETA you don't have.</b> Say "we'll know more after X step", not "30 minutes". A missed ETA destroys trust.</li>
+      <li><b>Use a consistent template:</b> What's the impact (users, regions, features), what's the current status (investigating / mitigating / monitoring / resolved), what's the next step, when's the next update.</li>
+      <li><b>One source of truth</b> — status page for external, single Slack thread or incident doc for internal. Don't fragment.</li>
+      <li><b>Resist the temptation to silence the channel</b> — even if 50 people are watching, that's fewer DMs and questions for the responders.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q18</span> The previous on-call left no documentation and a recurring alert keeps firing. What do you do?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Don't blindly silence it.</b> Treat the absence of context as a red flag — there's a reason this alert exists.</li>
+      <li><b>Reverse-engineer the alert</b> — read the Prometheus rule / Datadog monitor definition. What does it actually measure? What's the threshold? Why was that threshold chosen (often you'll find a clue in commit history)?</li>
+      <li><b>Check historical firing pattern</b> — does it fire every Monday at 9 AM (batch job)? Every full moon (cron edge case)? Or randomly?</li>
+      <li><b>Correlate with logs/metrics at the firing time</b> — find what was actually anomalous.</li>
+      <li><b>Decide: real alert needing fix, or noisy alert needing tuning?</b></li>
+      <li><b>Write the runbook you wished you had</b> — even if it's just "as of YYYY-MM-DD, this alert is suspected to be X; investigation TBD."</li>
+    </ol>
+    <p><b>Senior practice:</b> Every alert should have a runbook link in the alert payload. If yours don't, that's a process gap to raise, not a personal burden.</p>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 3 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch3">
+<h2>3. Investigation Methodology</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q19</span> Describe a structured methodology for investigating a production issue.</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>I follow a layered, hypothesis-driven approach. The key is to be explicit about what you're testing and to write it down so the team isn't running in circles.</p>
+    <ol>
+      <li><b>Define the symptom precisely.</b> "API is slow" → "p99 latency on POST /orders went from 200ms to 4s at 14:23 UTC, only in eu-west-1".</li>
+      <li><b>Establish a timeline.</b> When did it start? What changed within ±1 hour? Deploys, config pushes, feature flag flips, infrastructure changes, traffic spikes.</li>
+      <li><b>Form hypotheses.</b> List 3–5 possible causes ranked by likelihood. Don't tunnel-vision on the first one.</li>
+      <li><b>Disprove cheaply.</b> Pick the hypothesis that's fastest to confirm/deny. If it's deploy-related, check the deploy log first — it's a 30-second check.</li>
+      <li><b>Use the data, not your gut.</b> Metrics → logs → traces → live debugging, in that order of cost.</li>
+      <li><b>Bisect.</b> If something started at T, find a "good" point before T and a "bad" point after, then bisect — works for commits, configs, traffic patterns.</li>
+      <li><b>Always look at correlation across the stack.</b> The first metric that breaks is often a symptom, not the cause.</li>
+    </ol>
+    <p><b>The USE method</b> (for resources): Utilization, Saturation, Errors. <br>
+    <b>The RED method</b> (for services): Rate, Errors, Duration. <br>
+    Combine both: USE for nodes/disks/network, RED for services.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q20</span> How do you avoid "shotgun debugging" during an incident?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Shotgun debugging is making random changes hoping something works. It's dangerous because:</p>
+    <ul>
+      <li>You destroy evidence.</li>
+      <li>You can't tell which change fixed the problem (so you can't reproduce or prevent recurrence).</li>
+      <li>You can make the incident worse.</li>
+    </ul>
+    <p><b>Discipline:</b></p>
+    <ul>
+      <li>Before making a change, state the hypothesis: "I think the DB connection pool is exhausted, so I'm restarting the app to clear it."</li>
+      <li>Make one change at a time and wait long enough to observe the effect.</li>
+      <li>Document every change in the incident channel with a timestamp.</li>
+      <li>If multiple people are typing commands, designate one driver. Others suggest; the driver executes.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q21</span> What is the "Five Whys" technique and when do you use it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>"Five Whys" is asking "why?" repeatedly to push past the surface symptom to the underlying cause. It's primarily used in <b>post-incident review</b>, not during the incident.</p>
+    <p><b>Example:</b></p>
+    <ul>
+      <li>The site went down. <i>Why?</i></li>
+      <li>The deployment broke the API. <i>Why?</i></li>
+      <li>A null pointer exception happened on every request. <i>Why?</i></li>
+      <li>A new field was missing from the database. <i>Why?</i></li>
+      <li>The migration hadn't been run in production. <i>Why?</i></li>
+      <li>The pipeline didn't enforce migration-before-deploy ordering.</li>
+    </ul>
+    <p><b>The "fix" at level 2 (revert the deploy) would prevent today's outage. The fix at level 5 (enforce ordering in the pipeline) prevents the class of outage.</b></p>
+    <p><b>Caveat:</b> Don't take "five" literally. Stop when you reach an actionable systemic cause. And avoid stopping at "human error" — humans operate the system; the system should make the error hard to commit.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q22</span> A metric spiked but nothing seems wrong to users. Do you investigate?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Yes — but with calibrated urgency. A metric anomaly with no user impact may be:</p>
+    <ul>
+      <li>A <b>leading indicator</b> (queue depth growing, soon to overflow).</li>
+      <li>A <b>broken metric</b> (instrumentation bug — important to know so you don't get blindsided later).</li>
+      <li>A <b>benign change</b> (a new deploy uses a different code path; metric pattern shifts but performance is fine).</li>
+      <li>A <b>silent failure</b> (background job stopped running; users won't notice until later).</li>
+    </ul>
+    <p>Treat it as a P3/P4 investigation, not a page-everyone incident. But always close the loop — either fix the issue, fix the metric, or update the runbook to say "this spike is expected because X".</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q23</span> How do you investigate an issue you can't reproduce?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Increase observability first.</b> Add structured logging, traces, and metrics around the suspected code path. Deploy. Wait for it to happen again with more data.</li>
+      <li><b>Look at the differences.</b> What's true for users who see it that isn't true for users who don't? Browser, region, account age, feature flag exposure, request shape.</li>
+      <li><b>Capture state at failure time.</b> Heap dumps, thread dumps, packet captures, request/response payloads, full traces. Make sure these are saved persistently so you can look at them later.</li>
+      <li><b>Replay traffic.</b> Capture production requests (Goreplay, Envoy tap) and replay them in a staging environment.</li>
+      <li><b>Use canaries.</b> Deploy more verbose logging to 1% of traffic to reduce log volume.</li>
+      <li><b>Resist the urge to declare "not reproducible" and close the ticket.</b> Customers don't experience "not reproducible"; they experience the bug.</li>
+    </ol>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q24</span> What's your approach when logs are missing the information you need?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Add the logs and redeploy</b> — for non-critical incidents this is fine; verbose logs at INFO temporarily, then dial back.</li>
+      <li><b>Use higher-level signals</b> — traces often show what logs don't (parent/child spans, durations, attributes).</li>
+      <li><b>Tap the live process</b> — <code>strace</code>, <code>tcpdump</code>, <code>perf</code>, jstack/py-spy/rbspy can give you runtime state without redeploy.</li>
+      <li><b>Profile in production</b> — pyroscope, parca, continuous profiling. Looking at flame graphs of the live process often reveals the issue.</li>
+      <li><b>After the incident</b> — file a follow-up to add the missing logs as part of the action items. "I couldn't see X" is a legitimate gap to fix.</li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 4 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch4">
+<h2>4. Impact Reduction &amp; Mitigation</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q25</span> What is "stop the bleeding" and why does it matter more than finding the root cause?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>"Stop the bleeding" means: take the fastest action that reduces user impact, even if it doesn't fix the underlying bug. The longer customers are affected, the more harm — financial, reputational, contractual — accumulates.</p>
+    <p>A 5-minute mitigation that takes the system from "broken for everyone" to "working with a degraded feature" beats a 2-hour debugging session that finds the perfect root cause.</p>
+    <p><b>Common bleeding-stoppers:</b></p>
+    <ul>
+      <li>Roll back the recent deploy.</li>
+      <li>Flip the feature flag.</li>
+      <li>Route traffic away from the bad region.</li>
+      <li>Scale up horizontally.</li>
+      <li>Restart the misbehaving process.</li>
+      <li>Block the abusive client.</li>
+      <li>Drop non-essential traffic.</li>
+    </ul>
+    <p><b>Root cause comes after.</b> Once mitigation is in place, you can investigate calmly without customers watching.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q26</span> What is "graceful degradation" and how do you design for it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Graceful degradation means the system continues to provide partial functionality when a dependency fails, rather than failing entirely.</p>
+    <p><b>Examples:</b></p>
+    <ul>
+      <li>An e-commerce checkout still works if the recommendation engine is down — just no "you might also like" section.</li>
+      <li>If real-time inventory is unavailable, show cached inventory with a "stock may be inaccurate" notice instead of an error.</li>
+      <li>If authentication is slow, allow read-only access to logged-out content.</li>
+    </ul>
+    <p><b>Design patterns:</b></p>
+    <ul>
+      <li><b>Circuit breakers</b> stop calling failing dependencies and return a fallback.</li>
+      <li><b>Fallback responses</b> — empty arrays, cached values, "service unavailable" UI elements.</li>
+      <li><b>Asynchronous patterns</b> — queue the work, respond optimistically, retry later.</li>
+      <li><b>Feature flags</b> for non-critical features so you can disable them without redeploy.</li>
+      <li><b>Tiered functionality</b> — core paths (checkout, login) are isolated from optional paths (analytics, recommendations).</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q27</span> What is load shedding and when do you use it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Load shedding is intentionally rejecting some requests when the system is overloaded, to ensure the rest succeed. Without shedding, an overloaded system slows down all requests, often causing all of them to time out — much worse than failing some.</p>
+    <p><b>Strategies:</b></p>
+    <ul>
+      <li><b>Rate limiting</b> per user/IP/API key.</li>
+      <li><b>Priority-based shedding</b> — drop low-priority requests (analytics, background sync) first; protect high-priority (checkout, login).</li>
+      <li><b>Adaptive concurrency limits</b> (Netflix's concurrency-limits, Envoy's adaptive concurrency) — automatically reject when in-flight requests exceed a learned threshold.</li>
+      <li><b>Queue depth limits</b> — reject when the request queue exceeds N.</li>
+      <li><b>503 with Retry-After</b> — tell clients to back off and try later.</li>
+    </ul>
+    <p><b>Key insight:</b> A clean fast 503 is better than a slow timeout. Failure is acceptable; unresponsiveness is not.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q28</span> A single tenant is overloading your shared infrastructure. How do you isolate them?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="mitigation">Immediate Actions</h4>
+    <ul>
+      <li>Identify the noisy tenant via request logs / API key analytics.</li>
+      <li>Apply a per-tenant rate limit at the gateway.</li>
+      <li>If they have a clearly anomalous traffic pattern (1000× normal), temporarily block them while you talk to them.</li>
+    </ul>
+    <h4 class="prevention">Long-Term Prevention (multi-tenancy patterns)</h4>
+    <ul>
+      <li><b>Per-tenant quotas</b> at the API layer (requests per second, requests per day, data volume).</li>
+      <li><b>Bulkheads</b> — give large tenants dedicated worker pools/queues so they can't starve others.</li>
+      <li><b>Cell-based architecture</b> — shard tenants across isolated "cells" (groups of services + DB). A bad tenant only affects their cell.</li>
+      <li><b>Cost-based throttling</b> — limit by computed cost (CPU seconds, DB rows scanned), not just request count.</li>
+      <li><b>Separate critical-path dependencies</b> — read replicas, queue partitions, cache namespaces per tenant tier.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q29</span> What is a "retry storm" and how do you prevent it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>A retry storm occurs when many clients simultaneously retry failed requests, multiplying load on an already-struggling backend. The retries can be more harmful than the original failures.</p>
+    <p><b>Prevention:</b></p>
+    <ul>
+      <li><b>Exponential backoff with jitter.</b> Without jitter, clients all retry at the same intervals after a shared incident; jitter randomizes timing.</li>
+      <li><b>Retry budgets</b> — cap retries to a percentage of base traffic (e.g., 10%). If 50% of requests are failing, retries can't make total traffic >1.1× base.</li>
+      <li><b>Don't retry non-idempotent operations</b> unless you have an idempotency key.</li>
+      <li><b>Respect Retry-After headers</b> — the server is asking you to slow down; obey it.</li>
+      <li><b>Circuit breakers</b> — when failures spike, stop calling for a cooldown period instead of retrying.</li>
+      <li><b>Failure-class-aware retries</b> — retry transient errors (network blip, 503), not deterministic ones (400, 401, 404).</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q30</span> Your primary region went down. How do you fail over?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>The hardest part of failover isn't the failover itself — it's making sure the secondary region is actually ready.</p>
+    <h4 class="steps">Steps</h4>
+    <ol>
+      <li><b>Verify the secondary's health.</b> Is the standby region taking traffic in normal canary load? Is its data current (replication lag)?</li>
+      <li><b>Check data consistency.</b> If async replication, you'll lose some recent writes. Is the business OK with that? For some systems (financial), it may be better to wait for the primary than to fail over and lose data.</li>
+      <li><b>Update DNS/routing</b> — change Route53 health check / Global Load Balancer weight to send traffic to secondary. Be aware of DNS TTL — clients may cache the old endpoint for the TTL duration.</li>
+      <li><b>Promote replicas to primary</b> in the secondary region (e.g., RDS read replica → standalone).</li>
+      <li><b>Disable writes in the failed region</b> to prevent split-brain when it comes back.</li>
+      <li><b>Communicate.</b> Internal stakeholders need to know you've failed over; some features may behave differently (eventual consistency, missing data).</li>
+    </ol>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Practice failover regularly (game days, chaos engineering).</li>
+      <li>Automate health-based failover where data loss tolerance permits.</li>
+      <li>Run active-active for stateless workloads so failover is just a load balancer change.</li>
+      <li>Document RPO (recovery point objective) and RTO (recovery time objective) and verify them via drills.</li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 5 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch5">
+<h2>5. Root Cause Analysis</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q31</span> What makes a good post-incident review (postmortem)?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Blameless culture.</b> Focus on systems and processes, not individuals. Humans operate complex systems; if a single mistake can take production down, the system has a flaw.</li>
+      <li><b>Detailed timeline.</b> Minute-by-minute: when the issue started, when it was detected, when it was acknowledged, every action taken, when impact ended, when "all clear" was declared.</li>
+      <li><b>Impact statement.</b> Quantify: how many users, how long, what features, estimated revenue loss, SLO budget consumed.</li>
+      <li><b>Contributing factors</b> (not "root cause" — incidents usually have multiple).</li>
+      <li><b>What went well.</b> Don't only list mistakes; the team did things right (fast detection, good comms, clean rollback). Reinforce those.</li>
+      <li><b>Action items with owners and due dates.</b> Each one tracked to completion. Action items without owners are not real.</li>
+      <li><b>Lessons learned</b>, shareable across the org so other teams benefit.</li>
+    </ul>
+    <p><b>Anti-patterns:</b> "Engineer ran wrong command" (blame). "We'll be more careful" (not actionable). "Add more tests" (vague). "Fixed already, no follow-up needed" (missed opportunity).</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q32</span> How do you distinguish root cause from contributing factors?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Modern SRE practice rejects the idea of a single "root cause" for non-trivial incidents. Real outages emerge from <b>multiple contributing factors</b> aligning (Swiss Cheese model). Examples:</p>
+    <ul>
+      <li>A bug existed in code (factor 1).</li>
+      <li>Tests didn't cover the case (factor 2).</li>
+      <li>Canary didn't catch it because load was below the threshold (factor 3).</li>
+      <li>Alerting was on the wrong metric (factor 4).</li>
+      <li>The on-call had no runbook (factor 5).</li>
+    </ul>
+    <p>Calling any one of these the "root cause" obscures the systemic problems. A good RCA enumerates all factors and proposes mitigations across them. Defense in depth matters because any single layer can fail.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q33</span> What is a "blameless" postmortem and why is it important?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Blameless means: when discussing what happened, assume everyone involved acted reasonably given the information they had at the time. Don't ask "why did Alice deploy that?" — ask "why did our process allow that deploy to reach production?".</p>
+    <p><b>Why it matters:</b></p>
+    <ul>
+      <li>People hide mistakes if blame is the consequence. Incidents get reported late or not at all.</li>
+      <li>Engineers stop pushing risky changes — but speed is a competitive advantage.</li>
+      <li>The real systemic flaws stay hidden because everyone is busy defending themselves.</li>
+    </ul>
+    <p><b>What blameless does NOT mean:</b> there are no consequences for negligence. If someone repeatedly ignores safety practices, that's a performance conversation — but it happens outside the postmortem, not in it.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q34</span> How do you ensure action items from postmortems actually get done?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Owner + due date</b> per item. No "the team will do X". "Bob will complete X by Nov 15."</li>
+      <li><b>Tracked in the same system as other engineering work</b> (Jira, Linear). Not in the postmortem doc that no one will revisit.</li>
+      <li><b>Prioritized by severity</b> — items from a P1 should jump the queue.</li>
+      <li><b>Reviewed weekly</b> by the SRE team or in incident review meetings. Surface stale items and either reprioritize, reassign, or explicitly accept the risk and close.</li>
+      <li><b>Tie to error budget.</b> Teams that burn their error budget cannot ship new features until their action items are completed — strong forcing function.</li>
+      <li><b>Categorize them</b>: detection (would we see this faster?), prevention (would the issue not have happened?), mitigation (would impact be smaller?), recovery (would we restore faster?). Each category needs items.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q35</span> Walk me through a memorable incident you investigated and what you learned.</summary>
+  <div class="content">
+    <h4>Answer (Template — adapt to your real experience)</h4>
+    <p>A strong answer follows STAR (Situation, Task, Action, Result) and emphasizes <b>learning</b>, not heroics.</p>
+    <ul>
+      <li><b>Situation:</b> "We had a midnight P1 — checkout latency went from 300ms to 30s."</li>
+      <li><b>Task:</b> "I was incident commander; I had to mitigate, then find why."</li>
+      <li><b>Action:</b> Be specific about what you checked, in what order, and why. Mention false starts honestly — they show real experience. "I first suspected the DB, but the slow query log was clean. Then I noticed thread pool saturation, which pointed to a downstream call."</li>
+      <li><b>Result:</b> Mitigated by [X] in N minutes. Root cause was [Y]. Post-incident actions [Z] were implemented.</li>
+      <li><b>Learning:</b> What you now do differently as a result. This is the most important part — interviewers care that you've learned, not that you've never failed.</li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 6 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch6">
+<h2>6. Kubernetes &amp; Container Troubleshooting</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q36</span> A pod is in CrashLoopBackOff. How do you debug it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="steps">Investigation Steps</h4>
+    <ol>
+      <li><b>Describe the pod</b> — <code>kubectl describe pod &lt;pod&gt;</code>. Look at Events at the bottom: ImagePullBackOff? OOMKilled? Liveness probe failing?</li>
+      <li><b>Read the container logs</b> — <code>kubectl logs &lt;pod&gt;</code> for current attempt, <code>--previous</code> for the last crashed instance.</li>
+      <li><b>Check exit code</b> — <code>kubectl get pod &lt;pod&gt; -o jsonpath='{.status.containerStatuses[*].lastState.terminated.exitCode}'</code>. Code 137 = OOMKilled (SIGKILL). Code 139 = segfault. Code 143 = SIGTERM.</li>
+      <li><b>Resource limits</b> — set too low? Check <code>resources.limits.memory</code> against actual usage.</li>
+      <li><b>Probes</b> — is liveness probe configured aggressively (e.g., 1s initial delay on a JVM app that takes 30s to start)? Pod will be killed before it's ready.</li>
+      <li><b>ConfigMaps/Secrets</b> — missing required env var or mounted file?</li>
+      <li><b>Storage</b> — PVC unbound, mount failing.</li>
+      <li><b>For a stuck startup</b>: override the command and shell in for live debugging.</li>
+    </ol>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>kubectl get pods -n prod
+kubectl describe pod &lt;pod&gt; -n prod
+kubectl logs &lt;pod&gt; -n prod --previous
+kubectl logs &lt;pod&gt; -n prod -c &lt;container&gt; --since=10m
+
+# Resource usage
+kubectl top pod &lt;pod&gt; -n prod --containers
+kubectl get pod &lt;pod&gt; -o yaml | grep -A3 resources
+
+# Override command for debugging
+kubectl debug -it &lt;pod&gt; --image=busybox --target=&lt;container&gt;
+kubectl run -it debug --image=&lt;same-image&gt; --command -- sh
+
+# Exit code lookup
+kubectl get pod &lt;pod&gt; -o jsonpath='{range .status.containerStatuses[*]}{.name}{": exit="}{.lastState.terminated.exitCode}{"\n"}{end}'</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q37</span> What does ImagePullBackOff mean and how do you fix it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>The kubelet failed to pull the container image. Common causes:</p>
+    <ul>
+      <li><b>Typo in image name or tag</b> — most common. Verify with <code>kubectl get pod -o yaml | grep image:</code> and confirm the image exists in the registry.</li>
+      <li><b>Private registry without imagePullSecrets</b> — <code>kubectl create secret docker-registry</code> and reference in the pod spec.</li>
+      <li><b>Wrong registry URL</b> — ECR/GCR/ACR require fully qualified URLs and the correct region.</li>
+      <li><b>Auth token expired</b> — for ECR, the helper or IRSA must refresh tokens.</li>
+      <li><b>Architecture mismatch</b> — image is amd64-only, but the node is arm64 (or vice versa).</li>
+      <li><b>Rate limiting</b> — Docker Hub limits anonymous pulls to 100/6h per IP. Use a pull-through cache or authenticated pulls.</li>
+      <li><b>Network</b> — node can't reach the registry (NAT, security group, VPC endpoint).</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>kubectl describe pod &lt;pod&gt; | grep -A10 Events
+docker pull &lt;image&gt;    # from a node, replicate the issue
+# Check architecture
+docker manifest inspect &lt;image&gt; | grep architecture</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q38</span> A pod is OOMKilled. What's happening and how do you fix it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>OOMKilled means the container exceeded its <code>resources.limits.memory</code> and the Linux kernel killed it (exit code 137). The pod restarts and the cycle repeats if memory usage stays high.</p>
+    <h4 class="steps">Investigation</h4>
+    <ol>
+      <li>Confirm OOMKill: <code>kubectl describe pod</code> → look for "OOMKilled" in Last State.</li>
+      <li>Look at memory usage over time: Prometheus <code>container_memory_working_set_bytes</code> vs <code>kube_pod_container_resource_limits</code>.</li>
+      <li>Is the limit too low, or is the app leaking memory? Look at trend: steady growth = leak; sudden spike = usage surge.</li>
+      <li>For JVM apps: are heap settings consistent with the container limit? <code>-Xmx4g</code> in a 4GB container leaves no room for off-heap, metaspace, native memory. Modern JVMs respect cgroup limits (<code>-XX:+UseContainerSupport</code>) but you should still leave headroom.</li>
+      <li>For Go apps: <code>GOMEMLIMIT</code> tells the runtime to GC more aggressively before hitting the cgroup limit.</li>
+    </ol>
+    <h4 class="mitigation">Mitigation</h4>
+    <ul>
+      <li>Increase memory limit if usage is legitimately higher than allocated.</li>
+      <li>If it's a leak, restart pods regularly while you fix the leak.</li>
+      <li>Profile in production (jmap, pprof) to find the leak.</li>
+    </ul>
+    <h4 class="prevention">Prevention</h4>
+    <ul>
+      <li>Set <code>requests</code> and <code>limits</code> based on observed usage, not guesswork. Use VPA recommendations.</li>
+      <li>Monitor memory pressure as an SLI.</li>
+      <li>Add OOMKill alerts.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q39</span> A pod is stuck in Pending state. Why?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Pending means the scheduler hasn't placed the pod on a node, or the node hasn't started the container yet.</p>
+    <ul>
+      <li><b>Insufficient cluster resources</b> — no node has enough CPU/memory for the pod's <code>requests</code>. Check <code>kubectl describe pod</code> Events for "0/X nodes are available".</li>
+      <li><b>NodeSelector/Affinity/Taints</b> — pod requires a node label/toleration that no node matches.</li>
+      <li><b>PVC pending</b> — pod needs a PersistentVolumeClaim that hasn't been bound.</li>
+      <li><b>Image pulling</b> — pod scheduled but kubelet still pulling image (large image, slow network).</li>
+      <li><b>Pod Disruption Budgets / quotas</b> — namespace ResourceQuota or LimitRange blocking creation.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>kubectl get pod &lt;pod&gt; -o wide
+kubectl describe pod &lt;pod&gt;
+kubectl get nodes -o custom-columns=NAME:.metadata.name,CPU:.status.allocatable.cpu,MEM:.status.allocatable.memory
+kubectl describe node &lt;node&gt; | grep -A5 'Allocated resources'
+kubectl get pvc -n &lt;ns&gt;
+kubectl get events -n &lt;ns&gt; --sort-by='.lastTimestamp'</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q40</span> A node is NotReady. What do you check?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><code>kubectl describe node &lt;node&gt;</code> — look at Conditions: MemoryPressure, DiskPressure, PIDPressure, NetworkUnavailable.</li>
+      <li>SSH to the node (if you can). Check:
+        <ul>
+          <li><code>systemctl status kubelet</code> — is kubelet running?</li>
+          <li><code>journalctl -u kubelet -n 200</code> — kubelet errors (often: cgroup, certificate, container runtime).</li>
+          <li><code>systemctl status containerd</code> (or docker) — container runtime healthy?</li>
+          <li><code>df -h</code> — disk full? <code>/var/lib/containerd</code> or <code>/var/lib/docker</code> filling up is common.</li>
+          <li><code>dmesg | tail</code> — kernel issues, OOM kills, network drops.</li>
+        </ul>
+      </li>
+      <li>From a healthy node or admin pod: can you reach the node's network? Security group, VPC routing.</li>
+      <li>Has the kubelet certificate expired? Common on long-lived nodes.</li>
+      <li>For managed clusters (EKS/GKE/AKS), check cloud console for instance status, autoscaler events, spot termination notices.</li>
+    </ol>
+    <h4 class="mitigation">Mitigation</h4>
+    <ul>
+      <li>Cordon the node: <code>kubectl cordon &lt;node&gt;</code> (prevent new pods).</li>
+      <li>Drain it: <code>kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data</code>.</li>
+      <li>Replace it. For cloud-managed nodepools, often easier to terminate and let the autoscaler replace.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q41</span> What's the difference between liveness, readiness, and startup probes?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Liveness probe:</b> "Is the container alive?" If it fails, kubelet kills and restarts the container. Use when a deadlock or stuck process needs a restart. Be careful — too-aggressive liveness probes cause restart loops.</li>
+      <li><b>Readiness probe:</b> "Is the container ready to serve traffic?" If it fails, the pod is removed from Service endpoints (no traffic) but not restarted. Use for warmup, dependency checks, or temporary unavailability.</li>
+      <li><b>Startup probe:</b> "Has the container finished starting up?" Runs first; liveness/readiness don't start until startup succeeds. Use for slow-starting apps (JVM, large datasets to load) to avoid liveness killing them during boot.</li>
+    </ul>
+    <p><b>Senior tips:</b></p>
+    <ul>
+      <li>Liveness should probe something only a restart fixes (deadlock). Don't probe DB connectivity here — DB issues shouldn't restart your app.</li>
+      <li>Readiness can probe dependencies, but be careful of cascading: if every pod marks itself NotReady when the DB blips, your service drops to zero replicas.</li>
+      <li>Use startup probes for any app that takes >10–20s to start.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q42</span> Two pods in the same cluster cannot communicate. How do you debug?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>DNS first</b> — can pod A resolve pod B's Service name? <code>kubectl exec -it &lt;podA&gt; -- nslookup &lt;service&gt;</code>. Check kube-dns/CoreDNS pods are healthy.</li>
+      <li><b>Service endpoints</b> — <code>kubectl get endpoints &lt;service&gt;</code>. Empty? Selector doesn't match any pod's labels.</li>
+      <li><b>NetworkPolicy</b> — is there a NetworkPolicy denying ingress to B or egress from A? <code>kubectl get networkpolicy -n &lt;ns&gt;</code>.</li>
+      <li><b>Direct pod IP</b> — try <code>curl &lt;podB-IP&gt;:&lt;port&gt;</code> from pod A. If pod IP works but Service doesn't, the issue is at the Service layer.</li>
+      <li><b>CNI</b> — Calico, Cilium, Flannel — is the CNI agent running on both nodes?</li>
+      <li><b>kube-proxy</b> — for ClusterIP traffic, kube-proxy must be healthy on the source node.</li>
+      <li><b>Cross-node</b> — security group / firewall blocking node-to-node traffic on the CNI overlay ports?</li>
+    </ol>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>kubectl exec -it &lt;podA&gt; -- sh
+  # inside the pod:
+  nslookup &lt;service&gt;
+  curl -v &lt;service&gt;:&lt;port&gt;
+  curl -v &lt;podB-IP&gt;:&lt;port&gt;
+
+kubectl get endpoints &lt;service&gt; -n &lt;ns&gt;
+kubectl get networkpolicy -A
+kubectl get pods -A -l k8s-app=kube-dns
+kubectl logs -n kube-system -l k8s-app=kube-dns</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q43</span> What is the difference between a Deployment, StatefulSet, and DaemonSet?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Deployment:</b> Manages stateless replicas. Pods are interchangeable; any can be killed and replaced. ReplicaSet underneath. Pod names random. Good for web servers, APIs, workers.</li>
+      <li><b>StatefulSet:</b> Manages stateful, identity-bound pods. Each pod has a stable name (<code>app-0</code>, <code>app-1</code>), stable network identity (DNS), and stable storage (per-pod PVC). Ordered start/stop. Good for databases, queues with leader election, anything where pod identity matters.</li>
+      <li><b>DaemonSet:</b> Ensures one (or one per matching label) pod runs on every node. Used for node-local agents: log collectors (Fluentd), node exporters, CNI agents, security daemons.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q44</span> Your kubelet is filling the node's disk. What's likely going on?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Common culprits on a Kubernetes node:</p>
+    <ul>
+      <li><b>Container logs</b> in <code>/var/log/containers</code> or <code>/var/lib/docker/containers</code> — verbose application logging without log rotation. Container runtime should rotate (containerd's <code>max_size</code>), but config drift happens.</li>
+      <li><b>Container image cache</b> — old images that aren't garbage-collected. Kubelet has <code>imageGCHighThresholdPercent</code> (default 85%).</li>
+      <li><b>EmptyDir volumes</b> — pods writing to ephemeral storage without limits.</li>
+      <li><b>Crash dumps / core files</b> from misbehaving apps.</li>
+      <li><b>Journald</b> — system logs without retention policy.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>sudo du -h /var/lib/containerd --max-depth=2 | sort -hr | head
+sudo du -h /var/log --max-depth=2 | sort -hr | head
+crictl images       # or: docker images
+crictl rmi --prune  # remove unused
+sudo journalctl --vacuum-size=500M</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q45</span> How does the Horizontal Pod Autoscaler work, and when does it not?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>HPA polls metrics (CPU by default, or custom metrics via metrics-server / Prometheus adapter) every 15s, computes the desired replica count, and scales the Deployment/StatefulSet.</p>
+    <p><b>Common failure modes:</b></p>
+    <ul>
+      <li><b>metrics-server not installed</b> or broken (<code>kubectl top</code> doesn't work).</li>
+      <li><b>No resource requests set</b> on the pod — HPA based on CPU % requires <code>resources.requests.cpu</code> as the denominator.</li>
+      <li><b>Wrong metric for the workload</b> — CPU isn't useful for an I/O-bound workload. Use queue depth, request rate, or latency instead.</li>
+      <li><b>Cluster autoscaler not configured</b> — HPA scales pods, but if there's no node capacity, pods stay Pending. You need both HPA + Cluster Autoscaler.</li>
+      <li><b>Scale-down cool-down</b> — by default HPA waits 5 minutes before scaling down to prevent flapping. Tune via <code>--horizontal-pod-autoscaler-downscale-stabilization</code>.</li>
+      <li><b>Burst traffic faster than scaling</b> — HPA reaction time is minutes. Use over-provisioning or KEDA with predictive scaling.</li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 7 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch7">
+<h2>7. Cloud Infrastructure Troubleshooting</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q46</span> An EC2 instance is unreachable via SSH. What do you check?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Instance status checks</b> in EC2 console — System Status and Instance Status. Failed system status = AWS infra issue (stop/start to migrate hypervisor). Failed instance status = OS or boot issue.</li>
+      <li><b>Security group</b> — does it allow port 22 from your IP? Did your IP change (VPN, home reconnect)?</li>
+      <li><b>NACL</b> at the subnet level — stateless, must allow both inbound and outbound.</li>
+      <li><b>Route table</b> — subnet has an internet gateway route? Or are you connecting via bastion/SSM?</li>
+      <li><b>Key pair</b> — correct key for this instance? Permissions on the .pem file (<code>chmod 400</code>)?</li>
+      <li><b>OS-level firewall</b> (iptables, ufw) — could be blocking even if AWS lets traffic through.</li>
+      <li><b>sshd service crashed</b>? Check via Session Manager or instance reboot.</li>
+      <li><b>Disk full</b> — sshd can fail to start when <code>/</code> is full. Use the Get Instance Console Output / Screenshot from AWS console.</li>
+    </ol>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>ssh -vvv -i key.pem ec2-user@&lt;ip&gt;     # verbose for diagnostics
+aws ec2 describe-instance-status --instance-ids i-...
+aws ec2 get-console-output --instance-id i-... --output text
+aws ssm start-session --target i-...   # bypass SSH</code></pre>
+    <p><b>Pro tip:</b> Configure SSM Session Manager as the primary access path so you don't depend on SSH/network availability.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q47</span> An RDS database is slow. How do you investigate?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>CloudWatch metrics</b> — CPU, FreeableMemory, ReadIOPS/WriteIOPS, DiskQueueDepth, DBConnections, ReplicaLag.</li>
+      <li><b>Performance Insights</b> — top SQL statements by load, wait events. This is the single most useful tool RDS provides.</li>
+      <li><b>Slow query log</b> — enable via parameter group; review queries running over threshold.</li>
+      <li><b>Connection saturation</b> — DBConnections close to max_connections? Add RDS Proxy or fix app-level pooling.</li>
+      <li><b>Disk IOPS exhausted</b> — gp2/gp3 burst credit exhausted? Increase provisioned IOPS or move to gp3 with explicit IOPS.</li>
+      <li><b>Storage full</b> — disk autoscaling enabled? Storage near full can degrade performance.</li>
+      <li><b>Locking</b> — query <code>pg_stat_activity</code> for blocked queries, <code>pg_locks</code>, or in MySQL <code>SHOW ENGINE INNODB STATUS</code>.</li>
+      <li><b>Replica lag</b> — if reads go to replicas and they're behind, application sees stale data and may retry.</li>
+    </ol>
+    <h4 class="commands">Useful Commands (Postgres)</h4>
+    <pre><code>-- Currently active queries
+SELECT pid, now() - query_start AS duration, state, query
+FROM pg_stat_activity
+WHERE state != 'idle'
+ORDER BY duration DESC LIMIT 20;
+
+-- Blocked queries
+SELECT bl.pid AS blocked_pid, a.query AS blocked_query,
+       kl.pid AS blocking_pid, ka.query AS blocking_query
+FROM pg_locks bl
+JOIN pg_stat_activity a ON a.pid = bl.pid
+JOIN pg_locks kl ON kl.transactionid = bl.transactionid AND kl.pid != bl.pid
+JOIN pg_stat_activity ka ON ka.pid = kl.pid
+WHERE NOT bl.granted;
+
+-- Table bloat / vacuum status
+SELECT schemaname, relname, n_dead_tup, last_autovacuum
+FROM pg_stat_user_tables
+ORDER BY n_dead_tup DESC LIMIT 10;</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q48</span> Application calls to an S3 bucket are slow or failing intermittently. What's going on?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Request rate</b> — S3 supports 3,500 PUT/COPY/POST/DELETE and 5,500 GET/HEAD per prefix per second. High request rates against a single prefix can be throttled. Distribute across prefixes.</li>
+      <li><b>Network path</b> — using public endpoint instead of VPC Gateway/Interface endpoint? NAT gateway bandwidth/cost issues, NAT exhausted.</li>
+      <li><b>Cross-region calls</b> — bucket in us-east-1, app in eu-west-1 — every call is 80-100ms RTT.</li>
+      <li><b>Eventual consistency</b> (rare for S3 now — strong read-after-write since 2020) — but list operations can still lag.</li>
+      <li><b>SDK retries hiding errors</b> — enable SDK logging to see actual API calls and retries.</li>
+      <li><b>5xx errors</b> from S3 — usually transient; AWS recommends exponential backoff. Persistent 503 SlowDown = throttling.</li>
+      <li><b>IAM/Bucket Policy denials</b> — some calls work, some don't, depending on the object key/action.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q49</span> Your AWS bill spiked overnight. How do you find the cause?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>AWS Cost Explorer</b> — group by service, then by region, then by usage type. Find the service with the spike.</li>
+      <li><b>Cost and Usage Report (CUR)</b> in Athena — granular query by tag, resource ID, account.</li>
+      <li><b>Common culprits:</b>
+        <ul>
+          <li>Data transfer (NAT gateway, cross-AZ, cross-region).</li>
+          <li>S3 request charges from a misconfigured app polling.</li>
+          <li>CloudWatch Logs ingestion from verbose logging.</li>
+          <li>Unused snapshots, EBS volumes, unattached EIPs.</li>
+          <li>Forgotten resources in non-default regions.</li>
+          <li>Compromised credentials running crypto mining.</li>
+        </ul>
+      </li>
+      <li><b>If unusual EC2 spend</b> — check CloudTrail for <code>RunInstances</code> from unexpected users/IPs. Treat as a possible security incident.</li>
+    </ol>
+    <h4 class="prevention">Long-Term Prevention</h4>
+    <ul>
+      <li>Set AWS Budgets with alerts.</li>
+      <li>Use Cost Anomaly Detection.</li>
+      <li>Tag all resources with owner/project/environment for accountability.</li>
+      <li>Service Control Policies to restrict expensive services (e.g., GPU instances).</li>
+      <li>Regular cost reviews — make spend a shared engineering concern, not just finance's problem.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q50</span> An ELB / ALB is returning 502 errors. What could cause this?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>502 from an ALB means the load balancer couldn't get a valid response from the target.</p>
+    <ul>
+      <li><b>Target keep-alive timeout shorter than ALB idle timeout</b> (default 60s). ALB sends a request on a reused connection, target has just closed it → connection reset → 502. <b>Fix:</b> Set target keep-alive > ALB idle timeout. For Node.js: <code>server.keepAliveTimeout = 65000; server.headersTimeout = 66000</code>.</li>
+      <li><b>Target crashed</b> mid-response. Application errors.</li>
+      <li><b>Target health check failing</b> but still receiving traffic due to draining delay or race.</li>
+      <li><b>Target SSL/TLS misconfigured</b> (if using HTTPS to target).</li>
+      <li><b>Response too large</b> for ALB to buffer (uncommon — ALB streams).</li>
+      <li><b>Misbehaving proxy</b> in front of the app inside the target sending malformed responses.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code># ALB access logs to S3 — query with Athena
+SELECT request_url, target_status_code, elb_status_code, target_processing_time
+FROM alb_logs
+WHERE elb_status_code = '502'
+ORDER BY time DESC LIMIT 100;</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q51</span> An Auto Scaling Group is not scaling out under load. Why?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Scaling policy not triggered</b> — CloudWatch alarm threshold not crossed for required period. Check ASG Activity tab.</li>
+      <li><b>Max capacity reached</b> — ASG can't exceed its max.</li>
+      <li><b>Subnet/AZ capacity</b> — chosen instance type unavailable in the subnet's AZ. Spread ASG across multiple AZs and use mixed instance types.</li>
+      <li><b>Service quota</b> — vCPU quota for the instance family at AWS account level.</li>
+      <li><b>Launch template/config errors</b> — instances fail to launch (bad AMI, IAM issue, user data error). Check Activity log for failures.</li>
+      <li><b>Cooldown period</b> active — ASG waits between scaling actions.</li>
+      <li><b>Health checks failing</b> after launch — new instances added then immediately replaced, churning without growing capacity.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q52</span> What is the difference between Security Groups and NACLs in AWS?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <table style="border-collapse:collapse; width:100%; margin:8px 0; color:var(--text);">
+      <tr style="background:var(--code-bg);"><th style="border:1px solid var(--border); padding:6px; text-align:left;">Aspect</th><th style="border:1px solid var(--border); padding:6px; text-align:left;">Security Group</th><th style="border:1px solid var(--border); padding:6px; text-align:left;">NACL</th></tr>
+      <tr><td style="border:1px solid var(--border); padding:6px;">Level</td><td style="border:1px solid var(--border); padding:6px;">Instance/ENI</td><td style="border:1px solid var(--border); padding:6px;">Subnet</td></tr>
+      <tr><td style="border:1px solid var(--border); padding:6px;">State</td><td style="border:1px solid var(--border); padding:6px;">Stateful</td><td style="border:1px solid var(--border); padding:6px;">Stateless</td></tr>
+      <tr><td style="border:1px solid var(--border); padding:6px;">Rules</td><td style="border:1px solid var(--border); padding:6px;">Allow only</td><td style="border:1px solid var(--border); padding:6px;">Allow and Deny</td></tr>
+      <tr><td style="border:1px solid var(--border); padding:6px;">Evaluation</td><td style="border:1px solid var(--border); padding:6px;">All rules evaluated</td><td style="border:1px solid var(--border); padding:6px;">Numbered order (lowest first)</td></tr>
+      <tr><td style="border:1px solid var(--border); padding:6px;">Use case</td><td style="border:1px solid var(--border); padding:6px;">Primary fine-grained access</td><td style="border:1px solid var(--border); padding:6px;">Subnet-wide blunt deny rules</td></tr>
+    </table>
+    <p><b>Stateful</b> means: if you allow inbound, return traffic is automatically allowed (and vice versa). With NACLs (stateless), you must allow return traffic explicitly on ephemeral ports.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q53</span> An application can resolve a domain externally but not from inside the VPC. What's wrong?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>VPC DNS settings</b> — <code>enableDnsSupport</code> and <code>enableDnsHostnames</code> must be true.</li>
+      <li><b>Private hosted zone (Route53)</b> not associated with the VPC.</li>
+      <li><b>Custom DHCP options set</b> pointing to a DNS server that's broken or unreachable.</li>
+      <li><b>Resolver endpoints</b> — outbound resolver missing if you have hybrid DNS to on-prem.</li>
+      <li><b>Security group on the EC2</b> blocking UDP/TCP 53 outbound? Usually not, since SGs default-allow outbound.</li>
+      <li><b>Application using <code>/etc/hosts</code></b> override.</li>
+    </ul>
+    <h4 class="commands">Useful Commands</h4>
+    <pre><code>dig @169.254.169.253 example.com   # use VPC DNS resolver explicitly
+nslookup example.com
+cat /etc/resolv.conf
+systemd-resolve --status            # on modern Linux
+aws ec2 describe-vpcs --vpc-ids vpc-... --query 'Vpcs[].DnsSupport'</code></pre>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 8 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch8">
+<h2>8. Monitoring, Logging, Metrics, Tracing &amp; Observability</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q54</span> What's the difference between monitoring and observability?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Monitoring</b> answers <i>known questions</i> about <i>known unknowns</i>. You've decided in advance: CPU > 80% is bad, latency > 1s is bad. You define dashboards and alerts to watch for those specific conditions.</li>
+      <li><b>Observability</b> is the property of a system that lets you answer <i>unknown questions</i> about <i>unknown unknowns</i>. You can ask new, ad-hoc questions of your data without having to ship new code or change dashboards.</li>
+    </ul>
+    <p>Monitoring is necessary; observability is more powerful. Modern observability rests on three pillars (metrics, logs, traces) but the goal isn't to have all three — the goal is to be able to investigate any question without redeploying.</p>
+    <p><b>Practical example:</b> If you only have CPU and latency dashboards, you can answer "is the server overloaded?" but not "is the latency increase coming from one user agent or all?". Observability requires high-cardinality data (per-user, per-endpoint, per-tenant tags).</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q55</span> What are the "three pillars" of observability and when do you use each?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Metrics</b> (Prometheus, Datadog metrics, CloudWatch). Time-series numeric data. Cheap to store, fast to query. Best for: dashboards, alerts, capacity planning, knowing <i>that</i> something is wrong.</li>
+      <li><b>Logs</b> (Loki, Elasticsearch, CloudWatch Logs). Discrete events with context. Best for: detailed investigation, understanding <i>what exactly</i> happened in a specific request.</li>
+      <li><b>Traces</b> (Jaeger, Tempo, Datadog APM, Honeycomb). Causally-linked spans across services. Best for: understanding <i>where</i> time is spent in a distributed call, finding the slow downstream.</li>
+    </ul>
+    <p><b>Common flow:</b> alert fires from metric → look at a dashboard to see scope → drill into a trace to find the slow service → look at logs for that service to see the error detail.</p>
+    <p><b>Modern view:</b> the "three pillars" are an oversimplification. Real observability is one queryable dataset with high-cardinality tags. But for now, most teams have all three because tooling vendors specialize.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q56</span> What are the "Four Golden Signals" and why?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>From the Google SRE Book — the four most important signals for any user-facing service:</p>
+    <ol>
+      <li><b>Latency</b> — how long does a request take? Distinguish successful vs. failed; track distributions (p50, p95, p99), not averages.</li>
+      <li><b>Traffic</b> — how much demand? Requests per second for an API, transactions per second for a DB, bytes/second for storage.</li>
+      <li><b>Errors</b> — rate of failed requests. Explicit (5xx, exceptions) and implicit (wrong content but 200 OK).</li>
+      <li><b>Saturation</b> — how "full" is the system? CPU, memory, IO, thread pool, queue depth — the resource closest to its limit.</li>
+    </ol>
+    <p>If you can only afford four graphs, draw these. Most operational issues will show up in at least one.</p>
+    <p>For non-user-facing systems (queues, batch), use <b>USE</b>: Utilization, Saturation, Errors.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q57</span> What is a histogram and why are averages misleading for latency?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Averages hide tail latency. Imagine 99 requests at 100ms and 1 at 5000ms — the average is 149ms, looks great. But 1% of users had a 5-second experience. That 1% might be your highest-value customers.</p>
+    <p>A <b>histogram</b> bins request latencies and lets you compute <b>percentiles</b>:</p>
+    <ul>
+      <li><b>p50 (median)</b> — typical experience.</li>
+      <li><b>p95</b> — what most users feel under load.</li>
+      <li><b>p99</b> — tail; outliers that often hide systemic issues.</li>
+      <li><b>p99.9</b> — worst-case; matters for high-volume services.</li>
+    </ul>
+    <p>SLOs should be defined on percentiles, not averages. "99% of requests under 500ms" not "average under 500ms".</p>
+    <p><b>Prometheus example:</b></p>
+    <pre><code>histogram_quantile(0.99,
+  sum(rate(http_request_duration_seconds_bucket[5m])) by (le, route))</code></pre>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q58</span> How do you design good alerts?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Alert on symptoms, not causes.</b> Page on "user-facing latency > 1s" not "CPU > 80%". CPU at 80% might be normal; latency degrading is what the user feels.</li>
+      <li><b>Every page should be actionable.</b> If the responder can't do anything about it, it shouldn't page. Demote to a ticket or dashboard.</li>
+      <li><b>Severity tiers.</b> Page only on SEV1/SEV2. Tickets for SEV3/SEV4.</li>
+      <li><b>Include context.</b> Alert payload should have: link to dashboard, link to runbook, recent deploys, ownership.</li>
+      <li><b>Multi-window, multi-burn-rate alerts</b> (SRE workbook) — alert when burn rate is high over a short window AND moderate over a long window. Reduces false positives while keeping fast detection.</li>
+      <li><b>Avoid threshold-based-on-vibes.</b> Pick thresholds from SLO math, not "5% seems bad".</li>
+      <li><b>Quarterly alert review</b> — kill noisy alerts, fix runbooks, tune thresholds.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q59</span> What is alert fatigue and how do you fight it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Alert fatigue is when responders start ignoring alerts because too many are noise. The result: real alerts get missed.</p>
+    <p><b>Counter-measures:</b></p>
+    <ul>
+      <li><b>Track alert volume per on-call shift.</b> If on-call gets > 2 actionable pages per week, the alerting strategy is broken. Spend engineering time fixing the noisy alerts, not just suffering them.</li>
+      <li><b>Don't page on anything a runbook can resolve.</b> Automate the runbook or demote to ticket.</li>
+      <li><b>De-duplicate</b> — one underlying issue should fire one page, not 50 (use grouping, dependency-aware alerting).</li>
+      <li><b>Symptom-based alerts</b> reduce duplication because they catch many root causes at one symptom.</li>
+      <li><b>Auto-resolve</b> — alerts should clear when the condition does, not stay open requiring manual ack.</li>
+      <li><b>Make every page have a postmortem trigger if it's a false positive.</b> Treat noisy alerts as bugs.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q60</span> What is structured logging and why does it matter?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Structured logging emits logs as key-value pairs (typically JSON) rather than free-text strings.</p>
+    <p><b>Unstructured:</b> <code>User alice failed to checkout, order=123, code=AUTH_FAIL</code></p>
+    <p><b>Structured:</b></p>
+    <pre><code>{"level":"warn","msg":"checkout failed","user":"alice","order_id":123,"error_code":"AUTH_FAIL","trace_id":"abc..."}</code></pre>
+    <p><b>Benefits:</b></p>
+    <ul>
+      <li>Searchable by field — find all checkouts for user alice.</li>
+      <li>Aggregatable — count error_code=AUTH_FAIL over time.</li>
+      <li>Joinable with traces and metrics via trace_id.</li>
+      <li>Robust to format drift — adding a field doesn't break parsers.</li>
+    </ul>
+    <p><b>Best practices:</b> include trace_id and span_id, request_id, user_id (or anonymous ID), service name, version, environment in every log line.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q61</span> What is distributed tracing and what problem does it solve?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>In a microservices system, a single user request fans out across many services. When latency or errors happen, you need to know <i>which</i> service caused them. Logs alone don't show causality across services.</p>
+    <p><b>Distributed tracing</b> propagates a <code>trace_id</code> through every service that handles a request. Each service emits "spans" (units of work) tagged with that trace_id and its parent span_id. The collector assembles a tree showing where time was spent.</p>
+    <p><b>Standards:</b> OpenTelemetry (OTel) is the vendor-neutral standard. SDKs auto-instrument popular libraries (HTTP, DB, queues). Backends: Jaeger, Tempo, Honeycomb, Datadog APM, AWS X-Ray.</p>
+    <p><b>Practical use:</b> "Why was checkout slow at 14:23?" → find slow traces → see span tree → discover one DB call took 4s while the rest took 50ms → drill into that query.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q62</span> Your logging system is overloaded. What do you do?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="mitigation">Immediate</h4>
+    <ul>
+      <li>Identify the source of the spike — usually one service logging in a tight loop or at DEBUG level by accident.</li>
+      <li>Drop or sample at the agent (Fluentd/Vector/Promtail) — keep ERROR/WARN, sample INFO.</li>
+      <li>Block the noisy source's ingestion temporarily.</li>
+    </ul>
+    <h4 class="prevention">Long-Term</h4>
+    <ul>
+      <li><b>Log levels in production: WARN/ERROR by default, INFO sparingly, DEBUG only on demand.</b></li>
+      <li>Sample high-volume INFO logs (1 in 100) and keep all errors.</li>
+      <li>Move to structured logging so you can filter cheaply at ingest.</li>
+      <li>Per-service log quotas; the team owning the loud service is responsible for the cost.</li>
+      <li>Trace-based sampling: log everything for a sampled fraction of traces, nothing for the rest.</li>
+      <li>Treat logs as a metric source for high-volume events — instead of logging every request, increment a counter.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q63</span> How do you correlate metrics, logs, and traces?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>The connective tissue is <b>identifiers</b>:</p>
+    <ul>
+      <li><b>trace_id</b> in every log line and every metric tag where cardinality allows (e.g., exemplars on histograms).</li>
+      <li><b>service.name, service.version, deployment.environment</b> consistently across all three.</li>
+      <li><b>OpenTelemetry semantic conventions</b> standardize tag names so dashboards work across services.</li>
+    </ul>
+    <p><b>Workflow:</b> See latency spike on a Prometheus dashboard → click an "exemplar" point that links to a sample trace → in the trace, find the slow span → click into the logs filtered by that trace_id.</p>
+    <p>Modern tools (Datadog, Honeycomb, Grafana stack) automate this navigation. Even without those tools, including trace_id in structured logs gets you most of the way.</p>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 9 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch9">
+<h2>9. SRE Concepts: SLA / SLO / SLI / Error Budget / Toil / On-Call</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q64</span> Explain SLI, SLO, and SLA. How do they relate?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>SLI (Service Level Indicator):</b> A measurement. "The fraction of HTTP requests in the last 5 minutes that returned 200 within 500ms." A specific, numeric, quantifiable thing.</li>
+      <li><b>SLO (Service Level Objective):</b> An internal target on an SLI. "99.9% of requests over a 28-day window should meet the SLI." This is what the engineering team commits to.</li>
+      <li><b>SLA (Service Level Agreement):</b> A contractual obligation to customers, with penalties (refunds, credits) if missed. SLA is always less strict than SLO — you want a buffer to react before you breach the contract.</li>
+    </ul>
+    <p><b>Hierarchy:</b> SLI (what we measure) → SLO (what we target) → SLA (what we contractually promise). Practitioners design SLI/SLO; SLA is a business document.</p>
+    <p><b>Example:</b></p>
+    <ul>
+      <li>SLI: success rate of POST /checkout</li>
+      <li>SLO: 99.95% over 28 days</li>
+      <li>SLA: 99.9% over a calendar month — refund if breached</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q65</span> What is an error budget and how do you use it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>The error budget is the inverse of the SLO: if your SLO is 99.9% over a month, you have a 0.1% error budget — roughly 43 minutes of allowed failure.</p>
+    <p><b>How it's used:</b></p>
+    <ul>
+      <li><b>Risk management policy:</b> if there's budget remaining, ship new features at full speed. If the budget is exhausted, freeze risky deploys and focus on reliability work.</li>
+      <li><b>Conflict resolution between product and SRE:</b> instead of debating "is this change safe?", ask "do we have budget for it?". The data decides.</li>
+      <li><b>Investment signal:</b> repeatedly exhausting the budget means the SLO is too tight (negotiate with stakeholders) or reliability work is under-invested.</li>
+      <li><b>Burn rate alerts:</b> alert when you're burning budget faster than expected. E.g., burning 14× normal rate means a 28-day budget is gone in 2 days — page immediately.</li>
+    </ul>
+    <p>The error budget makes reliability a <i>negotiable engineering trade-off</i> rather than an absolute goal ("never have downtime"), which is the core insight of SRE.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q66</span> What is toil and why does it matter?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Toil is operational work that is:</p>
+    <ul>
+      <li><b>Manual</b> (a human types commands)</li>
+      <li><b>Repetitive</b> (you do it again next week)</li>
+      <li><b>Automatable</b> (a machine could do it)</li>
+      <li><b>Tactical</b>, not strategic (no lasting value)</li>
+      <li><b>Devoid of enduring value</b> (the service is no better after than before)</li>
+      <li><b>Linear with service growth</b> (more users = more of this work)</li>
+    </ul>
+    <p><b>Why it matters:</b> toil is the silent killer of SRE teams. Left unchecked, it grows linearly with the service while engineers want to do project work. Google's guideline: SRE teams should spend ≤ 50% of time on toil. If above, escalate and invest in automation.</p>
+    <p><b>Examples:</b> Manual capacity expansion, certificate rotation by hand, on-call paging for the same issue weekly, restarting a service every Monday.</p>
+    <p><b>Not toil:</b> Designing systems, writing automation, postmortems, code reviews, on-call for genuinely novel issues.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q67</span> What makes a good runbook?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>One per alert.</b> The alert payload includes a direct link to the runbook for that specific alert.</li>
+      <li><b>Starts with "verify"</b> — was the alert real? What signals confirm?</li>
+      <li><b>Triage section</b> — who's affected, how to assess scope.</li>
+      <li><b>Mitigation steps</b> — copy-paste-able commands. Mitigation comes before diagnosis.</li>
+      <li><b>Diagnosis section</b> — common causes and how to check each.</li>
+      <li><b>Escalation</b> — who to wake up if the on-call can't resolve, with phone numbers.</li>
+      <li><b>Tested.</b> Run the runbook in a game day periodically. Stale runbooks are worse than no runbooks because they mislead.</li>
+      <li><b>Updated after every incident.</b> Anything you wished was in there → add it.</li>
+    </ul>
+    <p><b>Anti-patterns:</b> Wall of text, no commands, references to non-existent dashboards, last updated 3 years ago.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q68</span> What does a healthy on-call rotation look like?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Predictable schedule</b> — minimum 6 engineers in rotation so each shift is ≤ 1 week every 6 weeks. Smaller rotations burn people out.</li>
+      <li><b>Coverage with handoff</b> — explicit handoff at shift boundary including open incidents, recent alerts, ongoing changes.</li>
+      <li><b>Low page volume</b> — ≤ 2 actionable pages per shift. If higher, the alerting strategy is broken.</li>
+      <li><b>Compensation</b> — money or time off for being on call. Treat it as work, not "part of the job".</li>
+      <li><b>Backup / secondary</b> — if primary doesn't ack in N minutes, escalate to secondary.</li>
+      <li><b>Runbooks for every alert.</b></li>
+      <li><b>Postmortems for every page</b> at minimum at the metric level — was this page actionable? If not, fix it.</li>
+      <li><b>Follow-the-sun</b> for global teams to avoid night pages where possible.</li>
+      <li><b>Engineers can opt out</b> in life situations (new parent, illness) without career penalty.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q69</span> What's the difference between MTTR, MTBF, MTTD, and MTTA?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>MTTD (Mean Time To Detect):</b> Time from incident start until your monitoring noticed.</li>
+      <li><b>MTTA (Mean Time To Acknowledge):</b> Time from page until a human acknowledges they're working on it.</li>
+      <li><b>MTTR (Mean Time To Recover or Repair or Resolve — definitions vary):</b> Time from incident start until service is restored. Sometimes split as MTTM (mitigate) vs MTTR (full repair).</li>
+      <li><b>MTBF (Mean Time Between Failures):</b> Average healthy period between incidents.</li>
+    </ul>
+    <p><b>SRE focus:</b> Detection (MTTD) and recovery (MTTR) are usually more tractable than preventing failures (MTBF). Modern complex systems will fail; design for fast recovery, not just fewer failures.</p>
+    <p><b>Caveat:</b> "Mean" can hide bad tails. Reporting p95 MTTR alongside the mean is more honest.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q70</span> Should you have a 100% uptime SLO?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>No. 100% is the wrong target. Reasons:</p>
+    <ul>
+      <li><b>It's impossible.</b> Customer ISPs go down, DNS resolves wrong, networks blip. Failures outside your control happen.</li>
+      <li><b>It's economically wasteful.</b> Going from 99.9% to 99.99% may cost 10× more in infrastructure and engineering. Customers may not value the difference.</li>
+      <li><b>It eliminates the error budget</b>, which means no allowance for shipping anything risky — you stop being able to deliver features.</li>
+      <li><b>Even client SDKs and the network between you and the user have lower availability than 100%.</b> Promising more than that is incoherent.</li>
+    </ul>
+    <p>The right SLO depends on the business. A bank's auth might be 99.99%. An internal analytics tool might be 99%. Determine by asking customers what they actually need and what they're willing to pay for.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q71</span> What is "chaos engineering" and is it worth doing?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Chaos engineering is the practice of deliberately injecting failures into a production-like system to verify that the system tolerates them (and to find places where it doesn't). Originated at Netflix with Chaos Monkey.</p>
+    <p><b>Common experiments:</b></p>
+    <ul>
+      <li>Kill a random pod / instance.</li>
+      <li>Inject network latency or packet loss between services.</li>
+      <li>Block a dependency for 5 minutes.</li>
+      <li>Fail over a database.</li>
+      <li>Saturate CPU or fill disk on a node.</li>
+    </ul>
+    <p><b>Worth doing if:</b> you have an SLO, observability, and graceful-degradation patterns. Without those, you'll just cause incidents. Start in staging, then non-business-hours production, then steady-state.</p>
+    <p><b>Tools:</b> Chaos Monkey, Gremlin, Litmus, AWS Fault Injection Simulator.</p>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 10 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch10">
+<h2>10. Scenario-Based Troubleshooting</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q72</span> <b>Scenario:</b> The login service degraded 3 minutes after a deploy. Latency p99 went from 200ms to 8s. Walk me through your response.</summary>
+  <div class="content">
+    <h4>Step 1 — Stabilize</h4>
+    <ol>
+      <li>Initiate rollback immediately. The temporal correlation with deploy is overwhelming.</li>
+      <li>Verify rollback completes and metrics return to normal.</li>
+      <li>Update internal channel: "Rolled back to v1.42. Latency recovering. Investigating cause."</li>
+    </ol>
+    <h4 class="steps">Step 2 — Investigate (post-mitigation)</h4>
+    <ol>
+      <li>Pull the deploy diff (v1.43 vs v1.42).</li>
+      <li>Check traces from the affected period — which span got slow? Most likely candidates: new DB call, new external HTTP call, new sync I/O, lock contention.</li>
+      <li>Look at the database — slow query log entries, connection pool saturation, lock waits.</li>
+      <li>Look at GC / thread pool metrics — sudden change in pool exhaustion or GC pause times often points to a new code path.</li>
+      <li>Reproduce in staging with load to confirm.</li>
+    </ol>
+    <h4 class="prevention">Step 3 — Prevent</h4>
+    <ul>
+      <li>Add a load test to staging that would have caught the regression.</li>
+      <li>Canary the next deploy at 5% traffic for 15 minutes with auto-rollback on latency breach.</li>
+      <li>Action item: every PR that adds a network or DB call must have a perf note in the PR description.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q73</span> <b>Scenario:</b> Your Kubernetes cluster's etcd is reporting high latency and master API is intermittently failing. What now?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>etcd is the brain of Kubernetes. Latency on etcd cascades to every API operation.</p>
+    <h4 class="steps">Investigation</h4>
+    <ol>
+      <li><b>Disk IOPS</b> — etcd is fsync-intensive. Slow disk is the #1 cause. Use NVMe / Provisioned IOPS SSD; never magnetic.</li>
+      <li><b>Disk space</b> — etcd has a default 2GB quota; if near full, etcd refuses writes. Compact and defragment.</li>
+      <li><b>Network</b> — etcd cluster members must have low-latency interconnects. Cross-AZ etcd works but is sensitive.</li>
+      <li><b>API request volume</b> — a misbehaving controller doing tight watch/list loops can DoS etcd. Find the noisy client in audit logs.</li>
+      <li><b>Object count</b> — too many objects (especially Events, ConfigMaps from CI noise) bloats etcd.</li>
+    </ol>
+    <h4 class="mitigation">Mitigation</h4>
+    <ul>
+      <li>Compact: <code>etcdctl compact &lt;rev&gt;</code> and defrag: <code>etcdctl defrag</code>.</li>
+      <li>Stop or rate-limit the noisy controller.</li>
+      <li>Delete stale Events / unused namespaces.</li>
+      <li>If a single etcd member is bad, remove and rejoin.</li>
+    </ul>
+    <h4 class="prevention">Prevention</h4>
+    <ul>
+      <li>Run etcd on dedicated nodes with fast local SSDs.</li>
+      <li>Alert on etcd disk space, leader changes, and fsync latency.</li>
+      <li>Run managed Kubernetes (EKS/GKE/AKS) to delegate etcd ops if you can.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q74</span> <b>Scenario:</b> The customer-facing API works but the admin dashboard times out. They share the same backend. Where do you look?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>"Same backend, only one path broken" is a useful constraint. Things that could be different:</p>
+    <ul>
+      <li><b>Different endpoints</b> — the admin endpoint runs a heavy query (full-table scan, complex join) the customer endpoints don't. Check the admin endpoint's DB query plan.</li>
+      <li><b>Different auth path</b> — admin uses SSO/SAML which is timing out at the identity provider.</li>
+      <li><b>Different load balancer or routing</b> — admin behind a different LB/proxy/firewall rule.</li>
+      <li><b>Different rate limits</b> — admin throttled lower than customer API.</li>
+      <li><b>Admin connects to a primary DB</b> while customer API hits replicas; primary is overloaded.</li>
+      <li><b>Different timeouts</b> — admin LB has a short timeout that's killing long but valid queries.</li>
+    </ul>
+    <p>Step one: identify which downstream operation times out (a span in a trace or the slow log).</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q75</span> <b>Scenario:</b> Your application has a memory leak. How would you find it in production without restarting?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="steps">Approach</h4>
+    <ol>
+      <li><b>Profile the live process.</b>
+        <ul>
+          <li>JVM: <code>jcmd &lt;pid&gt; GC.heap_dump /tmp/heap.hprof</code>, then analyze with Eclipse MAT.</li>
+          <li>Go: hit <code>/debug/pprof/heap</code> (pprof endpoint), <code>go tool pprof</code>.</li>
+          <li>Python: <code>py-spy dump --pid &lt;pid&gt;</code>, <code>tracemalloc</code>, <code>memray</code>.</li>
+          <li>Node.js: <code>--inspect</code> flag + Chrome DevTools heap snapshot.</li>
+        </ul>
+      </li>
+      <li><b>Compare snapshots over time</b> — take heap dumps at T+0, T+30min, T+1h. Objects with growing retained size are the suspects.</li>
+      <li><b>Continuous profiling</b> (Pyroscope, Parca, Datadog Continuous Profiler) gives you the trend without dumping.</li>
+      <li><b>Check application patterns:</b> static caches without eviction, unbounded queues, listeners not deregistered, connection leaks (DB, HTTP).</li>
+    </ol>
+    <h4 class="mitigation">Mitigation</h4>
+    <ul>
+      <li>Rolling restart while you fix.</li>
+      <li>Set memory limits + restart policy so OOM doesn't take down the cluster.</li>
+      <li>If a specific endpoint is the leaker, route around it via feature flag.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q76</span> <b>Scenario:</b> CloudWatch alarms show CPU is fine but customers report slowness. Why might that be?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Low CPU + slow responses = the bottleneck is something other than compute. Candidates:</p>
+    <ul>
+      <li><b>Network/IO bound</b> — high disk read latency, slow downstream API calls, network packet loss.</li>
+      <li><b>Lock contention</b> — threads waiting on mutexes, DB row locks. CPU appears idle because threads are blocked, not running.</li>
+      <li><b>Thread pool exhaustion</b> — all threads are waiting on slow I/O; no spare workers to handle new requests. CPU is idle but queue is full.</li>
+      <li><b>Garbage collection</b> — long pause times block requests; cumulative CPU may not reflect spike.</li>
+      <li><b>Burstable instance throttling</b> (T-series) — CPU credits exhausted. CloudWatch shows CPUSurplusCreditBalance / CPUCreditBalance specifically.</li>
+      <li><b>Connection limits</b> — DB connection pool maxed; new requests queue.</li>
+      <li><b>Single-threaded bottleneck</b> — node.js / Python with one event loop can saturate even when the machine has 16 idle cores.</li>
+    </ul>
+    <p>Look at <b>RED</b> metrics (Rate, Errors, Duration) at the application layer rather than only at host metrics.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q77</span> <b>Scenario:</b> A scheduled batch job has been failing silently for a week. Customer-impacting data is stale. How do you handle?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="steps">Immediate</h4>
+    <ol>
+      <li><b>Quantify the impact</b> — what data is stale, which customers are affected, how stale.</li>
+      <li><b>Manually trigger the job</b> to recover current state.</li>
+      <li><b>Communicate</b> to affected customers/internal users — even if not externally visible, transparency builds trust.</li>
+    </ol>
+    <h4 class="steps">Investigation</h4>
+    <ol>
+      <li><b>Why did it fail?</b> Logs, error messages, was there a recent change?</li>
+      <li><b>Why didn't we notice?</b> This is the more important question. The job had no alert on "didn't complete" or "didn't produce output" or "result count dropped to zero".</li>
+    </ol>
+    <h4 class="prevention">Prevention</h4>
+    <ul>
+      <li><b>Liveness for batch jobs:</b> alert if a job hasn't run successfully in N expected periods (a "dead man's switch").</li>
+      <li><b>Output validation:</b> alert if the output is empty, smaller than expected, or stale (e.g., timestamp > N hours old).</li>
+      <li><b>Pipeline-level SLO</b>: data freshness as an SLI.</li>
+      <li>Use a workflow orchestrator (Airflow, Prefect, Dagster) that surfaces failures explicitly rather than cron-and-pray.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q78</span> <b>Scenario:</b> A production database is at 95% storage with auto-scaling disabled. It will fill within 4 hours. What do you do, in order?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Time-critical. Buy time, then fix.</p>
+    <h4 class="mitigation">Buy time (in parallel)</h4>
+    <ol>
+      <li><b>Expand storage now</b> — RDS modify-db-instance with new size, or PostgreSQL/MySQL on EBS resize. AWS storage scale-up is online but takes 10–30 min and can't be repeated for 6 hours.</li>
+      <li><b>Stop ingestion of low-value data</b> — if you have heavy logging into the DB (anti-pattern but common), pause it.</li>
+      <li><b>Identify and delete free wins</b> — old soft-deleted rows, expired sessions, large unused tables (look at <code>pg_total_relation_size</code> / <code>information_schema</code>). DROP/TRUNCATE if safe.</li>
+      <li><b>VACUUM FULL with caution</b> — locks tables. Better: <code>VACUUM</code> (no FULL) and pg_repack for online reclamation.</li>
+      <li><b>WAL/binlog cleanup</b> — if WAL retention is enabling replicas you don't need, reduce. Be careful — don't break replication you do need.</li>
+    </ol>
+    <h4 class="prevention">After</h4>
+    <ul>
+      <li>Enable storage auto-scaling immediately.</li>
+      <li>Add alert at 70% / 80% / 90%.</li>
+      <li>Define data retention policy and automate purges.</li>
+      <li>Audit table growth rates; the biggest grower needs a partitioning or archival strategy.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q79</span> <b>Scenario:</b> A new microservice you launched is causing the message queue to back up. Consumers can't keep up. How do you respond?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="mitigation">Immediate</h4>
+    <ul>
+      <li><b>Scale consumers horizontally</b> — more replicas, more partition consumers (Kafka) / threads.</li>
+      <li><b>Identify the bottleneck</b> — is the consumer slow due to a downstream (DB, external API)? Then more consumers won't help; they'll DOS the downstream.</li>
+      <li><b>Drop or DLQ low-priority messages</b> if the queue supports filtering / multiple consumer groups.</li>
+      <li><b>Pause producers</b> if possible (rare luxury) so consumers can catch up.</li>
+    </ul>
+    <h4 class="steps">Diagnose</h4>
+    <ul>
+      <li>Per-message processing time — has it increased? GC pauses? Slower downstream?</li>
+      <li>Message size grew unexpectedly?</li>
+      <li>Producer rate spiked from a specific source?</li>
+      <li>Consumer lag per partition (Kafka) — is it one slow consumer or all?</li>
+    </ul>
+    <h4 class="prevention">Long-Term</h4>
+    <ul>
+      <li>Autoscale consumers based on lag (KEDA for Kubernetes).</li>
+      <li>SLO on lag — alert before users notice.</li>
+      <li>Bound queue depth at producer; back-pressure rather than infinite buffering.</li>
+      <li>Capacity-test with realistic peak burst rates.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q80</span> <b>Scenario:</b> An expired TLS certificate just took down your service. Walk me through immediate response and prevention.</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="mitigation">Immediate</h4>
+    <ul>
+      <li>Renew the certificate from the CA (Let's Encrypt, ACM, internal CA).</li>
+      <li>Replace the certificate on every load balancer / ingress / target that uses it.</li>
+      <li>Validate with <code>openssl s_client -connect host:443 -servername host</code>.</li>
+    </ul>
+    <h4 class="prevention">Prevention (this should never happen again)</h4>
+    <ul>
+      <li><b>Automate renewal</b> — cert-manager in Kubernetes, ACM for AWS LB, certbot for traditional servers. Manual renewal is a recipe for the next outage.</li>
+      <li><b>Inventory certificates</b> — every cert in use, with expiry date, owner, renewal mechanism.</li>
+      <li><b>Alert at 30, 14, 7 days before expiry</b> — multiple thresholds, multiple owners.</li>
+      <li><b>Wildcard or SAN consolidation</b> — fewer certs = fewer chances to forget one.</li>
+      <li><b>Game day:</b> simulate a near-expiry to verify renewal automation works.</li>
+    </ul>
+    <p>Note: this is the single most preventable outage type in our industry. If your org has had one, an unrenewed cert was almost certainly involved in a major outage at some point.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q81</span> <b>Scenario:</b> A vendor's API your service depends on went down. Customers see your site as broken. What do you do?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <h4 class="mitigation">Immediate</h4>
+    <ul>
+      <li><b>Verify it's the vendor</b> — check their status page; reproduce the failure; check if it's specifically network-pathed to them.</li>
+      <li><b>Activate graceful degradation</b> — if you've designed it, flip the flag that disables that feature with a clear UI message ("This feature is temporarily unavailable").</li>
+      <li><b>Serve cached responses</b> if applicable; better stale than nothing.</li>
+      <li><b>Communicate to customers</b> — be honest about the dependency. "An upstream provider is experiencing an outage; we are monitoring."</li>
+    </ul>
+    <h4 class="prevention">Long-Term</h4>
+    <ul>
+      <li><b>Vendor SLA awareness</b> — your SLO must be lower than each vendor's SLO unless you have redundancy.</li>
+      <li><b>Redundancy</b> — multi-vendor for critical paths (e.g., two payment providers, two SMS providers, two DNS providers).</li>
+      <li><b>Caching</b> for tolerable staleness.</li>
+      <li><b>Circuit breakers</b> so vendor outage doesn't cascade into your service.</li>
+      <li><b>Vendor incident playbook</b> — pre-defined: when status page = down for >N minutes, do X.</li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 11 -->
+<!-- ============================================================ -->
+<section class="chapter" id="ch11">
+<h2>11. Senior-Level Reasoning &amp; Outage Decision-Making</h2>
+
+<details class="card">
+  <summary><span class="q-num">Q82</span> How do you balance moving fast with reliability?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>This is the central tension of SRE. The right answer isn't "more reliability" or "more speed" — it's <b>making the trade-off explicit</b> using:</p>
+    <ul>
+      <li><b>Error budgets:</b> if you're meeting your SLO, ship fast. If you're burning budget, slow down. The number decides, not opinions.</li>
+      <li><b>Differentiated risk:</b> a UI tweak can ship aggressively; a payment flow change needs more rigor. The pipeline can enforce stricter gates per component.</li>
+      <li><b>Risk-reducing techniques over risk-avoidance:</b> canary, feature flags, blue/green, dark launches. These let you ship and still be safe.</li>
+      <li><b>Investment in automation:</b> the reason orgs slow down isn't usually that they're "careful"; it's that they lack tooling. Invest in CI, observability, fast rollback, and you can go fast safely.</li>
+    </ul>
+    <p>The bad answer is "we don't ship to production after 3pm Friday." That's a process workaround; it doesn't solve the underlying brittleness.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q83</span> During an outage, when do you escalate? When do you not?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p><b>Escalate when:</b></p>
+    <ul>
+      <li>You've been working on it for the threshold time (15–30 min) without progress and you're not sure of next steps.</li>
+      <li>Impact is growing despite your actions.</li>
+      <li>You don't have access/permissions you need.</li>
+      <li>Resolution requires a decision above your authority (e.g., declaring a SEV1, communicating to enterprise customers, taking a destructive action like failover).</li>
+      <li>You're getting tired / making mistakes / over your head.</li>
+    </ul>
+    <p><b>Do NOT escalate when:</b></p>
+    <ul>
+      <li>You just want company. Escalations should add specific value.</li>
+      <li>You haven't tried the runbook.</li>
+      <li>You're embarrassed — fear of looking bad is the #1 reason engineers delay escalation, and the cost to the company is high.</li>
+    </ul>
+    <p><b>Healthy escalation culture:</b> escalating early is praised. Senior staff appreciate being looped in on something that turns out fine more than being surprised by a SEV1 they could have helped on at hour 0.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q84</span> The team is debating whether to revert vs. fix forward during an outage. How do you decide as the IC?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>As Incident Commander, you don't take sides — you make a decision and own it. The criteria:</p>
+    <ul>
+      <li><b>Reversibility:</b> Is the previous state safely reachable? If yes, revert defaults to safer.</li>
+      <li><b>Confidence in the fix:</b> Is the "fix" being proposed actually understood, or is it a hypothesis? Production is not the place to test theories.</li>
+      <li><b>Time pressure:</b> Customer impact severity dictates urgency. If millions of dollars per minute, the revert that takes 5 minutes beats the fix that takes 30.</li>
+      <li><b>Cost of revert:</b> Sometimes reverting loses data (a migration ran), forces customers to re-do work, or has unrelated risk. Then fix-forward may be justified.</li>
+    </ul>
+    <p><b>Decision framework:</b> "We will revert in N minutes unless we have a confirmed fix that's been peer-reviewed." Set a hard timer. Don't let the debate run forever.</p>
+    <p>Document the decision and rationale in the incident channel so it's clear who decided what when.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q85</span> A junior engineer caused a production incident. How do you handle it?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>The first principle: <b>the system let it happen.</b> A junior engineer should not have the power to take down production with a single command without a guardrail. If they did, that's the system's fault.</p>
+    <p><b>What I would do:</b></p>
+    <ol>
+      <li>Resolve the incident first. The engineer might be panicking; assign them a task that helps (capturing logs, running a benign command) so they're useful and not paralyzed.</li>
+      <li>In the postmortem, reinforce that the focus is on systems, not blame. Ask the engineer to write the postmortem if they're up for it — this is a fantastic learning moment.</li>
+      <li>Action items: add the guardrail. Two-person approval, paved-path tooling, dry-run mode, automated diff preview before apply.</li>
+      <li>Privately, talk to the engineer afterward. Reassure them. Many engineers' careers are made by the first incident they cause and learn from. Some of the best SREs caused memorable outages early on.</li>
+    </ol>
+    <p><b>Avoid:</b> shaming, demotion-as-discipline, isolating them. Those signals teach the org to hide mistakes.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q86</span> Your team is repeatedly missing the SLO. What's your plan?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ol>
+      <li><b>Diagnose the pattern.</b> Is it one incident type recurring? Many different one-off issues? Slow burn from background errors?</li>
+      <li><b>Look at top error categories.</b> Pareto: usually 80% of budget burn is from 20% of causes. Fix those first.</li>
+      <li><b>If the SLO is wrong</b> (e.g., set without data and unrealistic), negotiate. Either raise the SLI's standard or lower the SLO target. A perpetually-missed SLO is useless.</li>
+      <li><b>Pause feature work</b> per the error budget policy. This is uncomfortable, but it's the contract. If product leadership wants to ship despite budget exhaustion, they own the reliability risk — that's an executive decision, not the team's.</li>
+      <li><b>Invest in the systemic causes.</b> Often missing SLO points to: insufficient test coverage in CI, no canary, no rollback automation, brittle dependencies. Each is an engineering project.</li>
+      <li><b>Track action item completion</b> from past postmortems. Often the same items keep being filed and not done — that's a process failure, not a reliability one.</li>
+    </ol>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q87</span> A stakeholder is asking for 99.999% availability. How do you respond?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Don't just say "no". Take the request seriously and walk them through the math.</p>
+    <ul>
+      <li><b>99.999% = 5 minutes downtime per year.</b> That's less than a single deploy rollout.</li>
+      <li><b>What's the business need behind it?</b> Sometimes the stakeholder picked the number aspirationally. Sometimes there's a contractual or competitive driver. Understand which.</li>
+      <li><b>Show the cost.</b> Multi-region active-active, redundant dependencies, formal verification of deploys, dedicated SRE staffing, error budget policies, vendor diversity — likely 5–10× the cost of 99.9%.</li>
+      <li><b>Show the ceiling.</b> Your dependencies (cloud provider, DNS, payment vendors) may not be 99.999%. You can't be more reliable than your dependency floor unless you have redundancy across providers.</li>
+      <li><b>Propose alternatives:</b> "Could we commit to 99.95% with rapid recovery on any incident?" or "Could we tier — checkout is 99.99%, analytics is 99.9%?"</li>
+    </ul>
+    <p>The job of a senior engineer in this conversation is to translate business desire into engineering reality, not to capitulate or refuse outright.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q88</span> How do you build reliability culture in an engineering organization?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <ul>
+      <li><b>Make reliability data visible.</b> SLO dashboards on every team's wall (literal or virtual). Make it normal to look at them.</li>
+      <li><b>Blameless postmortems</b> as a standing practice. Share write-ups across the org so other teams learn.</li>
+      <li><b>Error budget policy</b> — automatic, not a suggestion. When budget is gone, features wait.</li>
+      <li><b>Rotate developers through on-call</b> for the systems they own. They feel the pain of bad code; they prioritize differently.</li>
+      <li><b>Celebrate reliability work publicly</b> — when someone reduces toil by 80% or kills a noisy alert, recognize it like a feature ship.</li>
+      <li><b>Hire SREs as partners, not janitors.</b> SRE consults on design, not just cleanup.</li>
+      <li><b>Senior leaders own SLOs.</b> If only the SRE team cares, the culture won't shift. CEOs and VPs need to know SLO health.</li>
+      <li><b>Make doing the right thing easy.</b> Paved paths for deploys, monitoring scaffolding, secret rotation, etc. The default should be safe.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q89</span> What's the biggest mistake engineers make during incidents?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Several common ones, all rooted in <b>cognitive overload under stress</b>:</p>
+    <ul>
+      <li><b>Tunnel vision on the first hypothesis.</b> You believe the issue is X, you investigate X for 20 minutes, you ignore signals pointing to Y.</li>
+      <li><b>Not stopping the bleeding first.</b> Investigating before mitigating; debugging at length while customers suffer.</li>
+      <li><b>Multiple uncoordinated changes.</b> Five people typing kubectl commands in parallel makes the outage worse.</li>
+      <li><b>Not communicating.</b> Heads-down debugging while stakeholders are in the dark.</li>
+      <li><b>Working alone.</b> Refusing to escalate or pair, often out of pride or fear.</li>
+      <li><b>Skipping rest.</b> Hour 4 of a 6-hour incident: the responder is exhausted, decision quality drops, mistakes compound. Hand off.</li>
+      <li><b>Not preserving evidence</b> — restarting the broken service before grabbing a heap dump, killing the bad pod before getting logs.</li>
+    </ul>
+    <p>The discipline is <b>process</b>, not <b>cleverness</b>. Senior engineers have learned the process. They are not necessarily smarter; they are calmer and more methodical.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary><span class="q-num">Q90</span> What's the one thing you wish more people understood about production systems?</summary>
+  <div class="content">
+    <h4>Answer</h4>
+    <p>Different people will give different answers; here are some senior takes that resonate:</p>
+    <ul>
+      <li><b>Failure is normal.</b> Complex systems exist in a permanent state of partial degradation. Successful operations is the management of unfolding failure, not its prevention.</li>
+      <li><b>Most outages are caused by changes</b> — your changes. Not hardware failures, not attacks, not load. Deploys, config edits, manual fixes. If you want fewer incidents, reduce risky changes — or get much better at making changes safely.</li>
+      <li><b>The system that's running in production is not what's described in the documentation.</b> It's an emergent thing shaped by years of patches, workarounds, and forgotten decisions. Respect that history.</li>
+      <li><b>Reliability is a feature.</b> Engineers often see it as a tax on feature work. But unreliable products lose customers no matter how cool the features are. Reliability work is product work.</li>
+      <li><b>The first 5 minutes of an incident set the tone for the next hour.</b> Don't skip the basics: incident channel, IC role, rollback as default, communicate.</li>
+      <li><b>Your job is not to prevent all incidents. It's to make sure the ones that happen are short, contained, and learned from.</b></li>
+    </ul>
+  </div>
+</details>
+
+</section>
+
+<footer>
+  <p>DevOps / Cloud / SRE Knowledge Base · 90 Questions · Built for interview preparation &amp; on-call reference</p>
+  <p>Open each section by clicking. Use Ctrl/Cmd-F to search across all answers on the page.</p>
+</footer>
+
+</div>
+
+<a href="#toc" class="back-top">↑ Top</a>
+
+</body>
+</html>
