@@ -344,6 +344,165 @@ footer.foot{padding:20px 18px;color:var(--muted);font-size:11.5px;text-align:cen
   .q-title{font-size:15px}
   .controls .btn{font-size:11.5px;padding:7px 6px}
 }
+
+/* ===== Knowledge Dump page ===== */
+.layout.hide{display:none !important}
+.kb-wrap{display:none;max-width:1200px;margin:0 auto;padding:16px 20px;width:100%}
+.kb-wrap.show{display:block}
+.kb-hero{
+  background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px 26px;margin-bottom:14px;box-shadow:var(--shadow-sm);
+  display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;justify-content:space-between;
+}
+.kb-hero h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--text)}
+.kb-hero p{color:var(--muted);font-size:13px;margin:0;max-width:640px;line-height:1.55}
+.kb-hero-stats{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px}
+.kb-hero-stats .kb-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;text-align:center;min-width:70px}
+.kb-hero-stats .kb-stat b{font-size:16px;color:var(--accent);display:block;font-weight:700;line-height:1}
+.kb-hero-stats .kb-stat span{color:var(--muted);font-size:10.5px;display:block;margin-top:3px}
+.kb-toolbar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:10px 14px;box-shadow:var(--shadow-sm);
+  position:sticky;top:52px;z-index:25;
+}
+.kb-search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);padding:6px 12px;border-radius:var(--radius-sm)}
+.kb-search input{flex:1;background:transparent;border:0;outline:0;color:var(--text);font-size:13px;font-family:inherit;min-width:0}
+.kb-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.kb-filterbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:0 2px}
+.kb-filterbar .chip{font-size:11.5px}
+.kb-mininav{
+  display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;
+  box-shadow:var(--shadow-sm);
+}
+.kb-mininav a{
+  font-size:12px;color:var(--text-2);background:var(--surface-2);
+  padding:5px 11px;border-radius:var(--radius-sm);border:1px solid var(--border);text-decoration:none;
+  transition:all .12s;
+}
+.kb-mininav a:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);text-decoration:none}
+
+.kb-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.kb-section{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);scroll-margin-top:120px;
+}
+.kb-section-head{
+  display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+  padding:14px 18px;user-select:none;gap:10px;
+}
+.kb-section-head h2{font-size:15px;font-weight:700;color:var(--text);margin:0;display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.kb-section-head .kb-count{font-size:11px;color:var(--muted);font-weight:500;background:var(--surface-2);padding:2px 8px;border-radius:99px;border:1px solid var(--border)}
+.kb-section-head .caret{transition:transform .2s;color:var(--muted);font-size:12px}
+.kb-section.collapsed .caret{transform:rotate(-90deg)}
+.kb-section.collapsed .kb-section-body{display:none}
+.kb-section-body{padding:8px 18px 18px;border-top:1px solid var(--border)}
+.kb-section-intro{font-size:12.5px;color:var(--muted);margin:10px 0 12px;line-height:1.6}
+
+.kb-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;margin-top:10px}
+.kb-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:border-color .12s,box-shadow .12s;
+}
+.kb-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-sm)}
+.kb-card .kb-rule{font-size:13.5px;font-weight:600;line-height:1.5;color:var(--text)}
+.kb-card .kb-line{font-size:12.5px;line-height:1.55;color:var(--text-2)}
+.kb-card .kb-line b{color:var(--text);font-weight:600}
+.kb-card .kb-line .lbl{color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:2px}
+.kb-pillrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.kb-pill{
+  display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-sm);
+  background:var(--surface-2);border:1px solid var(--border);font-size:11px;color:var(--text-2);
+  white-space:nowrap;
+}
+.kb-pill.choose{color:var(--good);border-color:var(--good);background:var(--good-soft)}
+.kb-pill.avoid{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+.kb-pill.keyword{color:var(--accent);border-color:var(--border);background:var(--accent-soft)}
+.kb-pill.trap{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.kb-pill.conf-High{color:var(--good)}
+.kb-pill.conf-Medium{color:var(--accent)}
+.kb-pill.conf-Low{color:var(--warn)}
+.kb-pill.qid{font-family:'SF Mono',Monaco,Consolas,monospace;font-size:10.5px;cursor:pointer}
+.kb-pill.qid:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.kb-memo{
+  font-style:italic;color:var(--accent);font-size:12px;
+  border-left:3px solid var(--accent);padding:6px 12px;background:var(--accent-soft);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:4px;
+}
+
+.kb-matrix-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-sm);margin:10px 0 16px;background:var(--surface)}
+.kb-matrix{width:100%;border-collapse:collapse;font-size:12.5px;min-width:540px}
+.kb-matrix th,.kb-matrix td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+.kb-matrix th{background:var(--surface-2);font-weight:600;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.kb-matrix tbody tr:last-child td{border-bottom:0}
+.kb-matrix tbody tr:hover{background:var(--surface-2)}
+.kb-matrix td:first-child{font-weight:600;color:var(--text);white-space:nowrap}
+.kb-matrix .winner{color:var(--good);font-weight:600}
+.kb-matrix .loser{color:var(--bad)}
+.kb-matrix .neutral{color:var(--text-2)}
+.kb-matrix-title{font-weight:600;font-size:13px;color:var(--text);padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+
+.kb-flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:6px}
+.kb-flash{
+  perspective:1000px;background:transparent;border:0;cursor:pointer;height:220px;padding:0;
+  font-family:inherit;
+}
+.kb-flash-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.kb-flash.flipped .kb-flash-inner{transform:rotateY(180deg)}
+.kb-flash-front,.kb-flash-back{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:var(--radius-sm);padding:18px;display:flex;flex-direction:column;
+  border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow-sm);
+  text-align:left;
+}
+.kb-flash-front{justify-content:center;align-items:center;text-align:center}
+.kb-flash-front .kb-flash-q{font-weight:600;font-size:13.5px;color:var(--text);line-height:1.5}
+.kb-flash-front .kb-flash-tip{font-size:10.5px;color:var(--muted);margin-top:14px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.kb-flash-back{transform:rotateY(180deg);background:var(--accent-soft);border-color:var(--accent);font-size:12px;color:var(--text);overflow:auto}
+.kb-flash-back .kb-flash-a{font-size:12.5px;line-height:1.55}
+.kb-flash-back .kb-flash-a b{color:var(--accent);font-weight:600}
+
+.kb-checklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.kb-checklist .kb-item{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:12.5px;line-height:1.55;color:var(--text-2)}
+.kb-checklist .kb-item b{display:block;color:var(--text);margin-bottom:3px;font-size:12.5px;font-weight:600}
+.kb-checklist .kb-item .ico{margin-right:6px;color:var(--accent)}
+
+.kb-keymap{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px;margin-top:6px}
+.kb-keymap .kb-kw{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px}
+.kb-keymap .kb-kw .kw-pattern{font-size:12.5px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.kb-keymap .kb-kw .kw-arrow{color:var(--muted);font-size:11px}
+.kb-keymap .kb-kw .kw-svc{font-size:12.5px;color:var(--good);font-weight:600;margin-bottom:4px}
+.kb-keymap .kb-kw .kw-avoid{font-size:11.5px;color:var(--bad);margin-bottom:4px}
+.kb-keymap .kb-kw .kw-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+
+.kb-svc-cloud{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kb-svc-cloud .kb-svc{
+  display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);
+  padding:5px 11px;border-radius:99px;font-size:12px;color:var(--text-2);
+}
+.kb-svc-cloud .kb-svc b{color:var(--text);font-weight:600}
+.kb-svc-cloud .kb-svc .kb-n{color:var(--muted);font-size:10.5px;font-variant-numeric:tabular-nums}
+
+.kb-toggle-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.kb-empty{padding:30px 16px;text-align:center;color:var(--muted);font-size:13px}
+
+@media(max-width:680px){
+  .kb-wrap{padding:8px}
+  .kb-toolbar{padding:8px 10px;gap:6px;top:0;position:sticky}
+  .kb-mininav{padding:6px 10px}
+  .kb-mininav a{font-size:11px;padding:4px 8px}
+  .kb-section-head{padding:12px 14px}
+  .kb-section-body{padding:6px 14px 14px}
+  .kb-hero{padding:16px 14px}
+  .kb-hero h1{font-size:17px}
+  .kb-hero-stats{width:100%}
+  .kb-cards{grid-template-columns:1fr;gap:10px}
+  .kb-card{padding:12px 14px}
+  .kb-flash-grid{grid-template-columns:1fr}
+  .kb-keymap{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body data-theme="light">
@@ -361,6 +520,7 @@ footer.foot{padding:20px 18px;color:var(--muted);font-size:11.5px;text-align:cen
         <span style="color:var(--muted);font-size:12px">Jump:</span>
         <input id="jump-input" type="text" placeholder="Q #">
       </div>
+      <button class="btn ghost" id="kb-btn" title="High-yield exam knowledge dump · Tips, decision matrices, flashcards">📚 Knowledge</button>
       <button class="btn ghost" id="stats-btn" title="Statistics dashboard">📊 Stats</button>
       <button class="btn ghost" id="theme-btn" title="Toggle dark/light">🌓</button>
     </div>
@@ -393,6 +553,8 @@ footer.foot{padding:20px 18px;color:var(--muted);font-size:11.5px;text-align:cen
 
     </main>
   </div>
+
+  <div class="kb-wrap" id="kb-wrap"></div>
 </div>
 
 <div class="modal" id="stats-modal">
@@ -1062,6 +1224,1940 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault(); el.search.focus(); el.search.select();
   }
 });
+
+// =================== Knowledge Dump module ===================
+const KB = (() => {
+
+// ---- Curated high-yield knowledge derived from DOP-C02 question patterns ----
+const RULES = [
+  // ---------- SDLC Automation / IaC ----------
+  {id:'r-iac-cfn',rule:'When the question says "infrastructure as code", "repeatable", "drift detection", "rollback on failure", or "change sets" — choose CloudFormation/CDK.',
+   why:'CFN is the AWS-native IaC choice on DOP-C02. It uniquely supports change sets, drift detection, stack policies, rollback triggers, and StackSets for multi-account/multi-region.',
+   choose:['CloudFormation','CDK','StackSets','Change sets','Drift detection','Stack policies'],
+   avoid:['Manual console clicks','Custom shell scripts','OpsWorks (legacy)','Beanstalk for low-level IaC'],
+   keywords:['template','stack','drift','rollback','change set','StackSet','OU','multi-account','repeatable'],
+   relatedTags:['CloudFormation','CDK','StackSets'],
+   trap:'Beanstalk/OpsWorks are NOT the right answer when the question mentions "drift detection", "change sets", or "stack policies".',
+   confidence:'High',
+   memory:'IaC + drift + rollback = CloudFormation. Multi-account IaC = StackSets.',
+   domain:'SDLC Automation'},
+  {id:'r-stacksets',rule:'For deploying the SAME infrastructure across MANY accounts/regions, use CloudFormation StackSets with service-managed permissions in AWS Organizations.',
+   why:'StackSets eliminate the need to assume roles in every account and integrate with Organizations OUs. Automatic deployment to new accounts is supported.',
+   choose:['StackSets','Service-managed permissions','Auto-deployment to OU'],
+   avoid:['CodePipeline-per-account','Manual CLI loops','Self-managed IAM per account when Organizations is available'],
+   keywords:['multi-account','multi-region','Organizations','OU','governance'],
+   relatedTags:['StackSets','CloudFormation','Organizations'],
+   trap:'"Self-managed permissions" wastes effort if AWS Organizations is already in use.',
+   confidence:'High',
+   memory:'Org + many accounts + same stack = StackSets (service-managed).',
+   domain:'SDLC Automation'},
+  {id:'r-cdk',rule:'Choose CDK when developers want to use TypeScript/Python/Java for IaC, with constructs, reusable patterns, and built-in best practices.',
+   why:'CDK synthesizes to CloudFormation but lets devs use a real programming language. It is the preferred choice when the question mentions "developers write code" + IaC.',
+   choose:['AWS CDK','TypeScript/Python construct libraries'],
+   avoid:['Raw CloudFormation YAML when team is writing in code','SAM if not specifically serverless'],
+   keywords:['constructs','synth','code-defined','developer-friendly'],
+   relatedTags:['CDK','CloudFormation'],
+   trap:'Pure CloudFormation is fine, but if devs explicitly want code-level IaC abstractions, CDK wins.',
+   confidence:'High',
+   memory:'Code-based IaC = CDK; YAML/JSON-based = CloudFormation.',
+   domain:'SDLC Automation'},
+  {id:'r-codepipeline',rule:'Continuous delivery orchestration across stages (source→build→test→deploy) = CodePipeline. Pure build = CodeBuild. Pure deploy = CodeDeploy.',
+   why:'Each Code* service has a single responsibility on DOP-C02. Don\'t confuse them. CodePipeline orchestrates, CodeBuild builds, CodeDeploy deploys.',
+   choose:['CodePipeline (orchestration)','CodeBuild (build/test)','CodeDeploy (deployment)'],
+   avoid:['Jenkins when CodeBuild fits','Cross-account pipelines without KMS+roles','Manual approvals without SNS notifications'],
+   keywords:['pipeline','stage','artifact','source action','approval'],
+   relatedTags:['CodePipeline','CodeBuild','CodeDeploy','CodeCommit'],
+   trap:'CodeBuild does not deploy. CodeDeploy does not build. CodePipeline does not build either.',
+   confidence:'High',
+   memory:'Pipeline = orchestrator; Build = compile/test; Deploy = ship.',
+   domain:'SDLC Automation'},
+  {id:'r-codedeploy-bg',rule:'Zero-downtime EC2/Lambda/ECS deployment with rapid rollback = CodeDeploy blue/green. Linear/canary traffic shift = CodeDeploy with deployment configuration.',
+   why:'Blue/green keeps old fleet alive until new fleet is healthy. Lambda and ECS support traffic-shifting (canary 10/15min, linear 10%/2min, etc).',
+   choose:['CodeDeploy blue/green','Canary 10% then 100%','Linear shifting','CloudWatch alarms to auto-rollback'],
+   avoid:['In-place deployment when rollback speed matters','Rolling updates without health checks','Manual ALB target group swaps'],
+   keywords:['blue/green','canary','linear','traffic shifting','rollback','alarm','AppSpec'],
+   relatedTags:['CodeDeploy','Lambda','ECS','Auto Scaling'],
+   trap:'In-place + rollback "by redeploy" is slow. Choose blue/green or canary when rollback time is critical.',
+   confidence:'High',
+   memory:'Fast rollback = blue/green. Gradual exposure = canary/linear.',
+   domain:'SDLC Automation'},
+  {id:'r-appspec-hooks',rule:'CodeDeploy lifecycle hooks (BeforeAllowTraffic, AfterAllowTraffic) + Lambda validation = automatic post-deployment testing with auto-rollback on alarm.',
+   why:'AppSpec hooks run Lambda functions for validation. CloudWatch alarms tied to the deployment trigger automatic rollback.',
+   choose:['AppSpec hooks','Lambda validation','CloudWatch alarms','Auto-rollback config'],
+   avoid:['Manual smoke tests','Rolling back via redeploy old version'],
+   keywords:['AppSpec','lifecycle hook','BeforeAllowTraffic','AfterAllowTraffic','validation Lambda'],
+   relatedTags:['CodeDeploy','Lambda','CloudWatch'],
+   trap:'BeforeBlockTraffic vs BeforeAllowTraffic - know the order: Stop→Before*→Install→After*→Allow→Validate.',
+   confidence:'High',
+   memory:'Lambda hooks + CW alarms = safe automated deployment.',
+   domain:'SDLC Automation'},
+  {id:'r-beanstalk',rule:'Quick platform deployment (Java/Python/Node/Docker) with minimal ops = Elastic Beanstalk. Use rolling, rolling-with-additional-batch, immutable, or blue/green via swap-URL.',
+   why:'Beanstalk handles capacity, load balancer, autoscaling automatically. Immutable deployments build a new ASG and swap.',
+   choose:['Beanstalk immutable deployment','Swap environment URL (blue/green)','Rolling with additional batch'],
+   avoid:['Beanstalk when fine-grained IaC required','All-at-once for production (zero rollback safety)'],
+   keywords:['immutable','swap URL','rolling','environment','platform'],
+   relatedTags:['Elastic Beanstalk'],
+   trap:'"All at once" deployment has NO rollback path - never the right answer for production.',
+   confidence:'High',
+   memory:'Beanstalk blue/green = swap environment URLs. Safest in-place = Immutable.',
+   domain:'SDLC Automation'},
+  {id:'r-ecs-bg',rule:'ECS blue/green deployments are done with CodeDeploy + Application Load Balancer (two target groups). Not via ECS itself.',
+   why:'ECS rolling updates lack the controlled traffic-shift of CodeDeploy. CodeDeploy manages two target groups and shifts ALB listener traffic.',
+   choose:['CodeDeploy (ECS compute platform)','ALB with 2 target groups','Test listener for pre-prod validation'],
+   avoid:['Pure ECS rolling deploy when blue/green is requested','Manual NLB target swaps'],
+   keywords:['ECS','Fargate','blue/green','ALB','target group','listener'],
+   relatedTags:['ECS','CodeDeploy','ALB'],
+   trap:'ECS-native deployment ≠ blue/green. Always pair with CodeDeploy when blue/green is mentioned.',
+   confidence:'High',
+   memory:'ECS blue/green = CodeDeploy + ALB 2 target groups.',
+   domain:'SDLC Automation'},
+  {id:'r-lambda-alias',rule:'Lambda versioning + alias + weighted routing = canary deployments for serverless. Pair with CodeDeploy for automation.',
+   why:'You cannot canary a $LATEST. Publish a version, point an alias at it, then shift traffic weight or hand to CodeDeploy.',
+   choose:['Lambda versions','Aliases','CodeDeploy Lambda compute platform','Pre/Post traffic Lambda hooks'],
+   avoid:['Updating $LATEST in place for canary','Skipping aliases'],
+   keywords:['version','alias','weighted alias','traffic shift','canary'],
+   relatedTags:['Lambda','CodeDeploy'],
+   trap:'$LATEST cannot be canaried. You need published versions.',
+   confidence:'High',
+   memory:'Lambda canary = version + alias + weighted.',
+   domain:'SDLC Automation'},
+
+  // ---------- Monitoring, Logging, Incident Response ----------
+  {id:'r-cwlogs-sub',rule:'Near-real-time log processing = CloudWatch Logs subscription filter → Lambda or Kinesis Data Firehose/Streams.',
+   why:'Subscription filters push log events as they arrive (sub-second). Lambda processes; Firehose streams to S3/OpenSearch.',
+   choose:['CloudWatch Logs subscription filter','Lambda processor','Kinesis Data Firehose to OpenSearch/S3','Kinesis Data Streams for ordering'],
+   avoid:['CloudWatch Logs Insights queries for streaming','Polling DescribeLogStreams','Manual log export'],
+   keywords:['near real-time','streaming','subscription','filter pattern','live'],
+   relatedTags:['CloudWatch Logs','Lambda','Kinesis','OpenSearch'],
+   trap:'Logs Insights is QUERY-time, not streaming. Cannot trigger actions.',
+   confidence:'High',
+   memory:'Stream logs → subscription filter → Lambda/Firehose.',
+   domain:'Monitoring & Logging'},
+  {id:'r-cwlogs-metric',rule:'Convert pattern in logs to a metric/alarm = CloudWatch Logs metric filter.',
+   why:'Metric filters scan logs for patterns and emit a custom CloudWatch metric, on which you place alarms and dashboards.',
+   choose:['Metric filter','Alarm on filtered metric','Dashboard widget'],
+   avoid:['Lambda parsing logs to publish custom metric (more ops)','CloudWatch Insights (query-time only)'],
+   keywords:['metric filter','count','alarm','dashboard','ERROR pattern'],
+   relatedTags:['CloudWatch Logs','CloudWatch Alarms'],
+   trap:'"Count of ERROR in logs and alert" → metric filter, NOT Insights.',
+   confidence:'High',
+   memory:'Pattern in logs → metric filter → alarm.',
+   domain:'Monitoring & Logging'},
+  {id:'r-cwagent',rule:'Memory, disk, process metrics from EC2/on-prem = unified CloudWatch agent (NOT default EC2 metrics).',
+   why:'Default EC2 metrics do NOT include memory, disk usage, or process counts. The CloudWatch agent does.',
+   choose:['CloudWatch agent','SSM Parameter Store config','Procstat for processes'],
+   avoid:['"Default CloudWatch" for memory','Custom scripts to PutMetricData when agent suffices'],
+   keywords:['memory','RAM','disk used','procstat','agent'],
+   relatedTags:['CloudWatch','CloudWatch Agent','Systems Manager'],
+   trap:'Default EC2 metrics = CPU, network, disk I/O. NOT memory or filesystem usage.',
+   confidence:'High',
+   memory:'Memory/disk = CloudWatch agent. Always.',
+   domain:'Monitoring & Logging'},
+  {id:'r-eventbridge',rule:'Event-driven automation = EventBridge rules. Source includes API calls (CloudTrail), service events, scheduled, custom apps, SaaS partners.',
+   why:'EventBridge is the central event bus. It replaces CloudWatch Events but is broader: schema registry, partner sources, archive/replay.',
+   choose:['EventBridge rule','EventBridge schedule (replaces CW Events scheduled)','Dead-letter queue','Archive/replay'],
+   avoid:['Polling CloudTrail','Custom Lambda crons','SNS for routing complex events'],
+   keywords:['event pattern','rule','target','schedule','cron','SaaS partner'],
+   relatedTags:['EventBridge','CloudWatch Events','Lambda','CloudTrail'],
+   trap:'EventBridge Scheduler replaces CW Events cron; use it for new builds.',
+   confidence:'High',
+   memory:'Trigger on AWS event = EventBridge rule.',
+   domain:'Incident & Event Response'},
+  {id:'r-cloudtrail-ct',rule:'"Who did what API call?" = CloudTrail. "What state did it produce?" = AWS Config. Forensic audit = both, in an Organizations trail to a central S3 bucket.',
+   why:'CloudTrail records API calls (who/when/where). Config records resource configuration state and compliance over time.',
+   choose:['Organization Trail','S3 lifecycle for log retention','Config aggregator across accounts','CloudTrail Lake'],
+   avoid:['Custom CloudWatch Logs for audit','GuardDuty alone for compliance proof'],
+   keywords:['API call','who','audit','organization trail','S3 central','aggregator'],
+   relatedTags:['CloudTrail','Config','Organizations','S3'],
+   trap:'GuardDuty is THREAT detection, not configuration audit. Don\'t confuse them.',
+   confidence:'High',
+   memory:'API actions = CloudTrail. Configuration state = Config.',
+   domain:'Monitoring, Logging'},
+  {id:'r-config-rules',rule:'Compliance-as-code, drift, and auto-remediation = AWS Config rules + Systems Manager Automation documents (SSM Automation).',
+   why:'Config evaluates resource compliance against rules. SSM Automation documents remediate. Together = continuous compliance.',
+   choose:['Config managed rules','Custom Lambda rules','SSM Automation remediation','Conformance packs'],
+   avoid:['Manual remediation when SSM document exists','Lambda-only remediation for common cases'],
+   keywords:['compliance','non-compliant','remediation','SSM Automation','conformance pack'],
+   relatedTags:['Config','Systems Manager','Lambda'],
+   trap:'Config Rules + SSM Automation is preferred over Lambda+EventBridge for STANDARD remediations.',
+   confidence:'High',
+   memory:'Detect drift = Config; auto-fix = SSM Automation.',
+   domain:'Security, Compliance, Governance'},
+  {id:'r-xray',rule:'Distributed tracing, latency analysis across microservices = AWS X-Ray.',
+   why:'X-Ray traces requests across Lambda, ECS, API Gateway, EC2. Service maps highlight bottlenecks and error rates.',
+   choose:['X-Ray SDK','X-Ray daemon','Service map','Annotations for filtering'],
+   avoid:['CloudWatch Logs for tracing','Custom correlation IDs when X-Ray fits'],
+   keywords:['trace','service map','latency','distributed','segment','subsegment'],
+   relatedTags:['X-Ray','Lambda','ECS','API Gateway'],
+   trap:'X-Ray traces requests, not logs. Pair with Logs for full picture.',
+   confidence:'High',
+   memory:'Microservice latency map = X-Ray.',
+   domain:'Monitoring & Logging'},
+  {id:'r-cw-anomaly',rule:'"Detect unusual behavior on a metric without setting static thresholds" = CloudWatch Anomaly Detection.',
+   why:'Builds ML-based dynamic bands. Better than static for seasonal/diurnal patterns.',
+   choose:['CloudWatch metric anomaly detector','Anomaly detection band on alarm'],
+   avoid:['Static thresholds for seasonal data','DevOps Guru when scope is one metric'],
+   keywords:['anomaly','dynamic threshold','unusual','baseline'],
+   relatedTags:['CloudWatch','CloudWatch Alarms'],
+   trap:'For account/app-wide anomalies use DevOps Guru. Single metric = CW Anomaly Detection.',
+   confidence:'Medium',
+   memory:'Single metric anomaly = CW Anomaly Detection.',
+   domain:'Monitoring & Logging'},
+  {id:'r-devopsguru',rule:'Operational issues across applications using ML, with insights and recommendations = Amazon DevOps Guru.',
+   why:'DevOps Guru analyzes CloudWatch, X-Ray, CloudTrail, and resource metrics across services. Generates actionable insights.',
+   choose:['DevOps Guru','DevOps Guru for RDS'],
+   avoid:['Building custom anomaly Lambdas','Polling resources manually'],
+   keywords:['insights','recommendations','ML','operational performance'],
+   relatedTags:['DevOps Guru'],
+   trap:'Not a replacement for X-Ray or CloudWatch alarms — it adds an ML insights layer.',
+   confidence:'Medium',
+   memory:'ML-driven ops insights = DevOps Guru.',
+   domain:'Monitoring & Logging'},
+
+  // ---------- Security & Compliance ----------
+  {id:'r-secrets-mgr',rule:'Secrets that need automatic ROTATION (DB passwords, API keys) = AWS Secrets Manager.',
+   why:'Secrets Manager has built-in rotation via Lambda. Parameter Store does NOT auto-rotate.',
+   choose:['Secrets Manager','Rotation Lambda','Cross-region replication of secrets'],
+   avoid:['Parameter Store for rotated DB credentials','Hardcoded secrets','Plaintext in environment variables'],
+   keywords:['rotate','rotation','password','key','RDS','Secrets'],
+   relatedTags:['Secrets Manager','Lambda','RDS'],
+   trap:'Parameter Store SecureString is cheaper but does NOT rotate. Choose Secrets Manager when rotation is required.',
+   confidence:'High',
+   memory:'Rotation = Secrets Manager. Config values = Parameter Store.',
+   domain:'Security, Compliance'},
+  {id:'r-param-store',rule:'Configuration values, feature flags, plain settings = SSM Parameter Store (SecureString for sensitive non-rotated values).',
+   why:'Free for standard tier, hierarchical paths, KMS encryption for SecureString.',
+   choose:['Parameter Store','SecureString','Parameter hierarchies','Advanced parameters for large values'],
+   avoid:['Secrets Manager for non-rotated config (more cost)','S3 for config when Parameter Store fits'],
+   keywords:['parameter','config','feature flag','hierarchy'],
+   relatedTags:['Systems Manager','KMS'],
+   trap:'Standard parameters are FREE; advanced parameters charge per parameter/month.',
+   confidence:'High',
+   memory:'Config = Parameter Store. Rotated secret = Secrets Manager.',
+   domain:'Security, Compliance'},
+  {id:'r-iam-role',rule:'Whenever an EC2/Lambda/ECS task needs AWS access, use IAM ROLES — never access keys.',
+   why:'Roles use STS to vend temporary credentials. Access keys are long-lived and risky.',
+   choose:['Instance profile','Lambda execution role','ECS task role','IAM Roles Anywhere for on-prem'],
+   avoid:['Hard-coded access keys','Long-lived access keys in user data'],
+   keywords:['role','assume role','STS','temporary credentials','instance profile'],
+   relatedTags:['IAM','STS'],
+   trap:'If you see "store access key" in the answer = wrong.',
+   confidence:'High',
+   memory:'Workload identity = IAM role; never an access key.',
+   domain:'Security, Compliance'},
+  {id:'r-cross-account-roles',rule:'Cross-account access = sts:AssumeRole into a role in the target account with a trust policy and external ID where applicable.',
+   why:'No need to share credentials. Use external ID to prevent confused deputy in 3rd-party scenarios.',
+   choose:['Cross-account IAM role','sts:AssumeRole','External ID for SaaS partners'],
+   avoid:['Sharing access keys','Cross-account users'],
+   keywords:['cross-account','assume role','trust policy','external ID'],
+   relatedTags:['IAM','STS','Organizations'],
+   trap:'External ID is for 3rd-party (Datadog, etc.), not internal accounts.',
+   confidence:'High',
+   memory:'Cross-account access = AssumeRole + trust policy.',
+   domain:'Security, Compliance'},
+  {id:'r-scp',rule:'Account-level permission GUARDRAILS across an org = Service Control Policies (SCPs) attached to OUs/accounts.',
+   why:'SCPs limit MAX permissions for an account. They do not grant; identity policies grant. SCP + identity policy = effective permissions.',
+   choose:['SCP','Permission boundaries on IAM roles','Allow-list and deny-list SCPs'],
+   avoid:['SCPs as a grant mechanism','SCPs on management account (no effect)'],
+   keywords:['SCP','organization','guardrail','OU','permission boundary'],
+   relatedTags:['Organizations','IAM'],
+   trap:'SCPs do NOT grant — they cap. Forgetting an Allow in the identity policy = no access.',
+   confidence:'High',
+   memory:'SCP = ceiling; IAM policy = grant.',
+   domain:'Security, Compliance'},
+  {id:'r-guardduty',rule:'Threat detection for AWS accounts (compromised credentials, crypto-mining, exfiltration) = Amazon GuardDuty.',
+   why:'Continuously analyzes CloudTrail, VPC flow logs, DNS logs, S3 data events, EKS audit logs. No infra to run.',
+   choose:['GuardDuty','Delegated administrator in Organizations','EventBridge to remediate findings'],
+   avoid:['CloudTrail-only as IDS','GuardDuty for compliance audit'],
+   keywords:['threat','compromise','crypto mining','recon','unusual API'],
+   relatedTags:['GuardDuty','Organizations','EventBridge'],
+   trap:'GuardDuty is THREAT detection; AWS Config is CONFIG compliance. Don\'t mix.',
+   confidence:'High',
+   memory:'Threat = GuardDuty. Config compliance = AWS Config.',
+   domain:'Security, Compliance'},
+  {id:'r-security-hub',rule:'Centralized security findings across accounts (consolidating GuardDuty, Inspector, Macie, IAM Access Analyzer, Config) = AWS Security Hub.',
+   why:'Single pane of glass for findings, with CIS/PCI/AWS Foundational best practices checks.',
+   choose:['Security Hub','Delegated administrator','EventBridge rules from findings'],
+   avoid:['Building dashboards from scratch','Polling each service'],
+   keywords:['findings','CIS','foundational','aggregator','dashboard'],
+   relatedTags:['Security Hub','GuardDuty','Inspector','Macie','Organizations'],
+   trap:'Security Hub does NOT detect — it aggregates. Detection comes from GuardDuty/Inspector/etc.',
+   confidence:'High',
+   memory:'Aggregate findings = Security Hub.',
+   domain:'Security, Compliance'},
+  {id:'r-inspector',rule:'Vulnerability scanning for EC2, ECR container images, Lambda = Amazon Inspector (v2).',
+   why:'Inspector v2 continuously scans EC2 (via SSM), ECR (push and on schedule), and Lambda functions for CVEs.',
+   choose:['Inspector','SSM agent on EC2','Inspector ECR scanning','Findings to Security Hub'],
+   avoid:['3rd-party scanners when Inspector fits','Manual vulnerability reports'],
+   keywords:['CVE','vulnerability','scan','ECR','Lambda','EC2'],
+   relatedTags:['Inspector','ECR','SSM','Security Hub'],
+   trap:'Inspector v1 was network-only and is deprecated. Always think v2.',
+   confidence:'High',
+   memory:'EC2/ECR/Lambda CVE scan = Inspector v2.',
+   domain:'Security, Compliance'},
+  {id:'r-macie',rule:'Discover sensitive data (PII, PHI, credentials) in S3 = Amazon Macie.',
+   why:'Macie auto-classifies S3 buckets and finds PII, credit cards, secrets in objects. Findings flow to Security Hub.',
+   choose:['Macie','Organization delegated admin','EventBridge → remediation'],
+   avoid:['Manual S3 scans','Glue jobs for PII when Macie suffices'],
+   keywords:['PII','sensitive','S3','classification','PHI'],
+   relatedTags:['Macie','S3'],
+   trap:'Macie is S3-only. Other stores need different tools.',
+   confidence:'High',
+   memory:'S3 PII discovery = Macie.',
+   domain:'Security, Compliance'},
+
+  // ---------- HA / Resilience / DR ----------
+  {id:'r-asg-mixed',rule:'Cost-optimized scaling with mixed Spot + On-Demand = ASG with Mixed Instances Policy + multiple instance types/AZs.',
+   why:'ASG balances Spot and On-Demand across instance types/AZs to handle interruptions.',
+   choose:['ASG Mixed Instances Policy','Capacity Rebalancing','Multiple instance types','Spot interruption handling'],
+   avoid:['Pure-Spot single instance type','Pure-OD ignoring cost'],
+   keywords:['Spot','On-Demand','Mixed','capacity rebalancing'],
+   relatedTags:['Auto Scaling','EC2','Spot'],
+   trap:'A single Spot instance type = high interruption risk.',
+   confidence:'High',
+   memory:'Spot + OD diversification = ASG mixed instances.',
+   domain:'HA, Resilience'},
+  {id:'r-asg-lifecycle',rule:'Run scripts before/after EC2 instance launch or termination in an ASG = ASG lifecycle hooks + SSM/EventBridge/Lambda.',
+   why:'Lifecycle hooks pause an instance in Pending:Wait or Terminating:Wait so you can drain connections, copy logs, deregister, etc.',
+   choose:['Lifecycle hooks','Heartbeat timeout','SNS/EventBridge target'],
+   avoid:['Manual termination scripts','Ad-hoc instance polling'],
+   keywords:['lifecycle hook','Pending:Wait','Terminating:Wait','drain'],
+   relatedTags:['Auto Scaling','Systems Manager','EventBridge'],
+   trap:'Without lifecycle hooks, instances terminate before logs/state are saved.',
+   confidence:'High',
+   memory:'Drain on terminate = ASG lifecycle hook.',
+   domain:'HA, Resilience'},
+  {id:'r-multi-az-rds',rule:'High availability for RDS within a region = Multi-AZ (synchronous standby). Read scaling = Read Replicas (async). Cross-region DR = cross-region Read Replica or snapshot copy.',
+   why:'Multi-AZ = HA only, not read scaling. Read replicas = scaling; can be promoted for DR.',
+   choose:['Multi-AZ (HA)','Read replicas (scale)','Cross-region replica (DR)','Aurora Global Database (sub-second DR)'],
+   avoid:['Multi-AZ for read scaling','Read replica for HA'],
+   keywords:['Multi-AZ','read replica','failover','synchronous','asynchronous'],
+   relatedTags:['RDS','Aurora'],
+   trap:'A failover from Multi-AZ takes 60-120s. Aurora Global DB is sub-minute and offers cross-region.',
+   confidence:'High',
+   memory:'HA = Multi-AZ. Scale reads = Replica. Cross-region DR = Aurora Global / Cross-Region Replica.',
+   domain:'HA, Resilience'},
+  {id:'r-route53-failover',rule:'Active-passive DR routing in Route 53 = Failover routing policy with health checks on the primary endpoint.',
+   why:'Failover policy routes to primary while healthy, fails over to secondary on health-check failure.',
+   choose:['Route 53 Failover','Health checks','TTL low (60s)'],
+   avoid:['Weighted/latency for active-passive','Manual DNS edits during incident'],
+   keywords:['failover','health check','primary','secondary','passive'],
+   relatedTags:['Route 53'],
+   trap:'High TTL slows failover propagation. Use 60s for DR endpoints.',
+   confidence:'High',
+   memory:'A-P DR = Route 53 Failover + health checks.',
+   domain:'HA, Resilience'},
+  {id:'r-dr-strategies',rule:'DR strategies (RTO/RPO trade-off, ascending complexity/cost): Backup-Restore → Pilot Light → Warm Standby → Multi-Site Active-Active.',
+   why:'Match strategy to RTO/RPO targets. Backup-Restore = hours; Pilot Light = 10s of mins; Warm Standby = minutes; Active-Active = near-zero.',
+   choose:['Pilot light (DB replicating, app stopped)','Warm standby (scaled-down app running)','Active-active for lowest RTO/RPO'],
+   avoid:['Backup-restore when RTO < 1h','Active-active when cost is the priority'],
+   keywords:['RTO','RPO','pilot light','warm standby','active-active','backup restore'],
+   relatedTags:['Route 53','RDS','S3','CloudFormation'],
+   trap:'"Lowest RPO" ≠ "lowest RTO". RPO = data loss tolerance; RTO = downtime tolerance.',
+   confidence:'High',
+   memory:'Lower RTO/RPO = warmer DR strategy = higher cost.',
+   domain:'HA, Resilience'},
+  {id:'r-s3-replication',rule:'Durable cross-region replication of S3 objects for DR/compliance = S3 Cross-Region Replication (CRR) with versioning enabled.',
+   why:'CRR is async, automatic, near real-time. SRR (same-region) for compliance.',
+   choose:['CRR','SRR','S3 Replication Time Control (RTC) for SLAs','Versioning','MFA delete for prod'],
+   avoid:['Custom Lambda S3 copy','sync scripts','disabling versioning'],
+   keywords:['CRR','SRR','RTC','replication','versioning'],
+   relatedTags:['S3'],
+   trap:'No versioning = no replication. Always enable versioning first.',
+   confidence:'High',
+   memory:'Multi-region S3 DR = CRR + versioning.',
+   domain:'HA, Resilience'},
+  {id:'r-aws-backup',rule:'Unified backup strategy across EBS, RDS, DynamoDB, EFS, FSx, S3, etc., with cross-region/cross-account copies and compliance = AWS Backup.',
+   why:'Backup plans, vault locks (WORM), Organizations-level policies. Single service replaces multiple bespoke backup tools.',
+   choose:['AWS Backup plans','Vault lock (compliance mode)','Cross-account/cross-region copy','Backup Audit Manager'],
+   avoid:['Per-service backup scripts','Manual snapshot lifecycle'],
+   keywords:['backup','vault','vault lock','cross-region','cross-account','WORM'],
+   relatedTags:['AWS Backup','EBS','RDS','DynamoDB','S3'],
+   trap:'Vault lock in COMPLIANCE mode is IRREVERSIBLE.',
+   confidence:'High',
+   memory:'Unified backups across services = AWS Backup.',
+   domain:'HA, Resilience'},
+  {id:'r-ddb-global',rule:'Multi-region, active-active DynamoDB = Global Tables (Version 2019.11.21).',
+   why:'Global Tables replicate writes async to all replica regions. Active-active. Required for lowest-RTO/RPO DR.',
+   choose:['DynamoDB Global Tables','Streams (under the hood)','PITR for backups'],
+   avoid:['Cross-region custom replication','Lambda-based DDB sync'],
+   keywords:['global tables','multi-region','active-active','replication'],
+   relatedTags:['DynamoDB'],
+   trap:'Conflict resolution = "last writer wins" by timestamp.',
+   confidence:'High',
+   memory:'DDB cross-region = Global Tables.',
+   domain:'HA, Resilience'},
+
+  // ---------- Operations & Automation ----------
+  {id:'r-ssm-patch',rule:'Patch fleets at scale (Linux/Windows, on-prem, multi-account) = SSM Patch Manager with patch baselines + maintenance windows.',
+   why:'Patch Manager classifies, schedules, scans, and applies patches. Patch baselines define approved patches.',
+   choose:['Patch Manager','Patch baselines per OS','Maintenance windows','Patch policies via Quick Setup'],
+   avoid:['Cron + yum on each box','Manual patching','Custom Lambda patch scripts'],
+   keywords:['patch','baseline','maintenance window','compliance','SSM'],
+   relatedTags:['Systems Manager','Patch Manager'],
+   trap:'You still need the SSM agent installed AND a working instance profile.',
+   confidence:'High',
+   memory:'Patches at scale = SSM Patch Manager.',
+   domain:'Operations'},
+  {id:'r-ssm-run',rule:'Run a one-off command on many EC2/on-prem instances without SSH = SSM Run Command + a managed Document (AWS-RunShellScript / AWS-RunPowerShellScript).',
+   why:'No bastion, no SSH keys, full audit trail in CloudTrail. Targets via tags or resource groups.',
+   choose:['SSM Run Command','SSM Documents','Resource Groups','Targets by tag'],
+   avoid:['SSH bastions','Custom shell push','Storing SSH keys on every instance'],
+   keywords:['Run Command','document','target by tag','no SSH'],
+   relatedTags:['Systems Manager','EC2'],
+   trap:'Session Manager replaces SSH for INTERACTIVE shells. Run Command is for non-interactive commands.',
+   confidence:'High',
+   memory:'Mass commands = SSM Run Command. SSH replacement = Session Manager.',
+   domain:'Operations'},
+  {id:'r-ssm-session',rule:'Replace SSH/RDP with audited, role-based shell access (no bastions, no inbound 22/3389) = SSM Session Manager.',
+   why:'Tunneling via SSM Agent + IAM policy. Logs to S3/CloudWatch Logs for compliance.',
+   choose:['Session Manager','IAM policies for users','S3/CloudWatch session logging'],
+   avoid:['SSH bastion EC2','Inbound 22 in security group','EC2 Instance Connect when SSM works'],
+   keywords:['session manager','no bastion','no inbound','audit'],
+   relatedTags:['Systems Manager','IAM'],
+   trap:'Session Manager needs the SSM agent + instance profile with ssmmessages/ec2messages permissions.',
+   confidence:'High',
+   memory:'No SSH bastion = Session Manager.',
+   domain:'Operations'},
+  {id:'r-ssm-automation',rule:'Multi-step runbook (snapshot+stop+modify+start, AMI bake, etc.) = SSM Automation document.',
+   why:'JSON/YAML Automation documents orchestrate AWS API calls and approvals — like CloudFormation for operations.',
+   choose:['Automation document','approval step','rate control for fleet'],
+   avoid:['Lambda step functions for STANDARD ops','Custom orchestration in shell'],
+   keywords:['Automation','document','runbook','approval','rate control'],
+   relatedTags:['Systems Manager','Lambda'],
+   trap:'Standard SSM Automation documents already cover many tasks (AWS-* runbooks). Search before writing your own.',
+   confidence:'High',
+   memory:'Multi-step ops runbook = SSM Automation.',
+   domain:'Operations'},
+  {id:'r-ssm-state-mgr',rule:'Continuously enforce configuration on instances (eg, agent installed, file present) = SSM State Manager + an Association.',
+   why:'State Manager schedules SSM documents on a recurring basis to keep instances in the desired state.',
+   choose:['State Manager','Association','Compliance reports'],
+   avoid:['Manual fleet config','Custom cron jobs'],
+   keywords:['state manager','association','desired state','enforce'],
+   relatedTags:['Systems Manager'],
+   trap:'State Manager ≠ Config. Config evaluates resources; State Manager configures them.',
+   confidence:'High',
+   memory:'Keep instances configured = State Manager.',
+   domain:'Operations'},
+  {id:'r-opsworks-deprecated',rule:'OpsWorks (Chef/Puppet) and CodeCommit are LEGACY on DOP-C02; prefer modern alternatives (CDK/CFN/SSM, CodeArtifact/3rd-party Git) when the question favors current best-practice.',
+   why:'AWS announced end-of-life schedules. New designs should not pick OpsWorks. Treat OpsWorks options as likely wrong unless explicitly required.',
+   choose:['CloudFormation','CDK','Systems Manager','GitHub/CodeStar Connections'],
+   avoid:['OpsWorks Stacks for greenfield','OpsWorks for Chef Automate','Net-new CodeCommit repos'],
+   keywords:['Chef','Puppet','OpsWorks','legacy'],
+   relatedTags:['OpsWorks','CodeCommit'],
+   trap:'If the option says OpsWorks and another sensible option exists, OpsWorks is usually wrong on DOP-C02.',
+   confidence:'Medium',
+   memory:'OpsWorks = wrong unless explicitly required.',
+   domain:'SDLC Automation'},
+
+  // ---------- Networking ----------
+  {id:'r-alb-vs-nlb',rule:'HTTP(S) routing, host/path/header rules, OIDC auth, WAF = Application Load Balancer (ALB). TCP/UDP/TLS pass-through, ultra-low latency, static IPs = Network Load Balancer (NLB).',
+   why:'ALB is L7; NLB is L4. Choose based on protocol and features.',
+   choose:['ALB for HTTP/HTTPS','NLB for TCP/UDP','NLB for static IPs','GWLB for inline appliances'],
+   avoid:['ALB for non-HTTP protocols','NLB for HTTP routing rules'],
+   keywords:['ALB','NLB','GWLB','L4','L7','target group','listener','SNI'],
+   relatedTags:['Elastic Load Balancing','ALB','NLB'],
+   trap:'ALB cannot give you static IPs. NLB can (one per AZ).',
+   confidence:'High',
+   memory:'L7 routing = ALB. L4 + static IP = NLB.',
+   domain:'Networking'},
+  {id:'r-r53-routing',rule:'Route 53 routing policies — match the policy to the goal: Simple (1 record), Weighted (canary), Latency (perf), Geo (compliance), Geoproximity, Failover (DR), Multi-value (basic LB).',
+   why:'Each policy answers a different question. The exam often tests "which routing policy for X".',
+   choose:['Weighted = A/B or canary','Latency = lowest latency','Geolocation = compliance/lang','Failover = DR','Multi-value = client-side LB'],
+   avoid:['Latency when goal is data residency (use Geolocation)','Weighted when failover health is needed'],
+   keywords:['weighted','latency','geolocation','failover','multi-value','geoproximity'],
+   relatedTags:['Route 53'],
+   trap:'Multi-value is NOT a load balancer. Use for client-side health-aware DNS.',
+   confidence:'High',
+   memory:'Compliance route = Geolocation. Speed = Latency. Canary = Weighted.',
+   domain:'Networking'},
+  {id:'r-vpc-endpoints',rule:'Private connectivity from VPC to AWS services without NAT/IGW = VPC Endpoints. Gateway endpoints (S3, DynamoDB) are free; Interface endpoints (PrivateLink) cost per ENI.',
+   why:'Reduces data egress costs, avoids exposure to internet, supports SCPs/endpoint policies.',
+   choose:['Gateway endpoint for S3 & DynamoDB','Interface endpoint (PrivateLink) for other services'],
+   avoid:['NAT for S3/DDB traffic','Public service endpoints for private apps'],
+   keywords:['VPC endpoint','PrivateLink','gateway endpoint','interface endpoint'],
+   relatedTags:['VPC','S3','DynamoDB'],
+   trap:'Gateway endpoints only exist for S3 and DynamoDB. Everything else is Interface.',
+   confidence:'High',
+   memory:'S3/DDB = Gateway endpoint (free). Else = Interface (priced).',
+   domain:'Networking'},
+
+  // ---------- Cost & FinOps ----------
+  {id:'r-budgets',rule:'Alert on cost/usage thresholds, including forecasted exceed = AWS Budgets with budget actions to remediate (stop instances, apply SCP).',
+   why:'Cost Explorer reports; Budgets alerts and acts.',
+   choose:['Budgets','Budget actions','Cost anomaly detection'],
+   avoid:['Cost Explorer alone for alerts','Custom Lambda billing scrapers'],
+   keywords:['budget','threshold','forecast','action','alert'],
+   relatedTags:['Budgets','Cost Explorer'],
+   trap:'Cost Explorer is analysis-only; Budgets is alert/action.',
+   confidence:'High',
+   memory:'Cost alert = Budgets. Cost analysis = Cost Explorer.',
+   domain:'Cost Optimization'},
+  {id:'r-cost-anomaly',rule:'Auto-detect unusual cost spikes = AWS Cost Anomaly Detection (with SNS/EventBridge alerts).',
+   why:'ML-based anomaly detection on spend, by service/account/tag.',
+   choose:['Cost Anomaly Detection','Daily summary alerts','SNS notifications'],
+   avoid:['Manual Cost Explorer review','Static % thresholds in Budgets when anomalies vary'],
+   keywords:['anomaly','cost spike','ML','spend'],
+   relatedTags:['Cost Explorer','Budgets'],
+   trap:'Anomaly Detection is ANALYSIS — pair with Budgets for hard limits/actions.',
+   confidence:'High',
+   memory:'Cost spike alerts = Cost Anomaly Detection.',
+   domain:'Cost Optimization'},
+
+  // ---------- Containers / ECR / Image Builder ----------
+  {id:'r-ecr',rule:'Container image registry with vulnerability scanning, immutability and cross-region/cross-account replication = Amazon ECR (with Inspector v2 enhanced scanning).',
+   why:'ECR pairs with Inspector v2 for continuous CVE scanning on push and re-scan. Replication keeps images in sync. Immutable tags prevent overwrite.',
+   choose:['ECR private repos','Enhanced scanning (Inspector v2)','Image tag immutability','Cross-region replication','Pull-through cache for upstream registries','Lifecycle policy to expire untagged'],
+   avoid:['Pushing :latest to mutable tags','Hand-rolled scanners','Self-hosted registries when ECR suffices'],
+   keywords:['ECR','image tag','immutable','replication','scan on push','CVE','digest'],
+   relatedTags:['ECR','Inspector','CodeBuild','EKS','ECS'],
+   trap:'Basic scan ≠ enhanced scan. For continuous + Lambda + OS package coverage you need Inspector v2.',
+   confidence:'High',
+   memory:'Container CVE = ECR + Inspector v2 enhanced. Immutable tags + lifecycle.',
+   domain:'SDLC Automation'},
+  {id:'r-image-builder',rule:'Build, test, distribute golden AMIs/container images via EC2 Image Builder pipeline (with Inspector test step and SSM Parameter Store of latest AMI ID).',
+   why:'Image Builder is the AWS-native, fully managed alternative to hand-rolled Packer pipelines. Integrates with Inspector, SSM, KMS, and cross-account/cross-region distribution.',
+   choose:['EC2 Image Builder pipeline','Inspector test components','SSM Parameter Store for latest AMI ID','Distribution configuration (cross-region/account)','Recipe + components'],
+   avoid:['Custom Packer + Jenkins when Image Builder fits','Hard-coded AMI IDs in Launch Templates'],
+   keywords:['golden image','AMI','Image Builder','recipe','component','distribution config'],
+   relatedTags:['EC2 Image Builder','Systems Manager','Inspector','EC2'],
+   trap:'Hand-rolled Packer is almost never the right answer on DOP-C02 when Image Builder is offered.',
+   confidence:'High',
+   memory:'Golden AMI/Image pipeline = EC2 Image Builder.',
+   domain:'Configuration Management & IaC'},
+  {id:'r-appconfig',rule:'Feature flags / dynamic config with progressive rollout, validators, and automatic rollback = AWS AppConfig.',
+   why:'AppConfig hosts configs, validates via JSON Schema or Lambda, and deploys with deployment strategies (canary/linear/all-at-once) + CloudWatch alarms for automatic rollback.',
+   choose:['AppConfig hosted configurations','JSON Schema or Lambda validator','Deployment strategy (linear/canary)','Alarm-based rollback'],
+   avoid:['Lambda env vars for dynamic flags','S3 manual JSON without validation','Custom feature-flag DBs'],
+   keywords:['feature flag','dynamic','validator','deployment strategy','rollback'],
+   relatedTags:['AppConfig','Lambda','CloudWatch'],
+   trap:'Env vars require redeploy; AppConfig does not.',
+   confidence:'High',
+   memory:'Feature flags safely = AppConfig.',
+   domain:'SDLC Automation'},
+  {id:'r-codeartifact',rule:'Private package repository (npm, pip, maven, NuGet) with upstream public proxy and cross-account share = AWS CodeArtifact.',
+   why:'CodeArtifact integrates with CodeBuild via IAM (no static credentials) and can proxy public registries to avoid supply-chain incidents.',
+   choose:['CodeArtifact domain + repos','Upstream public registry','Resource policies for cross-account','IAM auth in CodeBuild'],
+   avoid:['Self-hosted Nexus/Artifactory when CodeArtifact suffices','Public registry direct in builds'],
+   keywords:['npm','pip','maven','registry','package','upstream'],
+   relatedTags:['CodeArtifact','CodeBuild','IAM'],
+   trap:'CodeArtifact tokens expire (12h). Use codeartifact:GetAuthorizationToken in build, not static.',
+   confidence:'Medium',
+   memory:'Private package registry = CodeArtifact.',
+   domain:'SDLC Automation'},
+  {id:'r-codeguru',rule:'Automated code review (security/quality) and runtime profiling for performance hot spots = Amazon CodeGuru Reviewer + CodeGuru Profiler.',
+   why:'CodeGuru Reviewer comments on PRs with security/perf recommendations; CodeGuru Profiler attaches to running apps to flag CPU/latency hot paths.',
+   choose:['CodeGuru Reviewer associations with repo','CodeGuru Profiler agent in app','Findings → Security Hub'],
+   avoid:['Manual peer-only reviews when scale matters','Custom profilers'],
+   keywords:['code review','profiler','recommendations','hot path'],
+   relatedTags:['CodeGuru','Security Hub'],
+   trap:'CodeGuru Security findings can flow into Security Hub.',
+   confidence:'Medium',
+   memory:'Automated code review = CodeGuru Reviewer. Profiling = CodeGuru Profiler.',
+   domain:'SDLC Automation'},
+
+  // ---------- Observability extras ----------
+  {id:'r-synthetics',rule:'Endpoint / API / UI canary monitoring (uptime, latency, user flows) = CloudWatch Synthetics canaries (Puppeteer/Selenium scripts).',
+   why:'Synthetics catches outages BEFORE real users do. Canaries run on schedule and publish CloudWatch metrics + screenshots.',
+   choose:['CloudWatch Synthetics','Heartbeat / GUI workflow / API canary','Alarm on canary failure','Recorded scripts via CloudWatch Studio'],
+   avoid:['Hand-rolled curl + Lambda when Synthetics fits','Polling Route 53 health for app correctness'],
+   keywords:['canary','synthetic','endpoint test','uptime','blueprint'],
+   relatedTags:['CloudWatch','CloudWatch Synthetics'],
+   trap:'Synthetics canary ≠ Lambda canary deployment.',
+   confidence:'High',
+   memory:'Synthetic uptime checks = CloudWatch Synthetics.',
+   domain:'Monitoring & Logging'},
+  {id:'r-rum',rule:'Real-user performance / errors / sessions from a browser app = CloudWatch RUM.',
+   why:'RUM collects client-side metrics and integrates with X-Ray via ServiceLens.',
+   choose:['CloudWatch RUM JS snippet','RUM app monitors','ServiceLens integration with X-Ray'],
+   avoid:['3rd-party RUM when CloudWatch RUM fits the use case','Logs-only client telemetry'],
+   keywords:['RUM','browser','client metrics','session','ServiceLens'],
+   relatedTags:['CloudWatch','X-Ray'],
+   trap:'RUM is client-side; Synthetics is synthetic; CW agent is server-side.',
+   confidence:'Medium',
+   memory:'Real-user telemetry = CloudWatch RUM.',
+   domain:'Monitoring & Logging'},
+  {id:'r-ci-li',rule:'Deep observability for ECS/EKS = Container Insights. Deep observability for Lambda (init, cold start, memory) = Lambda Insights.',
+   why:'Both publish pre-aggregated CloudWatch metrics + Logs Insights queries. Avoid stitching together custom log parsers.',
+   choose:['Container Insights','Lambda Insights extension','ServiceLens for X-Ray correlation'],
+   avoid:['Custom CloudWatch agent scripts','3rd-party observability when native fits'],
+   keywords:['Container Insights','Lambda Insights','cold start','memory utilization','EKS','ECS'],
+   relatedTags:['CloudWatch','ECS','EKS','Lambda'],
+   trap:'Default Lambda metrics omit init duration & enhanced memory — needs Lambda Insights extension.',
+   confidence:'High',
+   memory:'Container obs = Container Insights. Lambda deep obs = Lambda Insights.',
+   domain:'Monitoring & Logging'},
+  {id:'r-logs-insights',rule:'Ad-hoc / interactive log analysis = CloudWatch Logs Insights query (stats, parse, filter). Long-term cost-effective queries = Athena over S3 logs.',
+   why:'Logs Insights is interactive but costs per GB scanned and is region-bound. Athena on S3-archived logs is cheaper for cold queries.',
+   choose:['Logs Insights for live ops','Athena over CloudTrail/VPC Flow/ALB access logs in S3','CloudTrail Lake for org audit queries'],
+   avoid:['Logs Insights for streaming triggers','Athena on hot streams'],
+   keywords:['Logs Insights','Athena','query','stats by','parse'],
+   relatedTags:['CloudWatch Logs','Athena','CloudTrail Lake'],
+   trap:'Logs Insights cannot trigger actions; use metric filters or subscriptions for triggers.',
+   confidence:'High',
+   memory:'Live query = Logs Insights. Cold S3 query = Athena.',
+   domain:'Monitoring & Logging'},
+  {id:'r-vpc-flow',rule:'Network traffic forensics & anomaly investigation = VPC Flow Logs to S3 (or CloudWatch Logs), queried via Athena; integrate with GuardDuty.',
+   why:'Flow logs capture L4 metadata. GuardDuty automatically consumes them for threat findings. Athena makes ad-hoc queries cheap.',
+   choose:['VPC Flow Logs (S3 destination)','Athena queries with partitions','GuardDuty findings','Traffic Mirroring for full PCAP'],
+   avoid:['Building custom network sniffers','Flow Logs to CW for cheap long-term retention'],
+   keywords:['flow log','traffic','REJECTED','SG','NACL','forensics'],
+   relatedTags:['VPC','S3','Athena','GuardDuty'],
+   trap:'Flow Logs do NOT capture payload (use Traffic Mirroring for that).',
+   confidence:'High',
+   memory:'Network forensics = VPC Flow Logs → Athena.',
+   domain:'Monitoring & Logging'},
+
+  // ---------- Incident & Event Response extras ----------
+  {id:'r-incident-mgr',rule:'On-call paging, escalations, runbooks, post-incident analysis = AWS Systems Manager Incident Manager.',
+   why:'Incident Manager integrates with CloudWatch alarms/EventBridge to start incidents, run response plans, page contacts, attach runbooks (SSM Automation), and produce timelines.',
+   choose:['Incident Manager','Response plans','Contacts + escalation','SSM Automation runbooks','AWS Chatbot integration'],
+   avoid:['Pure SNS for paging','3rd-party only when Incident Manager fits'],
+   keywords:['incident','on-call','paging','escalation','response plan','runbook'],
+   relatedTags:['Systems Manager','Incident Manager','Chatbot','SNS','EventBridge'],
+   trap:'PagerDuty alone is fine but Incident Manager is the AWS-native answer with audit trail.',
+   confidence:'High',
+   memory:'On-call AWS-native = Incident Manager.',
+   domain:'Incident & Event Response'},
+  {id:'r-opscenter',rule:'Track operational issues across accounts as actionable items = AWS Systems Manager OpsCenter (OpsItems).',
+   why:'OpsItems centralize alerts (from CloudWatch, Config, Security Hub, GuardDuty) into a queue with runbook links and ownership.',
+   choose:['OpsCenter','EventBridge → CreateOpsItem','Automated remediation via SSM Automation'],
+   avoid:['Custom ticketing for AWS-only ops','Email-only alerting'],
+   keywords:['OpsItem','OpsCenter','operational issue'],
+   relatedTags:['Systems Manager','EventBridge','Security Hub','GuardDuty'],
+   trap:'Don\'t confuse OpsCenter (issue queue) with Incident Manager (paging/response).',
+   confidence:'Medium',
+   memory:'Operational backlog = OpsCenter; on-call response = Incident Manager.',
+   domain:'Incident & Event Response'},
+  {id:'r-change-cal',rule:'Block deployments during freeze windows (peak season, finance close) = SSM Change Calendar (OPEN/CLOSED events).',
+   why:'Pipelines/Automation/Lambda can call GetCalendarState to refuse to run when CLOSED. Centralized governance.',
+   choose:['SSM Change Calendar (DEFAULT_OPEN / DEFAULT_CLOSED)','Pipeline gate calling GetCalendarState','EventBridge schedule for open/closed events'],
+   avoid:['Manual freeze emails','Pipeline disabling by humans'],
+   keywords:['change freeze','calendar','blackout','closed window'],
+   relatedTags:['Systems Manager','CodePipeline','Lambda'],
+   trap:'Change Manager is the approval workflow; Change Calendar is the freeze window.',
+   confidence:'Medium',
+   memory:'Deployment freeze = SSM Change Calendar.',
+   domain:'Incident & Event Response'},
+  {id:'r-chatbot',rule:'Send AWS notifications and run commands from Slack/Microsoft Teams/Chime channels = AWS Chatbot.',
+   why:'Chatbot subscribes to SNS topics and CloudWatch/EventBridge events, posts to channels, and (with IAM) runs read-only or templated commands.',
+   choose:['AWS Chatbot','SNS → Chatbot','EventBridge → Chatbot','IAM channel policies'],
+   avoid:['Custom Slack webhooks for AWS alerts','API Gateway+Lambda Slack bridges'],
+   keywords:['Slack','Teams','Chime','channel','notification'],
+   relatedTags:['Chatbot','SNS','EventBridge'],
+   trap:'Chatbot requires IAM channel role; without it, write commands are rejected.',
+   confidence:'High',
+   memory:'AWS → Slack/Teams = Chatbot.',
+   domain:'Incident & Event Response'},
+
+  // ---------- Resilience / DR extras ----------
+  {id:'r-aurora-global',rule:'Lowest-RPO/RTO multi-region relational DR = Aurora Global Database (sub-second replica lag, ~1 min failover).',
+   why:'Aurora Global DB uses storage-level async replication to a secondary region. Promote secondary in < 1 minute. Up to 5 secondary regions.',
+   choose:['Aurora Global Database','Managed failover','Headless secondary for cost'],
+   avoid:['Cross-region read replicas for sub-minute DR','Snapshot copies for low RTO'],
+   keywords:['Aurora','Global Database','cross-region','RPO seconds','failover'],
+   relatedTags:['RDS','Aurora'],
+   trap:'Aurora cross-region read replica ≠ Global DB. Global DB is faster.',
+   confidence:'High',
+   memory:'Sub-minute relational DR = Aurora Global Database.',
+   domain:'Resilient Cloud Solutions'},
+  {id:'r-asg-instance-refresh',rule:'Roll an ASG to a new AMI/launch template version with minimum-healthy / warm pool control = ASG Instance Refresh.',
+   why:'Instance Refresh gradually replaces instances respecting MinHealthyPercentage and instance warmup, with rollback support.',
+   choose:['ASG Instance Refresh','MinHealthyPercentage','InstanceWarmup','SkipMatching','Auto-rollback'],
+   avoid:['Manual terminate/replace loops','Editing the LT without rolling'],
+   keywords:['instance refresh','launch template','warm pool','rolling'],
+   relatedTags:['Auto Scaling','EC2','EC2 Image Builder'],
+   trap:'Just updating the Launch Template does NOT replace running instances. You must trigger a refresh.',
+   confidence:'High',
+   memory:'Roll ASG to new AMI = Instance Refresh.',
+   domain:'Resilient Cloud Solutions'},
+  {id:'r-r53-arc',rule:'Coordinated multi-region failover with safety controls = Amazon Route 53 Application Recovery Controller (ARC) routing controls + readiness checks.',
+   why:'ARC gives you safe, observable failover switches and continuously verifies replica readiness across resources.',
+   choose:['Route 53 ARC routing controls','ARC readiness checks','Safety rules to prevent double-active'],
+   avoid:['Pure failover without readiness','Hand-edited DNS during incidents'],
+   keywords:['ARC','recovery controller','routing control','readiness'],
+   relatedTags:['Route 53','Disaster Recovery'],
+   trap:'Plain Route 53 failover lacks safety rules; ARC adds them.',
+   confidence:'Medium',
+   memory:'Safe multi-region failover = Route 53 ARC.',
+   domain:'Resilient Cloud Solutions'},
+  {id:'r-lambda-dlq',rule:'Lambda async error handling = Lambda Destinations (preferred) or DLQ (legacy SQS/SNS). Sync invokers must handle errors themselves.',
+   why:'Destinations capture BOTH success and failure events to SNS/SQS/EventBridge/Lambda. DLQ only captures failures and lacks event payload metadata.',
+   choose:['Lambda Destinations','SQS DLQ for legacy','MaximumRetryAttempts + MaximumEventAge'],
+   avoid:['Swallowing errors in code','Custom DLQ via Lambda when Destinations work'],
+   keywords:['DLQ','destinations','async','OnFailure','OnSuccess'],
+   relatedTags:['Lambda','SQS','SNS','EventBridge'],
+   trap:'Sync (API Gateway) calls Lambda → errors return to client; Destinations/DLQ only apply to async.',
+   confidence:'High',
+   memory:'Lambda async failure = Destinations (or DLQ for legacy).',
+   domain:'Resilient Cloud Solutions'},
+  {id:'r-sfn-error',rule:'Step Functions native error handling = Retry (backoff) + Catch (route to handler state) + ResultPath; no custom Lambda for orchestration retries.',
+   why:'Built-in retry/catch is more reliable and observable than hand-rolled state machines or Lambda wrappers.',
+   choose:['Retry with IntervalSeconds/BackoffRate/MaxAttempts','Catch with ResultPath','States.ALL fallback'],
+   avoid:['Lambda-based orchestration','Manual retry loops'],
+   keywords:['Retry','Catch','BackoffRate','States.ALL','ResultPath'],
+   relatedTags:['Step Functions','Lambda'],
+   trap:'Step Functions Express does NOT support waitForTaskToken — use Standard for callback patterns.',
+   confidence:'High',
+   memory:'Workflow retries = Step Functions Retry/Catch (not Lambda).',
+   domain:'SDLC Automation'},
+
+  // ---------- Security & Compliance extras ----------
+  {id:'r-kms',rule:'Customer-managed encryption with rotation, cross-account, multi-region, and per-service grants = AWS KMS (customer-managed keys).',
+   why:'AWS-managed keys cannot be shared cross-account. CMKs auto-rotate annually (opt-in). Multi-region keys (MRKs) replicate to other regions with same key ID.',
+   choose:['Customer-managed CMK','Annual auto rotation','Multi-Region Keys (MRK)','Key policy + grants','S3 Bucket Keys to cut KMS API cost'],
+   avoid:['AWS-managed keys for cross-account','Storing data keys','Manual rotation when auto works'],
+   keywords:['KMS','CMK','rotation','MRK','grant','envelope encryption'],
+   relatedTags:['KMS','S3','EBS','RDS','Secrets Manager'],
+   trap:'AWS-managed keys cannot be edited, shared, or rotated on demand. Use CMKs for control.',
+   confidence:'High',
+   memory:'Control + share keys = customer-managed CMK.',
+   domain:'Security & Compliance'},
+  {id:'r-s3-object-lock',rule:'Immutable object retention (WORM) for ransomware protection / compliance = S3 Object Lock (governance or compliance mode) + versioning.',
+   why:'Compliance mode is IRREVERSIBLE — even root cannot delete during retention. Governance mode allows privileged override.',
+   choose:['Object Lock (compliance for SEC/FINRA)','Object Lock (governance for ops)','Retention period or Legal Hold','Versioning required'],
+   avoid:['Bucket policy alone for WORM','Disabling versioning'],
+   keywords:['Object Lock','WORM','compliance mode','governance mode','legal hold','retention'],
+   relatedTags:['S3','AWS Backup'],
+   trap:'Object Lock requires versioning. Without versioning, you cannot enable it.',
+   confidence:'High',
+   memory:'S3 WORM = Object Lock + versioning.',
+   domain:'Security & Compliance'},
+  {id:'r-waf-shield',rule:'L7 web ACL filtering (SQLi, XSS, rate limit, geo, IP) = AWS WAF on CloudFront/ALB/API GW. Advanced DDoS protection = Shield Advanced + WAF.',
+   why:'Shield Standard is free and covers L3/L4. Shield Advanced adds L7 protections + DRT + cost protection.',
+   choose:['WAF managed rule groups (AMR)','Rate-based rules','Shield Advanced for high-value apps','CloudFront in front of regional endpoints'],
+   avoid:['Custom Lambda@Edge for protection AWS WAF already does','NACLs alone for L7'],
+   keywords:['WAF','Shield','DDoS','rate limit','managed rules','OWASP'],
+   relatedTags:['WAF','Shield','CloudFront','ALB','API Gateway'],
+   trap:'WAF attaches to CloudFront, ALB, API GW, AppSync. NOT to NLB directly.',
+   confidence:'High',
+   memory:'L7 attacks = WAF; L3/L4 DDoS = Shield (Standard free; Advanced for SLA + DRT).',
+   domain:'Security & Compliance'},
+  {id:'r-control-tower',rule:'Set up a multi-account landing zone with guardrails, OUs, log archive + audit accounts = AWS Control Tower (Account Factory for vending).',
+   why:'Control Tower automates Organizations + SSO + Config + CloudTrail + central buckets, with preventive (SCP) and detective (Config) guardrails.',
+   choose:['Control Tower landing zone','Account Factory','Customizations for Control Tower (CfCT)','Service Catalog distribution'],
+   avoid:['Manual multi-account setup','Per-account hand-configured CloudTrail'],
+   keywords:['landing zone','Account Factory','guardrail','multi-account','OU'],
+   relatedTags:['Control Tower','Organizations','Service Catalog','Config','CloudTrail'],
+   trap:'CfCT (Customizations for Control Tower) is the supported way to inject custom CFN into vended accounts.',
+   confidence:'High',
+   memory:'Landing zone = Control Tower; per-account vending = Account Factory.',
+   domain:'Security & Compliance'},
+  {id:'r-service-catalog',rule:'Curated, governed self-service infrastructure for internal teams = AWS Service Catalog products (backed by CloudFormation/CDK).',
+   why:'Limits what developers can launch to approved templates with constraints (launch role, region restrictions). Use TagOptions for cost allocation.',
+   choose:['Service Catalog products','Launch constraints','TagOptions','Org-wide sharing','Hub-and-spoke distribution'],
+   avoid:['Letting teams write raw CFN','IAM-only restrictions when products fit'],
+   keywords:['Service Catalog','product','portfolio','launch constraint'],
+   relatedTags:['Service Catalog','CloudFormation','Organizations'],
+   trap:'Service Catalog products run with the launch ROLE\'s permissions, not the user\'s.',
+   confidence:'Medium',
+   memory:'Governed self-service IaC = Service Catalog.',
+   domain:'Security & Compliance'},
+  {id:'r-ram',rule:'Share AWS resources (subnets, TGW, Resolver rules, License Mgr configs, Image Builder) across accounts = AWS Resource Access Manager (RAM).',
+   why:'RAM eliminates duplication. Sharing subnets enables hub-and-spoke VPC patterns.',
+   choose:['RAM resource shares','Org-level sharing'],
+   avoid:['Re-creating subnets per account','VPC peering when shared subnets work'],
+   keywords:['RAM','resource share','subnet share','TGW','Resolver rule'],
+   relatedTags:['Resource Access Manager','VPC','Transit Gateway'],
+   trap:'Not all resources are shareable via RAM — check the supported list.',
+   confidence:'Medium',
+   memory:'Cross-account resource share = RAM.',
+   domain:'Security & Compliance'},
+  {id:'r-iam-access-analyzer',rule:'Find external access to your resources (S3, IAM roles, KMS, Secrets, ECR, SQS, Lambda, RDS snapshots) = IAM Access Analyzer.',
+   why:'Continuously evaluates resource policies and flags external principals. Also has policy validation and unused access analysis.',
+   choose:['IAM Access Analyzer','Organization analyzer scope','Policy validation in CI','Unused access analyzer'],
+   avoid:['Manual policy reviews','Custom Lambda policy parsers'],
+   keywords:['Access Analyzer','external access','public','unused permissions','policy validation'],
+   relatedTags:['IAM','Security Hub'],
+   trap:'Org analyzer detects EXTERNAL access (outside the org); per-account detects external to that account.',
+   confidence:'High',
+   memory:'External access detection = IAM Access Analyzer.',
+   domain:'Security & Compliance'},
+  {id:'r-trusted-advisor',rule:'Best-practice checks (security, cost, performance, fault tolerance, service limits) = AWS Trusted Advisor (full set requires Business+ Support).',
+   why:'Trusted Advisor surfaces unused EBS, public S3, exposed access keys, low utilization, service-quota approach. Events fire on EventBridge for automation.',
+   choose:['Trusted Advisor','EventBridge from TA','SNS notifications','Auto-remediation via SSM Automation'],
+   avoid:['Custom inventory scripts','One-off audits'],
+   keywords:['Trusted Advisor','best practice','service limit','idle','underutilized'],
+   relatedTags:['Trusted Advisor','EventBridge','Systems Manager','Security Hub'],
+   trap:'Full Trusted Advisor needs Business/Enterprise Support. The free tier is limited.',
+   confidence:'Medium',
+   memory:'AWS best-practice checks = Trusted Advisor.',
+   domain:'Security & Compliance'},
+
+  // ---------- Networking / Edge extras ----------
+  {id:'r-cloudfront',rule:'Global content delivery, TLS termination, WAF integration, origin failover, and edge compute = Amazon CloudFront.',
+   why:'CloudFront edge caches reduce origin load and latency; OAC restricts S3 origins; origin groups give failover; functions/Lambda@Edge run at the edge.',
+   choose:['CloudFront distributions','OAC (Origin Access Control) for S3','Origin groups for failover','CloudFront Functions / Lambda@Edge','Realtime logs to Kinesis'],
+   avoid:['OAI for new builds (OAC supersedes)','Public S3 buckets as origin'],
+   keywords:['CloudFront','edge','OAC','origin failover','invalidation','signed URL'],
+   relatedTags:['CloudFront','S3','Lambda@Edge','WAF'],
+   trap:'OAI is legacy. New designs should use OAC (supports KMS encrypted buckets too).',
+   confidence:'High',
+   memory:'Edge CDN + secure S3 origin = CloudFront + OAC.',
+   domain:'Resilient Cloud Solutions'},
+  {id:'r-global-accel',rule:'Static anycast IPs + TCP/UDP edge acceleration with health-aware routing = AWS Global Accelerator. (HTTP/S only? prefer CloudFront.)',
+   why:'GA gives 2 static anycast IPs that route to the nearest healthy endpoint. Great for non-HTTP or for whitelisting.',
+   choose:['Global Accelerator (TCP/UDP, static IPs)','Endpoint groups across regions','Traffic dial for blue/green'],
+   avoid:['Custom DNS failover when GA works','CloudFront for non-HTTP'],
+   keywords:['Global Accelerator','anycast','static IP','endpoint group','traffic dial'],
+   relatedTags:['Global Accelerator','Route 53','NLB','ALB'],
+   trap:'For pure HTTP(S) caching/edge, CloudFront is usually the right answer.',
+   confidence:'Medium',
+   memory:'Static IPs + TCP/UDP edge = Global Accelerator.',
+   domain:'Resilient Cloud Solutions'},
+];
+
+const KEYMAP = [
+  {pattern:'"LEAST operational overhead" / "MOST cost-effective" / "least management"',service:'Managed/serverless services — Lambda, Fargate, S3, DynamoDB, Step Functions, SSM Automation',avoid:'Self-managed EC2 clusters, custom polling Lambdas, hand-rolled cron scripts',tags:['Lambda','Fargate','Step Functions','Systems Manager']},
+  {pattern:'"near real-time" log processing / streaming',service:'CloudWatch Logs subscription filter → Lambda OR Kinesis Data Firehose/Streams',avoid:'Logs Insights queries (query-time), polling DescribeLogStreams',tags:['CloudWatch Logs','Kinesis','Lambda']},
+  {pattern:'"compliance" / "audit" / "PCI" / "HIPAA"',service:'AWS Config rules + Conformance Packs, CloudTrail Org Trail, Security Hub, AWS Audit Manager, S3 Object Lock',avoid:'Custom Lambdas, ad-hoc audits, CloudWatch Logs alone',tags:['Config','CloudTrail','Security Hub','Audit Manager']},
+  {pattern:'"zero downtime" / "no service interruption" / "fast rollback"',service:'CodeDeploy blue/green; ALB blue/green via target group swap; Beanstalk swap-URL; Lambda alias weighted',avoid:'In-place rolling without health checks; "all at once"',tags:['CodeDeploy','Elastic Beanstalk','Lambda','ALB']},
+  {pattern:'"multi-account" / "multi-region" / "Organizations OU"',service:'CloudFormation StackSets (service-managed), AWS Control Tower, Organizations SCPs, AWS Backup org policies',avoid:'Per-account CLI loops, separate pipelines per account',tags:['StackSets','Organizations','Control Tower','AWS Backup']},
+  {pattern:'"sensitive data" / "PII" / "credit card" in S3',service:'Amazon Macie (auto-classify), KMS encryption, S3 Block Public Access',avoid:'Custom Glue jobs to find PII, manual S3 review',tags:['Macie','S3','KMS']},
+  {pattern:'"rotate" / "rotation" of credentials',service:'AWS Secrets Manager with rotation Lambda',avoid:'Parameter Store (no rotation), manual rotation',tags:['Secrets Manager','Lambda']},
+  {pattern:'"detect non-compliant" / "remediate" resource',service:'AWS Config rule + SSM Automation document (auto-remediation)',avoid:'Lambda + EventBridge for STANDARD remediations',tags:['Config','Systems Manager']},
+  {pattern:'"threat" / "compromised" / "crypto mining" / "unusual API"',service:'Amazon GuardDuty; EventBridge → SSM Automation or Lambda to remediate',avoid:'CloudTrail-only detection, custom anomaly scripts',tags:['GuardDuty','EventBridge']},
+  {pattern:'"distributed tracing" / "latency across services"',service:'AWS X-Ray + service map',avoid:'Log correlation IDs alone, CloudWatch Logs for tracing',tags:['X-Ray']},
+  {pattern:'"memory" / "RAM" / "process count" from EC2',service:'CloudWatch agent (unified) + procstat plugin',avoid:'Default EC2 metrics (no memory!)',tags:['CloudWatch Agent','CloudWatch']},
+  {pattern:'"approve" / "manual approval" in pipeline',service:'CodePipeline Manual Approval Action + SNS notification',avoid:'Lambda check-and-pause hacks',tags:['CodePipeline','SNS']},
+  {pattern:'"build" + "test" + "coverage report" + "fail pipeline if X"',service:'CodeBuild buildspec + report group; CodePipeline test action',avoid:'Jenkins when CodeBuild suffices',tags:['CodeBuild','CodePipeline']},
+  {pattern:'"sync" container images across accounts/regions',service:'ECR cross-region/cross-account replication; pull-through cache for public registries',avoid:'Custom Lambda docker push loops',tags:['ECR','Lambda']},
+  {pattern:'"on-premises" servers integrated with AWS Ops',service:'Systems Manager hybrid (managed nodes), IAM Roles Anywhere, AWS Direct Connect/Site-to-Site VPN',avoid:'Custom agents/scripts for fleet mgmt',tags:['Systems Manager','IAM','Direct Connect']},
+  {pattern:'"feature flag" / "dynamic config"',service:'AWS AppConfig (with validators + deployment strategies); CloudWatch Evidently for A/B',avoid:'Lambda env vars for dynamic flags (requires deploy)',tags:['AppConfig','CloudWatch Evidently']},
+  {pattern:'"deploy to many regions" of the same app',service:'CodePipeline with multi-region deploy actions; CloudFormation StackSets',avoid:'Single-region pipeline + manual copy',tags:['CodePipeline','StackSets']},
+  {pattern:'"detect drift" between deployed infra and template',service:'CloudFormation Drift Detection (manual or via EventBridge schedule); Config rules',avoid:'Custom diffs, Lambda inventory',tags:['CloudFormation','Config']},
+  {pattern:'"data residency" / "must stay in country X"',service:'Route 53 Geolocation routing; bucket region restrictions via SCPs',avoid:'Latency routing for residency, manual region picks',tags:['Route 53','Organizations']},
+  {pattern:'"central log archive" for all accounts',service:'Organization CloudTrail to central S3 + Logs subscription to Kinesis Firehose → S3/OpenSearch in audit account',avoid:'Per-account trails, no aggregation',tags:['CloudTrail','S3','Kinesis','OpenSearch']},
+  {pattern:'"queue" / "decouple"',service:'SQS (queue, polling), SNS (pub/sub), EventBridge (rules+filtering)',avoid:'Custom polling, DB-as-queue',tags:['SQS','SNS','EventBridge']},
+  {pattern:'"fanout" one message to many subscribers',service:'SNS topic → multiple SQS queues / Lambdas / Firehose',avoid:'EventBridge for simple fan-out (use it for filtered routing)',tags:['SNS','SQS','Lambda']},
+  {pattern:'"workflow" / "long-running" / "human approval step"',service:'AWS Step Functions Standard workflows + activity tasks',avoid:'Chained Lambdas with custom retry',tags:['Step Functions','Lambda']},
+  {pattern:'"snapshot" / "AMI" backups / "lifecycle policy"',service:'Data Lifecycle Manager (DLM) for EBS/AMI; AWS Backup for unified',avoid:'Custom snapshot Lambdas',tags:['Data Lifecycle Manager','AWS Backup','EBS']},
+  {pattern:'"who" + "API call" + "audit"',service:'CloudTrail Lake / Athena over CloudTrail S3 logs',avoid:'Logs Insights for CloudTrail when Athena/Lake fits better',tags:['CloudTrail','Athena']},
+  {pattern:'"endpoint uptime" / "synthetic test" / "user journey"',service:'CloudWatch Synthetics canary (heartbeat / API / GUI workflow)',avoid:'Lambda + curl scripts, Route 53 health checks for app correctness',tags:['CloudWatch Synthetics','CloudWatch']},
+  {pattern:'"client-side / real-user / page load metrics"',service:'CloudWatch RUM (browser JS snippet)',avoid:'3rd-party RUM when CW RUM fits',tags:['CloudWatch','X-Ray']},
+  {pattern:'"container metrics" / "EKS or ECS observability"',service:'CloudWatch Container Insights',avoid:'Custom Prometheus when not required',tags:['CloudWatch','ECS','EKS']},
+  {pattern:'"Lambda cold start" / "deep Lambda observability"',service:'CloudWatch Lambda Insights extension',avoid:'Custom logging of timings',tags:['CloudWatch','Lambda']},
+  {pattern:'"private package registry" / "npm/pip/maven repo"',service:'AWS CodeArtifact (with upstream public registry proxy)',avoid:'Self-hosted Nexus/Artifactory',tags:['CodeArtifact','CodeBuild']},
+  {pattern:'"code review comments" / "code quality findings"',service:'Amazon CodeGuru Reviewer',avoid:'Manual-only review at scale',tags:['CodeGuru']},
+  {pattern:'"profile production app" / "CPU hot path"',service:'Amazon CodeGuru Profiler',avoid:'Local profilers in production',tags:['CodeGuru']},
+  {pattern:'"on-call" / "paging" / "escalation"',service:'AWS Systems Manager Incident Manager + Chatbot',avoid:'SNS-only paging when escalations matter',tags:['Incident Manager','Systems Manager','Chatbot']},
+  {pattern:'"OpsItem" / "operational issue queue"',service:'AWS Systems Manager OpsCenter',avoid:'Email-only alerting',tags:['Systems Manager','OpsCenter','EventBridge']},
+  {pattern:'"deployment freeze" / "blackout window"',service:'SSM Change Calendar (DEFAULT_OPEN / DEFAULT_CLOSED + GetCalendarState gate)',avoid:'Humans manually disabling pipelines',tags:['Systems Manager','CodePipeline']},
+  {pattern:'"notify channel" / "Slack" / "Teams" / "Chime"',service:'AWS Chatbot ← SNS / EventBridge',avoid:'Custom webhooks',tags:['Chatbot','SNS','EventBridge']},
+  {pattern:'"landing zone" / "vend new account" / "guardrail"',service:'AWS Control Tower + Account Factory (CfCT for customizations)',avoid:'Manual Organizations setup',tags:['Control Tower','Organizations','Service Catalog']},
+  {pattern:'"self-service IaC" / "approved templates only"',service:'AWS Service Catalog products (launch constraints, TagOptions)',avoid:'Free-form CFN to dev teams',tags:['Service Catalog','CloudFormation']},
+  {pattern:'"share subnets / TGW / Resolver rules" cross-account',service:'AWS Resource Access Manager (RAM)',avoid:'Re-creating shared infra per account',tags:['Resource Access Manager','VPC','Transit Gateway']},
+  {pattern:'"public access" / "external principal" detection',service:'IAM Access Analyzer (Org-scope) + Security Hub',avoid:'Custom policy parsers',tags:['IAM','Security Hub']},
+  {pattern:'"WORM" / "immutable object" / "regulatory retention"',service:'S3 Object Lock (compliance/governance) + Versioning',avoid:'Bucket policy denials only',tags:['S3','AWS Backup']},
+  {pattern:'"DDoS" / "L7 attack" / "OWASP"',service:'AWS WAF (managed rule groups, rate-based rules) + Shield Advanced for high-value apps',avoid:'NACL/SG-only L7 protection',tags:['WAF','Shield','CloudFront']},
+  {pattern:'"private app from VPC" without internet',service:'VPC Endpoints — Gateway for S3/DynamoDB, Interface (PrivateLink) for others',avoid:'NAT for service-to-service traffic',tags:['VPC','S3','DynamoDB']},
+  {pattern:'"replace AMI in ASG" / "roll fleet"',service:'ASG Instance Refresh + new Launch Template version',avoid:'Manual terminate loops',tags:['Auto Scaling','EC2']},
+  {pattern:'"sub-minute relational failover across region"',service:'Aurora Global Database (managed failover)',avoid:'Cross-region read replica when RTO < 5 min',tags:['RDS','Aurora']},
+  {pattern:'"safe multi-region failover with readiness"',service:'Route 53 Application Recovery Controller (ARC) routing controls + readiness checks',avoid:'Plain failover routing for critical workloads',tags:['Route 53']},
+  {pattern:'"Lambda async error" / "DLQ"',service:'Lambda Destinations (preferred) → SNS/SQS/EventBridge/Lambda; or DLQ for legacy',avoid:'Swallowing exceptions in code',tags:['Lambda','SQS','SNS','EventBridge']},
+  {pattern:'"orchestration" / "retry with backoff" / "state machine"',service:'AWS Step Functions Retry + Catch (Standard for long, Express for high-volume)',avoid:'Hand-rolled Lambda chains',tags:['Step Functions','Lambda']},
+  {pattern:'"key rotation" / "cross-account key" / "multi-region key"',service:'AWS KMS customer-managed CMK (annual auto rotation; Multi-Region Keys)',avoid:'AWS-managed keys for cross-account',tags:['KMS']},
+];
+
+const CASE_STUDIES = [
+  {scenario:'Multi-region disaster recovery for CloudFormation-managed app, RPO seconds, RTO minutes.',pattern:'Active-active or warm-standby. Use StackSets to deploy stacks to DR region, Aurora Global Database (or DynamoDB Global Tables), Route 53 Failover (or Global Accelerator), S3 CRR, AWS Backup cross-region copies.',trap:'"Backup and restore" = wrong for RTO < 1h. Cross-region snapshot copy alone = high RTO.',services:['CloudFormation','StackSets','Aurora Global','Route 53','S3','AWS Backup'],tags:['CloudFormation','Route 53','RDS','S3','AWS Backup']},
+  {scenario:'Continuous compliance: ensure all EBS volumes are encrypted; auto-remediate non-compliant.',pattern:'AWS Config rule encrypted-volumes + SSM Automation document AWS-EnableEbsEncryptionByDefault / custom remediation; CloudWatch Events for new resources; report findings to Security Hub.',trap:'Lambda-only remediations require more glue. SSM Automation already exists for common cases.',services:['Config','Systems Manager','Security Hub','EBS','KMS'],tags:['Config','Systems Manager','Security Hub']},
+  {scenario:'Centralized log aggregation for an Org of 50 accounts, with long-term archive and ad-hoc query.',pattern:'Organization CloudTrail → central S3 in audit account (lifecycle to Glacier). CloudWatch Logs subscription filters in each account → Kinesis Data Firehose → S3 + OpenSearch. Athena/CloudTrail Lake for query.',trap:'"Push to CloudWatch in audit account" requires cross-account destination ARN with permissions.',services:['CloudTrail','CloudWatch Logs','Kinesis Firehose','S3','OpenSearch','Athena'],tags:['CloudTrail','CloudWatch Logs','Kinesis','S3','Athena']},
+  {scenario:'Blue/green deployment for an ECS Fargate service behind ALB with automatic rollback.',pattern:'CodeDeploy ECS compute platform + ALB with two target groups + test listener + CloudWatch alarms for HTTP 5xx; AppSpec.yaml referencing taskDefinition; deployment configuration CodeDeployDefault.ECSCanary10Percent5Minutes.',trap:'ECS rolling update ≠ blue/green. ECS-native deploy lacks test listener / fast rollback.',services:['ECS','CodeDeploy','ALB','CloudWatch'],tags:['ECS','CodeDeploy','ALB','CloudWatch']},
+  {scenario:'Patch Linux fleet (mix of EC2 + on-prem) with maintenance windows weekly, exclude certain instances by tag.',pattern:'SSM hybrid activation for on-prem; Patch Manager patch baseline; Maintenance window task; targets by tag (PatchGroup=prod) — exceptions tagged with PatchGroup=excluded.',trap:'Forgetting the SSM agent or instance profile = "instance not appearing in inventory".',services:['Systems Manager','Patch Manager','EC2'],tags:['Systems Manager','Patch Manager']},
+  {scenario:'Detect leaked credentials posted to GitHub and quarantine the user.',pattern:'GuardDuty Recon/UnauthorizedAccess findings → EventBridge rule → Step Functions / Lambda → IAM AttachUserPolicy (deny) + SNS notification + revoke active sessions.',trap:'Disabling user vs adding deny policy — the latter is reversible and audit-friendly.',services:['GuardDuty','EventBridge','Lambda','IAM','SNS'],tags:['GuardDuty','EventBridge','Lambda','IAM']},
+  {scenario:'Zero-downtime RDS major version upgrade with rollback safety.',pattern:'Create cross-region/cross-version Read Replica → run app tests against it → promote during a maintenance window. Use Multi-AZ for HA. Use snapshots for point-in-time rollback.',trap:'Direct in-place upgrade has downtime. Promote-replica pattern is safer.',services:['RDS','Aurora'],tags:['RDS']},
+  {scenario:'Distribute the same CFN stack to all new AWS Org accounts automatically.',pattern:'CloudFormation StackSets with service-managed permissions; target = root OU or specific OU; auto-deployment = enabled on account add.',trap:'Self-managed permissions duplicate role creation work and fail audits.',services:['CloudFormation','StackSets','Organizations'],tags:['CloudFormation','StackSets','Organizations']},
+  {scenario:'Implement immutable AMI pipeline (golden image) with security scanning.',pattern:'EC2 Image Builder pipeline (build → test → distribute) with Inspector vulnerability scan; pipeline triggers via EventBridge; SSM Parameter Store stores latest AMI ID consumed by ASG launch templates.',trap:'Hand-rolled Packer when Image Builder is the AWS-native fit on DOP-C02.',services:['EC2 Image Builder','Inspector','SSM','EventBridge','EC2'],tags:['EC2 Image Builder','Systems Manager','EventBridge']},
+  {scenario:'Auto-respond to Trusted Advisor / Security Hub findings.',pattern:'Findings → EventBridge rules → SSM Automation runbooks for known remediations, or Step Functions for multi-step responses; notify via SNS / Slack via AWS Chatbot.',trap:'Custom Lambdas without governance — prefer SSM Automation for standard runbooks.',services:['Trusted Advisor','Security Hub','EventBridge','Systems Manager','SNS','Chatbot'],tags:['Trusted Advisor','Security Hub','EventBridge','Systems Manager']},
+  {scenario:'CICD pipeline that fails build if unit test coverage <80%.',pattern:'CodeBuild buildspec → run tests, produce CodeBuild Reports (JUnit/Cobertura); CodeBuild Report Group with pass/fail thresholds; CodeBuild fails → CodePipeline stage fails.',trap:'Manual coverage parsing in shell is fragile. Use CodeBuild Reports.',services:['CodeBuild','CodePipeline'],tags:['CodeBuild','CodePipeline']},
+  {scenario:'Detect when a CFN stack drifts and notify ops.',pattern:'EventBridge schedule → Lambda or SSM Automation calling cfn:DetectStackDrift → on DRIFTED, publish to SNS / create OpsItem in OpsCenter.',trap:'CFN doesn\'t auto-detect drift continuously — you must trigger it.',services:['CloudFormation','EventBridge','Lambda','SNS','Systems Manager OpsCenter'],tags:['CloudFormation','EventBridge','Lambda','SNS']},
+  {scenario:'Migrate Jenkins pipelines to AWS-native CICD.',pattern:'Replace Jenkins steps with CodePipeline + CodeBuild + CodeDeploy. Store secrets in Secrets Manager. Source from GitHub via CodeStar Connections.',trap:'Running Jenkins inside CodeBuild is an anti-pattern.',services:['CodePipeline','CodeBuild','CodeDeploy','Secrets Manager'],tags:['CodePipeline','CodeBuild','CodeDeploy','Secrets Manager']},
+  {scenario:'Block production deployments when a vulnerable image is in ECR.',pattern:'ECR enhanced scan (Inspector) on push → if findings critical, deny in pipeline via Lambda gate or CodePipeline approval action; Security Hub finding → EventBridge → fail pipeline.',trap:'Basic scan only catches some CVEs — use enhanced scanning (Inspector).',services:['ECR','Inspector','Security Hub','CodePipeline','Lambda'],tags:['ECR','Inspector','Security Hub','CodePipeline']},
+  {scenario:'On-prem to AWS hybrid deployments without rewriting Ansible/Chef.',pattern:'Systems Manager hybrid managed instances (advanced or standard tier); IAM Roles Anywhere for cred-less API calls; Run Command / State Manager / Patch Manager for fleet ops.',trap:'OpsWorks is the legacy answer; favor SSM hybrid on DOP-C02.',services:['Systems Manager','IAM Roles Anywhere'],tags:['Systems Manager','IAM']},
+  {scenario:'Cross-account CodePipeline: source in dev account, deploy in prod account, all encrypted.',pattern:'Pipeline in tooling account with KMS CMK shared with prod via key policy + bucket policy; cross-account deploy action uses an IAM role in prod (sts:AssumeRole). CFN deploy run by a CFN-execution role in prod.',trap:'Forgetting the KMS key policy → "AccessDenied" on artifact decrypt in target account.',services:['CodePipeline','S3','KMS','IAM','CloudFormation'],tags:['CodePipeline','S3','KMS','IAM','CloudFormation']},
+  {scenario:'Cross-region deploy: build once in us-east-1, deploy to eu-west-1 and ap-south-1.',pattern:'CodePipeline with cross-region action; artifact bucket replica (or per-region buckets); KMS keys per region; CFN deploy in each region.',trap:'Single us-east-1 bucket fails if pipeline action is in another region — need artifact stores per region.',services:['CodePipeline','S3','KMS','CloudFormation'],tags:['CodePipeline','S3','KMS','CloudFormation']},
+  {scenario:'Lambda async failure handling with full audit and retry.',pattern:'Configure Lambda Destinations: OnFailure → SQS DLQ + EventBridge for visibility; OnSuccess → downstream Lambda. Tune MaximumEventAgeInSeconds and MaximumRetryAttempts.',trap:'Plain DLQ (legacy) loses event metadata that Destinations preserve.',services:['Lambda','SQS','SNS','EventBridge'],tags:['Lambda','SQS','SNS','EventBridge']},
+  {scenario:'Multi-environment routing of a single SNS topic.',pattern:'Single SNS topic + multiple subscriptions with SNS message filtering policies (env=prod / env=dev) so only matching subscribers receive events.',trap:'Creating a topic per env duplicates publish logic — filtering keeps it single-source.',services:['SNS','SQS','Lambda'],tags:['SNS','SQS','Lambda']},
+  {scenario:'Aurora cross-region DR with sub-minute RTO.',pattern:'Aurora Global Database with managed planned failover and unplanned failover via promote; secondary region runs read replicas + headless if cost-sensitive; Route 53 ARC for safe DNS switch.',trap:'"Cross-region read replica" is NOT the same as Aurora Global DB — RTO/RPO differ significantly.',services:['Aurora','Route 53','Route 53 ARC'],tags:['RDS','Aurora','Route 53']},
+  {scenario:'Distribute approved CFN templates to all dev teams across the org.',pattern:'AWS Service Catalog portfolio shared via AWS Organizations; launch constraint = limited IAM role; TagOptions enforce cost-allocation; updates propagate to subscribed accounts.',trap:'IAM-only restrictions are bypassable; Service Catalog enforces template + role.',services:['Service Catalog','Organizations','CloudFormation','IAM'],tags:['Service Catalog','Organizations','CloudFormation']},
+  {scenario:'Block all deployments during the financial close window each quarter.',pattern:'SSM Change Calendar with DEFAULT_OPEN + scheduled CLOSED events; pipeline\'s pre-deploy Lambda calls GetCalendarState and fails the stage when CLOSED.',trap:'Disabling pipelines manually drifts from IaC; calendar is centralized.',services:['Systems Manager','Change Calendar','CodePipeline','Lambda'],tags:['Systems Manager','CodePipeline','Lambda']},
+  {scenario:'24/7 on-call paging tied to CloudWatch alarms with runbooks.',pattern:'Alarm → EventBridge → Incident Manager response plan → page contact (SMS/voice/email/chat via Chatbot) → engage SSM Automation runbook → post-incident timeline + analysis.',trap:'SNS-only paging lacks escalation, acknowledgement, and audit.',services:['Incident Manager','SSM Automation','EventBridge','Chatbot','SNS'],tags:['Incident Manager','Systems Manager','EventBridge','Chatbot','SNS']},
+  {scenario:'Continuous AMI patching with golden-image distribution and ASG roll.',pattern:'EC2 Image Builder pipeline (build+test+distribute) → publishes new AMI → updates SSM Parameter Store latest AMI ID → EventBridge triggers Launch Template new version → ASG Instance Refresh rolls fleet.',trap:'Updating Launch Template alone does NOT replace instances; you must trigger Instance Refresh.',services:['EC2 Image Builder','Auto Scaling','Systems Manager','EventBridge','Inspector'],tags:['EC2 Image Builder','Auto Scaling','Systems Manager','EventBridge','Inspector']},
+  {scenario:'Network forensic investigation for unusual VPC traffic.',pattern:'Enable VPC Flow Logs to S3 partitioned by date/account/region → Athena queries with predicate pushdown; GuardDuty findings cross-referenced.',trap:'Flow Logs do NOT capture packet payload — use Traffic Mirroring for that.',services:['VPC','S3','Athena','GuardDuty'],tags:['VPC','S3','Athena','GuardDuty']},
+  {scenario:'Cost guardrails to prevent runaway spend in dev accounts.',pattern:'AWS Budgets with budget actions (apply SCP to deny ec2:RunInstances when threshold hit) + Cost Anomaly Detection alerts to Slack via Chatbot; Service Quotas alarms.',trap:'Cost Explorer is analysis-only; you need Budgets + actions for enforcement.',services:['Budgets','Cost Anomaly Detection','Organizations','Service Quotas','Chatbot'],tags:['Budgets','Cost Explorer','Organizations']},
+  {scenario:'Container vulnerability gate before promoting to prod.',pattern:'ECR enhanced scanning (Inspector v2) on push → critical findings → EventBridge → Lambda that fails the in-progress CodePipeline stage; Security Hub aggregates findings.',trap:'Basic ECR scan is limited; enhanced scanning catches OS+language packages + Lambda layers.',services:['ECR','Inspector','EventBridge','CodePipeline','Security Hub','Lambda'],tags:['ECR','Inspector','EventBridge','CodePipeline','Security Hub','Lambda']},
+  {scenario:'Quarantine an EC2 instance flagged by GuardDuty as compromised.',pattern:'GuardDuty finding → EventBridge → SSM Automation document AWSConfigRemediation-IsolateEC2Instance (replace SG, detach IAM profile, snapshot volume, notify); SNS to on-call.',trap:'Terminating loses forensic evidence; snapshot + isolate first.',services:['GuardDuty','EventBridge','SSM Automation','EC2','SNS'],tags:['GuardDuty','EventBridge','Systems Manager','EC2','SNS']},
+  {scenario:'Detect public S3 buckets and auto-remediate.',pattern:'AWS Config rule s3-bucket-public-read-prohibited / public-write-prohibited → non-compliant → SSM Automation AWS-DisableS3BucketPublicReadWrite; IAM Access Analyzer for ongoing external-principal monitoring.',trap:'Block Public Access at account-level is preventive; Config + SSM is detective + remediation.',services:['Config','Systems Manager','S3','IAM'],tags:['Config','Systems Manager','S3','IAM']},
+  {scenario:'Automatic secret rotation for RDS without app downtime.',pattern:'Secrets Manager rotation Lambda using the multi-user (dual) rotation strategy; app retrieves secret via SDK with caching; KMS CMK with key policy granting decrypt.',trap:'Single-user rotation can interrupt long-lived connections; multi-user (dual) keeps two users active.',services:['Secrets Manager','RDS','Lambda','KMS'],tags:['Secrets Manager','RDS','Lambda','KMS']},
+];
+
+const ELIMINATION_RULES = [
+  {rule:'Eliminate any option requiring manual operational effort when the question mentions "LEAST operational overhead" or "automated".',example:'"Manually run a script weekly" → eliminate; "Schedule EventBridge → SSM Automation" → keep.'},
+  {rule:'Eliminate options that use a service which cannot meet a stated requirement (eg, S3 for sub-millisecond latency, Parameter Store for auto-rotation).',example:'Rotation needed → Secrets Manager only. Parameter Store options are wrong.'},
+  {rule:'Eliminate "self-managed" / "create your own" answers when an AWS-native managed alternative exists.',example:'Self-managed Kafka → use MSK; self-managed Vault → Secrets Manager; Jenkins on EC2 → CodeBuild.'},
+  {rule:'For "MOST cost-effective": eliminate options that always-on, multi-region, or over-provisioned solutions unless required.',example:'Provisioned IOPS for archival data → eliminate. Glacier Deep Archive → keep.'},
+  {rule:'For DR with low RTO: eliminate "backup and restore" / "snapshot only" options.',example:'RTO < 30 min → backup-restore wrong. Warm standby/active-active correct.'},
+  {rule:'For high RPO tolerance + low cost: eliminate active-active / cross-region replication unless explicitly needed.',example:'RPO 24h → don\'t pay for Aurora Global Database.'},
+  {rule:'Eliminate options that store secrets in plaintext, env vars, S3 unencrypted, or code repos.',example:'Always pick KMS-encrypted SecureString / Secrets Manager.'},
+  {rule:'For ECS blue/green: eliminate ECS-only deployment options — blue/green needs CodeDeploy.',example:'"ECS rolling update with ALB" → ≠ blue/green. CodeDeploy required.'},
+  {rule:'For OpsWorks / CodeCommit (legacy): eliminate unless explicitly required by the question.',example:'Prefer CDK/CFN/Systems Manager and GitHub/CodeStar Connections.'},
+  {rule:'For "monitoring memory or disk" on EC2: eliminate "default CloudWatch metrics" — must use CloudWatch agent.',example:'"Set CloudWatch alarm on memory usage" without agent → wrong.'},
+  {rule:'For multi-account control: eliminate "create IAM users in each account" / "share keys".',example:'Use Organizations SCPs + cross-account roles instead.'},
+  {rule:'For multi-region S3 replication: eliminate options without versioning enabled.',example:'CRR requires versioning. No versioning = wrong.'},
+  {rule:'For "near real-time" log processing: eliminate batch/polling options (Athena, Logs Insights export, scheduled Lambda).',example:'Use subscription filters / Kinesis Firehose.'},
+  {rule:'For "all-at-once" deployment: eliminate when "minimize downtime" or "rollback" is mentioned.',example:'All-at-once = downtime + no rollback.'},
+  {rule:'When two options seem equivalent, prefer the AWS-managed one over self-managed and the newer service over legacy.',example:'EventBridge Scheduler > CW Events Cron > custom Lambda cron.'},
+  {rule:'Eliminate options that violate the principle of least privilege (wildcard IAM, * resource).',example:'IAM s3:* on resources:* is rarely correct.'},
+  {rule:'Eliminate polling-based answers when event-driven options exist.',example:'"Lambda polls DynamoDB every minute" → eliminate. "DynamoDB Streams → Lambda" → keep.'},
+  {rule:'Eliminate answers that require modifying application code when SSM Parameter Store / Secrets Manager / AppConfig can inject config.',example:'"Hardcode the new DB endpoint and redeploy" → eliminate. "Read from SSM Parameter Store on startup" → keep.'},
+  {rule:'Eliminate "build a custom dashboard / scrape APIs" when Security Hub, CloudWatch, or Trusted Advisor already aggregate the data.',example:'"Lambda calls each security service and writes to QuickSight" → eliminate when Security Hub fits.'},
+  {rule:'Eliminate "scheduled snapshot script" when AWS Backup exists.',example:'"Cron + create-snapshot for EBS volumes" → eliminate. "AWS Backup plan with EBS" → keep.'},
+  {rule:'Eliminate any option that hardcodes secrets in code, env vars, or AMI user data.',example:'"Bake API key into AMI" → eliminate. "Read from Secrets Manager via IAM role" → keep.'},
+  {rule:'Eliminate IAM access keys for workloads. Always prefer IAM roles + IAM Roles Anywhere for on-prem.',example:'"Create an IAM user for the Lambda" → eliminate. "Attach an IAM execution role" → keep.'},
+  {rule:'Eliminate OpsWorks / CodeCommit answers for greenfield design unless the question explicitly mandates them.',example:'"Use OpsWorks for Chef Automate" → eliminate when SSM/CFN is available.'},
+  {rule:'Eliminate SSH-bastion / inbound 22 options when Session Manager fulfills the same need.',example:'"SSH bastion host in public subnet" → eliminate. "Use Session Manager via SSM agent" → keep.'},
+  {rule:'For "MOST cost-effective DR": eliminate active-active when backup-restore or pilot-light meets the stated RTO/RPO.',example:'RTO 24h + RPO 24h → backup-restore correct, multi-region active-active wasteful.'},
+  {rule:'For "detective" controls expect Config / GuardDuty / CloudTrail / Inspector. For "preventive" expect SCP / IAM / SG / KMS denial / S3 Block Public Access.',example:'"Prevent EBS volumes from being created unencrypted" → SCP/IAM (preventive), not Config (detective).'},
+  {rule:'Eliminate "use CloudWatch Events" wording when the choices include EventBridge — they are the same service, but EventBridge is the modern brand and is preferred on DOP-C02.',example:'New build → EventBridge rule.'},
+  {rule:'Eliminate options that require touching every account manually when Organizations / RAM / StackSets / Control Tower can fan out.',example:'"Create the role in each account by hand" → eliminate.'},
+  {rule:'For "lowest latency" / "fastest" data path: eliminate cross-region or routed-through-Internet options.',example:'Use Direct Connect, Global Accelerator, CloudFront, VPC peering / TGW — not public internet.'},
+  {rule:'For "ECS rolling vs blue/green": if rollback time and test listener matter, eliminate ECS rolling — it lacks both.',example:'"Use ECS rolling update" when zero downtime + test traffic required → eliminate; CodeDeploy blue/green required.'},
+  {rule:'For multi-answer questions, eliminate any pick that duplicates another pick\'s effect.',example:'Picking both "EventBridge rule" and "scheduled CloudWatch Events rule" — redundant.'},
+];
+
+const MATRICES = [
+  {title:'CloudFormation vs CDK vs Elastic Beanstalk vs SAM',
+   cols:['Criterion','CloudFormation','CDK','Elastic Beanstalk','SAM'],
+   rows:[
+     ['Authoring','YAML/JSON','TypeScript/Python/Java/Go','Console / config files','YAML (CFN-extended)'],
+     ['Use case','General IaC','Devs writing code','PaaS / quick app deploy','Serverless apps'],
+     ['Drift detection','Yes','Via underlying CFN','No (managed env)','Yes (CFN)'],
+     ['Multi-account/region','StackSets','CDK pipelines + StackSets','No','SAM Pipelines'],
+     ['Rollback','Stack rollback','via CFN','Limited','via CFN'],
+     ['Best for','Standardized IaC','Reusable constructs, devs','Quick PaaS','Lambda/API GW apps'],
+   ]},
+  {title:'CodePipeline vs CodeBuild vs CodeDeploy',
+   cols:['Criterion','CodePipeline','CodeBuild','CodeDeploy'],
+   rows:[
+     ['Purpose','Orchestrate stages','Build & test','Deploy to compute'],
+     ['Inputs','Source, artifacts','Source/artifact','Revision artifact'],
+     ['Triggers','Source events','Pipeline / API / webhook','Pipeline / API / webhook'],
+     ['Compute platforms','n/a (orchestrator)','Managed Docker','EC2/On-prem, Lambda, ECS'],
+     ['Approvals','Yes (manual action)','No','No'],
+     ['Notifications','SNS / EventBridge','SNS / EventBridge','SNS / EventBridge'],
+   ]},
+  {title:'CodeDeploy: Blue/Green vs In-Place vs Rolling',
+   cols:['Criterion','Blue/Green','In-Place','Rolling (Beanstalk / ECS rolling)'],
+   rows:[
+     ['Rollback speed','Fast (swap back)','Slow (redeploy old)','Medium'],
+     ['Cost during deploy','Higher (2 envs)','Same','Slightly higher'],
+     ['Downtime risk','Lowest','Possible','Medium'],
+     ['Supported platforms','EC2 (ASG), Lambda, ECS','EC2/on-prem','Beanstalk, ECS'],
+     ['Traffic shifting','Yes (canary/linear/all-at-once)','No','Batches'],
+     ['Best for','Critical workloads','Stateless, low-risk','Standard web apps'],
+   ]},
+  {title:'CloudWatch Events / EventBridge vs CloudTrail',
+   cols:['Criterion','EventBridge','CloudTrail'],
+   rows:[
+     ['Purpose','Event routing / automation','API call audit log'],
+     ['Storage','None (event bus)','S3 (logs), CloudTrail Lake'],
+     ['Targets','Lambda, SQS, SNS, Step Fn, Kinesis, ECS, …','S3, CW Logs, EventBridge'],
+     ['Use case','React to events','Audit who did what'],
+     ['Schedule support','Yes (cron/rate via Scheduler)','No'],
+   ]},
+  {title:'CloudWatch Logs vs CloudTrail Logs',
+   cols:['Criterion','CloudWatch Logs','CloudTrail'],
+   rows:[
+     ['Records','App/system logs','API calls'],
+     ['Source','Applications, agent, services','AWS control/data plane API'],
+     ['Queries','Logs Insights','Athena, CloudTrail Lake'],
+     ['Real-time stream','Yes (subscription filters)','Yes (to CW Logs / EventBridge)'],
+     ['Retention','Configurable','S3 lifecycle'],
+   ]},
+  {title:'Systems Manager vs SSH / Manual',
+   cols:['Need','Use Systems Manager','Avoid'],
+   rows:[
+     ['Run commands on fleet','Run Command','SSH+for loop'],
+     ['Interactive shell','Session Manager','SSH bastion'],
+     ['Patch fleet','Patch Manager','yum cron'],
+     ['Continuous config','State Manager','Custom Ansible playbook (unless required)'],
+     ['Multi-step ops','Automation','Custom Lambdas'],
+     ['Secrets/Configs','Parameter Store','Hardcoded'],
+   ]},
+  {title:'Secrets Manager vs SSM Parameter Store',
+   cols:['Criterion','Secrets Manager','SSM Parameter Store'],
+   rows:[
+     ['Rotation','Yes (native + Lambda)','No (manual)'],
+     ['Encryption','KMS','KMS (SecureString)'],
+     ['Cost','Per secret + API calls','Free (Standard) / per param (Advanced)'],
+     ['Cross-account','Resource policy','Yes (Advanced)'],
+     ['Cross-region','Replication','Manual / EventBridge sync'],
+     ['Best for','DB passwords, API tokens (rotated)','Config values, feature flags'],
+   ]},
+  {title:'Config vs CloudTrail vs GuardDuty vs Security Hub vs Inspector',
+   cols:['Service','Detects','Best for'],
+   rows:[
+     ['AWS Config','Resource configuration changes & compliance','Compliance-as-code, drift, auto-remediation'],
+     ['CloudTrail','API calls (who did what)','Audit & forensics'],
+     ['GuardDuty','Threats (compromise, recon, crypto)','Threat detection'],
+     ['Security Hub','Aggregated findings + CIS/PCI/Foundational','Single pane of glass'],
+     ['Inspector','CVEs in EC2/ECR/Lambda','Vulnerability scanning'],
+     ['Macie','S3 PII / sensitive data','Data classification'],
+   ]},
+  {title:'Auto Scaling policy types',
+   cols:['Policy','Behavior','Best for'],
+   rows:[
+     ['Target tracking','Adjust to keep metric near target','Most workloads (default)'],
+     ['Step scaling','Steps based on alarm magnitude','Spiky / non-linear loads'],
+     ['Simple scaling','Single adjustment per alarm','Legacy / simple cases'],
+     ['Scheduled','Time-based','Known traffic patterns'],
+     ['Predictive','ML-based','Recurring daily patterns'],
+   ]},
+  {title:'ALB vs NLB vs GWLB',
+   cols:['Criterion','ALB','NLB','GWLB'],
+   rows:[
+     ['Layer','7 (HTTP/HTTPS)','4 (TCP/UDP/TLS)','3/4 (IP)'],
+     ['Static IP','No','Yes (1 per AZ)','No (uses GENEVE)'],
+     ['Use case','Web apps, microservices, OIDC, WAF','Low-latency TCP/UDP, gaming, MQTT','Inline appliances (firewalls)'],
+     ['Routing','Host/path/header/query','5-tuple','Pass-through'],
+     ['Best for','HTTP routing','TCP perf, static IPs','3rd-party appliances'],
+   ]},
+  {title:'Route 53 routing policies',
+   cols:['Policy','Use for','Wrong when'],
+   rows:[
+     ['Simple','One record, no logic','Multiple endpoints needed'],
+     ['Weighted','A/B, canary, blue/green','Routing by user location'],
+     ['Latency','Lowest latency','Data residency required'],
+     ['Geolocation','Compliance / language','Goal is speed only'],
+     ['Geoproximity','Bias traffic toward a region','Simpler than weighted suffices'],
+     ['Failover','Active-passive DR','Active-active'],
+     ['Multi-value','Client-side LB (with health)','Real LB needed (use ALB/NLB)'],
+   ]},
+  {title:'RDS Multi-AZ vs Read Replica vs Backup',
+   cols:['Goal','RDS Multi-AZ','Read Replica','Backup / Snapshot'],
+   rows:[
+     ['HA within region','✓ (failover ~60-120s)','✗','✗'],
+     ['Read scaling','✗','✓','✗'],
+     ['Cross-region DR','MAZ cluster (Aurora)','✓ (cross-region replica)','Snapshot copy'],
+     ['RPO','~0','seconds','Up to backup interval'],
+     ['Promote to writer','Auto failover','Manual promote','Restore'],
+   ]},
+  {title:'S3 Replication vs Backup vs Lifecycle',
+   cols:['Goal','Use'],
+   rows:[
+     ['Cross-region copy near real-time','CRR (versioning on)'],
+     ['Same-region compliance copy','SRR'],
+     ['Cold archive of objects','Lifecycle to Glacier / Deep Archive'],
+     ['Object protection from deletion','Object Lock (governance/compliance) + versioning + MFA Delete'],
+     ['Unified backup mgmt + audits','AWS Backup with S3 plugin'],
+   ]},
+  {title:'Kinesis vs SQS vs SNS vs EventBridge',
+   cols:['Need','Use','Notes'],
+   rows:[
+     ['Ordered streaming, replay, consumers at own pace','Kinesis Data Streams','Shards, sub-second'],
+     ['Stream + deliver to S3/OpenSearch','Kinesis Data Firehose','Managed delivery'],
+     ['Decouple producers/consumers, work queue','SQS','At-least-once, FIFO option'],
+     ['Pub/sub fan-out','SNS','Topics + subscriptions'],
+     ['Filtered event routing, SaaS sources, schedules','EventBridge','Rules + targets'],
+   ]},
+  {title:'Lambda vs ECS / Fargate vs EC2',
+   cols:['Criterion','Lambda','ECS/Fargate','EC2'],
+   rows:[
+     ['Idle cost','None','None (Fargate) / EC2 cluster','Always-on'],
+     ['Max duration','15 min','Long-lived','Long-lived'],
+     ['Cold start','Possible','Minor (Fargate)','None (warm)'],
+     ['Use case','Event-driven, short tasks','Containers, microservices','Custom OS, GPU, specific kernel'],
+     ['Best for DOP-C02 default','Yes (least ops)','Containers, control over runtime','Specialized'],
+   ]},
+  {title:'IAM Role vs IAM User / Access Key',
+   cols:['Criterion','Role','User / Access key'],
+   rows:[
+     ['Credential type','Temporary (STS)','Long-lived'],
+     ['Workload identity','Yes','No (anti-pattern)'],
+     ['Federation / SSO','Yes','No'],
+     ['Best practice','Always for workloads','Only for humans (with MFA)'],
+     ['Rotation','Automatic','Manual / Secrets Manager required'],
+   ]},
+  {title:'SCP vs IAM policy vs Permission boundary',
+   cols:['Mechanism','Scope','Effect'],
+   rows:[
+     ['SCP','OU / account','Caps max permissions (no grant)'],
+     ['IAM identity policy','User/role/group','Grants permissions'],
+     ['IAM resource policy','Resource (S3, KMS, etc.)','Grants/denies cross-account access'],
+     ['Permission boundary','IAM role/user','Caps max for that principal'],
+     ['Session policy','Within an AssumeRole session','Further restricts session perms'],
+   ]},
+  {title:'Deployment strategies & their RTO/blast-radius',
+   cols:['Strategy','Downtime','Rollback speed','Blast radius'],
+   rows:[
+     ['All-at-once','High','Slow','100%'],
+     ['Rolling','Low','Medium','Partial during deploy'],
+     ['Rolling w/ additional batch','Low','Medium','Lower'],
+     ['Immutable','None','Fast','New ASG'],
+     ['Blue/Green','None','Fastest','None until cutover'],
+     ['Canary','None','Fast (alarm trigger)','% of traffic'],
+   ]},
+  {title:'SQS Standard vs FIFO',
+   cols:['Criterion','Standard','FIFO'],
+   rows:[
+     ['Ordering','Best-effort','Strict per group'],
+     ['Delivery','At-least-once (possible dup)','Exactly-once'],
+     ['Throughput','Nearly unlimited','3,000 msg/s w/ batching, 300/s without (high-throughput mode = 70K+)'],
+     ['Use case','Decoupling, high throughput','Financial transactions, ordered events'],
+     ['Pricing','Lower','Higher'],
+   ]},
+  {title:'Step Functions Standard vs Express',
+   cols:['Criterion','Standard','Express'],
+   rows:[
+     ['Duration','Up to 1 year','Up to 5 minutes'],
+     ['Execution model','Exactly-once','At-least-once'],
+     ['Throughput','2K starts/s','100K+ starts/s'],
+     ['Logging','Full state history','CloudWatch Logs'],
+     ['waitForTaskToken','Yes','No'],
+     ['Pricing','Per state transition','Per request + duration'],
+     ['Use case','Long-running, human-in-the-loop','High-volume short tasks, IoT, streaming'],
+   ]},
+  {title:'VPC Endpoints: Gateway vs Interface (PrivateLink)',
+   cols:['Criterion','Gateway endpoint','Interface endpoint'],
+   rows:[
+     ['Services','S3, DynamoDB only','100+ services + your own VPC services'],
+     ['Pricing','Free','Per-ENI-hour + GB processed'],
+     ['How it works','Route table prefix list','ENI in your subnets with private DNS'],
+     ['Cross-VPC','No','Yes (via PrivateLink)'],
+     ['Endpoint policies','Yes','Yes'],
+   ]},
+  {title:'CloudFront vs Global Accelerator',
+   cols:['Criterion','CloudFront','Global Accelerator'],
+   rows:[
+     ['Protocol','HTTP/HTTPS, WebSocket','TCP/UDP'],
+     ['Caching','Yes (edge cache)','No'],
+     ['Static IPs','No (CNAME)','Yes (2 anycast IPs)'],
+     ['Use case','Web/media delivery, dynamic acceleration','Non-HTTP apps, IP-allowlist requirements'],
+     ['Edge compute','CloudFront Functions / Lambda@Edge','No'],
+     ['Origin failover','Origin groups','Endpoint groups + traffic dial'],
+   ]},
+  {title:'WAF vs Shield Standard vs Shield Advanced',
+   cols:['Criterion','WAF','Shield Standard','Shield Advanced'],
+   rows:[
+     ['Layer','L7','L3/L4','L3/L4 + L7'],
+     ['Pricing','Per WebACL + rules + requests','Free (always-on)','$3,000/mo + transfer'],
+     ['Attaches to','CloudFront, ALB, API GW, AppSync, App Runner','All AWS edge','CloudFront, ALB, EIP, Route 53, GA'],
+     ['DDoS support','via rate-based rules','Common L3/L4','Advanced + DRT'],
+     ['Cost protection','No','No','Yes (refunds during DDoS)'],
+   ]},
+  {title:'Logs Insights vs Athena vs CloudTrail Lake',
+   cols:['Criterion','Logs Insights','Athena','CloudTrail Lake'],
+   rows:[
+     ['Best for','Live/recent log query','Cold queries over S3','Multi-account CloudTrail SQL'],
+     ['Cost model','GB scanned','TB scanned','Per event ingested + scanned'],
+     ['Latency','Seconds','Seconds-minutes','Seconds'],
+     ['Retention','CloudWatch Logs retention','S3 lifecycle','7y default'],
+     ['Action triggers','No','No','No (use EventBridge separately)'],
+   ]},
+  {title:'Detective vs Preventive AWS Controls',
+   cols:['Type','Examples','Use when'],
+   rows:[
+     ['Preventive','SCP, IAM policy, KMS key policy, S3 Block Public Access, SG/NACL, Permission boundary','Stop the action before it happens'],
+     ['Detective','AWS Config, GuardDuty, CloudTrail, Inspector, IAM Access Analyzer, Macie, Security Hub','Find and alert on issues'],
+     ['Responsive','EventBridge → SSM Automation / Lambda, Incident Manager, OpsCenter','Auto-remediate or page'],
+   ]},
+  {title:'AppConfig Deployment Strategies',
+   cols:['Strategy','Behavior','Use for'],
+   rows:[
+     ['Linear','+x% every N min','Smooth gradual rollout'],
+     ['Canary','x% then 100%','Validate before full rollout'],
+     ['All-at-once','100% immediate','Hotfix only'],
+     ['Custom','User-defined growth + duration + final bake','Custom risk tolerance'],
+   ]},
+  {title:'CloudFront OAC vs OAI (S3 origin protection)',
+   cols:['Criterion','OAC (Origin Access Control)','OAI (Origin Access Identity)'],
+   rows:[
+     ['Status','Recommended','Legacy'],
+     ['SigV4','Yes','No'],
+     ['KMS-encrypted S3','Yes','No (limited)'],
+     ['All AWS regions','Yes','No'],
+     ['Use for new builds','Yes','Avoid'],
+   ]},
+  {title:'EventBridge vs SNS vs SQS — when to pick which',
+   cols:['Need','Best service'],
+   rows:[
+     ['Filtered routing across many AWS services / SaaS partners','EventBridge'],
+     ['Pub/Sub fan-out with filtering on message attributes','SNS (with message filtering)'],
+     ['Decouple producers from consumers, work queue, retry','SQS'],
+     ['Ordered, exactly-once','SQS FIFO'],
+     ['Scheduled future invocation (cron / rate / one-time)','EventBridge Scheduler'],
+     ['Cross-account event delivery','EventBridge cross-account bus or SNS cross-account'],
+   ]},
+  {title:'AWS Backup vs DLM vs Native snapshots',
+   cols:['Criterion','AWS Backup','DLM','Native (per-service)'],
+   rows:[
+     ['Scope','EBS,RDS,DDB,EFS,FSx,S3,Storage GW,Aurora,DocDB,Neptune,Timestream','EBS, AMIs','One service'],
+     ['Cross-account / cross-region','Yes','EBS only via copy','Manual'],
+     ['Vault Lock (WORM)','Yes','No','No'],
+     ['Org-wide policy','Yes','No','No'],
+     ['Best for','Unified compliance backups','EBS lifecycle','One-off use'],
+   ]},
+  {title:'IAM Access Analyzer modes',
+   cols:['Analyzer','What it does','Use for'],
+   rows:[
+     ['External access','Detects principals outside the trust zone','Public S3, cross-account roles'],
+     ['Unused access','Finds unused permissions, roles, keys','Least-privilege cleanup'],
+     ['Policy validation','Checks for syntax + best-practice issues','In CI/CD before deploy'],
+     ['Policy generation','Suggests policies from CloudTrail history','New least-priv policies'],
+   ]},
+  {title:'AppConfig vs Parameter Store vs Secrets Manager',
+   cols:['Criterion','AppConfig','Parameter Store','Secrets Manager'],
+   rows:[
+     ['Best for','Feature flags, dynamic config with rollout','Configuration values','Rotated secrets'],
+     ['Validators','JSON Schema / Lambda','None','Rotation Lambda'],
+     ['Rollout strategy','Yes (linear/canary)','No','N/A'],
+     ['Rotation','No','No','Yes (native)'],
+     ['Cost','Per config call','Free standard / per advanced param','Per secret + per API'],
+   ]},
+];
+
+const FLASHCARDS = [
+  {q:'"Least operational overhead" — default service family?',a:'<b>Managed / serverless</b> first: Lambda, Fargate, S3, DynamoDB, Step Functions, SSM Automation, EventBridge Scheduler.'},
+  {q:'Rotating database credentials — which service?',a:'<b>AWS Secrets Manager</b> with the built-in rotation Lambda. Parameter Store does NOT rotate.'},
+  {q:'"Near real-time" log processing — which pattern?',a:'<b>CloudWatch Logs subscription filter</b> → Lambda or Kinesis Data Firehose/Streams. Not Logs Insights (query-time).'},
+  {q:'Memory / disk metrics from EC2 — what do you install?',a:'The <b>unified CloudWatch agent</b>. Default EC2 metrics do not include memory or disk usage.'},
+  {q:'CloudFormation deployment across many accounts and OUs — what?',a:'<b>CloudFormation StackSets</b> with service-managed permissions in AWS Organizations; auto-deploy on new account add.'},
+  {q:'ECS Fargate blue/green deployment — how?',a:'<b>CodeDeploy ECS compute platform</b> + ALB with two target groups + test listener + CloudWatch alarms for auto-rollback.'},
+  {q:'Lambda canary releases — how?',a:'Publish a <b>version</b>, point an <b>alias</b> at it, use weighted alias or CodeDeploy Lambda compute platform (Canary10Percent5Minutes etc.).'},
+  {q:'Multi-region DynamoDB active-active — what feature?',a:'<b>DynamoDB Global Tables</b> (2019.11.21). Last-writer-wins conflict resolution.'},
+  {q:'Auto-remediate non-compliant resources — which combo?',a:'<b>AWS Config rule</b> (detect) + <b>SSM Automation document</b> (remediate). Lambda for non-standard remediations.'},
+  {q:'Detect compromised IAM credentials — which service?',a:'<b>Amazon GuardDuty</b> (Stealth/CredentialAccess findings) + EventBridge → Lambda/SSM Automation to revoke.'},
+  {q:'Centralized findings aggregation across security services — which?',a:'<b>AWS Security Hub</b>: aggregates GuardDuty, Inspector, Macie, IAM Access Analyzer, Config, partner findings.'},
+  {q:'Cross-account access pattern — what to use?',a:'<b>sts:AssumeRole</b> into a cross-account IAM role with a trust policy (external ID for 3rd parties).'},
+  {q:'Restrict actions across the entire org — which feature?',a:'<b>Service Control Policies (SCPs)</b> attached to OUs/accounts in AWS Organizations. SCPs cap, IAM policies grant.'},
+  {q:'EBS / RDS / DynamoDB / EFS unified backups — which service?',a:'<b>AWS Backup</b> with backup plans; cross-region/cross-account copies; vault lock for WORM compliance.'},
+  {q:'Active-passive DR with DNS — which Route 53 policy?',a:'<b>Failover routing policy</b> with health checks on the primary endpoint and low TTL (e.g., 60s).'},
+  {q:'Long-running workflow with branches and human approval — which?',a:'<b>AWS Step Functions</b> (Standard). Use activity tasks for human-in-the-loop steps.'},
+  {q:'Audit "who did what API call" — which service?',a:'<b>AWS CloudTrail</b>, ideally as an Organization Trail to a central S3 bucket; query via Athena or CloudTrail Lake.'},
+  {q:'Detect CloudFormation drift — how to automate?',a:'<b>EventBridge schedule → Lambda or SSM Automation</b> calling cfn:DetectStackDrift; publish DRIFTED to SNS / OpsCenter.'},
+  {q:'Container image vulnerability gate before deployment — which?',a:'<b>Inspector v2</b> scanning ECR images on push; fail pipeline on critical findings via EventBridge / Lambda gate.'},
+  {q:'On-premises servers managed by AWS Systems Manager — what enables this?',a:'<b>Hybrid activation</b> (managed instance ID mi-*) + SSM agent; optionally <b>IAM Roles Anywhere</b> for AWS API calls.'},
+  {q:'Patch fleet of EC2 instances — which Systems Manager feature?',a:'<b>Patch Manager</b>: patch baselines + maintenance windows; targets by tag (PatchGroup).'},
+  {q:'Replace SSH bastion hosts — what to use?',a:'<b>SSM Session Manager</b>. No inbound 22, full audit logging to S3/CloudWatch Logs.'},
+  {q:'Distributed tracing across microservices — which?',a:'<b>AWS X-Ray</b> with service map. Pair with CloudWatch Logs/Metrics for full picture.'},
+  {q:'Anomaly detection on a single CloudWatch metric — which?',a:'<b>CloudWatch Anomaly Detection</b> band + alarm. For app-wide ML insights use DevOps Guru.'},
+  {q:'Encrypt sensitive S3 data — what default and what for compliance?',a:'<b>SSE-S3 by default</b>; <b>SSE-KMS with CMK</b> for control; <b>S3 Bucket Keys</b> to reduce KMS cost.'},
+  {q:'Build artifacts shared across pipelines and accounts — where?',a:'<b>S3 with cross-account bucket policy + KMS key policy</b>; or <b>CodeArtifact</b> for packages.'},
+  {q:'Replace OpsWorks for config management on DOP-C02 — what?',a:'<b>Systems Manager</b> (Run Command + State Manager + Patch Manager) and <b>CloudFormation/CDK</b>. OpsWorks is legacy.'},
+  {q:'"Avoid downtime during deployment" — which strategies?',a:'<b>Immutable</b> (Beanstalk), <b>Blue/Green</b> (CodeDeploy), <b>Canary</b> (Lambda alias / ECS CodeDeploy). Never "All at once".'},
+  {q:'Schedule a task daily at 03:00 UTC — what now?',a:'<b>EventBridge Scheduler</b> (or EventBridge Rule with cron). Replaces CW Events scheduled rules for new builds.'},
+  {q:'Feature flags / dynamic config with safe rollout — which?',a:'<b>AWS AppConfig</b>: hosted configs, validators (JSON schema/Lambda), deployment strategies (canary/linear/all-at-once).'},
+  {q:'KMS — how often do customer-managed CMKs auto-rotate?',a:'<b>Annually</b>, when rotation is enabled. AWS-managed keys rotate yearly automatically. For cross-region same-key-ID = <b>Multi-Region Keys (MRK)</b>.'},
+  {q:'S3 Object Lock — what are the two modes?',a:'<b>Governance</b> (privileged users can override) and <b>Compliance</b> (no one, not even root, can delete or shorten retention). Needs versioning enabled.'},
+  {q:'CloudFront OAC vs OAI — which to use?',a:'<b>OAC (Origin Access Control)</b> for all new builds. Supports SigV4 and KMS-encrypted S3 buckets. OAI is legacy.'},
+  {q:'Lambda async error handling — what is preferred?',a:'<b>Lambda Destinations</b> (OnFailure / OnSuccess to SNS/SQS/EventBridge/Lambda). DLQ is the legacy option.'},
+  {q:'Step Functions — Standard vs Express?',a:'<b>Standard</b>: ≤1 year, exactly-once, waitForTaskToken. <b>Express</b>: ≤5 min, at-least-once, ultra-high throughput, no callback patterns.'},
+  {q:'ECR — how to keep images in sync across regions / accounts?',a:'<b>ECR replication rules</b> (cross-region and cross-account). Use <b>pull-through cache</b> for public registries; <b>immutable tags</b> + lifecycle policy for hygiene.'},
+  {q:'EC2 Image Builder — where do consumers find the latest AMI ID?',a:'<b>SSM Parameter Store</b> populated by the Image Builder pipeline. Launch Templates reference the parameter to always pick up the latest.'},
+  {q:'CloudWatch Synthetics — what does a canary do?',a:'Runs a <b>scripted endpoint or user-journey test</b> on schedule, publishes pass/fail metrics, takes screenshots / HAR; alarms drive remediation.'},
+  {q:'Detective vs Preventive controls — examples?',a:'<b>Preventive</b>: SCP, IAM policy, KMS key policy, S3 Block Public Access, SG/NACL. <b>Detective</b>: Config, GuardDuty, CloudTrail, Inspector, Macie, IAM Access Analyzer.'},
+  {q:'VPC Flow Logs — where to send for cheapest long-term query?',a:'<b>S3 (partitioned by date/account/region)</b> and query with <b>Athena</b>. CloudWatch Logs is more expensive at scale.'},
+  {q:'CodeArtifact — what authentication is used in CodeBuild?',a:'A short-lived <b>auth token</b> obtained via <code>aws codeartifact get-authorization-token</code> using the build role; valid up to 12 hours.'},
+  {q:'AWS Service Catalog — what enforces template + permissions?',a:'A <b>launch constraint</b> attaches a separate IAM role that the product launches with, decoupling from the end-user\'s identity.'},
+  {q:'Control Tower — what handles new-account vending?',a:'<b>Account Factory</b> (Service Catalog product). Use <b>CfCT (Customizations for Control Tower)</b> to inject custom CFN at vending.'},
+  {q:'Incident Manager vs OpsCenter — what\'s the difference?',a:'<b>Incident Manager</b>: paging, escalation, response plans, post-incident analysis. <b>OpsCenter</b>: OpsItem queue for operational issues. Different jobs.'},
+  {q:'SSM Change Calendar — how to gate a pipeline?',a:'Pipeline calls <b>GetCalendarState</b>. If <b>CLOSED</b>, the pre-deploy stage fails and the deploy is blocked.'},
+  {q:'AWS Chatbot — what can it do beyond notifications?',a:'Run <b>read-only or templated commands</b> from Slack/Teams/Chime channels when a channel IAM role grants the permissions.'},
+  {q:'Aurora Global Database — failover time and replica lag?',a:'<b>Replica lag &lt; 1 second</b>; <b>managed planned failover &lt; 2 minutes</b>; unplanned failover is faster than cross-region read replicas.'},
+  {q:'Route 53 ARC — what does it add over plain failover?',a:'<b>Routing controls + readiness checks + safety rules</b> to prevent double-active and ensure replicas are actually ready before flipping.'},
+  {q:'ASG Instance Refresh — how does it roll a new AMI?',a:'Replaces instances gradually respecting <b>MinHealthyPercentage</b> and <b>InstanceWarmup</b>; supports <b>SkipMatching</b> and <b>auto-rollback</b> on failure.'},
+  {q:'AWS WAF — what does it protect?',a:'<b>L7 protections</b> for CloudFront, ALB, API Gateway, AppSync, App Runner. Managed Rule Groups for OWASP, rate-based rules for throttling. <b>Cannot</b> attach directly to NLB.'},
+  {q:'Shield Standard vs Shield Advanced?',a:'<b>Standard</b>: free, L3/L4. <b>Advanced</b>: $3,000/mo, L7 + DRT access + cost protection (refunds during DDoS).'},
+  {q:'IAM Access Analyzer — what does it find?',a:'<b>External</b> principals with access to your resources (S3, IAM, KMS, SQS, Lambda, ECR, Secrets, RDS snapshots). Also: unused access, policy validation, policy generation.'},
+  {q:'AppConfig vs Parameter Store — when do you NEED AppConfig?',a:'When you need <b>safe progressive rollout + validators + automatic rollback</b> for configuration. Parameter Store stores values; AppConfig safely deploys them.'},
+  {q:'EventBridge vs SNS — when to use which?',a:'<b>EventBridge</b>: filtered routing across many AWS services, SaaS partners, schedules, archives. <b>SNS</b>: pub/sub fan-out with attribute filtering, mobile push, SMS, email.'},
+  {q:'SQS Standard vs FIFO — key trade-off?',a:'<b>Standard</b>: at-least-once, near-unlimited throughput. <b>FIFO</b>: exactly-once + ordered per group, 3K msg/s baseline (70K+ with high-throughput mode).'},
+  {q:'Memory shortcut — CloudTrail / Config / GuardDuty / Security Hub?',a:'CloudTrail = <b>WHO DID WHAT</b>. Config = <b>WHAT STATE</b>. GuardDuty = <b>THREATS</b>. Security Hub = <b>AGGREGATION</b>.'},
+  {q:'Memory shortcut — EventBridge / SSM / X-Ray?',a:'EventBridge = <b>EVENT ROUTING</b>. SSM = <b>OPERATIONS</b>. X-Ray = <b>TRACE</b>.'},
+  {q:'"Most cost-effective DR" — which strategy first?',a:'Start with <b>Backup and Restore</b> if RTO/RPO allow. Upgrade to <b>Pilot Light → Warm Standby → Active-Active</b> only as targets tighten.'},
+  {q:'Cross-account artifact in CodePipeline — what 3 pieces must align?',a:'<b>S3 bucket policy</b>, <b>KMS key policy</b>, and an <b>IAM role</b> in the target account that the pipeline assumes.'},
+  {q:'Trusted Advisor — what tier is needed for the full check set?',a:'<b>Business or Enterprise Support</b>. Free tier has a subset.'},
+  {q:'EC2 default metrics — do they include memory?',a:'<b>No.</b> CPU/network/disk-I/O yes; memory/disk-usage <b>no</b>. Install the <b>CloudWatch agent</b>.'},
+  {q:'SCP — does it grant permissions?',a:'<b>No.</b> SCPs cap maximum permissions. The IAM identity policy must still Allow the action.'},
+];
+
+const CHEATSHEET = [
+  {h:'Always prefer managed/serverless',d:'Lambda, Fargate, Step Functions, EventBridge, SSM. Beats EC2 + cron in 90% of DOP-C02 scenarios.'},
+  {h:'IaC = CloudFormation/CDK',d:'StackSets for multi-account. SAM for serverless. CDK for code-first.'},
+  {h:'Pipelines = CodePipeline + CodeBuild + CodeDeploy',d:'Manual approval via SNS. Cross-account via KMS + role.'},
+  {h:'Blue/Green over In-Place',d:'CodeDeploy blue/green = fastest rollback. ECS blue/green needs CodeDeploy + 2 ALB target groups.'},
+  {h:'Rotation = Secrets Manager',d:'Parameter Store = config only.'},
+  {h:'Threat = GuardDuty; Compliance = Config; Aggregator = Security Hub',d:'Inspector = CVE scan. Macie = S3 PII.'},
+  {h:'API audit = CloudTrail; Config state = AWS Config',d:'Org Trail to central S3 for forensics.'},
+  {h:'Memory/disk metrics need CloudWatch agent',d:'Default EC2 metrics do NOT include memory/disk usage.'},
+  {h:'Near-real-time logs = CloudWatch Logs subscription',d:'→ Lambda or Kinesis Firehose. Not Logs Insights.'},
+  {h:'Patch fleet = SSM Patch Manager',d:'Run commands at scale = SSM Run Command. Replace SSH = Session Manager.'},
+  {h:'Cross-region DR = Aurora Global / DDB Global Tables / S3 CRR',d:'Active-active = lowest RTO/RPO; warm standby > pilot light > backup-restore.'},
+  {h:'Route 53: Failover (DR), Latency (perf), Geolocation (compliance), Weighted (canary)',d:'Multi-value ≠ load balancer.'},
+  {h:'SCPs cap; IAM policies grant',d:'SCP without identity policy Allow = no access.'},
+  {h:'IAM roles, never access keys for workloads',d:'IAM Roles Anywhere for on-prem.'},
+  {h:'AWS Backup unifies EBS/RDS/DDB/EFS/FSx/S3',d:'Vault lock (compliance) = irreversible WORM.'},
+  {h:'Drift detection runs on demand',d:'Schedule via EventBridge + Lambda/SSM. CFN does not auto-detect drift continuously.'},
+  {h:'Encryption everywhere',d:'KMS-managed CMK, S3 default encryption, EBS default encryption, RDS at rest + in-transit.'},
+  {h:'Notifications via SNS',d:'Slack/Chime via AWS Chatbot. Don\'t roll your own webhooks.'},
+  {h:'OpsWorks/CodeCommit = legacy answers',d:'Treat as wrong unless explicitly required. Prefer SSM/CFN and CodeStar Connections to GitHub.'},
+  {h:'Avoid "all at once" deployments',d:'No rollback safety. Almost always wrong on DOP-C02.'},
+  {h:'Cost = Budgets (alert/act) + Cost Explorer (analyze)',d:'Cost Anomaly Detection = ML spike alerts.'},
+  {h:'EBS/AMI snapshot lifecycle = DLM',d:'AWS Backup for unified plan across services.'},
+  {h:'Feature flags = AppConfig',d:'A/B test = CloudWatch Evidently. Skip env-var deploys.'},
+  {h:'EventBridge replaces CloudWatch Events',d:'Scheduler replaces scheduled CW Events rules.'},
+  {h:'Container CVE scan = Inspector v2',d:'ECR push triggers scan; integrate with Security Hub.'},
+  {h:'Step Functions for orchestration',d:'Standard for long-running; Express for high-volume short.'},
+  {h:'Cross-account: AssumeRole + Trust Policy',d:'External ID for 3rd parties. No access key sharing.'},
+  {h:'Multi-answer questions: pick a coherent architecture',d:'The two answers must work together. Don\'t pick two correct-but-overlapping options.'},
+  {h:'"Manual" keywords almost always wrong',d:'Manual review, manual approval (only when explicitly required), manual scripts → eliminate.'},
+  {h:'When in doubt, pick AWS-native managed',d:'It is almost always preferred over 3rd-party or self-hosted on DOP-C02.'},
+  {h:'CodeArtifact for private packages',d:'CodeBuild → get-authorization-token. Upstream public for supply-chain hygiene.'},
+  {h:'Service Catalog for governed self-service',d:'Launch constraint role enforces template + IAM. Distribute portfolios org-wide.'},
+  {h:'Control Tower for landing zones',d:'Account Factory vends accounts. CfCT for custom CFN at vending.'},
+  {h:'Incident Manager for on-call',d:'Response plans, paging, runbooks. Pair with Chatbot for Slack/Teams ops.'},
+  {h:'OpsCenter for operational backlog',d:'OpsItems from CW alarms, Config, GuardDuty, Security Hub.'},
+  {h:'Change Calendar for freeze windows',d:'Pipeline calls GetCalendarState. CLOSED = pre-deploy fails.'},
+  {h:'AWS Chatbot for ChatOps',d:'SNS / EventBridge → Slack/Teams/Chime. IAM channel role gates write commands.'},
+  {h:'KMS CMK for cross-account / multi-region',d:'Annual rotation. MRK = same key ID across regions. S3 Bucket Keys cut KMS cost.'},
+  {h:'S3 Object Lock = WORM',d:'Governance (override) vs Compliance (irreversible). Versioning required.'},
+  {h:'CloudFront OAC > OAI',d:'OAC supports SigV4 + KMS-encrypted buckets. Always pick OAC for new builds.'},
+  {h:'WAF for L7; Shield for L3/L4 DDoS',d:'Shield Advanced ($3K/mo) adds DRT + cost protection. WAF cannot attach to NLB directly.'},
+  {h:'Synthetics + RUM + ServiceLens',d:'Synthetics = scripted canary; RUM = real users; ServiceLens stitches X-Ray + Logs + RUM.'},
+  {h:'Container Insights / Lambda Insights',d:'Default metrics miss memory + cold-start detail. Use these for deep observability.'},
+  {h:'Lambda Destinations > DLQ',d:'Destinations preserve event metadata + capture success. DLQ is legacy.'},
+  {h:'Step Functions Retry+Catch',d:'Built-in exponential backoff + error routing. Standard for waitForTaskToken; Express for high volume.'},
+  {h:'Aurora Global DB for sub-minute multi-region DR',d:'Replica lag < 1s. Pair with Route 53 ARC for safe failover.'},
+  {h:'ASG Instance Refresh for AMI rolls',d:'Just updating Launch Template does nothing — trigger Instance Refresh.'},
+  {h:'VPC Flow Logs to S3 + Athena',d:'Cheap long-term forensics. GuardDuty auto-consumes Flow Logs for threats.'},
+  {h:'IAM Access Analyzer for external + unused access',d:'Org-scope analyzer = outside the Org. Use in CI for policy validation too.'},
+  {h:'Detective = Config/GuardDuty/CloudTrail/Inspector',d:'Preventive = SCP/IAM/SG/KMS/S3 BPA. Responsive = EventBridge → SSM Automation.'},
+  {h:'IAM Roles Anywhere for on-prem',d:'No long-lived keys. PCA / private CA issued certs to AWS API calls.'},
+  {h:'EventBridge Scheduler replaces CW Events cron',d:'Use it for new schedules. Built-in retry, DLQ, flexible time windows.'},
+  {h:'AppConfig deployment strategies',d:'Canary 10% then 100%, linear, all-at-once, custom. Alarm-based rollback.'},
+  {h:'Multi-account = Organizations + StackSets + Control Tower',d:'Per-account loops or hand-vended accounts are wrong.'},
+  {h:'Inspector v2 covers EC2 / ECR / Lambda',d:'Enhanced ECR scan integrates with Security Hub + EventBridge.'},
+];
+
+const MULTI_STRATEGY = [
+  {rule:'Check that the picked options form a complete, coherent architecture — not just two independent correct facts.',example:'"Use EventBridge rule" AND "Configure Lambda to remediate" — these are two halves of the same solution.'},
+  {rule:'If two options effectively do the same thing, only one is the intended answer (or both are wrong).',example:'"Use SSM Automation" AND "Use Lambda to call SSM Automation" — redundant; pick the cleaner one.'},
+  {rule:'Beware of distractors that handle one requirement but not all.',example:'"Improve availability with Multi-AZ" answers HA but NOT RPO target if disaster destroys the region.'},
+  {rule:'For "Choose THREE", expect a clear A+B+C architecture: source event, transport/automation, sink/action.',example:'EventBridge rule (source) + Lambda (action) + SNS (notification).'},
+  {rule:'Eliminate options that violate guardrails (manual, plaintext secrets, wildcard IAM) first.',example:'Cutting 2-3 obviously wrong options narrows the multi-pick decision.'},
+  {rule:'Choose the LEAST-overhead combination that satisfies ALL stated requirements — not the fanciest.',example:'Don\'t add WAF if not asked. Don\'t add cross-region if not asked.'},
+];
+
+// One-line service mnemonics for fast recall
+const MEMORY_SHORTCUTS = [
+  {svc:'CloudTrail',meaning:'WHO did WHAT API call',example:'Audit + forensics. Org Trail → central S3.'},
+  {svc:'AWS Config',meaning:'RESOURCE STATE + COMPLIANCE',example:'Rules + Conformance Packs + SSM Automation remediation.'},
+  {svc:'GuardDuty',meaning:'THREAT detection',example:'Compromise, crypto-mining, recon. Auto-consume of CT/VPCFL/DNS/S3 data events.'},
+  {svc:'Security Hub',meaning:'AGGREGATE security findings',example:'Single pane. CIS/PCI/Foundational. Pulls GD/Inspector/Macie/Access Analyzer/Config.'},
+  {svc:'Inspector v2',meaning:'CVE / VULN scanning',example:'EC2 + ECR + Lambda. Continuous + on-push.'},
+  {svc:'Macie',meaning:'S3 PII / sensitive data discovery',example:'Auto-classify. Finds credentials, PHI, credit cards.'},
+  {svc:'IAM Access Analyzer',meaning:'EXTERNAL / UNUSED access detection',example:'Cross-account exposure. Unused permissions cleanup. Policy validation.'},
+  {svc:'EventBridge',meaning:'EVENT ROUTING',example:'AWS service events + SaaS partners + schedules. Replaces CW Events.'},
+  {svc:'Step Functions',meaning:'WORKFLOW orchestration',example:'Retry/Catch built-in. Standard (1y) vs Express (5min).'},
+  {svc:'Systems Manager',meaning:'OPERATIONS hub',example:'Patch, Run Command, Session Manager, Automation, State Manager, Parameter Store, Inventory.'},
+  {svc:'X-Ray',meaning:'DISTRIBUTED TRACE',example:'Service map, segments, annotations. Pair with ServiceLens.'},
+  {svc:'CloudWatch',meaning:'METRICS, LOGS, ALARMS',example:'Anomaly Detection, Synthetics, RUM, Container/Lambda Insights, Evidently.'},
+  {svc:'CloudFormation',meaning:'AWS-NATIVE IaC',example:'Drift, change sets, rollback triggers, StackSets, nested stacks.'},
+  {svc:'CDK',meaning:'CODE-DEFINED IaC',example:'Synth → CFN. Constructs, aspects, pipelines.'},
+  {svc:'CodePipeline',meaning:'ORCHESTRATOR of CI/CD',example:'Source → Build → Test → Deploy. Manual approvals via SNS.'},
+  {svc:'CodeBuild',meaning:'BUILD + TEST runner',example:'buildspec.yml, Report Groups, VPC builds, build caching.'},
+  {svc:'CodeDeploy',meaning:'DEPLOY to compute',example:'EC2 in-place / blue-green; Lambda canary; ECS blue-green with ALB.'},
+  {svc:'AppConfig',meaning:'FEATURE FLAGS + safe deploys',example:'Validators (JSON Schema/Lambda), canary/linear strategies, alarm rollback.'},
+  {svc:'AWS Backup',meaning:'UNIFIED BACKUPS across services',example:'Plans, vault lock (WORM), org policies, cross-account/region.'},
+  {svc:'Secrets Manager',meaning:'ROTATED secrets',example:'Native rotation Lambda. Cross-region replication. Resource policies.'},
+  {svc:'Parameter Store',meaning:'CONFIG values (free tier)',example:'SecureString for sensitive. Hierarchies. No rotation.'},
+  {svc:'Trusted Advisor',meaning:'BEST-PRACTICE checks',example:'Cost, security, performance, fault tolerance, service quotas. Full set needs Business+ Support.'},
+  {svc:'Incident Manager',meaning:'ON-CALL paging + response',example:'Response plans, contacts, escalation chains, runbooks (SSM Automation), timeline.'},
+  {svc:'OpsCenter',meaning:'OpsItem backlog',example:'Centralizes ops issues from CW/Config/SH/GD with runbook links.'},
+  {svc:'AWS Chatbot',meaning:'CHATOPS bridge',example:'SNS/EventBridge → Slack/Teams/Chime; run commands via IAM channel role.'},
+  {svc:'EC2 Image Builder',meaning:'GOLDEN IMAGE pipeline',example:'Build+test+distribute AMIs/containers. Inspector test step. SSM Param Store of latest AMI.'},
+  {svc:'Service Catalog',meaning:'GOVERNED self-service IaC',example:'Launch constraint role + TagOptions. Distribute portfolios via Organizations.'},
+  {svc:'Control Tower',meaning:'LANDING ZONE',example:'Org + SSO + central log/audit accounts + guardrails. Account Factory vends accounts.'},
+  {svc:'Route 53 ARC',meaning:'SAFE multi-region failover',example:'Routing controls + readiness checks + safety rules.'},
+  {svc:'Aurora Global Database',meaning:'SUB-MINUTE multi-region relational DR',example:'Replica lag <1s. Managed failover. Up to 5 secondary regions.'},
+];
+
+// Direct "if you see X, choose Y" trap detection
+const TRAP_DETECTION = [
+  {pattern:'"LEAST / LOWEST operational overhead"',choose:'Managed/serverless: Lambda, Fargate, SSM Automation, EventBridge Scheduler, Step Functions',avoid:'Custom shells, cron Lambdas polling, self-managed EC2'},
+  {pattern:'"FULL AUDIT HISTORY" / "WHO did WHAT" / "API call history"',choose:'AWS CloudTrail (Org Trail to central S3); query with Athena or CloudTrail Lake',avoid:'CloudWatch Logs alone, Config for API audit'},
+  {pattern:'"COMPLIANCE DRIFT" / "non-compliant resources"',choose:'AWS Config rules + Conformance Packs + SSM Automation remediation',avoid:'GuardDuty (threat focus), CloudTrail-only'},
+  {pattern:'"AUTOMATED REMEDIATION"',choose:'EventBridge → SSM Automation (preferred) or Lambda for custom logic',avoid:'Polling, manual scripts'},
+  {pattern:'"LEAST DOWNTIME" / "ZERO DOWNTIME" deployment',choose:'Blue/Green (CodeDeploy), Canary (Lambda alias / ECS), Immutable (Beanstalk)',avoid:'All-at-once, ECS rolling when blue/green requested'},
+  {pattern:'"REAL-TIME" or "NEAR REAL-TIME" log processing',choose:'CloudWatch Logs subscription filter → Lambda / Kinesis Firehose',avoid:'Logs Insights, polling DescribeLogStreams, scheduled exports'},
+  {pattern:'"MULTI-ACCOUNT" infra deploy',choose:'CloudFormation StackSets (service-managed) + Organizations',avoid:'Loop scripts, per-account pipelines'},
+  {pattern:'"ROTATE" credentials / DB password',choose:'AWS Secrets Manager rotation (multi-user for zero-downtime RDS)',avoid:'Parameter Store, manual scripts, env vars'},
+  {pattern:'"PII" / "SENSITIVE" data in S3',choose:'Amazon Macie + KMS + S3 Block Public Access + bucket policy',avoid:'Custom Glue scans, Lambda regex scanners'},
+  {pattern:'"THREAT" / "COMPROMISED" / "CRYPTO MINING"',choose:'GuardDuty findings → EventBridge → SSM Automation / Lambda quarantine',avoid:'CloudTrail-only IDS, custom anomaly scripts'},
+  {pattern:'"DISTRIBUTED TRACE" / latency root cause across services',choose:'AWS X-Ray service map + segments + ServiceLens',avoid:'Log correlation IDs alone'},
+  {pattern:'"MEMORY" / "DISK USAGE" on EC2',choose:'CloudWatch agent (unified) + procstat plugin',avoid:'Default EC2 metrics — they do not include memory or disk usage'},
+  {pattern:'"FEATURE FLAG" / "DYNAMIC CONFIG"',choose:'AWS AppConfig + validators + deployment strategy + alarm rollback',avoid:'Env vars (require redeploy), S3 manual JSON'},
+  {pattern:'"REPLACE SSH BASTION"',choose:'SSM Session Manager (no inbound 22; audited)',avoid:'EC2 Instance Connect with public IP, hand-rolled bastion'},
+  {pattern:'"PATCH FLEET" with maintenance windows',choose:'SSM Patch Manager + patch baselines + maintenance windows',avoid:'yum cron on every box, custom Lambda'},
+  {pattern:'"GOLDEN AMI" / immutable image pipeline',choose:'EC2 Image Builder + Inspector test + SSM Parameter Store for latest AMI',avoid:'Hand-rolled Packer + Jenkins when Image Builder fits'},
+  {pattern:'"CONTAINER VULN GATE"',choose:'ECR enhanced scanning (Inspector v2) → EventBridge → fail pipeline',avoid:'Basic scan only, custom Lambda CVE checkers'},
+  {pattern:'"ENDPOINT UPTIME" / synthetic test',choose:'CloudWatch Synthetics canary (heartbeat / API / GUI)',avoid:'Lambda+curl, Route 53 health checks for app correctness'},
+  {pattern:'"PRIVATE PACKAGES" / npm/pip/maven',choose:'AWS CodeArtifact + upstream public registry',avoid:'Self-hosted Nexus/Artifactory'},
+  {pattern:'"DEPLOYMENT FREEZE" window',choose:'SSM Change Calendar + GetCalendarState gate',avoid:'Manual pipeline disable'},
+  {pattern:'"ON-CALL paging" / escalation',choose:'SSM Incident Manager + Chatbot',avoid:'SNS-only paging'},
+  {pattern:'"LANDING ZONE" / new account vending',choose:'AWS Control Tower + Account Factory + CfCT for customizations',avoid:'Manual Organizations + per-account setup'},
+  {pattern:'"SELF-SERVICE IaC" with guardrails',choose:'AWS Service Catalog products + launch constraint role',avoid:'Free-form CFN with IAM-only restrictions'},
+  {pattern:'"CROSS-ACCOUNT PIPELINE"',choose:'Pipeline S3 bucket policy + KMS key policy + cross-account IAM role',avoid:'Shared access keys'},
+  {pattern:'"SUB-MINUTE CROSS-REGION DR" relational',choose:'Aurora Global Database (planned/unplanned failover) + Route 53 ARC',avoid:'Cross-region read replica when RTO < 5 min'},
+  {pattern:'"SAFE multi-region failover"',choose:'Route 53 Application Recovery Controller (ARC) routing controls + readiness',avoid:'Plain failover routing for critical workloads'},
+  {pattern:'"ROLL FLEET TO NEW AMI"',choose:'ASG Instance Refresh + new Launch Template version',avoid:'Manual terminate/replace loops'},
+  {pattern:'"L7 ATTACKS" / OWASP / rate limit',choose:'AWS WAF managed rules on CloudFront/ALB/API GW',avoid:'NACLs/SGs alone, Lambda@Edge for things WAF already does'},
+  {pattern:'"ADVANCED DDoS" / SLA + cost protection',choose:'AWS Shield Advanced + WAF + DRT',avoid:'Shield Standard alone for high-value apps'},
+  {pattern:'"DELETE PROTECTION" / immutable WORM',choose:'S3 Object Lock (compliance for irreversible) + versioning + MFA delete',avoid:'Bucket policy denials alone'},
+  {pattern:'"DETECTIVE control"',choose:'Config, GuardDuty, CloudTrail, Inspector, Macie, IAM Access Analyzer, Security Hub',avoid:'SCPs (preventive), IAM policies (preventive)'},
+  {pattern:'"PREVENTIVE control"',choose:'SCP, IAM policy, KMS key policy, S3 Block Public Access, SG/NACL, permission boundary',avoid:'Config / GuardDuty / CloudTrail (detective)'},
+  {pattern:'"CROSS-ACCOUNT key" / multi-region key',choose:'KMS customer-managed CMK with multi-region (MRK) + grants + key policy',avoid:'AWS-managed keys (no cross-account)'},
+  {pattern:'"NETWORK FORENSICS"',choose:'VPC Flow Logs → S3 → Athena (GuardDuty consumes FL automatically)',avoid:'Custom packet capture without Traffic Mirroring'},
+  {pattern:'"COST GUARDRAILS" with enforcement',choose:'AWS Budgets + budget actions (apply SCP, stop instances) + Cost Anomaly Detection',avoid:'Cost Explorer alone (analysis-only)'},
+];
+
+// Per-domain study guide aligned to the official DOP-C02 exam guide
+const DOMAIN_GUIDE = [
+  {domain:'D1: SDLC Automation',weight:'≈22%',
+   topics:['CI/CD pipelines','build & test automation','deployment strategies (blue/green, canary, linear, rolling, immutable)','artifact management','rollback automation','approval gates','code quality gates','container CVE gating'],
+   services:['CodePipeline','CodeBuild','CodeDeploy','CodeArtifact','CodeGuru','CodeStar Connections','ECR','Inspector','EC2 Image Builder','AppConfig','Step Functions','EventBridge'],
+   tips:['Pipeline orchestrates; Build builds; Deploy deploys.','Blue/Green > In-Place when rollback matters.','ECS blue/green needs CodeDeploy + 2 ALB target groups.','Lambda canary = version + alias + weighted (or CodeDeploy Lambda compute platform).','Cross-account pipeline = S3 + KMS + IAM role policies aligned.'],
+   tags:['CodePipeline','CodeBuild','CodeDeploy','CodeArtifact','ECR','EC2 Image Builder','AppConfig','Step Functions']},
+  {domain:'D2: Configuration Management & IaC',weight:'≈17%',
+   topics:['IaC (CloudFormation, CDK, SAM)','StackSets multi-account/region','drift detection','change sets / rollback triggers','nested / cross-stack references','SSM-based configuration management','secrets and config management','immutable infrastructure'],
+   services:['CloudFormation','CDK','SAM','StackSets','Service Catalog','Control Tower','Systems Manager','Parameter Store','Secrets Manager','AppConfig','EC2 Image Builder'],
+   tips:['Drift detection runs on demand — schedule via EventBridge.','StackSets service-managed permissions for AWS Organizations.','Use CDK aspects + constructs for reuse.','Parameter Store = config; Secrets Manager = rotated secrets; AppConfig = safe progressive deploy.','Service Catalog enforces approved templates with launch constraint roles.'],
+   tags:['CloudFormation','CDK','StackSets','Systems Manager','Secrets Manager','AppConfig','Service Catalog','Control Tower']},
+  {domain:'D3: Resilient Cloud Solutions',weight:'≈15%',
+   topics:['DR strategies (backup-restore → pilot light → warm standby → active-active)','RTO/RPO','Multi-AZ vs Read Replica','cross-region replication','self-healing','Auto Scaling','health checks','Route 53 routing','ARC','S3 CRR'],
+   services:['Aurora Global','RDS','DynamoDB Global Tables','Route 53','Route 53 ARC','S3 CRR','AWS Backup','Auto Scaling','Elastic Load Balancing','Global Accelerator','CloudFront'],
+   tips:['Sub-minute relational DR = Aurora Global DB.','DynamoDB cross-region active-active = Global Tables.','S3 cross-region = CRR + versioning.','Failover routing + low TTL + ARC for safe DNS flips.','Instance Refresh rolls a new AMI through the ASG.'],
+   tags:['RDS','Aurora','DynamoDB','Route 53','S3','AWS Backup','Auto Scaling','Elastic Load Balancing','CloudFront']},
+  {domain:'D4: Monitoring & Logging',weight:'≈15%',
+   topics:['CloudWatch metrics/logs/alarms/dashboards','Logs Insights','metric filters','anomaly detection','EventBridge','X-Ray distributed tracing','Synthetics & RUM','Container/Lambda Insights','centralized logging','observability'],
+   services:['CloudWatch','CloudWatch Logs','CloudWatch Synthetics','CloudWatch RUM','EventBridge','X-Ray','DevOps Guru','Kinesis Firehose','OpenSearch','Athena'],
+   tips:['Memory/disk on EC2 = CloudWatch agent (default metrics omit them).','Near-real-time logs = subscription filters → Lambda/Firehose.','Pattern → metric → alarm: metric filter.','Single-metric anomaly = CW Anomaly Detection; app-wide = DevOps Guru.','Synthetics = scripted canary; RUM = real users; X-Ray = trace.'],
+   tags:['CloudWatch','CloudWatch Logs','CloudWatch Synthetics','EventBridge','X-Ray','DevOps Guru','Kinesis']},
+  {domain:'D5: Incident & Event Response',weight:'≈14%',
+   topics:['EventBridge automation','SSM Automation runbooks','OpsCenter OpsItems','Incident Manager response plans','auto-remediation','runbooks','rollback events','AWS Chatbot ChatOps'],
+   services:['EventBridge','Systems Manager Automation','Incident Manager','OpsCenter','SNS','AWS Chatbot','Step Functions','Lambda','Change Calendar'],
+   tips:['Standard ops runbooks → SSM Automation, not Lambda.','Paging + escalation = Incident Manager.','Operational backlog = OpsCenter.','Deployment freeze = Change Calendar.','ChatOps = AWS Chatbot to Slack/Teams/Chime.'],
+   tags:['EventBridge','Systems Manager','Incident Manager','OpsCenter','Chatbot','SNS','Step Functions','Lambda']},
+  {domain:'D6: Security & Compliance',weight:'≈17%',
+   topics:['AWS Config rules + remediation','Security Hub aggregation','GuardDuty threat detection','SCP / IAM / permission boundary','Secrets Manager rotation','KMS encryption','CloudTrail audit','IAM Access Analyzer','detective vs preventive controls','governance automation'],
+   services:['Config','Security Hub','GuardDuty','Inspector','Macie','IAM Access Analyzer','Organizations / SCPs','Secrets Manager','KMS','CloudTrail','AWS Audit Manager','Network Firewall','WAF/Shield'],
+   tips:['Threat = GuardDuty, Compliance = Config, Aggregator = Security Hub.','SCP caps, IAM grants.','Workload identity = role, never access key.','Rotation = Secrets Manager (multi-user for RDS zero downtime).','External access = IAM Access Analyzer.'],
+   tags:['Config','Security Hub','GuardDuty','Inspector','Macie','IAM','Organizations','Secrets Manager','KMS','CloudTrail','WAF','Shield']},
+];
+
+// High-probability last-minute pass guide
+const LAST_MINUTE = [
+  {bucket:'Top services to know cold',items:['CloudFormation + StackSets + drift detection','CodePipeline + CodeBuild + CodeDeploy + AppSpec hooks','Systems Manager (Run/Session/Patch/Automation/State/Parameter Store/OpsCenter/Incident Mgr/Change Calendar)','CloudWatch (Logs subscription, metric filter, anomaly, Synthetics, RUM, Container Insights)','EventBridge (rules, schedules, archives, replay)','Config rules + Conformance Packs + SSM remediation','GuardDuty + Security Hub + Inspector v2 + Macie + IAM Access Analyzer','CloudTrail (Org Trail, CloudTrail Lake, Athena)','Secrets Manager rotation + KMS CMK','Route 53 (failover/latency/geo) + ARC','Aurora Global DB / DynamoDB Global Tables / S3 CRR','AWS Backup with vault lock','Auto Scaling Mixed Instances + Instance Refresh + Lifecycle hooks','Step Functions Retry/Catch','AWS Chatbot + SNS','Elastic Beanstalk deployment strategies','EC2 Image Builder + Inspector + SSM Parameter Store of AMI ID']},
+  {bucket:'Top keywords that drive the answer',items:['"LEAST operational overhead" → managed/serverless','"MOST cost-effective" → backup-restore over active-active when RTO allows','"NEAR REAL-TIME" → subscription filter / Firehose / Streams','"AUTO-REMEDIATE" → EventBridge + SSM Automation','"DRIFT DETECTION" → AWS Config + CloudFormation drift','"BLUE/GREEN" → CodeDeploy','"FEATURE FLAG" → AppConfig','"GOLDEN IMAGE" → EC2 Image Builder','"ROTATE" → Secrets Manager (multi-user)','"PRIVATE PACKAGE" → CodeArtifact','"ON-CALL" → Incident Manager','"FREEZE WINDOW" → Change Calendar','"WORM" → S3 Object Lock','"SUB-MINUTE DR" → Aurora Global / DDB Global Tables','"EXTERNAL ACCESS" → IAM Access Analyzer']},
+  {bucket:'Top traps to recognize',items:['OpsWorks / CodeCommit in answers = usually wrong (legacy)','"All at once" deployment = wrong if downtime matters','Parameter Store offered for rotation = wrong','Default EC2 metrics offered for memory = wrong','ECS rolling offered when blue/green is required = wrong','Lambda env var offered for dynamic flag = wrong','In-place upgrade offered for RDS major version = wrong','OAI offered for new CloudFront builds = pick OAC','Self-managed Vault/Jenkins/Kafka where AWS-native fits = wrong','Polling / cron Lambda where event-driven exists = wrong']},
+  {bucket:'Reasoning shortcuts',items:['When two answers seem right, pick the more MANAGED one.','When the question mentions "Organizations", expect SCPs / StackSets / Control Tower.','When asked "fastest rollback", default to blue/green or canary with alarms.','When asked "MUST audit who", default to CloudTrail (with Athena/Lake).','When asked "MUST audit resource state", default to AWS Config.','When asked "MUST aggregate findings", default to Security Hub.','When asked "MUST detect threats", default to GuardDuty.','When asked "MUST find PII in S3", default to Macie.','When asked "MUST scan container CVEs", default to Inspector v2 + ECR enhanced.','When asked "MUST roll EC2 fleet", default to ASG Instance Refresh.']},
+  {bucket:'Multi-answer composition (Choose TWO/THREE)',items:['Event source + Automation + Notification (eg: EventBridge + SSM Automation + SNS/Chatbot)','Detection + Remediation (eg: Config rule + SSM Automation; GuardDuty + Lambda)','Build + Test + Deploy (eg: CodeBuild + CodeBuild test action + CodeDeploy blue/green)','Storage + Replication + Lifecycle (eg: S3 + CRR + Glacier lifecycle)','HA + DR + Routing (eg: Multi-AZ + cross-region replica + Route 53 failover)']},
+];
+
+// ---- DERIVED data from QUESTIONS ----
+function deriveQuestionsByTag(){
+  const m = new Map();
+  for (const q of QUESTIONS) {
+    for (const t of (q.tags||[])) {
+      if (!m.has(t)) m.set(t,[]);
+      m.get(t).push(q.id);
+    }
+  }
+  return m;
+}
+function deriveTagFrequency(){
+  const m = new Map();
+  for (const q of QUESTIONS) {
+    for (const t of (q.tags||[])) m.set(t,(m.get(t)||0)+1);
+  }
+  return Array.from(m.entries()).sort((a,b)=>b[1]-a[1]);
+}
+function deriveKeywordCounts(){
+  const patterns = {
+    'LEAST operational overhead': 0,
+    'MOST cost-effective': 0,
+    'MUST': 0,
+    'real-time': 0,
+    'multi-account': 0,
+    'multi-region': 0,
+    'rotate': 0,
+    'compliance': 0,
+    'audit': 0,
+    'blue/green': 0,
+    'rollback': 0,
+    'automated': 0,
+    'least privilege': 0,
+    'on-premises': 0,
+  };
+  const tot = QUESTIONS.length;
+  for (const q of QUESTIONS) {
+    const t = (q.question||'').toLowerCase();
+    for (const k of Object.keys(patterns)) {
+      if (t.includes(k.toLowerCase())) patterns[k]++;
+    }
+  }
+  return {patterns, total:tot};
+}
+function deriveMultiCount(){
+  return QUESTIONS.filter(q=>(q.correctAnswers||[]).length>1).length;
+}
+function deriveAmbigCount(){
+  return QUESTIONS.filter(q=>q.ambiguous||q.confidence==='Ambiguous'||q.confidence==='Low').length;
+}
+
+// ---- State ----
+const kbState = {
+  query: '',
+  filterSvc: '',
+  filterDomain: '',
+  filterKind: '',
+  expanded: {},
+};
+
+// ---- Rendering ----
+const KB_ROOT = document.getElementById('kb-wrap');
+
+function svcOptions(){
+  const freq = deriveTagFrequency();
+  return ['<option value="">All services</option>'].concat(freq.map(([t,n])=>`<option value="${escapeHtml(t)}">${escapeHtml(t)} (${n})</option>`)).join('');
+}
+function domainOptions(){
+  const set = new Set();
+  RULES.forEach(r => r.domain && set.add(r.domain));
+  // Always include the official DOP-C02 exam domains even if no rule has them yet
+  ['SDLC Automation','Configuration Management & IaC','Resilient Cloud Solutions','Monitoring & Logging','Incident & Event Response','Security & Compliance','Cost Optimization','Operations','HA, Resilience','Networking'].forEach(d=>set.add(d));
+  return ['<option value="">All domains</option>'].concat(Array.from(set).sort().map(d=>`<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`)).join('');
+}
+function kindOptions(){
+  return ['','domain-guide','rules','keywords','trap','shortcuts','cases','elimination','matrices','multi','last-minute','cheatsheet','flashcards','top-services']
+    .map(k=>`<option value="${k}">${k?({'domain-guide':'DOP-C02 domains & coverage',rules:'High-yield rules',keywords:'Keyword → service','trap':'Trap detection (If you see X → choose Y)','shortcuts':'Memory shortcuts',cases:'Case studies',elimination:'Wrong-answer rules',matrices:'Decision matrices',multi:'Multi-answer strategy','last-minute':'Last-minute pass guide',cheatsheet:'Cheat sheet',flashcards:'Flashcards','top-services':'Top services'})[k]:'All sections'}</option>`).join('');
+}
+
+function relatedQidsFor(tags){
+  if (!tags || !tags.length) return [];
+  const idx = deriveQuestionsByTag();
+  const set = new Set();
+  for (const t of tags) {
+    const arr = idx.get(t) || [];
+    for (const id of arr.slice(0,4)) set.add(id);
+  }
+  return Array.from(set).slice(0,8);
+}
+
+function matchQuery(text, q){
+  if (!q) return true;
+  return (text||'').toLowerCase().includes(q.toLowerCase());
+}
+
+function ruleMatches(r){
+  const q = kbState.query;
+  const text = [r.rule,r.why,r.memory,r.trap,(r.choose||[]).join(' '),(r.avoid||[]).join(' '),(r.keywords||[]).join(' '),(r.relatedTags||[]).join(' '),r.domain].join(' ');
+  if (q && !matchQuery(text,q)) return false;
+  if (kbState.filterSvc && !(r.relatedTags||[]).includes(kbState.filterSvc)) return false;
+  if (kbState.filterDomain && r.domain !== kbState.filterDomain) return false;
+  return true;
+}
+function keywordMatches(k){
+  const text = [k.pattern,k.service,k.avoid,(k.tags||[]).join(' ')].join(' ');
+  if (kbState.query && !matchQuery(text,kbState.query)) return false;
+  if (kbState.filterSvc && !(k.tags||[]).includes(kbState.filterSvc)) return false;
+  return true;
+}
+function caseMatches(c){
+  const text = [c.scenario,c.pattern,c.trap,(c.services||[]).join(' '),(c.tags||[]).join(' ')].join(' ');
+  if (kbState.query && !matchQuery(text,kbState.query)) return false;
+  if (kbState.filterSvc && !(c.tags||[]).includes(kbState.filterSvc)) return false;
+  return true;
+}
+function elimMatches(e){
+  if (kbState.query && !matchQuery(e.rule+' '+e.example, kbState.query)) return false;
+  return true;
+}
+function matrixMatches(m){
+  const text = m.title + ' ' + m.cols.join(' ') + ' ' + m.rows.map(r=>r.join(' ')).join(' ');
+  if (kbState.query && !matchQuery(text,kbState.query)) return false;
+  if (kbState.filterSvc && !text.toLowerCase().includes(kbState.filterSvc.toLowerCase())) return false;
+  return true;
+}
+function flashMatches(f){
+  if (kbState.query && !matchQuery(f.q+' '+f.a, kbState.query)) return false;
+  return true;
+}
+function cheatMatches(c){
+  if (kbState.query && !matchQuery(c.h+' '+c.d, kbState.query)) return false;
+  return true;
+}
+
+function renderRules(){
+  const filtered = RULES.filter(ruleMatches);
+  if (!filtered.length) return '<div class="kb-empty">No rules match the current filters.</div>';
+  return '<div class="kb-section-intro">High-yield rules derived from recurring question patterns. Each rule maps to real question IDs in the bank.</div><div class="kb-cards">' + filtered.map(r => {
+    const qids = relatedQidsFor(r.relatedTags);
+    return `<div class="kb-card">
+      <div class="kb-rule">⚡ ${escapeHtml(r.rule)}</div>
+      <div class="kb-line"><span class="lbl">Why it matters</span>${escapeHtml(r.why||'')}</div>
+      <div class="kb-line"><span class="lbl">Choose</span><div class="kb-pillrow">${(r.choose||[]).map(x=>`<span class="kb-pill choose">✓ ${escapeHtml(x)}</span>`).join('')}</div></div>
+      <div class="kb-line"><span class="lbl">Avoid</span><div class="kb-pillrow">${(r.avoid||[]).map(x=>`<span class="kb-pill avoid">✗ ${escapeHtml(x)}</span>`).join('')}</div></div>
+      <div class="kb-line"><span class="lbl">Keywords</span><div class="kb-pillrow">${(r.keywords||[]).map(x=>`<span class="kb-pill keyword">${escapeHtml(x)}</span>`).join('')}</div></div>
+      ${r.trap?`<div class="kb-line"><span class="lbl">Trap</span><div class="kb-pillrow"><span class="kb-pill trap">⚠ ${escapeHtml(r.trap)}</span></div></div>`:''}
+      <div class="kb-line"><span class="lbl">Related services</span><div class="kb-pillrow">${(r.relatedTags||[]).map(x=>`<span class="kb-pill">${escapeHtml(x)}</span>`).join('')}</div></div>
+      ${qids.length?`<div class="kb-line"><span class="lbl">Related questions</span><div class="kb-pillrow">${qids.map(id=>`<span class="kb-pill qid" data-jumpid="${escapeHtml(id)}">${escapeHtml(id)}</span>`).join('')}</div></div>`:''}
+      <div class="kb-line"><span class="lbl">Confidence · Domain</span><span class="kb-pill conf-${r.confidence||'High'}">${escapeHtml(r.confidence||'High')}</span> <span class="kb-pill">${escapeHtml(r.domain||'')}</span></div>
+      ${r.memory?`<div class="kb-memo">💡 ${escapeHtml(r.memory)}</div>`:''}
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function renderKeymap(){
+  const filtered = KEYMAP.filter(keywordMatches);
+  if (!filtered.length) return '<div class="kb-empty">No keyword mappings match.</div>';
+  return '<div class="kb-section-intro">When you see these keyword patterns in a question, default to the listed service. Avoid the listed traps.</div><div class="kb-keymap">' + filtered.map(k=>{
+    const qids = relatedQidsFor(k.tags);
+    return `<div class="kb-kw">
+      <div class="kw-pattern">🔑 ${escapeHtml(k.pattern)}</div>
+      <div class="kw-svc">→ ${escapeHtml(k.service)}</div>
+      <div class="kw-avoid">✗ Avoid: ${escapeHtml(k.avoid)}</div>
+      <div class="kw-tags">${(k.tags||[]).map(t=>`<span class="kb-pill">${escapeHtml(t)}</span>`).join('')}</div>
+      ${qids.length?`<div class="kw-tags" style="margin-top:6px">${qids.map(id=>`<span class="kb-pill qid" data-jumpid="${escapeHtml(id)}">${escapeHtml(id)}</span>`).join('')}</div>`:''}
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function renderCases(){
+  const filtered = CASE_STUDIES.filter(caseMatches);
+  if (!filtered.length) return '<div class="kb-empty">No case studies match.</div>';
+  return '<div class="kb-section-intro">Recurring scenario patterns in the DOP-C02 question bank. Memorize the best pattern and the trap for each.</div><div class="kb-cards">' + filtered.map(c=>{
+    const qids = relatedQidsFor(c.tags);
+    return `<div class="kb-card">
+      <div class="kb-rule">📌 ${escapeHtml(c.scenario)}</div>
+      <div class="kb-line"><span class="lbl">Best pattern</span>${escapeHtml(c.pattern)}</div>
+      <div class="kb-line"><span class="lbl">Exam trap</span><span class="kb-pill trap">⚠ ${escapeHtml(c.trap)}</span></div>
+      <div class="kb-line"><span class="lbl">Services</span><div class="kb-pillrow">${(c.services||[]).map(s=>`<span class="kb-pill">${escapeHtml(s)}</span>`).join('')}</div></div>
+      ${qids.length?`<div class="kb-line"><span class="lbl">Related questions</span><div class="kb-pillrow">${qids.map(id=>`<span class="kb-pill qid" data-jumpid="${escapeHtml(id)}">${escapeHtml(id)}</span>`).join('')}</div></div>`:''}
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function renderElimination(){
+  const filtered = ELIMINATION_RULES.filter(elimMatches);
+  if (!filtered.length) return '<div class="kb-empty">No rules match.</div>';
+  return '<div class="kb-section-intro">Cut wrong options fast using these heuristics. Apply them in order before reading deeply.</div><div class="kb-cards">' + filtered.map((e,i)=>`
+    <div class="kb-card">
+      <div class="kb-rule">✂ ${i+1}. ${escapeHtml(e.rule)}</div>
+      <div class="kb-line"><span class="lbl">Example</span><i>${escapeHtml(e.example)}</i></div>
+    </div>`).join('') + '</div>';
+}
+
+function renderMatrices(){
+  const filtered = MATRICES.filter(matrixMatches);
+  if (!filtered.length) return '<div class="kb-empty">No matrices match.</div>';
+  return '<div class="kb-section-intro">Side-by-side service comparisons for the most-tested DOP-C02 decisions.</div>' + filtered.map(m=>`
+    <div class="kb-matrix-wrap">
+      <div class="kb-matrix-title">📊 ${escapeHtml(m.title)}</div>
+      <table class="kb-matrix">
+        <thead><tr>${m.cols.map(c=>`<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+        <tbody>${m.rows.map(r=>'<tr>'+r.map((cell,i)=>`<td>${i===0?'<b>'+escapeHtml(cell)+'</b>':escapeHtml(cell)}</td>`).join('')+'</tr>').join('')}</tbody>
+      </table>
+    </div>`).join('');
+}
+
+function renderMulti(){
+  const ambig = deriveAmbigCount();
+  const multi = deriveMultiCount();
+  return `<div class="kb-section-intro">${multi} multi-answer questions in the bank · ${ambig} flagged as ambiguous/low-confidence. Use these strategies to navigate them.</div>
+  <div class="kb-cards">` + MULTI_STRATEGY.map((m,i)=>`
+    <div class="kb-card">
+      <div class="kb-rule">🎯 ${i+1}. ${escapeHtml(m.rule)}</div>
+      <div class="kb-line"><span class="lbl">Example</span><i>${escapeHtml(m.example)}</i></div>
+    </div>`).join('') + '</div>';
+}
+
+function renderCheatsheet(){
+  const filtered = CHEATSHEET.filter(cheatMatches);
+  return '<div class="kb-section-intro">Read this the day before the exam. Each line is a high-yield reflex.</div><div class="kb-checklist">' +
+    filtered.map(c=>`<div class="kb-item"><b><span class="ico">▸</span>${escapeHtml(c.h)}</b>${escapeHtml(c.d)}</div>`).join('') + '</div>';
+}
+
+function renderFlashcards(){
+  const filtered = FLASHCARDS.filter(flashMatches);
+  return '<div class="kb-section-intro">Click a card to flip. Use these for active recall: read the question, answer mentally, then flip.</div><div class="kb-flash-grid">' +
+    filtered.map((f,i)=>`<button type="button" class="kb-flash" data-flash="${i}">
+      <div class="kb-flash-inner">
+        <div class="kb-flash-front">
+          <div class="kb-flash-q">${escapeHtml(f.q)}</div>
+          <div class="kb-flash-tip">Click to flip</div>
+        </div>
+        <div class="kb-flash-back"><div class="kb-flash-a">${f.a}</div></div>
+      </div>
+    </button>`).join('') + '</div>';
+}
+
+function renderTopServices(){
+  const freq = deriveTagFrequency().slice(0,30);
+  const max = freq.length ? freq[0][1] : 1;
+  return '<div class="kb-section-intro">Most-referenced services across the entire question bank. Use this to prioritize study.</div><div class="kb-svc-cloud">' +
+    freq.map(([t,n])=>{
+      const size = Math.max(11, Math.round(11 + (n/max)*5));
+      return `<span class="kb-svc" style="font-size:${size}px;cursor:pointer" data-svc="${escapeHtml(t)}"><b>${escapeHtml(t)}</b><span class="kb-n">${n}</span></span>`;
+    }).join('') + '</div>';
+}
+
+// ---- New matchers for added arrays ----
+function shortcutMatches(s){
+  if (kbState.query && !matchQuery(s.svc+' '+s.meaning+' '+s.example, kbState.query)) return false;
+  if (kbState.filterSvc && !(s.svc.toLowerCase().includes(kbState.filterSvc.toLowerCase()) || s.example.toLowerCase().includes(kbState.filterSvc.toLowerCase()))) return false;
+  return true;
+}
+function trapMatches(t){
+  if (kbState.query && !matchQuery(t.pattern+' '+t.choose+' '+t.avoid, kbState.query)) return false;
+  if (kbState.filterSvc && !(t.choose+' '+t.avoid).toLowerCase().includes(kbState.filterSvc.toLowerCase())) return false;
+  return true;
+}
+function domainMatches(d){
+  if (kbState.query && !matchQuery(d.domain+' '+d.topics.join(' ')+' '+d.services.join(' ')+' '+d.tips.join(' '), kbState.query)) return false;
+  if (kbState.filterSvc && !d.tags.includes(kbState.filterSvc) && !d.services.some(s=>s.toLowerCase().includes(kbState.filterSvc.toLowerCase()))) return false;
+  return true;
+}
+function lastMinuteMatches(b){
+  if (kbState.query && !matchQuery(b.bucket+' '+b.items.join(' '), kbState.query)) return false;
+  return true;
+}
+
+// ---- New render functions ----
+function renderMemoryShortcuts(){
+  const filtered = MEMORY_SHORTCUTS.filter(shortcutMatches);
+  if (!filtered.length) return '<div class="kb-empty">No memory shortcuts match.</div>';
+  return '<div class="kb-section-intro">One-line mnemonics for fast service recall under exam pressure. Read top-to-bottom 2-3 times.</div><div class="kb-cards">' +
+    filtered.map(s=>`<div class="kb-card">
+      <div class="kb-rule">🧠 <b>${escapeHtml(s.svc)}</b> = ${escapeHtml(s.meaning)}</div>
+      <div class="kb-line">${escapeHtml(s.example)}</div>
+    </div>`).join('') + '</div>';
+}
+
+function renderTrapDetection(){
+  const filtered = TRAP_DETECTION.filter(trapMatches);
+  if (!filtered.length) return '<div class="kb-empty">No trap detection rules match.</div>';
+  return '<div class="kb-section-intro">If-you-see-X-choose-Y rapid-fire patterns. Memorize the keyword on the left → service on the right.</div><div class="kb-cards">' +
+    filtered.map(t=>`<div class="kb-card">
+      <div class="kb-rule">🚨 If you see: ${escapeHtml(t.pattern)}</div>
+      <div class="kb-line"><span class="lbl">Choose</span><span class="kb-pill choose">✓ ${escapeHtml(t.choose)}</span></div>
+      <div class="kb-line"><span class="lbl">Avoid</span><span class="kb-pill avoid">✗ ${escapeHtml(t.avoid)}</span></div>
+    </div>`).join('') + '</div>';
+}
+
+function renderDomainGuide(){
+  const filtered = DOMAIN_GUIDE.filter(domainMatches);
+  if (!filtered.length) return '<div class="kb-empty">No domains match.</div>';
+  return '<div class="kb-section-intro">Official DOP-C02 exam domains aligned with the AWS exam guide. Use this as the master study checklist.</div><div class="kb-cards">' +
+    filtered.map(d=>{
+      const qids = relatedQidsFor(d.tags);
+      return `<div class="kb-card">
+        <div class="kb-rule">📚 ${escapeHtml(d.domain)} <span class="kb-pill" style="margin-left:6px">${escapeHtml(d.weight)}</span></div>
+        <div class="kb-line"><span class="lbl">Topics</span><div class="kb-pillrow">${d.topics.map(t=>`<span class="kb-pill keyword">${escapeHtml(t)}</span>`).join('')}</div></div>
+        <div class="kb-line"><span class="lbl">Key services</span><div class="kb-pillrow">${d.services.map(s=>`<span class="kb-pill">${escapeHtml(s)}</span>`).join('')}</div></div>
+        <div class="kb-line"><span class="lbl">Exam tips</span><ul style="margin:4px 0 0 18px;padding:0;font-size:12.5px;line-height:1.55;color:var(--text-2)">${d.tips.map(t=>'<li>'+escapeHtml(t)+'</li>').join('')}</ul></div>
+        ${qids.length?`<div class="kb-line"><span class="lbl">Sample questions in bank</span><div class="kb-pillrow">${qids.map(id=>`<span class="kb-pill qid" data-jumpid="${escapeHtml(id)}">${escapeHtml(id)}</span>`).join('')}</div></div>`:''}
+      </div>`;
+    }).join('') + '</div>';
+}
+
+function renderLastMinute(){
+  const filtered = LAST_MINUTE.filter(lastMinuteMatches);
+  if (!filtered.length) return '<div class="kb-empty">No last-minute items match.</div>';
+  return '<div class="kb-section-intro">Read this <b>once</b> on exam morning. Each bucket is a high-yield reflex you should not have to think about.</div>' +
+    filtered.map(b=>`<div style="margin-top:12px">
+      <h3 style="font-size:13px;color:var(--text);font-weight:700;margin:8px 0 8px">🎯 ${escapeHtml(b.bucket)}</h3>
+      <div class="kb-checklist">${b.items.map(i=>`<div class="kb-item"><span class="ico">▸</span>${escapeHtml(i)}</div>`).join('')}</div>
+    </div>`).join('');
+}
+
+function renderKBStats(){
+  const tot = QUESTIONS.length;
+  const tagFreq = deriveTagFrequency();
+  const kw = deriveKeywordCounts();
+  const multi = deriveMultiCount();
+  return `
+    <div class="kb-stat"><b>${tot}</b><span>Questions</span></div>
+    <div class="kb-stat"><b>${tagFreq.length}</b><span>Services</span></div>
+    <div class="kb-stat"><b>${multi}</b><span>Multi-answer</span></div>
+    <div class="kb-stat"><b>${DOMAIN_GUIDE.length}</b><span>Exam domains</span></div>
+    <div class="kb-stat"><b>${RULES.length}</b><span>Rules</span></div>
+    <div class="kb-stat"><b>${TRAP_DETECTION.length}</b><span>Traps</span></div>
+    <div class="kb-stat"><b>${MATRICES.length}</b><span>Matrices</span></div>
+    <div class="kb-stat"><b>${FLASHCARDS.length}</b><span>Flashcards</span></div>
+  `;
+}
+
+function shouldRenderSection(key){
+  if (!kbState.filterKind) return true;
+  return kbState.filterKind === key;
+}
+
+function renderKB(){
+  const sections = [
+    {k:'domain-guide',id:'kb-sec-domain',title:'📚 DOP-C02 Domain Guide & Coverage',count:DOMAIN_GUIDE.filter(domainMatches).length, render:renderDomainGuide},
+    {k:'rules',id:'kb-sec-rules',title:'⚡ High-Yield Exam Rules',count:RULES.filter(ruleMatches).length, render:renderRules},
+    {k:'keywords',id:'kb-sec-keywords',title:'🔑 Keyword → Service Mapping',count:KEYMAP.filter(keywordMatches).length, render:renderKeymap},
+    {k:'trap',id:'kb-sec-trap',title:'🚨 Trap Detection (If you see X → choose Y)',count:TRAP_DETECTION.filter(trapMatches).length, render:renderTrapDetection},
+    {k:'shortcuts',id:'kb-sec-shortcut',title:'🧠 Memory Shortcuts',count:MEMORY_SHORTCUTS.filter(shortcutMatches).length, render:renderMemoryShortcuts},
+    {k:'cases',id:'kb-sec-cases',title:'📌 Case Study Patterns',count:CASE_STUDIES.filter(caseMatches).length, render:renderCases},
+    {k:'elimination',id:'kb-sec-elim',title:'✂ Wrong-Answer Elimination Rules',count:ELIMINATION_RULES.filter(elimMatches).length, render:renderElimination},
+    {k:'matrices',id:'kb-sec-matrices',title:'📊 DOP-C02 Decision Matrices',count:MATRICES.filter(matrixMatches).length, render:renderMatrices},
+    {k:'multi',id:'kb-sec-multi',title:'🎯 Multi-Answer Strategy',count:MULTI_STRATEGY.length, render:renderMulti},
+    {k:'last-minute',id:'kb-sec-lastmin',title:'🏁 Last-Minute Pass Guide',count:LAST_MINUTE.filter(lastMinuteMatches).length, render:renderLastMinute},
+    {k:'cheatsheet',id:'kb-sec-cheat',title:'📋 Cheat Sheet',count:CHEATSHEET.filter(cheatMatches).length, render:renderCheatsheet},
+    {k:'flashcards',id:'kb-sec-flash',title:'🃏 Flashcards',count:FLASHCARDS.filter(flashMatches).length, render:renderFlashcards},
+    {k:'top-services',id:'kb-sec-top',title:'☁ Top Services in the Bank',count:deriveTagFrequency().length, render:renderTopServices},
+  ];
+
+  const navItems = sections.filter(s=>shouldRenderSection(s.k)).map(s=>`<a href="#${s.id}">${s.title.replace(/^[^\s]+\s/,'')}</a>`).join('');
+
+  KB_ROOT.innerHTML = `
+    <div class="kb-hero">
+      <div>
+        <h1>📚 DOP-C02 Knowledge Dump · High-Yield Notes</h1>
+        <p>Aligned with the official AWS DOP-C02 exam guide (6 domains) and auto-summarized from this question bank: domain coverage, high-yield rules, keyword → service mappings, trap detection (if-you-see-X-choose-Y), memory shortcuts, case studies, decision matrices, elimination rules, last-minute pass guide, and flashcards.</p>
+      </div>
+      <div class="kb-hero-stats">${renderKBStats()}</div>
+    </div>
+
+    <div class="kb-toolbar">
+      <div class="kb-search">
+        <span>🔎</span>
+        <input id="kb-search-input" type="search" placeholder="Search rules, keywords, services, cases…" value="${escapeHtml(kbState.query)}">
+      </div>
+      <select id="kb-filter-svc" class="btn small" style="font-family:inherit">${svcOptions().replace(`value="${escapeHtml(kbState.filterSvc)}"`,`value="${escapeHtml(kbState.filterSvc)}" selected`)}</select>
+      <select id="kb-filter-domain" class="btn small" style="font-family:inherit">${domainOptions().replace(`value="${escapeHtml(kbState.filterDomain)}"`,`value="${escapeHtml(kbState.filterDomain)}" selected`)}</select>
+      <select id="kb-filter-kind" class="btn small" style="font-family:inherit">${kindOptions().replace(`value="${kbState.filterKind}"`,`value="${kbState.filterKind}" selected`)}</select>
+      <button class="btn small" id="kb-collapse-all">Collapse all</button>
+      <button class="btn small" id="kb-expand-all">Expand all</button>
+      <button class="btn small" id="kb-back-to-q">← Back to questions</button>
+    </div>
+
+    <div class="kb-mininav">${navItems}</div>
+
+    <div class="kb-grid">
+      ${sections.filter(s=>shouldRenderSection(s.k)).map(s=>`
+        <section class="kb-section ${kbState.expanded[s.k]===false?'collapsed':''}" id="${s.id}" data-key="${s.k}">
+          <div class="kb-section-head" data-key="${s.k}">
+            <h2>${s.title}</h2>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="kb-count">${s.count}</span>
+              <span class="caret">▼</span>
+            </div>
+          </div>
+          <div class="kb-section-body">${s.render()}</div>
+        </section>
+      `).join('')}
+    </div>
+  `;
+
+  // Wire interactions
+  document.getElementById('kb-search-input').addEventListener('input', (e)=>{
+    kbState.query = e.target.value;
+    renderKB();
+    requestAnimationFrame(()=>document.getElementById('kb-search-input').focus());
+  });
+  document.getElementById('kb-filter-svc').addEventListener('change', (e)=>{
+    kbState.filterSvc = e.target.value;
+    renderKB();
+  });
+  document.getElementById('kb-filter-domain').addEventListener('change', (e)=>{
+    kbState.filterDomain = e.target.value;
+    renderKB();
+  });
+  document.getElementById('kb-filter-kind').addEventListener('change', (e)=>{
+    kbState.filterKind = e.target.value;
+    renderKB();
+  });
+  document.getElementById('kb-collapse-all').addEventListener('click', ()=>{
+    KB_ROOT.querySelectorAll('.kb-section').forEach(s=>{s.classList.add('collapsed');kbState.expanded[s.dataset.key]=false;});
+  });
+  document.getElementById('kb-expand-all').addEventListener('click', ()=>{
+    KB_ROOT.querySelectorAll('.kb-section').forEach(s=>{s.classList.remove('collapsed');kbState.expanded[s.dataset.key]=true;});
+  });
+  document.getElementById('kb-back-to-q').addEventListener('click', exitKB);
+
+  KB_ROOT.querySelectorAll('.kb-section-head').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const sec = h.parentElement;
+      sec.classList.toggle('collapsed');
+      kbState.expanded[h.dataset.key] = !sec.classList.contains('collapsed');
+    });
+  });
+  KB_ROOT.querySelectorAll('.kb-flash').forEach(f=>{
+    f.addEventListener('click', ()=>f.classList.toggle('flipped'));
+  });
+  KB_ROOT.querySelectorAll('[data-jumpid]').forEach(p=>{
+    p.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = p.dataset.jumpid;
+      jumpToQuestionById(id);
+    });
+  });
+  KB_ROOT.querySelectorAll('[data-svc]').forEach(s=>{
+    s.addEventListener('click', ()=>{
+      kbState.filterSvc = s.dataset.svc;
+      renderKB();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+}
+
+function jumpToQuestionById(id){
+  // Ensure all sources visible so the question is findable
+  if (!state.filters.sources.includes('DOP01') || !state.filters.sources.includes('DOP02') ||
+      !state.filters.sources.includes('DOP03') || !state.filters.sources.includes('DOP_C02')){
+    state.filters.sources = ['DOP01','DOP02','DOP03','DOP_C02'];
+  }
+  state.filters.confidence = [];
+  state.filters.bookmarkedOnly = false;
+  state.filters.reviewState = 'all';
+  state.filters.tags = [];
+  state.query = '';
+  if (el.search) el.search.value = '';
+  state.mode = 'all';
+  applyFilters();
+  const idx = state.filtered.findIndex(q=>q.id === id);
+  if (idx === -1){ showToast('Question '+id+' not in current filter'); exitKB(); return; }
+  state.idx = idx;
+  state.showAnswer = false; state.showExplanation = false;
+  persistRuntime();
+  exitKB();
+  renderProgress(); renderCard();
+  window.scrollTo({top:0,behavior:'smooth'});
+  showToast('Jumped to '+id);
+}
+
+function enterKB(){
+  document.querySelector('.layout').classList.add('hide');
+  KB_ROOT.classList.add('show');
+  renderKB();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function exitKB(){
+  KB_ROOT.classList.remove('show');
+  document.querySelector('.layout').classList.remove('hide');
+}
+
+// Wire button
+document.getElementById('kb-btn').addEventListener('click', ()=>{
+  if (KB_ROOT.classList.contains('show')) exitKB(); else enterKB();
+});
+
+return { enter: enterKB, exit: exitKB, render: renderKB };
+})();
 
 // =================== Init ===================
 applyFilters();
