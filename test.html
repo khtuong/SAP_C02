@@ -144,30 +144,139 @@ tr:hover td { background: rgba(255,255,255,0.4); }
   .invoice { background: transparent !important; padding: 0 !important; margin: 0 !important; max-width: 100% !important; border: none !important; box-shadow: none !important; height: auto !important; min-height: auto !important; page-break-after: auto; }
 }
 #printArea{display:none}
-/* INVOICE */
-.invoice { background: #fff; padding: 40px; max-width: 800px; margin: 0 auto; font-family: 'Times New Roman', serif; color: #000; }
-.inv-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
-.inv-brand h1 { font-size: 28px; font-weight: 800; color: #0d5c4a; margin-bottom: 4px; text-transform: uppercase; }
-.inv-brand p { font-size: 13px; line-height: 1.5; color: #333; }
-.inv-title-box { text-align: right; }
-.inv-title { font-size: 32px; font-weight: 900; color: #0d5c4a; letter-spacing: 2px; text-transform: uppercase; }
-.inv-date { font-size: 14px; color: #555; margin-top: 5px; }
-
-.inv-customer { margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-left: 4px solid #0d5c4a; }
-.inv-customer h4 { font-size: 14px; color: #0d5c4a; margin-bottom: 8px; text-transform: uppercase; font-family: sans-serif; }
-.inv-customer p { font-size: 15px; line-height: 1.6; }
-
-.inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: sans-serif; }
-.inv-table th { background: #0d5c4a; color: #fff; padding: 12px; text-align: left; font-size: 13px; text-transform: uppercase; }
-.inv-table td { padding: 12px; border-bottom: 1px solid #ddd; font-size: 14px; }
-.inv-table tr:nth-child(even) td { background: #fafafa; }
-
-.inv-total-box { display: flex; justify-content: flex-end; margin-top: 20px; }
-.inv-total { width: 300px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
-.inv-total-row { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 8px; }
-.inv-total-row.final { font-size: 20px; font-weight: 800; color: #0d5c4a; border-top: 2px solid #ddd; padding-top: 10px; margin-top: 5px; }
-
-.inv-footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px dashed #ccc; color: #555; font-size: 13px; line-height: 1.6; font-style: italic; }
+/* INVOICE — Chuẩn mẫu hóa đơn Việt Nam */
+.invoice {
+  background: #fff;
+  padding: 28px 32px;
+  max-width: 680px;
+  margin: 0 auto;
+  font-family: 'Times New Roman', Times, serif;
+  color: #000;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.inv-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2px;
+}
+.inv-company-name {
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1px;
+}
+.inv-title-center {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 4px 0 2px 0;
+  letter-spacing: 0.5px;
+}
+.inv-date-center {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.inv-kyso {
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.inv-kyso span { display: block; }
+.inv-sep { border: none; border-top: 1px solid #000; margin: 6px 0; }
+.inv-field {
+  font-size: 13px;
+  padding: 3px 0;
+  border-bottom: 1px dotted #555;
+  margin-bottom: 4px;
+  min-height: 22px;
+}
+.inv-field-inline {
+  display: flex;
+  gap: 0;
+  font-size: 13px;
+  padding: 3px 0;
+  border-bottom: 1px dotted #555;
+  margin-bottom: 4px;
+  min-height: 22px;
+}
+.inv-field-inline .part { flex: 1; }
+.inv-field-inline .part + .part { padding-left: 8px; border-left: 1px dotted #555; margin-left: 8px; }
+.inv-section-gap { margin-top: 6px; }
+/* Bảng hàng hóa */
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13px;
+}
+.inv-table th, .inv-table td {
+  border: 1px solid #000;
+  padding: 5px 8px;
+  vertical-align: middle;
+}
+.inv-table th {
+  background: #fff;
+  font-weight: bold;
+  text-align: center;
+  font-size: 13px;
+}
+.inv-table .c-stt { width: 32px; text-align: center; }
+.inv-table .c-name { text-align: left; }
+.inv-table .c-dvt { width: 60px; text-align: center; }
+.inv-table .c-qty { width: 50px; text-align: center; }
+.inv-table .c-price { width: 110px; text-align: right; }
+.inv-table .c-total { width: 120px; text-align: right; font-weight: bold; }
+.inv-table .empty-row td { height: 24px; }
+/* Tổng kết */
+.inv-summary-row {
+  font-size: 13px;
+  padding: 3px 0;
+  border-bottom: 1px dotted #555;
+  margin-bottom: 4px;
+  min-height: 22px;
+}
+.inv-total-final {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 0;
+  border-bottom: 1px dotted #555;
+  margin-bottom: 4px;
+}
+.inv-sotien-chu {
+  font-size: 13px;
+  padding: 3px 0;
+  border-bottom: 1px dotted #555;
+  margin-bottom: 8px;
+  min-height: 22px;
+  font-style: italic;
+}
+/* Chữ ký */
+.inv-sign-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  text-align: center;
+}
+.inv-sign-box {
+  width: 45%;
+  text-align: center;
+}
+.inv-sign-box .sign-title { font-weight: bold; font-size: 13px; }
+.inv-sign-box .sign-hint { font-size: 12px; font-style: italic; }
+.inv-sign-box .sign-space { height: 50px; }
+.inv-sign-box .sign-name { font-size: 12px; font-style: italic; }
+.inv-footer-note {
+  text-align: center;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 10px;
+  border-top: 1px solid #000;
+  padding-top: 6px;
+}
 /* SPINNER */
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -200,7 +309,7 @@ tr:hover td { background: rgba(255,255,255,0.4); }
 <body>
 
 <nav>
-  <div class="nav-brand">💄 Nuty Cosmetics</div>
+  <div class="nav-brand">🖥️ Nhất Huy Computer</div>
   <div class="nav-tab active" onclick="showPage('products')">📦 Sản Phẩm</div>
   <div class="nav-tab" onclick="showPage('orders')">🧾 Đơn Hàng</div>
   <div class="nav-right">
@@ -642,56 +751,137 @@ async function deleteOrder(id) {
   } catch(e) { toast('❌ ' + e.message, true); }
 }
 
-// ── INVOICE PRINT ────────────────────────────────────────────
+// ── INVOICE PRINT — Chuẩn mẫu hóa đơn Việt Nam ───────────
 function printInvoice(o) {
   const items = o.items || [];
-  const rows = items.map(i => `
+
+  // Tạo đủ 5 dòng tối thiểu trong bảng
+  const minRows = 5;
+  const dataRows = items.map((i, idx) => `
     <tr>
-      <td>${esc(i.name)}</td>
-      <td style="text-align:center">${i.qty}</td>
-      <td style="text-align:right">${fmt(i.price)}đ</td>
-      <td style="text-align:right"><strong>${fmt(i.subtotal||i.price*i.qty)}đ</strong></td>
-    </tr>`).join('');
+      <td class="c-stt">${idx + 1}</td>
+      <td class="c-name">${esc(i.name)}</td>
+      <td class="c-dvt">Chiếc</td>
+      <td class="c-qty">${i.qty}</td>
+      <td class="c-price">${fmt(i.price)}</td>
+      <td class="c-total">${fmt(i.subtotal || i.price * i.qty)}</td>
+    </tr>`);
+  // Thêm dòng trống nếu chưa đủ 5 dòng
+  for (let r = items.length; r < minRows; r++) {
+    dataRows.push(`<tr class="empty-row"><td class="c-stt"></td><td class="c-name"></td><td class="c-dvt"></td><td class="c-qty"></td><td class="c-price"></td><td class="c-total"></td></tr>`);
+  }
+
+  const nowDate = new Date();
+  const day   = nowDate.getDate();
+  const month = nowDate.getMonth() + 1;
+  const year  = nowDate.getFullYear();
+  const dateStr = o.createdAt || `Ngày ${day} tháng ${month} năm ${year}`;
+
+  // Đọc số tiền bằng chữ tiếng Việt
+  function docSo3chu(n) {
+    const ch = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+    const tr = Math.floor(n / 100);
+    const ch_ = Math.floor((n % 100) / 10);
+    const dv = n % 10;
+    let s = '';
+    if (tr > 0) s += ch[tr] + ' trăm ';
+    if (ch_ === 1) s += 'mười ';
+    else if (ch_ > 1) s += ch[ch_] + ' mươi ';
+    if (dv > 0) {
+      if (ch_ > 1 && dv === 1) s += 'mốt ';
+      else if (ch_ > 1 && dv === 5) s += 'lăm ';
+      else s += ch[dv] + ' ';
+    }
+    return s.trim();
+  }
+  function soToWord(n) {
+    if (!n || n === 0) return 'không đồng chẵn';
+    const ty  = Math.floor(n / 1_000_000_000);
+    const tr_ = Math.floor((n % 1_000_000_000) / 1_000_000);
+    const ng  = Math.floor((n % 1_000_000) / 1_000);
+    const dv  = n % 1_000;
+    let s = '';
+    if (ty)  s += docSo3chu(ty)  + ' tỷ ';
+    if (tr_) s += docSo3chu(tr_) + ' triệu ';
+    if (ng)  s += docSo3chu(ng)  + ' nghìn ';
+    if (dv)  s += docSo3chu(dv);
+    return s.trim().replace(/\s+/g, ' ');
+  }
 
   document.getElementById('printArea').innerHTML = `
-    <div class="invoice" id="invoice-capture" style="position: absolute; top: 0; left: -9999px; width: 800px; box-sizing: border-box; background: #fff;">
-      <div class="inv-header">
-        <div class="inv-brand">
-          <h1>Nuty Cosmetics</h1>
-          <p>📍 Hẻm 149, Liên tổ 12/20, P. Tân An, Cần Thơ<br>📞 0397 096 846 - 📘 Facebook: Ngô Ngọc Trầm</p>
-        </div>
-        <div class="inv-title-box">
-          <div class="inv-title">HÓA ĐƠN</div>
-          <div class="inv-date">Mã đơn: <strong>${esc(o.id)}</strong><br>Ngày lập: ${esc(o.createdAt || new Date().toLocaleDateString('vi-VN'))}</div>
-        </div>
-      </div>
+  <div class="invoice" id="invoice-capture" style="position:absolute;top:0;left:-9999px;width:680px;box-sizing:border-box;">
 
-      <div class="inv-customer">
-        <h4>Thông tin khách hàng</h4>
-        <p><strong>${esc(o.customer)}</strong><br>📍 ${esc(o.address||'Không có địa chỉ')}</p>
-        ${o.note ? `<p style="margin-top:6px;font-style:italic">📝 Ghi chú: ${esc(o.note)}</p>` : ''}
+    <div class="inv-header-top">
+      <div style="font-size:11px;line-height:1.6">
+        <strong>NHẤT HUY COMPUTER</strong><br>
+        Địa chỉ: 123 Nguyễn Văn Cừ, P. An Hòa, Q. Ninh Kiều, Cần Thơ<br>
+        Điện thoại: 0901 234 567 &nbsp;|&nbsp; Website: www.nhathuycomputer.vn
       </div>
-
-      <table class="inv-table">
-        <thead><tr><th>Sản phẩm</th><th style="text-align:center;width:100px">Số lượng</th><th style="text-align:right;width:120px">Đơn giá</th><th style="text-align:right;width:140px">Thành tiền</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-
-      <div class="inv-total-box">
-        <div class="inv-total">
-          <div class="inv-total-row final">
-            <span>Tổng cộng:</span>
-            <span>${fmt(o.total)}đ</span>
-          </div>
-        </div>
+      <div class="inv-kyso">
+        <span>Ký hiệu: <strong>NH2024</strong></span>
+        <span>Số: <strong>${esc(o.id)}</strong></span>
       </div>
+    </div>
 
-      <div class="inv-footer">
-        Chân thành cảm ơn quý khách đã mua sắm tại Nuty Cosmetics! 🙏<br>
-        Hàng mua rồi vui lòng kiểm tra kỹ trước khi nhận.
+    <hr class="inv-sep">
+
+    <div class="inv-title-center">HÓA ĐƠN BÁN HÀNG</div>
+    <div class="inv-date-center">${esc(dateStr)}</div>
+
+    <hr class="inv-sep">
+
+    <div class="inv-field"><strong>Tên người mua:</strong> ${esc(o.customer)}</div>
+    <div class="inv-field"><strong>Địa chỉ:</strong> ${esc(o.address || '')}</div>
+    <div class="inv-field-inline">
+      <div class="part"><strong>Hình thức thanh toán:</strong> Tiền mặt</div>
+      <div class="part"><strong>Đồng tiền thanh toán:</strong> VND</div>
+    </div>
+    ${o.note ? `<div class="inv-field"><strong>Ghi chú:</strong> ${esc(o.note)}</div>` : ''}
+
+    <table class="inv-table">
+      <thead>
+        <tr>
+          <th class="c-stt">STT</th>
+          <th class="c-name">Tên hàng hóa, dịch vụ</th>
+          <th class="c-dvt">ĐVT</th>
+          <th class="c-qty">SL</th>
+          <th class="c-price">Đơn giá</th>
+          <th class="c-total">Thành tiền</th>
+        </tr>
+        <tr style="font-style:italic;font-size:12px">
+          <td class="c-stt">1</td>
+          <td class="c-name" style="text-align:center">2</td>
+          <td class="c-dvt">3</td>
+          <td class="c-qty">4</td>
+          <td class="c-price" style="text-align:center">5</td>
+          <td class="c-total" style="text-align:center">6</td>
+        </tr>
+      </thead>
+      <tbody>${dataRows.join('')}</tbody>
+    </table>
+
+    <div class="inv-summary-row">Thành tiền đã bao gồm thuế GTGT: &nbsp;<strong>${fmt(o.total)} đ</strong></div>
+    <div class="inv-total-final">Tổng tiền thanh toán: &nbsp;<strong>${fmt(o.total)} đ</strong></div>
+    <div class="inv-sotien-chu">Số tiền viết bằng chữ: &nbsp;<em>${fmt(o.total)} đồng chẵn (${soToWord(o.total)} đồng chẵn)</em></div>
+
+    <div class="inv-sign-row">
+      <div class="inv-sign-box">
+        <div class="sign-title">NGƯỜI MUA HÀNG</div>
+        <div class="sign-hint">(<em>Chữ ký số (nếu có)</em>)</div>
+        <div class="sign-space"></div>
+        <div class="sign-name">&nbsp;</div>
       </div>
-    </div>`;
-  
+      <div class="inv-sign-box">
+        <div class="sign-title">NGƯỜI BÁN HÀNG</div>
+        <div class="sign-hint">(<em>Chữ ký điện tử, Chữ ký số</em>)</div>
+        <div class="sign-space"></div>
+        <div class="sign-name"><strong>Nhất Huy Computer</strong></div>
+      </div>
+    </div>
+
+    <div class="inv-footer-note">(Cần kiểm tra, đối chiếu khi lập, giao, nhận hóa đơn)</div>
+  </div>`;
+
   const printArea = document.getElementById('printArea');
   printArea.style.display = 'block';
   toast('⏳ Đang tạo ảnh hóa đơn...', false);
@@ -700,13 +890,11 @@ function printInvoice(o) {
     try {
       const el = document.getElementById('invoice-capture');
       const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-      const imgData = canvas.toDataURL('image/jpeg', 0.9);
-      
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
       const link = document.createElement('a');
-      link.download = `HoaDon_${o.id || Date.now()}.jpg`;
+      link.download = `HoaDon_NhatHuy_${o.id || Date.now()}.jpg`;
       link.href = imgData;
       link.click();
-      
       toast('✅ Đã tải ảnh hóa đơn (JPG)');
     } catch(err) {
       console.error(err);
